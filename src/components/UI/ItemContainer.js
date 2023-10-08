@@ -2,12 +2,13 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Countdown from "react-countdown-now";
 import sprite from "../../image/sprite.png";
 import IconButton from "@material-ui/core/IconButton";
 
 const userStyles = makeStyles(() => ({
     root: {
-        margin: "2em",
+        margin: "0",
         padding: "0.5em",
     },
     title: {
@@ -16,17 +17,45 @@ const userStyles = makeStyles(() => ({
         marginBottom: "0.5em",
     },
     grid: {
-        paddingLeft: "4%",
+        padding: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
+        borderRadius: "0.5em",
+    },
+    timer: {
+        width: "40%",
+        marginLeft: "1.5em",
+        fontSize: "1em",
+        color: "#858585",
+    },
+    todayOnly: {
+        padding: "12px 12px 0 12px",
+        fontSize: "1em",
+        color: "#858585",
     },
 }));
 
 const ItemContainer = (props) => {
     const classes = userStyles();
-
+    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            // Render a completed state
+            return <span>Offer is over!</span>;
+        } else {
+            if (days !== 0) {
+                return (
+                    <span>
+                        {days} days {hours}:{minutes}:{seconds}
+                    </span>
+                );
+            }
+            // Render a countdown
+            return (
+                <span>
+                    {hours}:{minutes}:{seconds}
+                </span>
+            );
+        }
+    };
     return (
         <div className={classes.root} style={{ ...props.style }}>
             {props.title !== undefined ? (
@@ -35,9 +64,9 @@ const ItemContainer = (props) => {
                 <section
                     style={{
                         backgroundColor: "white",
-                        paddingTop: "1em",
-                        boxShadow:
-                            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
+                        padding: "12px",
+                        marginBottom: "16px",
+                        borderRadius: "0.5em",
                     }}
                 >
                     <div style={{ display: "flex", alignItems: "center" }}>
@@ -71,60 +100,54 @@ const ItemContainer = (props) => {
                             miss it!
                         </p>
                     </div>
-                    <hr style={{ marginTop: "0.5em", marginBottom: "0.5em" }} />
                 </section>
             )}
+            {/* Render countdown item */}
+            <Grid container className={classes.grid}>
+                {props.todayOnly ? (
+                    <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        className={classes.todayOnly}
+                    >
+                        <span style={{ fontWeight: 700 }}>Giá tốt hôm nay</span>
 
-            <Grid
-                container
-                className={classes.grid}
-                style={{ ...props.gridStyle }}
-            >
-                {props.children
-                    ? props.children.map((item, index) => (
-                          <Grid
-                              item
-                              xs={5}
-                              sm={3}
-                              md={props.space !== undefined ? props.space : 2}
-                              key={index}
-                              style={{ marginRight: "2%" }}
-                          >
-                              {item}
-                          </Grid>
-                      ))
-                    : null}
-                <Grid container>
-                    <Grid item xs={12} style={{ textAlign: "center" }}>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={
-                                props.seeMore !== undefined
-                                    ? props.seeMore
-                                    : null
-                            }
-                            style={{
-                                fontSize: "0.7em",
-                                padding: "0.5em",
-                                paddingLeft: "4em",
-                                paddingRight: "4em",
-                                marginBottom: "1.7em",
-                                textTransform: "lowercase",
-                            }}
-                            disabled={
-                                props.loading !== undefined
-                                    ? props.loading
-                                    : false
-                            }
-                        >
-                            {props.loading !== undefined
-                                ? props.loading
-                                    ? "loading"
-                                    : "See more"
-                                : "See more"}
-                        </Button>
+                        {props.timeInMilliSec && (
+                            <span className={classes.timer}>
+                                <Countdown
+                                    date={Date.now() + props.timeInMilliSec}
+                                    renderer={renderer}
+                                />
+                            </span>
+                        )}
                     </Grid>
+                ) : null}
+
+                <Grid
+                    container
+                    className={classes.grid}
+                    style={{ ...props.gridStyle }}
+                >
+                    {props.children
+                        ? props.children.map((item, index) => (
+                              <Grid
+                                  item
+                                  xs={5}
+                                  sm={3}
+                                  md={
+                                      props.space !== undefined
+                                          ? props.space
+                                          : 3
+                                  }
+                                  key={index}
+                                  style={{ maxWidth: "194px" }}
+                              >
+                                  {item}
+                              </Grid>
+                          ))
+                        : null}
                 </Grid>
             </Grid>
         </div>

@@ -3,6 +3,7 @@ import { alpha, makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
+        minWidth: "1300px",
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
-        color: "white",
+        color: "#86868f",
     },
     title3: {
         display: "none",
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
             display: "block",
             minWidth: "2em",
         },
-        color: "white",
+        color: "#86868f",
     },
     // toolbar: {
     //   width: "100%"
@@ -28,13 +29,11 @@ const useStyles = makeStyles((theme) => ({
     search: {
         position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        "&:hover": {
-            backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
+        backgroundColor: "#FFFFFF",
         marginRight: theme.spacing(2),
         marginLeft: 0,
         width: "100%",
+        border: "1px solid #dddde3",
         [theme.breakpoints.up("sm")]: {
             marginLeft: theme.spacing(3),
             width: "45%",
@@ -68,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
     },
     sectionDesktop2: {
         display: "none",
-
         [theme.breakpoints.up("md")]: {
             display: "flex",
             fontSize: 15,
@@ -81,12 +79,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     tikiLogo: {
-        width: 120,
-        height: 50,
+        width: 80,
+        height: 80,
         marginLeft: "0.5em",
+        marginTop: "0.5em",
+        marginRight: "0.5em",
     },
     navText: {
-        fontSize: "0.7em",
+        fontSize: "0.9em",
     },
     navTypo: {
         lineHeight: 0.4,
@@ -94,21 +94,27 @@ const useStyles = makeStyles((theme) => ({
     iconNav: {
         marginLeft: "1%",
         marginRight: "0.2em",
+        padding: "0.4em",
+        borderRadius: "0",
+        "&:hover": {
+            backgroundColor: "#f5f5f5",
+            borderRadius: "0.5em",
+        },
     },
     iconNav2: {
         marginRight: "1em",
     },
     navText2: {
-        width: "12em",
-        marginLeft: "2em",
-        paddingLeft: "2.5em",
-        paddingRight: "2.5em",
-        paddingTop: "6%",
-        paddingBottom: "1.3%",
+        width: "8em",
+        marginLeft: "1em",
+        padding: "1em 0.4em",
         fontSize: "0.7em",
-        border: "2px solid white",
         textAlign: "center",
         alignItems: "center",
+        "&:hover": {
+            backgroundColor: "#d9e4fb",
+            borderRadius: "0.5em",
+        },
     },
     title2: {
         display: "none",
@@ -119,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
         // marginRight: "3em"
     },
     removeDefaultLink: {
+        fontSize: "0.8em",
         textDecoration: "none !important",
         color: "inherit !important",
     },
@@ -131,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-between",
         position: "absolute",
         zIndex: "999999 !important",
-        top: "10em",
+        top: "4em",
         right: 0,
         bottom: 0,
         left: "70%",
@@ -165,7 +172,7 @@ const useStyles = makeStyles((theme) => ({
         width: "60vw",
         height: "20vh",
         color: "gray",
-        backgroundColor: "white",
+        backgroundColor: "#86868f",
         textAlign: "center",
         borderRadius: "0.5em",
     },
@@ -179,10 +186,10 @@ const useStyles = makeStyles((theme) => ({
         },
     "@global .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-popupIndicator, .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator.MuiAutocomplete-clearIndicatorDirty":
         {
-            color: "white !important",
+            color: "#86868f !important",
         },
     "@global #autocomInput": {
-        color: "white !important",
+        color: "#86868f !important",
     },
     "@global .MuiButtonBase-root.MuiFab-root:focus": {
         outline: "none",

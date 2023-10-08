@@ -22,7 +22,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import PersonIcon from "@material-ui/icons/Person";
 import FacebookIcon from "@material-ui/icons/Facebook";
 
-import tikiLogo from "../../image/tikiNavbarLogo.png";
+import tikiLogo from "../../image/logo.png";
 import navImage from "../../image/navImage.png";
 import tikiAssistant from "../../image/tiki_assistant.png";
 import sprite from "../../image/sprite.png";
@@ -107,7 +107,7 @@ const NavBar = (props) => {
     }, []);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const [productModal, setProductModal] = useState(false);
-    const [isLoginTip, setIsLoginTip] = useState(false);
+    const [isLoginTip, isShowMenu] = useState(false);
     const [productNavigation, setProductNavigation] = useState(false);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -193,10 +193,11 @@ const NavBar = (props) => {
     );
 
     const authLinks = isLoggedIn ? (
+        // if user is logged in, show user menu
         <section
             className={classNames({ [classes.loginToolTip]: isLoginTip })}
             onMouseLeave={() => {
-                setIsLoginTip(false);
+                isShowMenu(false);
             }}
             style={{
                 width: "20em",
@@ -396,89 +397,7 @@ const NavBar = (props) => {
             </Link>
         </section>
     ) : (
-        <section
-            className={classNames({ [classes.loginToolTip]: isLoginTip })}
-            onMouseLeave={() => {
-                setIsLoginTip(false);
-            }}
-            style={{
-                width: "20em",
-                height: "17em",
-                textAlign: "center",
-                padding: "1.2em",
-                backgroundColor: "rgba(255,255,255,0.8)",
-                margin: 0,
-                display: "None",
-            }}
-        >
-            <Button
-                variant="contained"
-                size={"small"}
-                style={{ backgroundColor: "#FDDE54" }}
-                startIcon={<PersonIcon />}
-                name="0"
-                onClick={(e) => {
-                    handleOpenModal();
-                    handleOnClick(e);
-                    setIsLoginTip(false);
-                }}
-            >
-                Login
-            </Button>
-            <Button
-                size={"small"}
-                variant="contained"
-                style={{ backgroundColor: "#FDDE54" }}
-                startIcon={<PersonAddIcon />}
-                onClick={(e) => {
-                    handleOpenModal();
-                    handleOnClick(e);
-                    setIsLoginTip(false);
-                }}
-                name="1"
-            >
-                Create Account
-            </Button>
-            <Button
-                size={"small"}
-                disabled
-                variant="contained"
-                className={classes.button}
-                style={{ backgroundColor: "#4267B2", color: "white" }}
-                startIcon={<FacebookIcon />}
-            >
-                Login with Facebook
-            </Button>
-            <Button
-                disabled
-                size={"small"}
-                variant="contained"
-                style={{ backgroundColor: "#DC4F42", color: "white" }}
-                startIcon={<Icon className={"fab fa-google"} />}
-            >
-                Sign in with Google
-            </Button>
-            <Button
-                disabled
-                size={"small"}
-                variant="contained"
-                style={{ backgroundColor: "#0180CE", color: "white" }}
-                startIcon={
-                    <img src={zaloLogo} alt="zalo" style={{ width: "1em" }} />
-                }
-            >
-                Login with Zalo
-            </Button>
-            <TransitionsModal
-                open={open}
-                onClose={handleCloseModal}
-                piority={index}
-                closeModal={handleCloseModal}
-                {...props}
-                type={"authModal"}
-                adminForm={!!props.adminForm}
-            />
-        </section>
+        <div></div>
     );
 
     const NavSection1 = (
@@ -503,14 +422,12 @@ const NavBar = (props) => {
             className={classNames(classes.toolbar, classes.sectionDesktop)}
             style={{
                 padding: "0 10%",
-                backgroundColor: "#1D71AB",
+                backgroundColor: "#FFFFFF",
                 minHeight: "1.6em",
                 height: "1.6em",
                 marginTop: "-0.1em",
+                marginBottom: "0.5em",
                 justifyContent: "space-around",
-            }}
-            onMouseEnter={() => {
-                setIsLoginTip(false);
             }}
         >
             <Typography
@@ -736,13 +653,13 @@ const NavBar = (props) => {
     const NavSection3 = (
         <Toolbar
             className={classes.toolbar}
-            style={{ backgroundColor: "#189EFF", padding: "0 7%" }}
+            style={{ backgroundColor: "#FFFFFF", padding: "0 8%" }}
             onMouseEnter={() => {
                 setProductModal(false);
                 setProductNavigation(false);
             }}
         >
-            <Link to={"/"} className={classes.removeDefaultLink}>
+            {/* <Link to={"/"} className={classes.removeDefaultLink}>
                 <Typography className={classes.title3} variant="h6" noWrap>
                     <IconButton
                         aria-label="where do you want to shop to?"
@@ -760,9 +677,9 @@ const NavBar = (props) => {
                         />
                     </IconButton>
 
-                    {/*TIKI*/}
+                    
                 </Typography>
-            </Link>
+            </Link> */}
             <Link to={"/"} className={classes.removeDefaultLink}>
                 <img src={tikiLogo} alt={"logo"} className={classes.tikiLogo} />
             </Link>
@@ -852,10 +769,9 @@ const NavBar = (props) => {
                             fontSize: 20,
                             paddingTop: "0.05em",
                             width: "1.5em",
+                            marginRight: "0.3em",
                         }}
                     />
-                </IconButton>
-                <Typography component={"div"}>
                     <Link
                         to={"/orders"}
                         onClick={(e) => {
@@ -871,21 +787,9 @@ const NavBar = (props) => {
                         }}
                         className={classes.removeDefaultLink}
                     >
-                        <span
-                            style={{ width: "0.2em" }}
-                            className={classes.navText}
-                        >
-                            Track{" "}
-                        </span>
-
-                        <Typography
-                            className={classes.navTypo}
-                            component={"div"}
-                        >
-                            <span className={classes.navText}> orders</span>
-                        </Typography>
+                        <span className={classes.navText}>Đơn hàng</span>
                     </Link>
-                </Typography>
+                </IconButton>
                 <IconButton
                     aria-label="Notification"
                     color="inherit"
@@ -897,57 +801,41 @@ const NavBar = (props) => {
                             fontSize: 20,
                             paddingTop: "0.05em",
                             width: "1.5em",
+                            marginRight: "0.3em",
                         }}
                     />
+                    <Link to={"#"} className={classes.removeDefaultLink}>
+                        <span className={classes.navText}>Thông báo</span>
+                    </Link>
                 </IconButton>
-                <Typography
-                    onMouseEnter={() => {
-                        setIsLoginTip(false);
-                    }}
-                    component={"div"}
-                >
-                    <span className={classes.navText}>Your </span>
-
-                    <Typography className={classes.navTypo} component={"div"}>
-                        <span className={classes.navText}> notification</span>
-                    </Typography>
-                </Typography>
                 <IconButton
                     aria-label="Log In"
                     color="inherit"
                     className={classes.iconNav}
-                    onMouseEnter={() => {
-                        setIsLoginTip(true);
+                    onClick={(e) => {
+                        isLoggedIn ? isShowMenu(true) : handleOpenModal();
                     }}
+                    name="0" // 0 is login, 1 is register
                 >
                     <Icon
                         className={"fas fa-user"}
-                        style={{ paddingTop: "0.05em" }}
+                        style={{
+                            fontSize: 20,
+                            paddingTop: "0.05em",
+                            width: "1.5em",
+                            marginRight: "0.3em",
+                        }}
                     />
-                </IconButton>
-
-                <Typography component={"div"}>
                     <Link
                         to={"#"}
                         onMouseEnter={() => {
-                            setIsLoginTip(true);
+                            isShowMenu(true);
                         }}
                         className={classes.removeDefaultLink}
                     >
-                        {isLoggedIn ? (
-                            <span className={classes.navText}>Logout </span>
-                        ) : (
-                            <span className={classes.navText}>Login </span>
-                        )}
-
-                        <Typography
-                            className={classes.navTypo}
-                            component={"div"}
-                        >
-                            <span className={classes.navText}> account</span>
-                        </Typography>
+                        <span className={classes.navText}>Tài khoản</span>
                     </Link>
-                </Typography>
+                </IconButton>
                 {/* number of products */}
                 <Link
                     to={"/cart"}
@@ -972,12 +860,23 @@ const NavBar = (props) => {
                             className={classes.iconNav2}
                         >
                             <ShoppingCartIcon
-                                style={{ marginBottom: "0.2em" }}
+                                style={{
+                                    marginBottom: "0.2em",
+                                    color: "#0060ff",
+                                }}
                             />
                         </Badge>
-                        <span style={{ fontSize: "1.3em" }}>Cart</span>
                     </Typography>
                 </Link>
+                <TransitionsModal
+                    open={open}
+                    onClose={handleCloseModal}
+                    piority={index}
+                    closeModal={handleCloseModal}
+                    {...props}
+                    type={"authModal"}
+                    adminForm={!!props.adminForm}
+                />
             </div>
             <div className={classes.sectionMobile}>
                 <IconButton
@@ -997,7 +896,7 @@ const NavBar = (props) => {
         <Toolbar
             className={classNames(classes.toolbar, classes.sectionDesktop)}
             onMouseEnter={() => {
-                setIsLoginTip(false);
+                isShowMenu(false);
             }}
             style={{ backgroundColor: "#189EFF", padding: "0 8%" }}
         >
@@ -1185,12 +1084,17 @@ const NavBar = (props) => {
             <div className={classes.grow}>
                 <AppBar
                     position="static"
-                    style={{ backgroundColor: "#189EFF" }}
+                    style={{
+                        backgroundColor: "#FFFFFF",
+                        boxShadow: "none",
+                        color: "#86868f",
+                    }}
                 >
-                    {NavSection1}
-                    {NavSection2}
+                    {/* {NavSection1} */}
+
                     {NavSection3}
-                    {NavSection4}
+                    {NavSection2}
+                    {/* {NavSection4} */}
                 </AppBar>
                 {renderMobileMenu}
             </div>
@@ -1229,7 +1133,7 @@ const NavBar = (props) => {
                     size={"small"}
                     style={{
                         top: "90%",
-                        left: "2%",
+                        right: "2%",
                         position: "fixed",
                         zIndex: 99999,
                     }}

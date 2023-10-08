@@ -18,21 +18,17 @@ const userStyles = makeStyles((theme) => ({
             // width: "75%",
             // marginLeft: "25%",
         },
+        borderRadius: "10px",
+        border: "1px solid #FFFFFF",
+        backgroundColor: "#FFFFFF",
     },
     banner: {
         width: "100%",
         height: "280px",
-        borderRadius: "0.8em",
         "&:hover": {
             boxShadow:
                 "0 2px 4px 0 rgba(200, 200, 200, 0.2), 0 3px 10px 0 rgba(200, 200, 200, 0.19)",
         },
-    },
-    indicator: {
-        width: "25px",
-        height: "3px",
-        backgroundColor: "rgba(24, 158, 255, 0.6)",
-        margin: "0 0.3em",
     },
     mediumProduct: {
         width: "100%",

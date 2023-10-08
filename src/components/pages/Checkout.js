@@ -39,6 +39,7 @@ import { Link } from "react-router-dom";
 import { loadCSS } from "fg-loadcss";
 import * as authActions from "../../store/actions/authActions";
 import * as cartActions from "../../store/actions/cartActions";
+import * as addressActions from "../../store/actions/addressActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -166,6 +167,7 @@ function a11yProps(index) {
 const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
 const Bill = () => {
     const classes = useStyles();
     const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
@@ -424,24 +426,22 @@ const LoginUI = () => {
 // address ui
 const AddressUI = ({
     handleNext,
-    setName,
-    setCompanyName,
-    setCity,
-    setDistrict,
-    setWard,
-    setPhoneNo,
-    setAddress,
-    setRadio,
-    name,
-    companyName,
-    city,
-    district,
-    ward,
-    phoneNo,
-    address,
-    radio,
+    activeStep,
+    shipAddress,
+    setShipAddress,
+    currentAddress,
+    loading,
 }) => {
     const classes = useStyles();
+
+    const [fullName, setFullName] = useState(shipAddress ? shipAddress.fullName : "");
+    const [phone, setPhone] = useState(shipAddress ? shipAddress.phone : "");
+    const [city, setCity] = useState(shipAddress ? shipAddress.city : "");
+    const [district, setDistrict] = useState(shipAddress ? shipAddress.district : "");
+    const [ward, setWard] = useState(shipAddress ? shipAddress.ward : "");
+    const [address, setAddress] = useState(shipAddress ? shipAddress.address : "");
+    const [radio, setRadio] = useState(shipAddress ? shipAddress.radio : "home");
+    const listAddress = useSelector((state) => state.address.userAddress);
     const city_ = [
         "Ho Chi Minh",
         "Hanoi",
@@ -557,6 +557,7 @@ const AddressUI = ({
     ];
 
     const handleSubmit = (e) => {
+        setShipAddress({fullName, phone, city, district, ward, address, radio});
         e.preventDefault();
         handleNext();
     };
@@ -573,194 +574,264 @@ const AddressUI = ({
                 backgroundColor: "white",
             }}
         >
-            <ValidatorForm onSubmit={handleSubmit}>
-                <FormGroup>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            label="Full Name"
-                            style={{ margin: 8 }}
-                            placeholder="Your full name"
-                            value={name}
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            onChange={(e) => setName(e.target.value)}
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Enter Your Full Name"]}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            id="outlined-full-width"
-                            size="small"
-                            label="Company name"
-                            style={{ margin: 8 }}
-                            placeholder="Your company name"
-                            value={companyName}
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Enter your company name"]}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            label="Phone Number"
-                            style={{ margin: 8 }}
-                            placeholder="Phone No."
-                            value={phoneNo}
-                            onChange={(e) => setPhoneNo(e.target.value)}
-                            margin="normal"
-                            type={"tel"}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Enter your phone number"]}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            select
-                            label="City/Province"
-                            value={city}
-                            style={{ margin: 8 }}
-                            onChange={(e) => setCity(e.target.value)}
-                            // helperText="Please select your city/province"
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Select a city"]}
-                        >
-                            {city_.map((option, index) => (
-                                <MenuItem key={index} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextValidator>
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            select
-                            label="District"
-                            value={district}
-                            style={{ margin: 8 }}
-                            onChange={(e) => setDistrict(e.target.value)}
-                            // helperText="Please select your city/province"
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Select a district"]}
-                        >
-                            {district_.map((option, index) => (
-                                <MenuItem key={index} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextValidator>
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            select
-                            label="Ward"
-                            value={ward}
-                            style={{ margin: 8 }}
-                            onChange={(e) => setWard(e.target.value)}
-                            // helperText="Please select your city/province"
-                            variant="standard"
-                        >
-                            {ward_.map((option, index) => (
-                                <MenuItem key={index} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextValidator>
-                    </FormControl>
-                    <FormControl>
-                        <TextValidator
-                            size="small"
-                            label="Address"
-                            value={address}
-                            style={{ margin: 8 }}
-                            onChange={(e) => setAddress(e.target.value)}
-                            // helperText="Please select your city/province"
-                            variant="standard"
-                            validators={["required"]}
-                            errorMessages={["Enter your address"]}
-                        />
-                    </FormControl>
-                    <FormControl
-                        style={{ marginLeft: "0.5em", marginTop: "1.5em" }}
-                    >
-                        <FormLabel
-                            component="legend"
-                            style={{ color: "rgb(153, 153, 153)" }}
-                        >
-                            Address type
-                        </FormLabel>
-                        <RadioGroup
-                            aria-label="gender"
-                            name="gender1"
-                            value={radio}
-                            onChange={(e) => setRadio(e.target.value)}
-                            row
-                        >
-                            <FormControlLabel
-                                value="House/Condominium"
-                                control={<Radio />}
-                                style={{ color: "rgb(153, 153, 153)" }}
-                                label="House / Condominium"
-                            />
-                            <FormControlLabel
-                                value="Agency/Company"
-                                control={<Radio />}
-                                style={{ color: "rgb(153, 153, 153)" }}
-                                label="Agency / Company"
-                            />
-                        </RadioGroup>
-                    </FormControl>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <ValidatorForm onSubmit={handleSubmit}>
+                        <FormGroup>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    label="Full Name"
+                                    style={{ margin: 8 }}
+                                    placeholder="Your full name"
+                                    value={fullName}
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    variant="standard"
+                                    validators={["required"]}
+                                    errorMessages={["Enter Your Full Name"]}
+                                />
+                            </FormControl>
 
-                    <Button
-                        variant="outlined"
-                        type={"submit"}
-                        color="secondary"
-                        className={classes.button}
-                        style={{
-                            fontSize: "0.7em",
-                            margin: 0,
-                            marginLeft: "1em",
-                            marginRight: "0.5em",
-                            marginTop: "2em",
-                        }}
-                    >
-                        Update
-                    </Button>
-                </FormGroup>
-            </ValidatorForm>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    label="Phone Number"
+                                    style={{ margin: 8 }}
+                                    placeholder="Phone No."
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    margin="normal"
+                                    type={"tel"}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="standard"
+                                    validators={["required"]}
+                                    errorMessages={["Enter your phone number"]}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    select
+                                    label="City/Province"
+                                    value={city}
+                                    style={{ margin: 8 }}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    // helperText="Please select your city/province"
+                                    variant="standard"
+                                    validators={["required"]}
+                                    errorMessages={["Select a city"]}
+                                >
+                                    {city_.map((option, index) => (
+                                        <MenuItem key={index} value={option}>
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </TextValidator>
+                            </FormControl>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    select
+                                    label="District"
+                                    value={district}
+                                    style={{ margin: 8 }}
+                                    onChange={(e) =>
+                                        setDistrict(e.target.value)
+                                    }
+                                    // helperText="Please select your city/province"
+                                    variant="standard"
+                                    validators={["required"]}
+                                    errorMessages={["Select a district"]}
+                                >
+                                    {district_.map((option, index) => (
+                                        <MenuItem key={index} value={option}>
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </TextValidator>
+                            </FormControl>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    select
+                                    label="Ward"
+                                    value={ward}
+                                    style={{ margin: 8 }}
+                                    onChange={(e) => setWard(e.target.value)}
+                                    // helperText="Please select your city/province"
+                                    variant="standard"
+                                >
+                                    {ward_.map((option, index) => (
+                                        <MenuItem key={index} value={option}>
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </TextValidator>
+                            </FormControl>
+                            <FormControl>
+                                <TextValidator
+                                    size="small"
+                                    label="Address"
+                                    value={address}
+                                    style={{ margin: 8 }}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    // helperText="Please select your city/province"
+                                    variant="standard"
+                                    validators={["required"]}
+                                    errorMessages={["Enter your address"]}
+                                />
+                            </FormControl>
+                            <FormControl
+                                style={{
+                                    marginLeft: "0.5em",
+                                    marginTop: "1.5em",
+                                }}
+                            >
+                                <FormLabel
+                                    component="legend"
+                                    style={{ color: "rgb(153, 153, 153)" }}
+                                >
+                                    Address type
+                                </FormLabel>
+                                <RadioGroup
+                                    aria-label="gender"
+                                    name="gender1"
+                                    value={radio}
+                                    onChange={(e) => setRadio(e.target.value)}
+                                    row
+                                >
+                                    <FormControlLabel
+                                        value="House/Condominium"
+                                        control={<Radio />}
+                                        style={{ color: "rgb(153, 153, 153)" }}
+                                        label="House / Condominium"
+                                    />
+                                    <FormControlLabel
+                                        value="Agency/Company"
+                                        control={<Radio />}
+                                        style={{ color: "rgb(153, 153, 153)" }}
+                                        label="Agency / Company"
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+
+                            <Button
+                                variant="outlined"
+                                type={"submit"}
+                                color="secondary"
+                                className={classes.button}
+                                style={{
+                                    fontSize: "0.7em",
+                                    margin: 0,
+                                    marginLeft: "1em",
+                                    marginRight: "0.5em",
+                                    marginTop: "2em",
+                                }}
+                            >
+                                Tiếp tục
+                            </Button>
+                        </FormGroup>
+                    </ValidatorForm>
+                </Grid>
+                <Grid item xs={6}>
+                    <>
+                        <div className={classes.title}>My addresses</div>
+                        {listAddress !== null &&
+                            listAddress.length > 0 &&
+                            listAddress.map((address, index) => (
+                                <div
+                                    style={{
+                                        backgroundColor: "white",
+                                        borderRadius: "0.5em",
+                                        marginTop: "0.5em",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            // height: "108px",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            padding: "1em",
+                                        }}
+                                    >
+                                        <div>
+                                            {address.fullName}{" "}
+                                            <span
+                                                style={{
+                                                    fontSize: "0.8em",
+                                                    color: "#26bc4e",
+                                                }}
+                                            >
+                                                {address.default
+                                                    ? "Địa chỉ mặc định"
+                                                    : ""}
+                                            </span>{" "}
+                                            <br />
+                                            <span style={{ color: "#a1a1a1" }}>
+                                                Địa chỉ:{" "}
+                                            </span>
+                                            <span>
+                                                {address.address +
+                                                    ", " +
+                                                    address.ward +
+                                                    ", " +
+                                                    address.district +
+                                                    ", " +
+                                                    address.city}
+                                            </span>
+                                            <br />
+                                            <span style={{ color: "#a1a1a1" }}>
+                                                Số điện thoại:{" "}
+                                            </span>
+                                            <span>{address.phone}</span> <br />
+                                        </div>
+                                        <div>
+                                            <Button
+                                                variant="outlined"
+                                                type={"submit"}
+                                                color="secondary"
+                                                className={classes.button}
+                                                style={{
+                                                    fontSize: "0.7em",
+                                                    margin: 0,
+                                                    marginLeft: "1em",
+                                                    marginRight: "0.5em",
+                                                    marginTop: "2em",
+                                                }}
+                                                onClick={() => {
+                                                    setFullName(address.fullName);
+                                                    setPhone(address.phone);
+                                                    setCity(address.city);
+                                                    setDistrict(
+                                                        address.district
+                                                    );
+                                                    setWard(address.ward);
+                                                    setAddress(address.address);                                                    
+                                                }}
+                                            >
+                                                Chọn
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </>
+                </Grid>
+            </Grid>
         </div>
     );
 };
 
-const ShippingAddr = ({
-    setActiveStep,
-    name,
-    city,
-    district,
-    ward,
-    phoneNo,
-    address,
-}) => {
+const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
     const classes = useStyles();
+
     return (
         <div
             className={classes.bill}
@@ -794,11 +865,33 @@ const ShippingAddr = ({
             </div>
 
             <div style={{ paddingBottom: "1em", marginLeft: "0.5em" }}>
-                <span style={{ fontWeight: 600 }}>{name}</span>
-                <p style={{ margin: 0 }}>
-                    {address}, {ward}, {district}, {city}, Viet Nam
-                </p>
-                <p style={{ margin: 0 }}>Phone: {phoneNo}</p>
+                {shipAddress ? (
+                    <div>
+                        <span style={{ fontWeight: 600 }}>
+                            {shipAddress.fullName}
+                        </span>
+                        <p style={{ margin: 0 }}>
+                            {shipAddress.address}, {shipAddress.ward},{" "}
+                            {shipAddress.district},{shipAddress.city}
+                        </p>
+                        <p style={{ margin: 0 }}>Phone: {shipAddress.phone}</p>
+                    </div>
+                ) : currentAddress ? (
+                    <div>
+                        <span style={{ fontWeight: 600 }}>
+                            {currentAddress.fullName}
+                        </span>
+                        <p style={{ margin: 0 }}>
+                            {currentAddress.address}, {currentAddress.ward},{" "}
+                            {currentAddress.district},{currentAddress.city}
+                        </p>
+                        <p style={{ margin: 0 }}>
+                            Phone: {currentAddress.phone}
+                        </p>
+                    </div>
+                ) : (
+                    <div>null</div>
+                )}
             </div>
         </div>
     );
@@ -807,16 +900,11 @@ const ShippingAddr = ({
 const PaymentMethodUI = ({
     loading,
     setActiveStep,
-    name,
-    city,
-    district,
-    ward,
-    phoneNo,
-    address,
     handleOrder,
+    shipAddress,
+    currentAddress,
 }) => {
     const cartInfo = useSelector((state) => state.cart.items);
-
     const [shipping, setShipping] = useState("standard");
     const [payXu, setPayXu] = useState(false);
     const [payment, setPayment] = useState("cash");
@@ -1136,12 +1224,8 @@ const PaymentMethodUI = ({
                     <div style={{ marginTop: "11%", marginBottom: "2%" }}>
                         <ShippingAddr
                             setActiveStep={setActiveStep}
-                            name={name}
-                            city={city}
-                            district={district}
-                            ward={ward}
-                            phoneNo={phoneNo}
-                            address={address}
+                            shipAddress={shipAddress}
+                            currentAddress={currentAddress}
                         />
                     </div>
                     <div style={{ marginBottom: "2%" }}>
@@ -1163,30 +1247,17 @@ const PaymentMethodUI = ({
     );
 };
 
-function bodyTemplate(
-    index,
+const BodyTemplate = ({
+    activeStep,
     handleNext,
     setActiveStep,
     handleOrder,
     loading,
-    setName,
-    setCompanyName,
-    setCity,
-    setDistrict,
-    setWard,
-    setPhoneNo,
-    setAddress,
-    setRadio,
-    name,
-    companyName,
-    city,
-    district,
-    ward,
-    phoneNo,
-    address,
-    radio
-) {
-    switch (index) {
+    currentAddress,
+    shipAddress,
+    setShipAddress,
+}) => {
+    switch (activeStep) {
         case 0:
             return (
                 <div>
@@ -1194,44 +1265,25 @@ function bodyTemplate(
                     <LoginUI />
                 </div>
             );
-
         case 1:
             return (
-                <div>
-                    <div style={{ fontWeight: 600 }}>2. Address</div>
-                    <AddressUI
-                        handleNext={handleNext}
-                        setName={setName}
-                        setCompanyName={setCompanyName}
-                        setCity={setCity}
-                        setDistrict={setDistrict}
-                        setPhoneNo={setPhoneNo}
-                        setRadio={setRadio}
-                        setWard={setWard}
-                        setAddress={setAddress}
-                        name={name}
-                        companyName={companyName}
-                        city={city}
-                        district={district}
-                        ward={ward}
-                        phoneNo={phoneNo}
-                        address={address}
-                        radio={radio}
-                    />
-                </div>
+                <AddressUI
+                    handleNext={handleNext}
+                    setActiveStep={setActiveStep}
+                    loading={loading}
+                    currentAddress={currentAddress}
+                    shipAddress={shipAddress}
+                    setShipAddress={setShipAddress}
+                />
             );
         case 2:
             return (
                 <PaymentMethodUI
                     setActiveStep={setActiveStep}
-                    name={name}
                     loading={loading}
-                    city={city}
-                    district={district}
-                    ward={ward}
-                    phoneNo={phoneNo}
-                    address={address}
                     handleOrder={handleOrder}
+                    shipAddress={shipAddress}
+                    currentAddress={currentAddress}
                 />
             );
 
@@ -1242,14 +1294,20 @@ function bodyTemplate(
                 </div>
             );
     }
-}
+};
 
 const Checkout = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.userData);
+    const curUser = useSelector((state) => state.auth.user);
+    const defaultAddress = useSelector((state) => state.address.defaultAddress);
+
+    useEffect(() => {
+        dispatch(addressActions.getUserAddress(curUser.id));
+    }, [curUser.id]);
 
     const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
-    const user = useSelector((state) => state.auth.userData);
     const cartItems = useSelector((state) => {
         // transform the object of object to array of object
         const transformedCartItems = [];
@@ -1272,17 +1330,15 @@ const Checkout = (props) => {
     const total = useSelector((state) => state.cart.totalAmount_discounted);
 
     const [activeStep, setActiveStep] = useState(1);
-
-    const [name, setName] = useState("");
-    const [companyName, setCompanyName] = useState("");
-    const [city, setCity] = useState("");
-    const [district, setDistrict] = useState("");
-    const [ward, setWard] = useState("");
-    const [phoneNo, setPhoneNo] = useState("");
-    const [address, setAddress] = useState("");
-    const [radio, setRadio] = useState("House/Condominium");
     const [loading, setLoading] = useState(false);
     const [firstLoad, setFirstLoad] = useState(true);
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState("");
+    const [phoneNo, setPhoneNo] = useState("");
+    const [shipAddress, setShipAddress] = useState("");
+    const [currentAddress, setCurrentAddress] = useState(
+        useSelector((state) => state.address.currentAddress)
+    );
 
     const steps = ["Log in", "Address", "Payment & orders"];
 
@@ -1308,6 +1364,16 @@ const Checkout = (props) => {
         setPhoneNo(user.phone);
         setName(user.name);
         setFirstLoad(false);
+    }
+
+    // if (shipAddress && firstLoad) {
+    //     setAddress(shipAddress.address);
+    //     setPhoneNo(shipAddress.phone);
+    //     setName(shipAddress.fullName);
+    //     setFirstLoad(false);
+    // }
+    if (defaultAddress !== currentAddress) {
+        setCurrentAddress(defaultAddress);
     }
 
     const handleNext = () => {
@@ -1336,13 +1402,6 @@ const Checkout = (props) => {
             dispatch(await orderActions.addNewOrder(order_));
         }
         dispatch(await cartActions.clearCart());
-        dispatch(
-            await authActions.updateUserInfo({
-                name: user.name,
-                address,
-                phone: phoneNo,
-            })
-        );
         setTimeout(msg, 1);
         props.history.push("/");
         setLoading(false);
@@ -1409,30 +1468,18 @@ const Checkout = (props) => {
                 ) : (
                     <div>
                         <div className={classes.instructions}>
-                            {cartItems.length > 0 &&
-                                bodyTemplate(
-                                    activeStep,
-                                    handleNext,
-                                    setActiveStep,
-                                    handleOrder,
-                                    loading,
-                                    setName,
-                                    setCompanyName,
-                                    setCity,
-                                    setDistrict,
-                                    setWard,
-                                    setPhoneNo,
-                                    setAddress,
-                                    setRadio,
-                                    name,
-                                    companyName,
-                                    city,
-                                    district,
-                                    ward,
-                                    phoneNo,
-                                    address,
-                                    radio
-                                )}
+                            {cartItems.length > 0 && (
+                                <BodyTemplate
+                                    activeStep={activeStep}
+                                    handleNext={handleNext}
+                                    setActiveStep={setActiveStep}
+                                    handleOrder={handleOrder}
+                                    loading={loading}
+                                    currentAddress={currentAddress}
+                                    shipAddress={shipAddress}
+                                    setShipAddress={setShipAddress}
+                                />
+                            )}
                             <div style={{ marginTop: "2%" }}>
                                 <Button
                                     disabled={activeStep === 0}
@@ -1442,7 +1489,7 @@ const Checkout = (props) => {
                                 >
                                     Back
                                 </Button>
-                                {activeStep !== 1 && activeStep !== 2 && (
+                                {activeStep !== 1 && (
                                     <Button
                                         variant="contained"
                                         color="primary"

@@ -21,24 +21,18 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     root: {
         // padding: "0 10%",
-        marginLeft: "10%",
-        marginRight: "10%",
-        marginTop: "2%",
-        marginBottom: "2%",
-        padding: "4em",
-        paddingTop: "2em",
         width: "80%",
-        backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
+        maxWidth: "1300px",
+        minWidth: "1200px",
+        height: "100%",
     },
     removeLink: {
         textDecoration: "none !important",
         color: "inherit !important",
     },
     cartLabel: {
-        marginTop: "20px",
+        marginTop: "0.5em",
+        marginBottom: "0.5em",
     },
     feePaper: {
         marginTop: 52,
@@ -48,8 +42,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const formatVND = (x) => {
+    let formatter = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
+
+    return formatter.format(x);
 };
 
 const paperStyle = createTheme({
@@ -57,6 +56,10 @@ const paperStyle = createTheme({
         MuiPaper: {
             root: {
                 textAlign: "left",
+                backgroundColor: "#fff",
+                padding: "1em",
+                borderRadius: "0.5em",
+                marginBottom: "1em",
             },
         },
     },
@@ -90,43 +93,81 @@ const CartPage = (props) => {
         );
     });
 
-    const itemList = cartItems.map((item, index) => {
-        return (
-            <Card
-                key={index}
-                style={{ marginTop: "4em" }}
-                type={"cart"}
-                link={true}
-                name={item.product.name}
-                id={item.product.id}
-                title={item.product.name}
-                image={
-                    item.product.photo === "no-photo.jpg"
-                        ? noPhoto
-                        : `${process.env.REACT_APP_API}/uploads/${item.product.photo}`
-                }
-                soldBy={item.product.shop.name}
-                price={item.product.price}
-                discount={item.product.discount}
-                // discountedPrice={40003}
-                quantity={item.quantity}
-                addItem={() => {
-                    dispatch(cartActions.addToCart(item.product));
-                }}
-                removeItem={() => {
-                    dispatch(cartActions.removeFromCart(item.productId));
-                }}
-                deleteItem={() => {
-                    dispatch(cartActions.deleteFromCart(item.productId));
-                }}
-            />
-        );
+    const groupByShop = useSelector((state) => {
+        const groupByShop = {};
+        for (let key in state.cart.items) {
+            const shopName = state.cart.items[key].product.shop.name;
+            if (groupByShop[shopName] === undefined) {
+                groupByShop[shopName] = [];
+            }
+            groupByShop[shopName].push(state.cart.items[key]);
+        }
+        return groupByShop;
     });
+
+    const itemList =
+        groupByShop &&
+        Object.keys(groupByShop).map((key, index) => {
+            const items = groupByShop[key];
+            return (
+                <MuiThemeProvider theme={paperStyle}>
+                    <Paper
+                        className={classes.paper}
+                        elevation={0}
+                        square={true}
+                    >
+                        <h5 className={classes.cartLabel}>{key}</h5>
+                        {items.map((item, index) => {
+                            return (
+                                <Card
+                                    key={index}
+                                    style={{ marginTop: 0 }}
+                                    type={"cart"}
+                                    link={true}
+                                    name={item.product.name}
+                                    id={item.product.id}
+                                    title={item.product.name}
+                                    image={
+                                        item.product.photo === "no-photo.jpg"
+                                            ? noPhoto
+                                            : `${process.env.REACT_APP_API}/uploads/${item.product.photo}`
+                                    }
+                                    soldBy={item.product.shop.name}
+                                    price={item.product.price}
+                                    discount={item.product.discount}
+                                    // discountedPrice={40003}
+                                    quantity={item.quantity}
+                                    addItem={() => {
+                                        dispatch(
+                                            cartActions.addToCart(item.product)
+                                        );
+                                    }}
+                                    removeItem={() => {
+                                        dispatch(
+                                            cartActions.removeFromCart(
+                                                item.productId
+                                            )
+                                        );
+                                    }}
+                                    deleteItem={() => {
+                                        dispatch(
+                                            cartActions.deleteFromCart(
+                                                item.productId
+                                            )
+                                        );
+                                    }}
+                                />
+                            );
+                        })}
+                    </Paper>
+                </MuiThemeProvider>
+            );
+        });
 
     const total = () => {
         return (
             <div style={{ paddingBottom: "1em" }}>
-                <span>Total fee:</span>
+                <span>Tổng tiền:</span>
                 <div
                     className="amount"
                     style={{
@@ -147,11 +188,9 @@ const CartPage = (props) => {
                                     float: "right",
                                 }}
                             >
-                                {numberWithCommas(
-                                    cartTotalAmountDiscounted.toFixed(2)
-                                )}
+                                {formatVND(cartTotalAmountDiscounted)}
                             </strong>
-                            <small>(Included VAT)</small>
+                            <small>(Đã bao gồm VAT)</small>
                         </>
                     ) : (
                         <>
@@ -162,9 +201,9 @@ const CartPage = (props) => {
                                     float: "right",
                                 }}
                             >
-                                {numberWithCommas(cartTotalAmount.toFixed(2))}
+                                {formatVND(cartTotalAmount)}
                             </strong>
-                            <small>(Included VAT)</small>
+                            <small>(Đã bao gồm VAT)</small>
                         </>
                     )}
                 </div>
@@ -183,7 +222,7 @@ const CartPage = (props) => {
                             className={classes.paper}
                             elevation={0}
                             square
-                            style={{ textAlign: "center" }}
+                            style={{ textAlign: "center", padding: "1em" }}
                         >
                             <img
                                 src={noProductsLogo}
@@ -255,16 +294,12 @@ const CartPage = (props) => {
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={9}>
                     <h5 className={classes.cartLabel}>Your cart</h5>
-                    <MuiThemeProvider theme={paperStyle}>
-                        <Paper className={classes.paper} elevation={0} square>
-                            {itemList}
-                        </Paper>
-                    </MuiThemeProvider>
+                    {itemList}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper
                         elevation={0}
-                        variant="outlined"
+                        variant="standard"
                         square
                         className={classes.feePaper}
                     >
@@ -277,29 +312,23 @@ const CartPage = (props) => {
                                 !isNaN(cartTotalAmountDiscounted) &&
                                 cartTotalAmountDiscounted > 0 ? (
                                     <>
-                                        <span>Original Price: </span>
+                                        <span>Giá gốc: </span>
                                         <strong style={{ float: "right" }}>
-                                            {numberWithCommas(
-                                                cartTotalAmount.toFixed(2)
-                                            )}
+                                            {formatVND(cartTotalAmount)}
                                         </strong>
                                         <br />
-                                        <span>Discounted Price: </span>
+                                        <span>Tạm tính: </span>
                                         <strong style={{ float: "right" }}>
-                                            {numberWithCommas(
-                                                cartTotalAmountDiscounted.toFixed(
-                                                    2
-                                                )
+                                            {formatVND(
+                                                cartTotalAmountDiscounted
                                             )}
                                         </strong>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Price: </span>
+                                        <span>Tạm tính: </span>
                                         <strong style={{ float: "right" }}>
-                                            {numberWithCommas(
-                                                cartTotalAmount.toFixed(2)
-                                            )}
+                                            {formatVND(cartTotalAmount)}
                                         </strong>
                                     </>
                                 )}
@@ -330,7 +359,15 @@ const CartPage = (props) => {
     return (
         <div>
             <NavBar {...props} />
-            <div className="body" style={{ marginBottom: "20%" }}>
+            <div
+                className="body"
+                style={{
+                    minWidth: "1300px",
+                    marginBottom: "20%",
+                    display: "flex",
+                    justifyContent: "center",
+                }}
+            >
                 {CartSection()}
             </div>
             <Footer />

@@ -2,10 +2,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        width: "15vw",
-        height: "31em",
-        padding: "1em",
-        margin: "1em",
+        width: "186px",
+        padding: "12px",
+        border: "1px solid #e5e5e5",
+        borderRadius: "0.5em",        
+        margin: "4px",
         "&:hover": {
             boxShadow:
                 "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         },
         display: "inline-flex",
         flexDirection: "column",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         [theme.breakpoints.down("md")]: {
             fontSize: "0.65em !important",
         },
@@ -26,18 +27,32 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
         marginBottom: "1.5em",
     },
+    tikiNowTitle: {
+        fontSize: "0.75em",
+        color: "#858585",
+        fontWeight: 600,
+        marginBottom: "1.5em",
+    },
+    tikiNowBorder: {
+        borderTop: "1px solid #d3d3d7",
+    },
     discount: {
         color: "rgba(36, 36, 36, 0.6)",
         fontSize: "0.75em",
         marginLeft: "0.5em",
+        border: "1px solid #FFFFFF",
+        borderRadius: "0.5em",
+        backgroundColor: "#f5f5fa",
+        padding: "3px"
     },
     price: { fontSize: "0.8em", color: "#858585", marginTop: 0 },
     progress: {
         // margin: theme.spacing(1),
         // borderRadius: '10px !important',
-        width: "50%",
+        width: "100%",
         // position: 'absolute'
         // progress-bar
+        marginBottom: "0.5em",
         backgroundColor: "#FDDCCB",
         color: "#FD752E",
         display: "inline-block",

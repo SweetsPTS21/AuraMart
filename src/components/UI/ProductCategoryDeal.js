@@ -4,125 +4,68 @@ import userStyles from "../../styles/ProductCategoryDealStyles";
 import Grid from "@material-ui/core/Grid";
 import Carousel from "react-material-ui-carousel";
 
-import ProductDeal1 from "../../image/productDealImage1.png";
-import ProductDeal2 from "../../image/productDealImage2.png";
-import ProductDeal3 from "../../image/productDealImage3.png";
-import ProductDeal4 from "../../image/productDealImage4.png";
-import ProductDeal5 from "../../image/productDealImage5.png";
-import ProductDeal7 from "../../image/productDealImage7.png";
-import ProductDeal8 from "../../image/productDealImage8.png";
-import ProductDeal9 from "../../image/productDealImage9.png";
-import ProductDeal10 from "../../image/productDealImage10.png";
-import ProductDeal11 from "../../image/productDealImage11.png";
-import ProductDeal12 from "../../image/productDealImage12.png";
+import Banner1 from "../../image/banner1.jpg";
+import Banner2 from "../../image/banner2.png";
+import Banner3 from "../../image/banner3.png";
+import Banner4 from "../../image/banner4.png";
+import Banner5 from "../../image/banner5.png";
+import Banner6 from "../../image/banner6.png";
+import Banner7 from "../../image/banner7.jpg";
+import Banner8 from "../../image/banner8.jpg";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const ProductCategoryDeal = (props) => {
     const classes = userStyles();
 
     return (
         <Grid container className={classes.container} spacing={2}>
-            <Grid item container xs={8} spacing={2}>
-                <Grid item xs={12}>
-                    <Carousel interval={3000}>
-                        <Link to={"#"}>
-                            <img
-                                src={ProductDeal1}
-                                alt=""
-                                className={classes.largeProduct}
-                            />
-                        </Link>
-                        <Link to={"#"}>
-                            <img
-                                src={ProductDeal11}
-                                alt=""
-                                className={classes.largeProduct}
-                            />
-                        </Link>
-                        <Link to={"#"}>
-                            <img
-                                src={ProductDeal12}
-                                alt=""
-                                className={classes.largeProduct}
-                            />
-                        </Link>
-                    </Carousel>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <Link to={"#"}>
-                            <img
-                                src={ProductDeal7}
-                                alt=""
-                                className={classes.mediumProduct}
-                            />
-                        </Link>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Link to={"#"}>
-                            <img
-                                src={ProductDeal10}
-                                alt=""
-                                className={classes.mediumProduct}
-                            />
-                        </Link>
-                    </Grid>
-                </Grid>
+            <Grid item xs={9} spacing={2} style={{ height: "100%" }}>
+                <Carousel
+                    interval={3000}
+                    // IndicatorIcon={<div className={classes.indicator} />}
+                    indicatorIconButtonProps={{
+                        style: {
+                            padding: "5px", // 1
+                        },
+                    }}
+                    activeIndicatorIconButtonProps={{
+                        style: {},
+                    }}
+                    indicatorContainerProps={{
+                        style: {
+                            position: "absolute",
+                            bottom: "0",
+                            zIndex: "100",
+                        },
+                    }}
+                >
+                    <Link to={"#"}>
+                        <img src={Banner1} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner2} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner3} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner4} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner5} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner6} alt="" className={classes.banner} />
+                    </Link>
+                    <Link to={"#"}>
+                        <img src={Banner7} alt="" className={classes.banner} />
+                    </Link>
+                </Carousel>
             </Grid>
-            <Grid container item xs={4} spacing={1}>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal4}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal5}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal2}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal3}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal8}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to={"#"}>
-                        <img
-                            src={ProductDeal9}
-                            alt=""
-                            className={classes.smallProduct}
-                        />
-                    </Link>
-                </Grid>
+            <Grid item xs={3} spacing={2} style={{ height: "100%" }}>
+                <Link to={"#"}>
+                    <img src={Banner8} alt="" className={classes.banner} />
+                </Link>
             </Grid>
         </Grid>
     );

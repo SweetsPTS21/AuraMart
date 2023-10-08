@@ -3,30 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        width: "20%",
+        width: "100%",
         height: "auto !important",
         backgroundColor: "white",
-        marginLeft: "2%",
-        marginRight: "10%",
-        boxShadow:
-            "0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.1)",
+        marginLeft: "0",
+        marginRight: "0",
         borderRadius: "0.5em !important",
-        position: "absolute",
-        left: "5%",
+        position: "sticky",
+        top: "16px",
         marginTop: "0.5%",
         zIndex: "90",
-    },
-    resize: {
-        flexGrow: 1,
-        width: "80%",
-        height: "auto !important",
-        backgroundColor: "white",
-        marginLeft: "2%",
-        marginRight: "10%",
-        boxShadow:
-            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-        borderRadius: "0.5em !important",
-        position: "absolute",
     },
     category: {
         marginTop: "1.5em",

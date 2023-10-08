@@ -39,9 +39,7 @@ const InterestedProducts = (props) => {
     const classes = userStyles();
 
     return (
-        <div
-            style={{ marginLeft: "2em", marginRight: "2em", marginTop: "2em" }}
-        >
+        <div>
             <div
                 style={{
                     fontSize: "1.1em",

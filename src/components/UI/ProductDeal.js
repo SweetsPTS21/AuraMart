@@ -1,35 +1,40 @@
 import React from 'react'
-import Deal1 from '../../image/productDeal2Image1.png'
-import Deal2 from '../../image/productDeal2Image2.png'
-import Deal3 from '../../image/productDeal2Image3.png'
+import userStyles from "../../styles/InfoBarStyles";
+import InfoBar1 from '../../image/infoBar1.png'
+import InfoBar2 from '../../image/infoBar2.png'
+import InfoBar3 from '../../image/infoBar3.png'
 import {Link} from "react-router-dom";
 import Ripples from 'react-ripples'
+import { Grid } from '@material-ui/core';
 
 
 const ProductDeal = (props) => {
+    const classes = userStyles();
     return (
-        <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-            <Ripples>
-                <Link to={"#"}>
-                    <img src={Deal1} alt="deal" style={{width: '20vw'}}/>
-                </Link>
-            </Ripples>
-
-            <Ripples>
-                <Link to={"#"}>
-                    <img src={Deal2} alt="deal" style={{width: '20vw'}}/>
-                </Link>
-            </Ripples>
-            <Ripples>
-                <Link to={"#"}>
-                    <img src={Deal3} alt="deal" style={{width: '20vw'}}/>
-                </Link>
-            </Ripples>
-            <Ripples>
-                <Link to={"#"}>
-                    <img src={Deal3} alt="deal" style={{width: '20vw'}}/>
-                </Link>
-            </Ripples>
+        <div style={{display: 'flex', alignItems: 'center', padding: '0.5em'}}>
+            <Grid container className={classes.container} spacing={2}>
+                <Grid item xs={1}>
+                    <Ripples>
+                        <Link to={"#"}>
+                            <img src={InfoBar1} alt="Info" style={{width: '100%'}}/>
+                        </Link>
+                    </Ripples>
+                </Grid>
+                <Grid item xs={1}>
+                    <Ripples>
+                        <Link to={"#"}>
+                            <img src={InfoBar2} alt="Info" style={{width: '100%'}}/>
+                        </Link>
+                    </Ripples>
+                </Grid>
+                <Grid item xs={1}>
+                    <Ripples>
+                        <Link to={"#"}>
+                            <img src={InfoBar3} alt="Info" style={{width: '100%'}}/>
+                        </Link>
+                    </Ripples>
+                </Grid>
+            </Grid>
 
         </div>
     )

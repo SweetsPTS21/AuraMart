@@ -31,12 +31,17 @@ const Card = (props) => {
         props.quantity !== undefined ? props.quantity : null
     );
 
-    const discounted_price = (
-        props.price -
-        parseFloat(props.price) * (parseFloat(props.discount) / 100)
-    ).toFixed(2);
-    const numberWithCommas = (x) => {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const discounted_price = () => {
+        let discounted_price = props.price - parseInt(props.price) * (parseInt(props.discount) / 100);
+        return formatVND(discounted_price);
+    };
+    const formatVND = (x) => {
+        let formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+          });
+          
+        return formatter.format(x);
     };
 
     const getProductReviewLength = () => {
@@ -50,27 +55,6 @@ const Card = (props) => {
                 return null;
             });
         return reviewsLength;
-    };
-    // Renderer callback with condition
-    const renderer = ({ days, hours, minutes, seconds, completed }) => {
-        if (completed) {
-            // Render a completed state
-            return <span>Offer is over!</span>;
-        } else {
-            if (days !== 0) {
-                return (
-                    <span>
-                        {days} days {hours}:{minutes}:{seconds}
-                    </span>
-                );
-            }
-            // Render a countdown
-            return (
-                <span>
-                    {hours}:{minutes}:{seconds}
-                </span>
-            );
-        }
     };
 
     useEffect(() => {
@@ -89,7 +73,7 @@ const Card = (props) => {
             >
                 <div
                     className={classes.container}
-                    style={{ height: "25em" }}
+                    style={{ height: "330px" }}
                     onClick={
                         props.onClick !== undefined ? props.onClick : undefined
                     }
@@ -101,15 +85,15 @@ const Card = (props) => {
                             width={"100%"}
                             style={{
                                 borderRadius: "3px",
-                                maxHeight: "18em",
-                                minHeight: "14em",
+                                maxHeight: "180px",
+                                minHeight: "160px",
                             }}
                         />{" "}
                         <br />
                     </div>
                     <div>
                         <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid
+                            {/* <Grid
                                 item
                                 xs={3}
                                 md={4}
@@ -124,14 +108,8 @@ const Card = (props) => {
                                     />{" "}
                                     <span className={classes.divider}>|</span>
                                 </div>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={9}
-                                md={8}
-                                lg={8}
-                                style={{ margin: 0 }}
-                            >
+                            </Grid> */}
+                            <Grid item style={{ margin: 0 }}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>
@@ -141,21 +119,21 @@ const Card = (props) => {
                             <>
                                 <p style={{ marginBottom: 0 }}>
                                     <span style={{ fontWeight: 500 }}>
-                                        {numberWithCommas(discounted_price)} VND
+                                        {discounted_price()}
                                     </span>
                                     <span className={classes.discount}>
                                         -{props.discount}%
                                     </span>
                                 </p>
-                                <p className={classes.price}>
+                                {/* <p className={classes.price}>
                                     <s>{numberWithCommas(props.price)} </s>VND
-                                </p>
+                                </p> */}
                             </>
                         ) : (
                             <>
                                 <p style={{ marginBottom: 0 }}>
                                     <span style={{ fontWeight: 500 }}>
-                                        {numberWithCommas(props.price)} VND
+                                        {formatVND(props.price)}
                                     </span>
                                 </p>
                             </>
@@ -165,7 +143,7 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
-
+    // Card section for deal of the day
     const type2 = (
         <Ripples>
             <Link
@@ -178,7 +156,7 @@ const Card = (props) => {
             >
                 <div
                     className={classes.container}
-                    style={{ height: "26em" }}
+                    style={{...props.style}}
                     onClick={
                         props.onClick !== undefined ? props.onClick : undefined
                     }
@@ -212,55 +190,33 @@ const Card = (props) => {
                             width={"100%"}
                             style={{
                                 borderRadius: "3px",
-                                maxHeight: "18em",
-                                minHeight: "14em",
+                                maxHeight: "180px",
+                                minHeight: "160px",
                             }}
                         />{" "}
                         <br />
                     </div>
                     <div>
                         <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid
-                                item
-                                xs={3}
-                                md={4}
-                                lg={4}
-                                style={{ margin: 0, marginTop: "0.1em" }}
-                            >
-                                <div>
-                                    <img
-                                        src={TikiNow}
-                                        alt="tikinow"
-                                        width={"70%"}
-                                    />{" "}
-                                    <span className={classes.divider}>|</span>
-                                </div>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={9}
-                                md={8}
-                                lg={8}
-                                style={{ margin: 0 }}
-                            >
+                            <Grid item style={{ margin: 0 }}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>
                             </Grid>
                         </Grid>
                         {props.discount !== undefined && props.discount > 0 ? (
-                            <p style={{ marginBottom: 0 }}>
+                            <p style={{ marginBottom: "0.5em" }}>
                                 <span style={{ fontWeight: 500 }}>
-                                    VND {numberWithCommas(discounted_price)}
+                                    {discounted_price()}
                                 </span>
                                 <span className={classes.discount}>
-                                    VND <s>{numberWithCommas(props.price)} </s>
-                                </span>
+                                        -{props.discount}%
+                                    </span>
                             </p>
                         ) : (
-                            <p style={{ marginBottom: 0 }}>
+                            <p style={{ marginBottom: "0.5em" }}>
                                 <span style={{ fontWeight: 500 }}>
-                                    VND {numberWithCommas(props.price)}
+                                    {formatVND(props.price)}
                                 </span>
                             </p>
                         )}
@@ -287,19 +243,34 @@ const Card = (props) => {
                                 </span>
                             )}
                         </Progress>
-                        {props.timeInMilliSec && (
-                            <span className={classes.timer}>
-                                <Countdown
-                                    date={Date.now() + props.timeInMilliSec}
-                                    renderer={renderer}
-                                />
-                            </span>
-                        )}
+                        <Grid container className={classes.tikiNowBorder}>
+                            <Grid
+                                item
+                                xs={2}
+                                md={3}
+                                lg={3}
+                                style={{ margin: 0, marginTop: "0.1em" }}
+                            >
+                                <div>
+                                    <img
+                                        src={TikiNow}
+                                        alt="tikinow"
+                                        width={"70%"}
+                                    />{" "}
+                                </div>
+                            </Grid>
+                            <Grid item xs={10} md={9} lg={9} style={{ margin: 0 }}>
+                                <span className={classes.tikiNowTitle}>
+                                    {"Giao siêu tốc 2h"}
+                                </span>
+                            </Grid>
+                        </Grid>
                     </div>
                 </div>
             </Link>
         </Ripples>
     );
+    // Recommened for you section
     const type3 = (
         <Ripples>
             <Link
@@ -324,8 +295,8 @@ const Card = (props) => {
                             width={"100%"}
                             style={{
                                 borderRadius: "3px",
-                                maxHeight: "18em",
-                                minHeight: "12em",
+                                maxHeight: "180px",
+                                minHeight: "160px",
                             }}
                         />{" "}
                         <br />
@@ -344,29 +315,7 @@ const Card = (props) => {
                             </p>
                         )}
                         <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid
-                                item
-                                xs={3}
-                                md={4}
-                                lg={4}
-                                style={{ margin: 0, marginTop: "0.1em" }}
-                            >
-                                <div>
-                                    <img
-                                        src={TikiNow}
-                                        alt="tikinow"
-                                        width={"70%"}
-                                    />{" "}
-                                    <span className={classes.divider}>|</span>
-                                </div>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={9}
-                                md={8}
-                                lg={8}
-                                style={{ margin: 0 }}
-                            >
+                            <Grid item style={{ margin: 0 }}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>
@@ -377,31 +326,31 @@ const Card = (props) => {
                             <>
                                 <p style={{ marginBottom: 0 }}>
                                     <span style={{ fontWeight: 500 }}>
-                                        {numberWithCommas(discounted_price)} VND
+                                        {discounted_price()}
                                     </span>
                                     <span className={classes.discount}>
                                         {" "}
                                         -{props.discount}%
                                     </span>
                                 </p>
-                                <p
+                                {/* <p
                                     className={classes.price}
                                     style={{ marginBottom: 0 }}
                                 >
                                     <s>{numberWithCommas(props.price)} </s>VND
-                                </p>
+                                </p> */}
                             </>
                         ) : (
                             <>
                                 <p style={{ marginBottom: 0 }}>
                                     <span style={{ fontWeight: 500 }}>
-                                        {numberWithCommas(props.price)} VND
+                                        {formatVND(props.price)}
                                     </span>
                                 </p>
                             </>
                         )}
 
-                        <p>
+                        <p style={{margin: 0}}>
                             <IconButton
                                 aria-label=""
                                 color="inherit"
@@ -432,7 +381,7 @@ const Card = (props) => {
                                 Fast delivery 2h
                             </span>
                         </p>
-                        <div style={{ marginBottom: "0.2rem" }}>
+                        <div style={{ marginBottom: "0.2rem", display: "flex", justifyContent: "center" }}>
                             <Rating
                                 name="half-rating-read"
                                 defaultValue={
@@ -444,17 +393,18 @@ const Card = (props) => {
                                 readOnly
                                 size="small"
                                 style={{
-                                    width: "60%",
+                                    width: "50%",
                                     margin: 0,
                                     fontSize: "0.9rem",
+                                    alignItems: "center",
                                 }}
                             />
                             <p
                                 className={classes.title}
                                 style={{
-                                    width: "40%",
-                                    marginBottom: "2em",
-                                    display: "inline-block",
+                                    width: "50%",
+                                    marginBottom: 0,
+                                    alignItems: "center",
                                 }}
                             >
                                 {" "}
@@ -466,7 +416,8 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
-
+    
+    //Card section for product in cart
     const type4 = (
         <div
             className={classNames(classes.grid, classes.removeLinkStyle)}
@@ -544,21 +495,19 @@ const Card = (props) => {
                                 </Button>
                             </Grid>
                         </Grid>
-                        <Grid item>
-                            {discounted_price !== "NaN" ? (
+                        <Grid item style={{display: "flex", alignItems: "center"}}>
+                            {discounted_price() !== "NaN" ? (
                                 <>
                                     <Typography
                                         variant="subtitle1"
-                                        style={{ textAlign: "right" }}
+                                        style={{ textAlign: "center" }}
                                     >
-                                        <strong>{discounted_price}đ</strong>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
+                                        <strong>{discounted_price()}</strong>
                                         <span className={classes.priceOrigin}>
-                                            {props.price.toFixed(2)}đ
-                                        </span>
-                                        | -{props.discount}%
-                                    </Typography>
+                                        {" "}
+                                        {formatVND(props.price)}
+                                    </span>
+                                    </Typography>                                  
                                 </>
                             ) : (
                                 <Typography
@@ -568,12 +517,12 @@ const Card = (props) => {
                                         marginTop: "1em",
                                     }}
                                 >
-                                    <strong>{props.price.toFixed(2)}đ</strong>
+                                    <strong>{formatVND(props.price)}</strong>
                                 </Typography>
                             )}
                         </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{display: "flex", alignItems: "center"}}>
                         <Button
                             onClick={(e) => {
                                 props.removeItem !== undefined &&

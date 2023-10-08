@@ -34,21 +34,21 @@ const ProductNavigation = (props) => {
     const [toggleDrawer, setToggleDrawer] = useState(false);
     const options = [
         "Phone - Tablet",
-        "Electronic Refrigeration",
-        "Accessories - Digital Equipment",
-        "Laptop - IT equipment",
-        "Camera Video Recording",
-        "Electric Appliances",
+        "Electronic",
+        "Accessories",
+        "Laptop",
+        "Camera",
+        "E-Appliances",
         "House Item",
-        "Consumer goods, Food",
-        "Toys, Mother and Baby",
-        "Beauty - Health",
-        "Fashion - Accessories",
-        "Sport - Picnic",
-        "MotorCycles, Cars and Bicycle",
+        "Consumer goods",
+        "For Baby",
+        "Beauty",
+        "Fashion ",
+        "Sport ",
+        "MotorCycles",
         "International goods",
         "Books, VPP & Gifts",
-        "Voucher - Services - Scratch Cards",
+        "Voucher",
     ];
     const optionsIcon = [
         <PhoneAndroidIcon className={classes.item} />,
@@ -92,46 +92,46 @@ const ProductNavigation = (props) => {
 
     return (
         <div
-            className={classNames(classes.root, classes.sectionDesktop3, {
-                [classes.resize]: toggleDrawer,
-            })}
-            style={{ ...props.style }}
-            onMouseLeave={() => {
-                setToggleDrawer(false);
-                typeof props.toggleDrawer === "function" &&
-                    props.toggleDrawer();
-            }}
+            className={classNames(classes.root, classes.sectionDesktop3)}
+            //style={{ ...props.style }}
+            // onMouseLeave={() => {
+            //     setToggleDrawer(false);
+            //     typeof props.toggleDrawer === "function" &&
+            //         props.toggleDrawer();
+            // }}
         >
             <Grid container>
-                <Grid item xs={toggleDrawer ? 3 : 12} style={{ margin: 0 }}>
+                <Grid item xs={12} style={{ margin: 0, padding: "3%" }}>
                     <List
                         component="nav"
                         aria-label="main mailbox folders"
-                        style={{ margin: 0 }}
+                        style={{ margin: 0, padding: 0 }}
                     >
                         {options.map((option, index) => (
                             <ListItem
                                 style={{
                                     marginTop: 0,
                                     marginBottom: 0,
-                                    paddingTop: "1.8%",
-                                    paddingBottom: "1.8%",
+                                    paddingTop: "4%",
+                                    paddingBottom: "4%",
                                     alignItems: "center",
+                                    borderRadius: "0.5em",
                                 }}
                                 key={option}
                                 button
                                 selected={index === selectedIndex}
                                 // onClick={event => handleMenuItemClick(event, index)
-                                onMouseEnter={(event) =>
-                                    handleMenuItemClick(event, index)
-                                }
+                                // onMouseEnter={(event) =>
+                                //     handleMenuItemClick(event, index)
+                                // }
                             >
                                 <ListItemIcon
                                     style={{
                                         marginTop: 0,
                                         marginBottom: 0,
-                                        paddingTop: 0,
-                                        paddingBottom: 0,
+                                        paddingTop: "3%",
+                                        paddingBottom: "3%",
+                                        minWidth: "40px",
                                     }}
                                 >
                                     {optionsIcon[index]}
@@ -153,365 +153,7 @@ const ProductNavigation = (props) => {
                         ))}
                     </List>
                 </Grid>
-                <Grid
-                    item
-                    xs={9}
-                    className={classNames(classes.leftDrawer, {
-                        [classes.showDrawer]: toggleDrawer,
-                    })}
-                >
-                    <Grid container>
-                        <Grid item xs={3}>
-                            <div className={classes.category2}>Trends</div>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    {options[selectedIndex]}
-                                </Link>
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Iphone{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Samsung{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Vsmart{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Sony{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    LG{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    {options[selectedIndex]}
-                                </Link>
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Iphone{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Samsung{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Vsmart{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Sony{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    LG{" "}
-                                </Link>{" "}
-                            </p>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <div className={classes.category2}>Top selling</div>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Toshiba{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Hitachi{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Asus{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Xiaomi{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    HTC{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Ifruit{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    {options[selectedIndex]}
-                                </Link>
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Iphone{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Samsung{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Vsmart{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Sony{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    LG{" "}
-                                </Link>{" "}
-                            </p>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <div className={classes.category2}>
-                                Best of 2020
-                            </div>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Shirts{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    T-shirt{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Jeans{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Shocks{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Sneakers{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Hats{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    {options[selectedIndex]}
-                                </Link>
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Iphone{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Samsung{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Vsmart{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    Sony{" "}
-                                </Link>{" "}
-                            </p>
-                            <p className={classes.category2item}>
-                                <Link
-                                    className={classes.removeDefaultLink}
-                                    to={"#"}
-                                >
-                                    {" "}
-                                    LG{" "}
-                                </Link>{" "}
-                            </p>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link
-                                className={classes.removeDefaultLink}
-                                to={"#"}
-                            >
-                                <img
-                                    src={cooker}
-                                    style={{ width: "10em", marginTop: "10%" }}
-                                    alt={"oven"}
-                                />
-                                ,
-                            </Link>
-                        </Grid>
-                        <section className={classes.items}></section>
-                    </Grid>
-                </Grid>
+                {/*  */}
             </Grid>
         </div>
     );

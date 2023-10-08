@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -14,6 +15,12 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import AddIcon from "@material-ui/icons/Add";
 
 import MenuItem from "@material-ui/core/MenuItem";
+import SaveIcon from "@material-ui/icons/Save";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import * as addressActions from "../../../store/actions/addressActions";
+import { message } from "antd";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -94,10 +101,15 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-export const Address = (props) => {
+const Address = (props) => {
     const classes = userStyles();
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
+
+    const listAddress = useSelector((state) => state.address.userAddress);
+
     const [name, setName] = useState("");
-    const [companyName, setCompanyName] = useState("");
+    const [addressId, setAddressId] = useState("");
     const [city, setCity] = useState("");
     const [district, setDistrict] = useState("");
     const [ward, setWard] = useState("");
@@ -105,10 +117,68 @@ export const Address = (props) => {
     const [address, setAddress] = useState("");
     const [radio, setRadio] = useState("House/Condominium");
     const [checked, setChecked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     const [form, setForm] = useState(false);
+    const [formType, setFormType] = useState("");
 
-    const handleSubmit = () => {};
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        const msg = message.loading("Updating address!", 0);
+        const address_ = {
+            fullName: name,
+            city,
+            district,
+            ward,
+            phone: phoneNo,
+            address,
+            default: checked,
+        };
+        switch (formType) {
+            case "add":
+                await dispatch(addressActions.addNewAddress(address_, user.id));
+                break;
+            case "edit":
+                await dispatch(
+                    addressActions.updateAddressById(
+                        address_,
+                        addressId,
+                        user.id
+                    )
+                );
+                break;
+            default:
+                break;
+        }
+        setTimeout(msg, 1);
+        setIsEditing(false);
+        setForm(false);
+        setIsLoading(false);
+    };
+
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        const msg = message.loading("Deleting address!", 0);
+        await dispatch(addressActions.deleteAddressById(addressId, user.id));
+        setTimeout(msg, 1);
+        setIsEditing(false);
+        setForm(false);
+        setIsLoading(false);
+    };
+
+    const removeValue = () => {
+        setName("");
+        setCity("");
+        setDistrict("");
+        setWard("");
+        setPhoneNo("");
+        setAddress("");
+        setRadio("House/Condominium");
+        setChecked(false);
+    };
 
     const city_ = [
         "Ho Chi Minh",
@@ -242,24 +312,6 @@ export const Address = (props) => {
                         variant="standard"
                         validators={["required"]}
                         errorMessages={["Enter Your Full Name"]}
-                    />
-                </FormControl>
-                <FormControl>
-                    <TextValidator
-                        id="outlined-full-width"
-                        size="small"
-                        label="Company name"
-                        style={{ margin: 8 }}
-                        placeholder="Your company name"
-                        value={companyName}
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        variant="standard"
-                        validators={["required"]}
-                        errorMessages={["Enter your company name"]}
                     />
                 </FormControl>
                 <FormControl>
@@ -415,6 +467,24 @@ export const Address = (props) => {
                 >
                     Update
                 </Button>
+                {formType=='edit' && (
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<DeleteIcon />}
+                        style={{
+                            fontSize: "0.7em",
+                            margin: 0,
+                            marginLeft: "1em",
+                            marginRight: "0.5em",
+                            marginTop: "2em",
+                        }}
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
+                )}
             </FormGroup>
         </ValidatorForm>
     );
@@ -427,7 +497,12 @@ export const Address = (props) => {
                         <div className={classes.title}>Address</div>
                         <div
                             className={classes.addAddress}
-                            onClick={() => setForm(true)}
+                            onClick={() => (
+                                setForm(true),
+                                setFormType("add"),
+                                setIsEditing(true),
+                                removeValue()
+                            )}
                         >
                             <AddIcon style={{ color: "rgb(153, 153, 153)" }} />{" "}
                             Add a new Address
@@ -443,6 +518,91 @@ export const Address = (props) => {
                     </>
                 )}
             </div>
+            {!isEditing && (
+                <>
+                    <div className={classes.title}>My addresses</div>
+                    {listAddress !== null &&
+                        listAddress.length > 0 &&
+                        listAddress.map((address, index) => (
+                            <div
+                                style={{
+                                    backgroundColor: "white",
+                                    borderRadius: "0.5em",
+                                    marginTop: "0.5em",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        width: "100%",
+                                        // height: "108px",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        padding: "1em",
+                                    }}
+                                >
+                                    <div>
+                                        {address.fullName}{" "}
+                                        <span
+                                            style={{
+                                                fontSize: "0.8em",
+                                                color: "#26bc4e",
+                                            }}
+                                        >
+                                            {address.default
+                                                ? "Địa chỉ mặc định"
+                                                : ""}
+                                        </span>{" "}
+                                        <br />
+                                        <span style={{color: "#a1a1a1"}}>Địa chỉ: </span>
+                                        <span>
+                                            {address.address +
+                                                ", " +
+                                                address.ward +
+                                                ", " +
+                                                address.district +
+                                                ", " +
+                                                address.city}
+                                        </span>
+                                        <br />
+                                        <span style={{color: "#a1a1a1"}}>Số điện thoại: </span>
+                                        <span>{address.phone}</span> <br />
+                                    </div>
+                                    <div>
+                                        <Button
+                                            variant="outlined"
+                                            type={"submit"}
+                                            color="secondary"
+                                            className={classes.button}
+                                            startIcon={<EditIcon />}
+                                            style={{
+                                                fontSize: "0.7em",
+                                                margin: 0,
+                                                marginLeft: "1em",
+                                                marginRight: "0.5em",
+                                                marginTop: "2em",
+                                            }}
+                                            onClick={() => {
+                                                setForm(true);
+                                                setFormType("edit");
+                                                setIsEditing(true);
+                                                setAddressId(address._id);
+                                                setName(address.fullName);
+                                                setCity(address.city);
+                                                setDistrict(address.district);
+                                                setWard(address.ward);
+                                                setPhoneNo(address.phone);
+                                                setAddress(address.address);
+                                                setChecked(address.default);
+                                            }}
+                                        >
+                                            Edit
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                </>
+            )}
         </div>
     );
 };
