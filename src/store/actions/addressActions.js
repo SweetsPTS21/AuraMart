@@ -15,7 +15,7 @@ export const getAllAddress = () => async (dispatch) => {
         .then((res) => {
             dispatch({
                 type: GET_ALL_ADDRESS, //this call test dispatch. to dispsatch to our reducer
-                reviews: res.data.data,
+                address: res.data.data,
             });
             // message.success("Got reviews");
         })

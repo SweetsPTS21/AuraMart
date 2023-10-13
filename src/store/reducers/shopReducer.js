@@ -1,8 +1,8 @@
-import {GET_ALL_SHOPS, GET_SHOP_BY_ID} from "../actions/shopActions";
+import { GET_ALL_SHOPS, GET_SHOP_BY_ID } from "../actions/shopActions";
 
 const initialState = {
-    shops : null,
-    currentShop: null
+    shops: null,
+    currentShop: null,
 };
 
 export default function (state = initialState, action) {
@@ -10,14 +10,13 @@ export default function (state = initialState, action) {
         case GET_ALL_SHOPS:
             return {
                 ...state,
-                shops: action.shops
+                shops: action.shops,
             };
         case GET_SHOP_BY_ID:
             return {
                 ...state,
-                currentShop: action.shop
-            };
-
+                currentShop: action.shops,
+            };      
         default:
             return state;
     }

@@ -354,20 +354,23 @@ const ProductPriceInfo = ({ product }) => {
     const classes = useStyles();
 
     const discount_price = () => {
-        let price = parseInt(product.price) * parseFloat(product.discount) /100
+        let price =
+            (parseInt(product.price) * parseFloat(product.discount)) / 100;
         return formatVND(price);
     };
 
     const discounted_price = () => {
-        let price = product.price - parseInt(product.price) * (parseInt(product.discount) / 100);
+        let price =
+            product.price -
+            parseInt(product.price) * (parseInt(product.discount) / 100);
         return formatVND(price);
     };
     const formatVND = (x) => {
-        let formatter = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-          });
-          
+        let formatter = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
+
         return formatter.format(x);
     };
 
@@ -671,8 +674,7 @@ const InfoTable = (props) => {
 
 const ShippingInfo = () => {
     const classes = useStyles();
-    const address = JSON.parse(sessionStorage.getItem("address"));
-    const currentAddress = address.defaultAddress;
+    const currentAddress = useSelector((state) => state.address.defaultAddress);
     return (
         <div
             style={{
@@ -687,7 +689,7 @@ const ShippingInfo = () => {
                     <img src={WarningIcon} alt={"a warning icon"} />
                 </Grid>
                 <Grid item xs>
-                    {currentAddress !== undefined || currentAddress != null ? (
+                    {currentAddress ? (
                         <div
                             style={{
                                 fontSize: "1em",
@@ -833,7 +835,35 @@ const RecommendProducts = () => {
         </div>
     );
 };
-
+const ShopInfo = (props) => {
+    const classes = useStyles();
+    return (
+        <div className={classes.block}>
+            <h2>Shop info</h2>
+            <Grid container className="">
+                <Grid item xs={2}>
+                    <Link to={`/tiki/shops/${props.shop.id}`}>
+                        <div
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                margin: "5px",
+                                borderRadius: "50%",
+                                backgroundColor: "yellow",
+                            }}
+                        ></div>
+                    </Link>
+                </Grid>
+                <Grid item xs={8}>
+                    <h4>{props.shop.name}</h4>
+                </Grid>
+                <Grid item xs={2}>  
+                    <h4>Follow</h4>
+                </Grid>
+            </Grid>
+        </div>
+    );
+};
 const ProductDetailInfo = ({ product }) => {
     const classes = useStyles();
     return (
@@ -1364,7 +1394,7 @@ const ProductReview = ({ product, reviews }) => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={filter1}
-                                    style={{paddingLeft: "0.3em"}}
+                                    style={{ paddingLeft: "0.3em" }}
                                     onChange={(e) => setFilter1(e.target.value)}
                                     variant="standard"
                                 >
@@ -1380,7 +1410,7 @@ const ProductReview = ({ product, reviews }) => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={filter2}
-                                    style={{paddingLeft: "0.3em"}}
+                                    style={{ paddingLeft: "0.3em" }}
                                     onChange={(e) => setFilter2(e.target.value)}
                                     variant="standard"
                                 >
@@ -1398,7 +1428,7 @@ const ProductReview = ({ product, reviews }) => {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={filter3}
-                                    style={{paddingLeft: "0.3em"}}
+                                    style={{ paddingLeft: "0.3em" }}
                                     onChange={(e) => setFilter3(e.target.value)}
                                     variant="standard"
                                 >
@@ -1441,6 +1471,7 @@ const ProductDetailPage = (props) => {
     const [firstImageLoad, setFirstImageLoad] = useState(true);
     // const product = useSelector(state => state.products.products !== null && state.products.products.find(prod => prod.id === productId));
     const product = useSelector((state) => state.products.currentProduct);
+    const user = useSelector((state) => state.auth.user);
     const productReviews = useSelector((state) => state.reviews.reviews);
     const [currentImg, setCurrentImg] = useState(noPhoto);
     // const [currentImg, setCurrentImg] = useState(typeof(product) !== 'boolean' ? `${process.env.REACT_APP_API}/uploads/${product.photo}` : noPhoto);
@@ -1449,6 +1480,13 @@ const ProductDetailPage = (props) => {
         dispatch(productActions.getProductById(productId));
         dispatch(reviewActions.getProductReviews(productId));
     }, []);
+
+    useEffect(() => {
+        if (user.id) {
+            dispatch(addressActions.getUserAddress(user.id));
+        }
+    }, [user.id]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -1588,6 +1626,7 @@ const ProductDetailPage = (props) => {
                                             product={product}
                                         />
                                         <RecommendProducts />
+                                        <ShopInfo shop={product.shop} />
                                         <TikiTranding />
                                         <ProductDetailInfo product={product} />
                                     </div>

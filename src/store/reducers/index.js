@@ -7,6 +7,7 @@ import shopReducer from "./shopReducer";
 import orderReducer from "./orderReducer";
 import reviewReducer from "./reviewReducer";
 import addressReducer from "./addressReducer";
+import configReducer from "./configReducer";
 import userReducer from "./userReducer";
 import statsReducer from "./statsReducer";
 
@@ -21,4 +22,5 @@ export default combineReducers({
     reviews: reviewReducer,
     address: addressReducer,
     stats: statsReducer,
+    configs: configReducer,
 });

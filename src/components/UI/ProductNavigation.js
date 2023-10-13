@@ -31,7 +31,6 @@ import cooker from "../../image/cooker.png";
 const ProductNavigation = (props) => {
     const classes = userStyles();
     const [selectedIndex, setSelectedIndex] = useState(1);
-    const [toggleDrawer, setToggleDrawer] = useState(false);
     const options = [
         "Phone - Tablet",
         "Electronic",
@@ -49,6 +48,24 @@ const ProductNavigation = (props) => {
         "International goods",
         "Books, VPP & Gifts",
         "Voucher",
+    ];
+    const optionsPath = [
+        "/phone-tablet",
+        "/electronics",
+        "/accessories",
+        "/laptop",
+        "/camera",
+        "/e-appliances",
+        "/house-item",
+        "/consumer-goods",
+        "/for-baby",
+        "/beauty",
+        "/fashion",
+        "/sport",
+        "/motorcycles",
+        "/international-goods",
+        "/books-vpp-gifts",
+        "/voucher",
     ];
     const optionsIcon = [
         <PhoneAndroidIcon className={classes.item} />,
@@ -87,19 +104,10 @@ const ProductNavigation = (props) => {
     ];
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
-        setToggleDrawer(true);
     };
 
     return (
-        <div
-            className={classNames(classes.root, classes.sectionDesktop3)}
-            //style={{ ...props.style }}
-            // onMouseLeave={() => {
-            //     setToggleDrawer(false);
-            //     typeof props.toggleDrawer === "function" &&
-            //         props.toggleDrawer();
-            // }}
-        >
+        <div className={classNames(classes.root, classes.sectionDesktop3)}>
             <Grid container>
                 <Grid item xs={12} style={{ margin: 0, padding: "3%" }}>
                     <List
@@ -108,48 +116,56 @@ const ProductNavigation = (props) => {
                         style={{ margin: 0, padding: 0 }}
                     >
                         {options.map((option, index) => (
-                            <ListItem
-                                style={{
-                                    marginTop: 0,
-                                    marginBottom: 0,
-                                    paddingTop: "4%",
-                                    paddingBottom: "4%",
-                                    alignItems: "center",
-                                    borderRadius: "0.5em",
-                                }}
-                                key={option}
-                                button
-                                selected={index === selectedIndex}
-                                // onClick={event => handleMenuItemClick(event, index)
-                                // onMouseEnter={(event) =>
-                                //     handleMenuItemClick(event, index)
-                                // }
+                            <Link
+                                to={`/product${optionsPath[index]}`}
+                                style={{ textDecoration: "none" }}
                             >
-                                <ListItemIcon
+                                <ListItem
                                     style={{
                                         marginTop: 0,
                                         marginBottom: 0,
-                                        paddingTop: "3%",
-                                        paddingBottom: "3%",
-                                        minWidth: "40px",
+                                        paddingTop: "4%",
+                                        paddingBottom: "4%",
+                                        alignItems: "center",
+                                        borderRadius: "0.5em",
                                     }}
+                                    key={option}
+                                    button
+                                    selected={index === selectedIndex}
+                                    onClick={(event) =>
+                                        handleMenuItemClick(event, index)
+                                    }
+                                    // onMouseEnter={(event) =>
+                                    //     handleMenuItemClick(event, index)
+                                    // }
                                 >
-                                    {optionsIcon[index]}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={option}
-                                    primaryTypographyProps={{
-                                        variant: "inherit",
-                                    }}
-                                    style={{
-                                        marginTop: "1%",
-                                        marginBottom: 0,
-                                        paddingTop: 0,
-                                        paddingBottom: 0,
-                                    }}
-                                    className={classes.item2}
-                                />
-                            </ListItem>
+                                    <ListItemIcon
+                                        style={{
+                                            marginTop: 0,
+                                            marginBottom: 0,
+                                            paddingTop: "3%",
+                                            paddingBottom: "3%",
+                                            minWidth: "40px",
+                                        }}
+                                    >
+                                        {optionsIcon[index]}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={option}
+                                        primaryTypographyProps={{
+                                            variant: "inherit",
+                                        }}
+                                        style={{
+                                            marginTop: "1%",
+                                            marginBottom: 0,
+                                            paddingTop: 0,
+                                            paddingBottom: 0,
+                                            color: "#000",
+                                        }}
+                                        className={classes.item2}
+                                    />
+                                </ListItem>
+                            </Link>
                         ))}
                     </List>
                 </Grid>

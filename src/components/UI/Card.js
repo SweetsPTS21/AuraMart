@@ -61,6 +61,7 @@ const Card = (props) => {
         message.destroy();
     }, []);
 
+    // Card section for default product
     const type1 = (
         <Ripples>
             <Link
