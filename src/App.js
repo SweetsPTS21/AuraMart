@@ -14,7 +14,7 @@ import Checkout from "./components/pages/Checkout";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import {store, persistor} from "./store";
+import { store, persistor } from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { logoutUser, setCurrentUser } from "./store/actions/authActions";
 import { getAllProducts } from "./store/actions/productActions";
@@ -27,6 +27,7 @@ import AdminPage from "./components/pages/AdminPage";
 import { getAllOrders } from "./store/actions/orderActions";
 import UnderDevelopmentPage from "./components/pages/UnderDevelopmentPage";
 import SellerDashbroad from "./components/UI/SellerDashboard";
+import SellerPage from "./components/pages/SellerPage";
 
 const actionsOnPageLoad = () => {
     store.dispatch(getAllProducts());
@@ -69,6 +70,7 @@ function App() {
                                     {...routeProps}
                                     showForm={false}
                                     checkIsAdmin={false}
+                                    checkIsSeller={false}
                                 />
                             )}
                         />
@@ -93,8 +95,15 @@ function App() {
                         <PrivateRoute
                             exact
                             path={"/seller/:type"}
-                            component={SellerDashbroad}
-                            //checkIsAdmin
+                            component={SellerPage}
+                            checkIsSeller
+                        />
+                        <Route
+                            exact
+                            path={"/seller/register/:type"}
+                            render={(routeProps) => (
+                                <SellerPage type={9} />
+                            )}
                         />
                         {/*<Route*/}
                         {/*    exact*/}

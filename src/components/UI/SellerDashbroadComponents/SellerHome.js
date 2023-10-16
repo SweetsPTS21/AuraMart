@@ -4,13 +4,14 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         marginTop: "20px",
     },
 
     container: {
-        width: "1333px",
+        width: "100%",
         margin: "0 auto",
         display: "flex",
         justifyContent: "center",

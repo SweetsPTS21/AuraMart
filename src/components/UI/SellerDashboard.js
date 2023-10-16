@@ -31,20 +31,21 @@ import Stocks from "./SellerDashbroadComponents/Stocks";
 import BillingInformation from "./SellerDashbroadComponents/BillingInfomation";
 import CustomerService from "./SellerDashbroadComponents/CustomerService";
 import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
+import SellerRegister from "./SellerDashbroadComponents/SellerRegister";
 
 const SellerDashbroad = (props) => {
-    const index = props.match.params.type;
+    const index = parseInt(props.index);
     const classes = userStyles();
+    const user = useSelector((state) => state.auth.userData);
+    const shop = useSelector((state) => state.shops.userShop);
     const [selectedIndex, setSelectedIndex] = useState(
         index ? index : 0
     );
 
-    const user = useSelector((state) => state.auth.userData);
-
     useEffect(() => {
-        setSelectedIndex(index);
+        setSelectedIndex(shop ? index: 9);
     }, [index]);
-    const options = [
+    const options = shop ? [
         "Home page",
         "Orders Management",
         "Products Management",
@@ -53,7 +54,7 @@ const SellerDashbroad = (props) => {
         "Billing Information",
         "Customer Service",
         "Help Center",
-    ];
+    ] : ["Register as a seller"];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
         <NotificationsIcon className={classes.item} />,
@@ -65,7 +66,7 @@ const SellerDashbroad = (props) => {
         <QuestionAnswerIcon className={classes.item} />
     ];
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
+        setSelectedIndex(options.length==1 ? 9 : index);
         // setToggleDrawer(true)
     };
     const renderMenuItemComponent = () => {
@@ -86,15 +87,17 @@ const SellerDashbroad = (props) => {
                 return <CustomerService />;
             case 7:
                 return <HelpCenter />;
+            case 9:
+                return <SellerRegister />;
             default:
                 return <p>default</p>;
         }
     };
     return (
-        <div style={{ width: "80%", marginBottom: "2em", zIndex: "0" }}>
+        <div style={{width: "100%", marginBottom: "2em", zIndex: "0" }}>
             <Grid
                 container
-                style={{ marginTop: "0.7em", marginLeft: "6em" }}
+                style={{ margin: "0 auto", width: "1333px"}}
                 spacing={5}
             >
                 <Grid item xs={3} style={{ margin: 0 }}>

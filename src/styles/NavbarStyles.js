@@ -26,6 +26,17 @@ const useStyles = makeStyles((theme) => ({
     // toolbar: {
     //   width: "100%"
     // },
+    button: {
+        width: "100%",
+        color: "#86868f",
+        marginBottom: "0.2em",
+        textTransform: "none",
+        textAlign: "left",
+        "&:hover": {
+            backgroundColor: "#F",
+            borderRadius: "0.5em",
+        },
+    },
     search: {
         position: "relative",
         borderRadius: theme.shape.borderRadius,
@@ -139,9 +150,9 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         zIndex: "999999 !important",
         top: "4em",
-        right: 0,
+        left: 0,
         bottom: 0,
-        left: "70%",
+        left: "60%",
         boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         borderRadius: "0.5em",

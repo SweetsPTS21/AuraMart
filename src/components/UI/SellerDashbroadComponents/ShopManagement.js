@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     container: {
-        width: "1333px",
+        width: "100%",
         margin: "0 auto",
         display: "flex",
         justifyContent: "center",
@@ -48,9 +48,6 @@ const useStyles = makeStyles((theme) => ({
         color: "#ff9100",
         borderColor: "#ff9100",
         marginRight: "1em",
-        "&:focus": {
-            outline: "none",
-        },
     },
     title: {
         fontSize: "1.5em",
@@ -91,8 +88,24 @@ const useStyles = makeStyles((theme) => ({
 const ShopConfig = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    
     const shop = props.shop;
-    const [configs, setConfigs] = useState(props.configs);
+    const intilizeConfigs = [
+        {
+            name: "",
+            description: "",
+            address: "",
+            phone: "",
+            avatar: "",
+            decoration: ['decor1', 'decor2'],
+            banner: ['banner1', 'banner2'],
+            using: false,
+        },
+    ];
+
+    const [configs, setConfigs] = useState(
+        props.configs.length > 0 ? props.configs : intilizeConfigs
+    );
     const [name, setName] = useState(shop.name);
     const [description, setDescription] = useState(shop.description);
     const [address, setAddress] = useState(shop.address);
@@ -105,10 +118,15 @@ const ShopConfig = (props) => {
     );
     const [shopBanners, setShopBanners] = useState(currentConfig.banner);
 
+
     const handleSubmit = () => {};
     const handleChangeConfig = (item, index) => {
         //save change in previous config
-        const updateConfig = {...currentConfig, banner: shopBanners, decoration: shopDecorations};
+        const updateConfig = {
+            ...currentConfig,
+            banner: shopBanners,
+            decoration: shopDecorations,
+        };
         configs[configIndex] = updateConfig;
         configs[configIndex].using = false;
         setConfigs(configs);
@@ -280,7 +298,9 @@ const ShopConfig = (props) => {
                                 <Button
                                     key={index}
                                     variant="outlined"
-                                    onClick={() => handleChangeConfig(item, index)}
+                                    onClick={() =>
+                                        handleChangeConfig(item, index)
+                                    }
                                     className={
                                         item.using
                                             ? classes.buttonActive
@@ -312,7 +332,7 @@ const ShopConfig = (props) => {
                     <Grid item xs={12} className={classes.config__banner}>
                         <Typography>Banner</Typography>
                         {shopBanners.map((banner, index) => (
-                            <div style={{display: "flex"}}>
+                            <div style={{ display: "flex" }}>
                                 <TextField
                                     size="small"
                                     label="image link"
@@ -325,7 +345,7 @@ const ShopConfig = (props) => {
                                         handleChangeBanner(event, index)
                                     }
                                 />
-                                <Button                               
+                                <Button
                                     onClick={() => handleRemoveConfig(index)}
                                     className={classes.button}
                                     style={{ width: "40px" }}
@@ -406,11 +426,13 @@ const ShopManagement = () => {
         <div className={classes.root}>
             <Grid container spacing={3} className={classes.container}>
                 {shop ? (
-                    <>
-                        <ShopConfig shop={shop} configs={configsInShop} />
-                        <ShopTags />
-                        <ShopVouchers />
-                    </>
+                    configsInShop && (
+                        <>
+                            <ShopConfig shop={shop} configs={configsInShop} />
+                            <ShopTags />
+                            <ShopVouchers />
+                        </>
+                    )
                 ) : (
                     <h2>User don't own any shop</h2>
                 )}

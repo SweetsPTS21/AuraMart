@@ -61,6 +61,7 @@ const NavBar = (props) => {
     );
     const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
     const allProducts = useSelector((state) => state.products.products);
+    const user = useSelector((state) => state.auth.userData);
 
     const handleOpenModal = () => {
         setOpen(true);
@@ -102,7 +103,12 @@ const NavBar = (props) => {
         props.checkIsAdmin !== undefined &&
             props.checkIsAdmin &&
             message.error(
-                "you to be logged in as an admin to access this route"
+                "you need to be logged in as an admin to access this route"
+            );
+        props.checkIsSeller !== undefined &&
+            props.checkIsSeller &&
+            message.error(
+                "you need to be logged in as an seller to access this route"
             );
     }, []);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -201,20 +207,18 @@ const NavBar = (props) => {
             }}
             style={{
                 width: "20em",
-                height: "30em",
-                textAlign: "center",
-                padding: "1.2em",
-                backgroundColor: "rgba(255,255,255,0.8)",
+                height: "8em",
+                textAlign: "left",
+                padding: "0.5em",
+                backgroundColor: "#FFF",
                 margin: 0,
                 zIndex: "999999",
                 display: "None",
             }}
         >
             <Button
-                variant="contained"
-                size={"small"}
-                style={{ backgroundColor: "#FDDE54" }}
-                startIcon={<PersonAddDisabledIcon />}
+                size={"medium"}
+                className={classes.button}
                 onClick={() => dispatch(authActions.logoutUser())}
             >
                 Logout
@@ -224,177 +228,31 @@ const NavBar = (props) => {
                 onClick={(e) => e.stopPropagation()}
                 className={classes.removeDefaultLink}
             >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{ backgroundColor: "#FDDE54", width: "100%" }}
-                    startIcon={<PersonIcon />}
-                >
+                <Button size={"medium"} className={classes.button}>
                     My account
                 </Button>
             </Link>
-
-            <Link
-                to={"/dashboard/5"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    className={classes.button}
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
+            {user && user.role != 'user' ?(
+                <Link
+                    to={"/seller/0"}
+                    onClick={(e) => e.stopPropagation()}
+                    className={classes.removeDefaultLink}
                 >
-                    Review product purchased
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/6"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
+                    <Button size={"medium"} className={classes.button}>
+                        My Shop {user.role ? `(${user.role})` : "null"}
+                    </Button>
+                </Link>
+            ) : (
+                <Link
+                    to={"/seller/register/0"}
+                    onClick={(e) => e.stopPropagation()}
+                    className={classes.removeDefaultLink}
                 >
-                    Viewed Products
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/7"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    Favorite Products
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/8"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    Product to buy later
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/9"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    My comment
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/11"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    <img
-                        src={Tikinow2}
-                        alt="ticketBox"
-                        style={{ width: "10%", marginRight: "1em" }}
-                    />{" "}
-                    <span>Tiki Now</span>
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/12"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    <img
-                        src={TikiXu}
-                        alt="ticketBox"
-                        style={{ width: "10%", marginRight: "1em" }}
-                    />
-                    Tiki Xu
-                </Button>
-            </Link>
-
-            <Link
-                to={"/dashboard/13"}
-                onClick={(e) => e.stopPropagation()}
-                className={classes.removeDefaultLink}
-            >
-                <Button
-                    size={"small"}
-                    startIcon={
-                        <img
-                            src={Bookcare}
-                            alt="ticketBox"
-                            style={{ width: "70%", margin: 0 }}
-                        />
-                    }
-                    variant="contained"
-                    style={{
-                        color: "black",
-                        width: "100%",
-                        backgroundColor: "#D5D5D5",
-                    }}
-                >
-                    Bookcare
-                </Button>
-            </Link>
+                    <Button size={"medium"} className={classes.button}>
+                        Become a seller
+                    </Button>
+                </Link>
+            )}
         </section>
     ) : (
         <div></div>
@@ -889,193 +747,6 @@ const NavBar = (props) => {
                     <MoreIcon />
                 </IconButton>
             </div>
-        </Toolbar>
-    );
-
-    const NavSection4 = (
-        <Toolbar
-            className={classNames(classes.toolbar, classes.sectionDesktop)}
-            onMouseEnter={() => {
-                isShowMenu(false);
-            }}
-            style={{ backgroundColor: "#189EFF", padding: "0 8%" }}
-        >
-            <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-                onMouseEnter={() => {
-                    props.location.pathname !== "/" &&
-                        setProductNavigation(true);
-                }}
-            >
-                <MenuIcon />
-            </IconButton>
-            <Typography className={classes.title2} noWrap>
-                <Link
-                    to={"/product/book"}
-                    className={classes.removeDefaultLink}
-                >
-                    PRODUCT CATEGORY
-                </Link>
-            </Typography>
-            <section
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexDirection: "row",
-                    width: "80%",
-                    alignItems: "center",
-                }}
-            >
-                <Typography className={classes.title2} noWrap>
-                    <Link
-                        to={"/underDevelopment"}
-                        className={classes.removeDefaultLink}
-                    >
-                        <IconButton
-                            aria-label="where do you want to shop to?"
-                            color="inherit"
-                            style={{ paddingRight: 0 }}
-                        >
-                            <Icon
-                                className={"fas fa-map-marker-alt"}
-                                style={{ fontSize: 20, width: "1.5em" }}
-                            />
-                        </IconButton>
-                        Where do you want to shop to?
-                    </Link>
-                </Typography>
-                <Typography
-                    className={classes.title2}
-                    component={"span"}
-                    noWrap
-                    onMouseEnter={() => {
-                        setProductModal(true);
-                    }}
-                >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <Icon
-                            className={"fas fa-angle-down"}
-                            style={{ fontSize: 20, width: "1.5em" }}
-                        />
-                    </IconButton>
-                    Products you have viewed
-                </Typography>
-                <section
-                    style={{
-                        alignItems: "center",
-                        flexDirection: "row",
-                        display: "flex",
-                    }}
-                >
-                    <Link
-                        to={"/underDevelopment"}
-                        className={classes.removeDefaultLink}
-                    >
-                        <IconButton
-                            aria-label="where do you want to shop to?"
-                            color="inherit"
-                            style={{ padding: 0, marginRight: "0.53em" }}
-                        >
-                            <img
-                                src={tikiNow}
-                                alt="tikiNow"
-                                style={{
-                                    height: "100%",
-                                    width: "100%",
-                                    backgroundColor: "white",
-                                    padding: "0.28em",
-                                    marginBottom: "0.5em",
-                                    borderRadius: "30%",
-                                }}
-                            />
-                        </IconButton>
-                        <Typography
-                            className={classes.title2}
-                            style={{ display: "inline-block" }}
-                        >
-                            TIKInow fast delivery Hundreds <br />
-                            of thousands of products
-                        </Typography>
-                    </Link>
-                </section>
-                <section
-                    style={{
-                        alignItems: "center",
-                        flexDirection: "row",
-                        display: "flex",
-                    }}
-                >
-                    <Link
-                        to={"/underDevelopment"}
-                        className={classes.removeDefaultLink}
-                    >
-                        <IconButton
-                            aria-label="All products are 100% genuine"
-                            color="inherit"
-                            style={{ padding: "0.3em" }}
-                        >
-                            <Icon
-                                className={"fas fa-medal"}
-                                style={{
-                                    fontSize: 20,
-                                    width: "1.5em",
-                                    color: "#F2D33B",
-                                    marginBottom: "0.5em",
-                                }}
-                            />
-                        </IconButton>
-                        <Typography
-                            className={classes.title2}
-                            style={{ display: "inline-block" }}
-                        >
-                            All products are <br />
-                            100% genuine
-                        </Typography>
-                    </Link>
-                </section>
-                <section
-                    style={{
-                        alignItems: "center",
-                        flexDirection: "row",
-                        display: "flex",
-                    }}
-                >
-                    <Link
-                        to={"/underDevelopment"}
-                        className={classes.removeDefaultLink}
-                    >
-                        <IconButton
-                            aria-label="All products are 100% genuine"
-                            color="inherit"
-                            style={{ padding: "0.3em" }}
-                        >
-                            <Icon
-                                className={"fas fa-box-open"}
-                                style={{
-                                    fontSize: 20,
-                                    width: "1.5em",
-                                    color: "#F2D33B",
-                                    marginBottom: "0.5em",
-                                }}
-                            />
-                        </IconButton>
-                        <Typography
-                            className={classes.title2}
-                            style={{ display: "inline-block" }}
-                        >
-                            30 days exchange
-                            <br /> easily
-                        </Typography>
-                    </Link>
-                </section>
-            </section>
         </Toolbar>
     );
 

@@ -4,10 +4,10 @@ import { useSelector} from 'react-redux';
 import HomePage from "../pages/HomePage";
 
 
-const PrivateRoute = ({component: Component, checkIsAdmin, ...rest}) => {
+const PrivateRoute = ({component: Component, checkIsAdmin,checkIsSeller, ...rest}) => {
     const isLoggedIn = useSelector(state => state.auth.isAuthenticated);
     const isAdmin = useSelector(state => !!state.auth.userData.role ? state.auth.userData.role === "admin" : null);
-
+    const isSeller = useSelector(state => !!state.auth.userData.role ? state.auth.userData.role === "seller" : null);
     if (isAdmin && isLoggedIn && !!checkIsAdmin) {      // if you are an admin and logged in
 
         return (
@@ -16,11 +16,19 @@ const PrivateRoute = ({component: Component, checkIsAdmin, ...rest}) => {
                 render={props => <Component {...props}/>}
             />
         )
-    } else if (isLoggedIn && !isAdmin && isAdmin!== null && !!checkIsAdmin) {  // if you are not an admin and logged in
+    }  else if (isLoggedIn && isSeller && !!checkIsSeller) {      // if you are a seller and logged in
         return (
             <Route
                 {...rest}
-                render={props => < HomePage {...props} showForm={false} checkIsAdmin={true}/>}
+                render={props => <Component {...props}/>}
+            />
+        )
+
+    } else if (isLoggedIn && !isAdmin && isAdmin!== null && (!!checkIsAdmin || !!checkIsSeller)) {  // if you are not an admin and logged in
+        return (
+            <Route
+                {...rest}
+                render={props => < HomePage {...props} showForm={false} checkIsAdmin={true} checkIsSeller={true}/>}
             />
         )
     }
@@ -34,7 +42,7 @@ const PrivateRoute = ({component: Component, checkIsAdmin, ...rest}) => {
                     isLoggedIn ?
                         <Component {...props}/> :
                         <>
-                            < HomePage {...props} showForm={true} checkIsAdmin={false}/>
+                            < HomePage {...props} showForm={true} checkIsAdmin={false} checkIsSeller={false}/>
                         </>
                 }
             />

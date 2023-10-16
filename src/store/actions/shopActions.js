@@ -42,7 +42,7 @@ export const getShopById = (id) => async (dispatch) => {
         });
 };
 
-// 🔓
+// 🔓 seller/admin only
 export const getShopByUserId = (userId) => async (dispatch) => {
     const url = `${api_url}/api/v1/users/${userId}/shop`;
     await axios
