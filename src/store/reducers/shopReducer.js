@@ -1,8 +1,13 @@
-import { GET_ALL_SHOPS, GET_SHOP_BY_ID } from "../actions/shopActions";
+import {
+    GET_ALL_SHOPS,
+    GET_SHOP_BY_ID,
+    GET_SHOP_BY_USER_ID,
+} from "../actions/shopActions";
 
 const initialState = {
     shops: null,
     currentShop: null,
+    userShop: null,
 };
 
 export default function (state = initialState, action) {
@@ -16,7 +21,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 currentShop: action.shops,
-            };      
+            };
+        case GET_SHOP_BY_USER_ID:
+            return {
+                ...state,
+                userShop: action.shops,
+            };
         default:
             return state;
     }

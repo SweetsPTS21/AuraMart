@@ -103,6 +103,34 @@ const useStyles = makeStyles((theme) => ({
     },
     title: { fontSize: "1.5em", color: "#858585", lineHeight: "0.5cm" },
 
+    shopInfo__avatar: {
+        width: "64px",
+        height: "64px",
+        borderRadius: "50%",
+        overflow: "hidden",
+        "& img": {
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+        },
+    },
+
+    shopInfo__name: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        "& p": {
+            fontSize: "1.5em",
+            fontWeight: "bold",
+            margin: "0",
+        },
+        "& span": {
+            fontSize: "0.8em",
+            color: "#9E9E9E",
+        },
+    },
+
     figure: {
         width: "100%",
         backgroundRepeat: "no-repeat",
@@ -837,28 +865,25 @@ const RecommendProducts = () => {
 };
 const ShopInfo = (props) => {
     const classes = useStyles();
+    const shop = props.shop;
+    const shopAvatar = props.shop.avatar;
     return (
         <div className={classes.block}>
-            <h2>Shop info</h2>
+            <div>SHOP INFO</div>
             <Grid container className="">
                 <Grid item xs={2}>
-                    <Link to={`/tiki/shops/${props.shop.id}`}>
-                        <div
-                            style={{
-                                width: "40px",
-                                height: "40px",
-                                margin: "5px",
-                                borderRadius: "50%",
-                                backgroundColor: "yellow",
-                            }}
-                        ></div>
+                    <Link to={`/tiki/shops/${shop.id}`}>
+                        <div className={classes.shopInfo__avatar}>
+                            <img src={shopAvatar} alt="" />
+                        </div>
                     </Link>
                 </Grid>
-                <Grid item xs={8}>
-                    <h4>{props.shop.name}</h4>
+                <Grid item xs={8} className={classes.shopInfo__name}>
+                    <p>{shop.name}</p>
+                    <span>{shop.description}</span>
                 </Grid>
-                <Grid item xs={2}>  
-                    <h4>Follow</h4>
+                <Grid item xs={2}>
+                    <Button color="primary" size="medium" variant="outlined">Folow</Button>
                 </Grid>
             </Grid>
         </div>

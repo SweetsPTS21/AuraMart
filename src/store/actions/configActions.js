@@ -76,3 +76,20 @@ export const createNewConfig = (config, id) => async (dispatch) => {
             message.error("Error creating config");
         });
 };
+
+// 🔒
+export const updateConfigById = (shopId, config, id) => async (dispatch) => {
+    const url = `${api_url}/api/v1/shops/${shopId}/configs/${id}`;
+    await axios
+        .put(url, config)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error updating config");
+            }
+            dispatch(getAllConfigs());
+            message.success("config updated successfully");
+        })
+        .catch((err) => {
+            message.error("Error updating config");
+        });
+};

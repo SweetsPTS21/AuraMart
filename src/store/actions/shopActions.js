@@ -3,6 +3,7 @@ import { message } from "antd";
 
 export const GET_ALL_SHOPS = "GET_ALL_SHOPS";
 export const GET_SHOP_BY_ID = "GET_SHOP_BY_ID";
+export const GET_SHOP_BY_USER_ID = "GET_SHOP_BY_USER_ID";
 
 const api_url = process.env.REACT_APP_API;
 
@@ -31,6 +32,24 @@ export const getShopById = (id) => async (dispatch) => {
         .then((res) => {
             dispatch({
                 type: GET_SHOP_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                shops: res.data.data,
+            });
+
+            // message.success("Got shop");
+        })
+        .catch((err) => {
+            message.error("Error getting shop");
+        });
+};
+
+// 🔓
+export const getShopByUserId = (userId) => async (dispatch) => {
+    const url = `${api_url}/api/v1/users/${userId}/shop`;
+    await axios
+        .get(url)
+        .then((res) => {
+            dispatch({
+                type: GET_SHOP_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
                 shops: res.data.data,
             });
 

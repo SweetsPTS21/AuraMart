@@ -26,6 +26,7 @@ import { getAllConfigs } from "./store/actions/configActions";
 import AdminPage from "./components/pages/AdminPage";
 import { getAllOrders } from "./store/actions/orderActions";
 import UnderDevelopmentPage from "./components/pages/UnderDevelopmentPage";
+import SellerDashbroad from "./components/UI/SellerDashboard";
 
 const actionsOnPageLoad = () => {
     store.dispatch(getAllProducts());
@@ -88,6 +89,12 @@ function App() {
                             path={"/admin"}
                             component={AdminPage}
                             checkIsAdmin
+                        />
+                        <PrivateRoute
+                            exact
+                            path={"/seller/:type"}
+                            component={SellerDashbroad}
+                            //checkIsAdmin
                         />
                         {/*<Route*/}
                         {/*    exact*/}

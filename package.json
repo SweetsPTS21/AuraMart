@@ -48,6 +48,7 @@
         "react-ripples": "^2.2.1",
         "react-router-dom": "^5.1.2",
         "react-scripts": "5.0.1",
+        "react-scroll": "^1.9.0",
         "react-transition-group": "^4.4.5",
         "react-ui-cards": "^3.1.0",
         "react-uuid": "^2.0.0",
