@@ -10,6 +10,7 @@ import addressReducer from "./addressReducer";
 import configReducer from "./configReducer";
 import userReducer from "./userReducer";
 import statsReducer from "./statsReducer";
+import voucherReducer from "./voucherReducer";
 
 export default combineReducers({
     auth: authReducer, // to call is from our component we use this.props.auth
@@ -23,4 +24,5 @@ export default combineReducers({
     address: addressReducer,
     stats: statsReducer,
     configs: configReducer,
+    vouchers: voucherReducer,
 });

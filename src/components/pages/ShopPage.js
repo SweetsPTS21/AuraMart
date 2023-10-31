@@ -31,7 +31,9 @@ import Voucher from "../UI/Voucher";
 import * as shopActions from "../../store/actions/shopActions";
 import * as productAction from "../../store/actions/productActions";
 import * as configActions from "../../store/actions/configActions";
+import * as voucherActions from "../../store/actions/voucherActions";
 import Banner from "../UI/Banner";
+import { Typography } from "@material-ui/core";
 const defaultBackground = "https://getwallpapers.com/wallpaper/full/7/1/6/464954.jpg";
 const defaultAvatar = "https://www.w3schools.com/howto/img_avatar.png";
 
@@ -53,6 +55,10 @@ const useStyle = makeStyles((theme) => ({
 
     section: {
         width: "100%",
+    },
+    voucher__tittle: {
+        marginLeft: "1.8em",
+        marginBottom: "0.8em",
     },
     voucher__container: {
         display: "flex",
@@ -345,7 +351,7 @@ const ShopVoucher = (props) => {
     const [scrollX, setScrollX] = useState(0);
     const listRef = useRef(null);
     const classes = useStyle();
-    const vouchers = props.vouchersInShop;
+    const vouchers = props.vouchersInShop ? props.vouchersInShop : [];
 
     const handleScroll = (direction) => {
         const scrollAmount = direction === "left" ? -110 : 110;
@@ -355,7 +361,8 @@ const ShopVoucher = (props) => {
     const canScrollLeft = scrollX > 0;
     const canScrollRight = scrollX < (vouchers.length - 2) * 110 - 32;
     return (
-        <Grid item xs={12} className={classes.block}>
+        <Grid item xs={12} className={classes.block} style={{display: "flex", flexDirection: "column", padding: "1em"}}>
+            <Typography variant="h5" className={classes.voucher__tittle}>Shop vouchers</Typography>
             {vouchers && vouchers.length > 0 ? (
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <IconButton
@@ -384,7 +391,8 @@ const ShopVoucher = (props) => {
                                     <div className={classes.voucher__container}>
                                         <Voucher
                                             key={index}
-                                            code={item}
+                                            voucher={item}
+                                            type={"shop"}
                                             // description={voucher.description}
                                             // expiredDate={voucher.expiredDate}
                                             style={{ height: "110px" }}
@@ -436,9 +444,7 @@ const ShopPage = (props) => {
     const decorationsInShop = currentConfig
         ? currentConfig.flatMap((item) => item.decoration)
         : [];
-    const vouchersInShop = currentConfig
-        ? currentConfig.flatMap((item) => item.vouchers)
-        : [];
+    const vouchersInShop = useSelector((state) => state.vouchers.shopVouchers);
     const bannersInShop = currentConfig
         ? currentConfig.flatMap((item) => item.banner)
         : [];
@@ -446,11 +452,15 @@ const ShopPage = (props) => {
     useEffect(() => {
         dispatch(shopActions.getShopById(shopId));
         dispatch(productAction.getProductsByShopId(shopId));
-    }, []);
+    }, [shopId]);
 
     useEffect(() => {
         dispatch(configActions.getConfigsByShopId(shopId));
-    }, []);
+    }, [shopId]);
+
+    useEffect(() => {
+        dispatch(voucherActions.getVouchersByShopId(shopId));
+    }, [shopId]);
 
     return (
         <div

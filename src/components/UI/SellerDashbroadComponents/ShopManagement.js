@@ -14,6 +14,7 @@ import * as configActions from "../../../store/actions/configActions";
 import { set } from "date-fns";
 import { TextField, Typography } from "@material-ui/core";
 import { message } from "antd";
+import MyVoucher from "../AccountDashboardComponents/MyVoucher";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -399,7 +400,10 @@ const ShopVouchers = () => {
     const classes = useStyles();
     return (
         <Grid item xs={12} className={classes.block}>
-            <div className={classes.config__header}>Shop vouchers</div>
+            <Grid item xs={12} className={classes.config__header}>Shop vouchers</Grid>
+            <Grid item xs={12} className={classes.config__content}>
+                <MyVoucher type={"shop"}/>
+            </Grid>
         </Grid>
     );
 };

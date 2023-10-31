@@ -37,6 +37,7 @@ import InformationTikiNow from "./AccountDashboardComponents/InformationTikiNow"
 import MyTikiXuManager from "./AccountDashboardComponents/MyTikiXuManager";
 import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
+import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 
 const AccountDashBoard = (props) => {
     const classes = userStyles();
@@ -54,6 +55,7 @@ const AccountDashBoard = (props) => {
         "My notice",
         "Order Management",
         "Address",
+        "My vouchers",
         "Billing Information",
         "Review Products purchased",
         "Products you have viewed",
@@ -70,6 +72,7 @@ const AccountDashBoard = (props) => {
         <NotificationsIcon className={classes.item} />,
         <MenuBookIcon className={classes.item} />,
         <RoomIcon className={classes.item} />,
+        <CreditCardIcon className={classes.item} />,
         <CreditCardIcon className={classes.item} />,
         <EventNoteIcon className={classes.item} />,
         <VisibilityIcon className={classes.item} />,
@@ -95,25 +98,27 @@ const AccountDashBoard = (props) => {
                 return <OrderManagement />;
             case 3:
                 return <Address />;
-            case 4:
-                return <BillingInformation />;
+            case 4: //voucher
+                return <MyVoucher type={"user"}/>;
             case 5:
-                return <ReviewProductPurchased />;
+                return <BillingInformation />;
             case 6:
-                return <ProductsViewed />;
+                return <ReviewProductPurchased />;
             case 7:
-                return <FavoriteProducts />;
+                return <ProductsViewed />;
             case 8:
-                return <ProductsToBuyLater />;
+                return <FavoriteProducts />;
             case 9:
-                return <MyComment />;
+                return <ProductsToBuyLater />;
             case 10:
-                return <QuestionAndAnswer />;
+                return <MyComment />;
             case 11:
-                return <InformationTikiNow />;
+                return <QuestionAndAnswer />;
             case 12:
-                return <MyTikiXuManager />;
+                return <InformationTikiNow />;
             case 13:
+                return <MyTikiXuManager />;
+            case 14:
                 return <MyBookCare />;
             default:
                 return <p>default</p>;

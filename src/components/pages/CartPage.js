@@ -4,6 +4,7 @@ import {
     createTheme,
     MuiThemeProvider,
 } from "@material-ui/core/styles";
+import { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import NavBar from "../layout/NavBar";
@@ -15,8 +16,17 @@ import noPhoto from "../../image/nophoto.png";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import * as cartActions from "../../store/actions/cartActions";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { TextField } from "@material-ui/core";
+import MyVoucher from "../UI/AccountDashboardComponents/MyVoucher";
+import { Typography } from "antd";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,14 +41,25 @@ const useStyles = makeStyles((theme) => ({
         color: "inherit !important",
     },
     cartLabel: {
-        marginTop: "0.5em",
-        marginBottom: "0.5em",
+        margin: 0,
+        paddingBottom: "1em",
+        borderBottom: "1px solid #ddd",
     },
     feePaper: {
         marginTop: 52,
     },
     boxFee: {
         padding: "5%",
+    },
+    shopVoucher: {
+        color: "red",
+        fontSize: "14px",
+        padding: "0.5em",
+        backgroundColor: "#f5f5f5",
+        borderRadius: "0.5em",
+    },
+    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
+        maxWidth: "900px !important"
     },
 }));
 
@@ -49,6 +70,14 @@ const formatVND = (x) => {
     });
 
     return formatter.format(x);
+};
+
+const updateTotalAmount = (item) => {
+    let totalAmount = 0;
+    item.forEach((element) => {
+        totalAmount += parseInt(element.total);
+    });
+    return totalAmount;
 };
 
 const paperStyle = createTheme({
@@ -65,14 +94,64 @@ const paperStyle = createTheme({
     },
 });
 
+const ApplyVoucher = (props) => {
+    const classes = useStyles();
+    const user = useSelector((state) => state.auth.user);
+    const [shopTotal, setShopTotal] = useState(props.shopTotalAmount);
+
+    const handleClose = () => {
+        props.setOpen(false);
+    };
+    const handleSubmit = () => {};
+
+    return (
+        <div>
+            <Dialog open={props.open} onClose={handleClose}>
+                <DialogTitle>Apply your voucher</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Current shop total: {formatVND(shopTotal)}
+                    </DialogContentText>
+                    <MyVoucher
+                        type={"user"}
+                        action={"apply"}
+                        total={shopTotal}
+                        setTotal={setShopTotal}
+                        user={user}
+                        {...props}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleSubmit}>Submit</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+};
+
 const CartPage = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const [openDialog, setOpenDialog] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
     const cartTotalAmountDiscounted = useSelector(
         (state) => state.cart.totalAmount_discounted
     );
+
+    const finalTotal = useSelector((state) => state.cart.finalTotal);
+    const totalShopDiscount = useSelector(
+        (state) => state.cart.totalShopDiscount
+    );
+
+    const handleAddShopVoucherClick = (index) => {
+        setCurrentIndex(index);
+        setOpenDialog(true);
+    };
+
+    // const [totalShopAmount, setTotalShopAmount] = useState(null);
     const cartItems = useSelector((state) => {
         // transform the object of object to array of object
         const transformedCartItems = [];
@@ -93,14 +172,29 @@ const CartPage = (props) => {
         );
     });
 
+    const TotalShopAmount = () => {
+        const total = [];
+        for (let key in groupByShop) {
+            const items = groupByShop[key];
+            total.push({
+                shop: key,
+                total: items.reduce(
+                    (sum, item) => sum + item.sum_discounted,
+                    0
+                ),
+            });
+        }
+        return total;
+    };
+
     const groupByShop = useSelector((state) => {
         const groupByShop = {};
         for (let key in state.cart.items) {
-            const shopName = state.cart.items[key].product.shop.name;
-            if (groupByShop[shopName] === undefined) {
-                groupByShop[shopName] = [];
+            const shopId = state.cart.items[key].product.shop.id;
+            if (groupByShop[shopId] === undefined) {
+                groupByShop[shopId] = [];
             }
-            groupByShop[shopName].push(state.cart.items[key]);
+            groupByShop[shopId].push(state.cart.items[key]);
         }
         return groupByShop;
     });
@@ -109,58 +203,113 @@ const CartPage = (props) => {
         groupByShop &&
         Object.keys(groupByShop).map((key, index) => {
             const items = groupByShop[key];
+            // totalShopAmount.push({shop: key, total: items.reduce((sum, item) => sum + item.sum_discounted, 0)})
             return (
-                <MuiThemeProvider theme={paperStyle}>
-                    <Paper
-                        className={classes.paper}
-                        elevation={0}
-                        square={true}
-                    >
-                        <h5 className={classes.cartLabel}>{key}</h5>
-                        {items.map((item, index) => {
-                            return (
-                                <Card
-                                    key={index}
-                                    style={{ marginTop: 0 }}
-                                    type={"cart"}
-                                    link={true}
-                                    name={item.product.name}
-                                    id={item.product.id}
-                                    title={item.product.name}
-                                    image={
-                                        item.product.photo === "no-photo.jpg"
-                                            ? noPhoto
-                                            : `${process.env.REACT_APP_API}/uploads/${item.product.photo}`
+                <>
+                    <MuiThemeProvider theme={paperStyle}>
+                        <Paper
+                            className={classes.paper}
+                            elevation={0}
+                            square={true}
+                        >
+                            <h5 className={classes.cartLabel}>
+                                {items[0].product.shop.name}
+                            </h5>
+                            {items.map((item, index) => {
+                                return (
+                                    <Card
+                                        key={index}
+                                        style={{ marginTop: 0 }}
+                                        type={"cart"}
+                                        link={true}
+                                        name={item.product.name}
+                                        id={item.product.id}
+                                        title={item.product.name}
+                                        image={
+                                            item.product.photo ===
+                                            "no-photo.jpg"
+                                                ? noPhoto
+                                                : `${process.env.REACT_APP_API}/uploads/${item.product.photo}`
+                                        }
+                                        soldBy={item.product.shop.name}
+                                        price={item.product.price}
+                                        discount={item.product.discount}
+                                        // discountedPrice={40003}
+                                        quantity={item.quantity}
+                                        addItem={() => {
+                                            dispatch(
+                                                cartActions.addToCart(
+                                                    item.product
+                                                )
+                                            );
+                                        }}
+                                        removeItem={() => {
+                                            dispatch(
+                                                cartActions.removeFromCart(
+                                                    item.productId
+                                                )
+                                            );
+                                        }}
+                                        deleteItem={() => {
+                                            dispatch(
+                                                cartActions.deleteFromCart(
+                                                    item.productId
+                                                )
+                                            );
+                                        }}
+                                    />
+                                );
+                            })}
+                            <Grid
+                                item
+                                style={{
+                                    paddingTop: "1em",
+                                    borderTop: "1px solid #ddd",
+                                }}
+                            >
+                                <span>Shop voucher: </span>
+                                <span
+                                    className={classes.shopVoucher}
+                                >
+                                    {totalShopDiscount &&
+                                        totalShopDiscount.map((item, index) => {
+                                            if (item.shop === key) {
+                                                return (
+                                                    <>
+                                                        <span>
+                                                            -{" "}
+                                                            {formatVND(
+                                                                item.discount
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                );
+                                            }
+                                        })}
+                                </span>
+                                <Button
+                                    variant="text"
+                                    style={{color: "red"}}
+                                    onClick={(e) =>
+                                        handleAddShopVoucherClick(index)
                                     }
-                                    soldBy={item.product.shop.name}
-                                    price={item.product.price}
-                                    discount={item.product.discount}
-                                    // discountedPrice={40003}
-                                    quantity={item.quantity}
-                                    addItem={() => {
-                                        dispatch(
-                                            cartActions.addToCart(item.product)
-                                        );
-                                    }}
-                                    removeItem={() => {
-                                        dispatch(
-                                            cartActions.removeFromCart(
-                                                item.productId
-                                            )
-                                        );
-                                    }}
-                                    deleteItem={() => {
-                                        dispatch(
-                                            cartActions.deleteFromCart(
-                                                item.productId
-                                            )
-                                        );
-                                    }}
-                                />
-                            );
-                        })}
-                    </Paper>
-                </MuiThemeProvider>
+                                >
+                                    Add
+                                </Button>
+                            </Grid>
+                        </Paper>
+                    </MuiThemeProvider>
+                    {openDialog && currentIndex === index && (
+                        <ApplyVoucher
+                            shopId={key}
+                            open={openDialog}
+                            setOpen={setOpenDialog}
+                            shopTotalAmount={
+                                TotalShopAmount()[currentIndex].total
+                            }
+                        />
+                    )}
+                </>
             );
         });
 
@@ -188,7 +337,7 @@ const CartPage = (props) => {
                                     float: "right",
                                 }}
                             >
-                                {formatVND(cartTotalAmountDiscounted)}
+                                {formatVND(finalTotal)}
                             </strong>
                             <small>(Đã bao gồm VAT)</small>
                         </>
@@ -201,7 +350,7 @@ const CartPage = (props) => {
                                     float: "right",
                                 }}
                             >
-                                {formatVND(cartTotalAmount)}
+                                {formatVND(finalTotal)}
                             </strong>
                             <small>(Đã bao gồm VAT)</small>
                         </>
@@ -215,7 +364,7 @@ const CartPage = (props) => {
             return (
                 <Grid container className={classes.root} alignItems="center">
                     <Grid item xs={12}>
-                        <h5 className={classes.cartLabel}>
+                        <h5 style={{ marginBottom: "1em" }}>
                             Your cart ({props.amount} products)
                         </h5>
                         <Paper
@@ -293,8 +442,10 @@ const CartPage = (props) => {
         return (
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={9}>
-                    <h5 className={classes.cartLabel}>Your cart</h5>
+                    <h5 style={{ marginBottom: "1em" }}>Your cart</h5>
                     {itemList}
+                    {"Total: " + updateTotalAmount(TotalShopAmount())}
+                    {"item: " + JSON.stringify(totalShopDiscount)}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper

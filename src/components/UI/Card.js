@@ -32,15 +32,17 @@ const Card = (props) => {
     );
 
     const discounted_price = () => {
-        let discounted_price = props.price - parseInt(props.price) * (parseInt(props.discount) / 100);
+        let discounted_price =
+            props.price -
+            parseInt(props.price) * (parseInt(props.discount) / 100);
         return formatVND(discounted_price);
     };
     const formatVND = (x) => {
-        let formatter = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-          });
-          
+        let formatter = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
+
         return formatter.format(x);
     };
 
@@ -157,7 +159,7 @@ const Card = (props) => {
             >
                 <div
                     className={classes.container}
-                    style={{...props.style}}
+                    style={{ ...props.style }}
                     onClick={
                         props.onClick !== undefined ? props.onClick : undefined
                     }
@@ -211,8 +213,8 @@ const Card = (props) => {
                                     {discounted_price()}
                                 </span>
                                 <span className={classes.discount}>
-                                        -{props.discount}%
-                                    </span>
+                                    -{props.discount}%
+                                </span>
                             </p>
                         ) : (
                             <p style={{ marginBottom: "0.5em" }}>
@@ -260,7 +262,13 @@ const Card = (props) => {
                                     />{" "}
                                 </div>
                             </Grid>
-                            <Grid item xs={10} md={9} lg={9} style={{ margin: 0 }}>
+                            <Grid
+                                item
+                                xs={10}
+                                md={9}
+                                lg={9}
+                                style={{ margin: 0 }}
+                            >
                                 <span className={classes.tikiNowTitle}>
                                     {"Giao siêu tốc 2h"}
                                 </span>
@@ -351,7 +359,7 @@ const Card = (props) => {
                             </>
                         )}
 
-                        <p style={{margin: 0}}>
+                        <p style={{ margin: 0 }}>
                             <IconButton
                                 aria-label=""
                                 color="inherit"
@@ -382,7 +390,13 @@ const Card = (props) => {
                                 Fast delivery 2h
                             </span>
                         </p>
-                        <div style={{ marginBottom: "0.2rem", display: "flex", justifyContent: "center" }}>
+                        <div
+                            style={{
+                                marginBottom: "0.2rem",
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
                             <Rating
                                 name="half-rating-read"
                                 defaultValue={
@@ -417,7 +431,7 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
-    
+
     //Card section for product in cart
     const type4 = (
         <div
@@ -496,7 +510,10 @@ const Card = (props) => {
                                 </Button>
                             </Grid>
                         </Grid>
-                        <Grid item style={{display: "flex", alignItems: "center"}}>
+                        <Grid
+                            item
+                            style={{ display: "flex", alignItems: "center" }}
+                        >
                             {discounted_price() !== "NaN" ? (
                                 <>
                                     <Typography
@@ -505,10 +522,10 @@ const Card = (props) => {
                                     >
                                         <strong>{discounted_price()}</strong>
                                         <span className={classes.priceOrigin}>
-                                        {" "}
-                                        {formatVND(props.price)}
-                                    </span>
-                                    </Typography>                                  
+                                            {" "}
+                                            {formatVND(props.price)}
+                                        </span>
+                                    </Typography>
                                 </>
                             ) : (
                                 <Typography
@@ -523,7 +540,10 @@ const Card = (props) => {
                             )}
                         </Grid>
                     </Grid>
-                    <Grid item style={{display: "flex", alignItems: "center"}}>
+                    <Grid
+                        item
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
                         <Button
                             onClick={(e) => {
                                 props.removeItem !== undefined &&

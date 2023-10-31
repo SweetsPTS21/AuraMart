@@ -164,8 +164,14 @@ function a11yProps(index) {
         "aria-controls": `vertical-tabpanel-${index}`,
     };
 }
-const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+const formatVND = (x) => {
+    let formatter = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+    });
+
+    return formatter.format(x);
 };
 
 const Bill = () => {
@@ -174,6 +180,7 @@ const Bill = () => {
     const cartTotalAmountDiscounted = useSelector(
         (state) => state.cart.totalAmount_discounted
     );
+    const finalTotal = useSelector((state) => state.cart.finalTotal);
     const cartItems = useSelector((state) => {
         // transform the object of object to array of object
         const transformedCartItems = [];
@@ -274,8 +281,8 @@ const Bill = () => {
                                     float: "right",
                                 }}
                             >
-                                {numberWithCommas(
-                                    cartTotalAmountDiscounted.toFixed(2)
+                                {formatVND(
+                                    finalTotal
                                 )}
                             </strong>
                             <small>(Included VAT)</small>
@@ -289,7 +296,7 @@ const Bill = () => {
                                     float: "right",
                                 }}
                             >
-                                {numberWithCommas(cartTotalAmount.toFixed(2))}
+                                {formatVND(finalTotal)}
                             </strong>
                             <small>(Included VAT)</small>
                         </>
@@ -1327,7 +1334,7 @@ const Checkout = (props) => {
             a.productId > b.productId ? 1 : -1
         );
     });
-    const total = useSelector((state) => state.cart.totalAmount_discounted);
+    const total = useSelector((state) => state.cart.finalTotal);
 
     const [activeStep, setActiveStep] = useState(1);
     const [loading, setLoading] = useState(false);

@@ -3,6 +3,7 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const DELETE_FROM_CART = 'DELETE_FROM_CART';
 export const GET_CART = 'GET_CART';
 export const CLEAR_CART = 'CLEAR_CART';
+export const UPDATE_FINAL_TOTAL = 'UPDATE_FINAL_TOTAL';
 
 export const addToCart = product => {
     return {
@@ -46,5 +47,14 @@ export const clearCart = ()=>{
     return{
         type: CLEAR_CART,
         cart: null
+    }
+};
+
+export const updateFinalTotal = (shopTotal, voucher, shopId)=>{
+    return {
+        type: 'UPDATE_FINAL_TOTAL',
+        shopTotal: shopTotal,
+        voucher: voucher,
+        shopId: shopId
     }
 };
