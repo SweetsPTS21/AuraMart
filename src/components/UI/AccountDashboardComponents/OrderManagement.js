@@ -206,7 +206,7 @@ const OrderManagement = (props) => {
             return allProduct.find((product) => product._id === productId);
         };
 
-        const product = getProductById(myOrder.product._id);
+        const product = getProductById(myOrder.product);
 
         const { shop, total, quantity, phone, address, _id, createdAt } =
             myOrder;

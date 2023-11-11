@@ -38,23 +38,24 @@ const SellerDashbroad = (props) => {
     const classes = userStyles();
     const user = useSelector((state) => state.auth.userData);
     const shop = useSelector((state) => state.shops.userShop);
-    const [selectedIndex, setSelectedIndex] = useState(
-        index ? index : 0
-    );
+    const [selectedIndex, setSelectedIndex] = useState(shop ? index : 9);
 
-    useEffect(() => {
-        setSelectedIndex(shop ? index: 9);
-    }, [index]);
-    const options = shop ? [
-        "Home page",
-        "Orders Management",
-        "Products Management",
-        "Shop Management",
-        "Stocks",
-        "Billing Information",
-        "Customer Service",
-        "Help Center",
-    ] : ["Register as a seller"];
+    // useEffect(() => {
+    //     setSelectedIndex(shop ? index: 9);
+    // }, [index]);
+
+    const options = shop
+        ? [
+              "Home page",
+              "Orders Management",
+              "Products Management",
+              "Shop Management",
+              "Stocks",
+              "Billing Information",
+              "Customer Service",
+              "Help Center",
+          ]
+        : ["Register as a seller"];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
         <NotificationsIcon className={classes.item} />,
@@ -63,10 +64,10 @@ const SellerDashbroad = (props) => {
         <CreditCardIcon className={classes.item} />,
         <EventNoteIcon className={classes.item} />,
         <VisibilityIcon className={classes.item} />,
-        <QuestionAnswerIcon className={classes.item} />
+        <QuestionAnswerIcon className={classes.item} />,
     ];
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(options.length==1 ? 9 : index);
+        setSelectedIndex(options.length == 1 ? 9 : index);
         // setToggleDrawer(true)
     };
     const renderMenuItemComponent = () => {
@@ -94,13 +95,17 @@ const SellerDashbroad = (props) => {
         }
     };
     return (
-        <div style={{width: "100%", marginBottom: "2em", zIndex: "0" }}>
+        <div style={{ width: "100%", marginBottom: "2em", zIndex: "0" }}>
             <Grid
                 container
-                style={{ margin: "0 auto", width: "1333px"}}
+                style={{
+                    margin: "0 auto",
+                    maxWidth: "1600px",
+                    minWidth: "1333px",
+                }}
                 spacing={5}
             >
-                <Grid item xs={3} style={{ margin: 0 }}>
+                <Grid item xs={2} style={{ margin: 0 }}>
                     <section
                         style={{
                             display: "flex",
@@ -184,7 +189,7 @@ const SellerDashbroad = (props) => {
                         ))}
                     </List>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={10}>
                     <Grid container>{renderMenuItemComponent()}</Grid>
                 </Grid>
             </Grid>

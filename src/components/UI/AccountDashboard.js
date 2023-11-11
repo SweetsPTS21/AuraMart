@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -38,18 +39,25 @@ import MyTikiXuManager from "./AccountDashboardComponents/MyTikiXuManager";
 import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
+import { getUserAddress } from "../../store/actions/addressActions";
 
 const AccountDashBoard = (props) => {
     const classes = userStyles();
     const [selectedIndex, setSelectedIndex] = useState(
         props.index ? props.index : 0
     );
+    const dispatch = useDispatch();
 
-    const user = useSelector((state) => state.auth.userData);
+    const userData = useSelector((state) => state.auth.userData);
 
     useEffect(() => {
         setSelectedIndex(props.index);
     }, [props.index]);
+
+    useEffect(() => {
+        dispatch(getUserAddress(userData.id));
+    }, [dispatch, userData.id]);
+
     const options = [
         "Account Information",
         "My notice",
@@ -99,7 +107,7 @@ const AccountDashBoard = (props) => {
             case 3:
                 return <Address />;
             case 4: //voucher
-                return <MyVoucher type={"user"}/>;
+                return <MyVoucher type={"user"} />;
             case 5:
                 return <BillingInformation />;
             case 6:
@@ -161,7 +169,7 @@ const AccountDashBoard = (props) => {
                             <span
                                 style={{ fontWeight: 600, fontSize: "1.2em" }}
                             >
-                                {user.name}
+                                {userData.name}
                             </span>{" "}
                         </p>
                     </section>

@@ -12,7 +12,8 @@ const SellerPage = (props) => {
 
     useEffect(()=>{
         dispatch(shopActions.getShopByUserId(user.id));
-    },[]);
+    },[user]);
+    
     return (
         <div style={{ backgroundColor: "#EEEEEE"}}>
             < NavBar {...props}/>

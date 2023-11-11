@@ -48,12 +48,15 @@ export const getShopByUserId = (userId) => async (dispatch) => {
     await axios
         .get(url)
         .then((res) => {
-            dispatch({
-                type: GET_SHOP_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
-                shops: res.data.data,
-            });
-
-            // message.success("Got shop");
+            if (!res.data.success) {
+                return message.error("Error getting shop");
+            }
+            else {
+                dispatch({
+                    type: GET_SHOP_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
+                    shops: res.data.data,
+                });
+            }
         })
         .catch((err) => {
             message.error("Error getting shop");

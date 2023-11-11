@@ -281,9 +281,7 @@ const Bill = () => {
                                     float: "right",
                                 }}
                             >
-                                {formatVND(
-                                    finalTotal
-                                )}
+                                {formatVND(finalTotal)}
                             </strong>
                             <small>(Included VAT)</small>
                         </>
@@ -441,13 +439,21 @@ const AddressUI = ({
 }) => {
     const classes = useStyles();
 
-    const [fullName, setFullName] = useState(shipAddress ? shipAddress.fullName : "");
+    const [fullName, setFullName] = useState(
+        shipAddress ? shipAddress.fullName : ""
+    );
     const [phone, setPhone] = useState(shipAddress ? shipAddress.phone : "");
     const [city, setCity] = useState(shipAddress ? shipAddress.city : "");
-    const [district, setDistrict] = useState(shipAddress ? shipAddress.district : "");
+    const [district, setDistrict] = useState(
+        shipAddress ? shipAddress.district : ""
+    );
     const [ward, setWard] = useState(shipAddress ? shipAddress.ward : "");
-    const [address, setAddress] = useState(shipAddress ? shipAddress.address : "");
-    const [radio, setRadio] = useState(shipAddress ? shipAddress.radio : "home");
+    const [address, setAddress] = useState(
+        shipAddress ? shipAddress.address : ""
+    );
+    const [radio, setRadio] = useState(
+        shipAddress ? shipAddress.radio : "home"
+    );
     const listAddress = useSelector((state) => state.address.userAddress);
     const city_ = [
         "Ho Chi Minh",
@@ -564,7 +570,15 @@ const AddressUI = ({
     ];
 
     const handleSubmit = (e) => {
-        setShipAddress({fullName, phone, city, district, ward, address, radio});
+        setShipAddress({
+            fullName,
+            phone,
+            city,
+            district,
+            ward,
+            address,
+            radio,
+        });
         e.preventDefault();
         handleNext();
     };
@@ -596,7 +610,9 @@ const AddressUI = ({
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    onChange={(e) => setFullName(e.target.value)}
+                                    onChange={(e) =>
+                                        setFullName(e.target.value)
+                                    }
                                     variant="standard"
                                     validators={["required"]}
                                     errorMessages={["Enter Your Full Name"]}
@@ -813,14 +829,16 @@ const AddressUI = ({
                                                     marginTop: "2em",
                                                 }}
                                                 onClick={() => {
-                                                    setFullName(address.fullName);
+                                                    setFullName(
+                                                        address.fullName
+                                                    );
                                                     setPhone(address.phone);
                                                     setCity(address.city);
                                                     setDistrict(
                                                         address.district
                                                     );
                                                     setWard(address.ward);
-                                                    setAddress(address.address);                                                    
+                                                    setAddress(address.address);
                                                 }}
                                             >
                                                 Chọn
@@ -1373,12 +1391,6 @@ const Checkout = (props) => {
         setFirstLoad(false);
     }
 
-    // if (shipAddress && firstLoad) {
-    //     setAddress(shipAddress.address);
-    //     setPhoneNo(shipAddress.phone);
-    //     setName(shipAddress.fullName);
-    //     setFirstLoad(false);
-    // }
     if (defaultAddress !== currentAddress) {
         setCurrentAddress(defaultAddress);
     }
@@ -1402,8 +1414,16 @@ const Checkout = (props) => {
                 shop: cartItems[i].product.shop.id,
                 product: cartItems[i].productId,
                 quantity: parseInt(cartItems[i].quantity),
-                phone: phoneNo,
-                address,
+                name: shipAddress.fullName,
+                phone: shipAddress.phone,
+                address:
+                    shipAddress.address +
+                    ", " +
+                    shipAddress.ward +
+                    ", " +
+                    shipAddress.district +
+                    ", " +
+                    shipAddress.city,
                 total,
             };
             dispatch(await orderActions.addNewOrder(order_));
