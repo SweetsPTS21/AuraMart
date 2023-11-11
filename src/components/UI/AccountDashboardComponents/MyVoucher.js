@@ -307,12 +307,12 @@ const UserVoucher = (props) => {
     );
 
     useEffect(() => {
-        dispatch(voucherActions.getVouchersByUserId(user.id));
-    }, [dispatch, user.id]);
-
-    useEffect(() => {
-        dispatch(voucherActions.getVouchersByShopId(shopId));
-    }, [dispatch, shopId]);
+        if (action === "apply") {
+            dispatch(voucherActions.getVouchersByShopId(shopId));
+        } else {
+            dispatch(voucherActions.getVouchersByUserId(user.id));
+        }
+    }, [dispatch, user, shopId]);
 
     return (
         <>
@@ -325,7 +325,11 @@ const UserVoucher = (props) => {
                         {...props}
                     />
                 ) : (
-                    <VoucherRender vouchers={vouchers} type={type} user={user}/>
+                    <VoucherRender
+                        vouchers={vouchers}
+                        type={type}
+                        user={user}
+                    />
                 ))}
         </>
     );

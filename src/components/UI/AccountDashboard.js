@@ -47,7 +47,8 @@ const AccountDashBoard = (props) => {
         props.index ? props.index : 0
     );
     const dispatch = useDispatch();
-
+    
+    const user = useSelector((state) => state.auth.user);
     const userData = useSelector((state) => state.auth.userData);
 
     useEffect(() => {
@@ -55,8 +56,8 @@ const AccountDashBoard = (props) => {
     }, [props.index]);
 
     useEffect(() => {
-        dispatch(getUserAddress(userData.id));
-    }, [dispatch, userData.id]);
+        dispatch(getUserAddress(user.id));
+    }, [dispatch, user.id]);
 
     const options = [
         "Account Information",

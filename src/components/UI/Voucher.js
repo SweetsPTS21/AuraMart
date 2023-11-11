@@ -104,7 +104,10 @@ const Voucher = (props) => {
     const user = useSelector((state) => state.auth.userData);
     const shop = useSelector((state) => state.shops.currentShop);
     const userVouchers = useSelector((state) => state.vouchers.userVouchers);
-    const voucher = type === "shop" || action === "apply" ? props.voucher : props.voucher.vouchers[0];
+    const voucher =
+        type === "shop" || action === "apply"
+            ? props.voucher
+            : props.voucher.vouchers[0];
     const [openDialog, setOpenDialog] = useState(false);
     const [saved, setSaved] = useState(true);
     const [used, setUsed] = useState(false);

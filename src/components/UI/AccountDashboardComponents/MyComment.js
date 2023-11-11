@@ -163,7 +163,7 @@ const Review = ({ review }) => {
                     <div>
                         <Grid container style={{ padding: "1em" }}>
                             <Grid item xs={4}>
-                                {product !== null && (
+                                {product && (
                                     <Card
                                         link={true}
                                         key={product.id}
