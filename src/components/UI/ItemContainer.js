@@ -1,12 +1,10 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
+import Button from "@material-ui/core/Button";
 import Countdown from "react-countdown-now";
 import sprite from "../../image/sprite.png";
 import IconButton from "@material-ui/core/IconButton";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 const userStyles = makeStyles(() => ({
     root: {
@@ -34,27 +32,10 @@ const userStyles = makeStyles(() => ({
         fontSize: "1em",
         color: "#858585",
     },
-    hideArrow: {
-        display: "none"
-    }
 }));
 
 const ItemContainer = (props) => {
     const classes = userStyles();
-
-    const length = props.length < 10 ? props.length : 10;
-    const [scrollX, setScrollX] = useState(0);
-    const listRef = useRef(null);
-
-    const handleScroll = (direction) => {
-        const scrollAmount = direction === "left" ? -970 : 970;
-        setScrollX(scrollX + scrollAmount);
-        listRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    };
-
-    const canScrollLeft = scrollX > 0;
-    const canScrollRight = scrollX < (length-5) * 194;
-
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             // Render a completed state
@@ -122,13 +103,15 @@ const ItemContainer = (props) => {
                 </section>
             )}
             {/* Render countdown item */}
-            <Grid
-                container
-                className={classes.grid}
-                style={{ flexDirection: "column" }}
-            >
+            <Grid container className={classes.grid}>
                 {props.todayOnly ? (
-                    <Grid item xs={12} className={classes.todayOnly}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        className={classes.todayOnly}
+                    >
                         <span style={{ fontWeight: 700 }}>Giá tốt hôm nay</span>
 
                         {props.timeInMilliSec && (
@@ -143,61 +126,28 @@ const ItemContainer = (props) => {
                 ) : null}
 
                 <Grid
-                    item
-                    xs={12}
+                    container
                     className={classes.grid}
-                    style={{position: "relative", display: "flex", alignItems: "center" }}
+                    style={{ ...props.gridStyle }}
                 >
-                    <IconButton
-                        onClick={() => handleScroll("left")}
-                        style={{position: 'absolute', left: "-30px", backgroundColor: "white"}}
-                        className={!canScrollLeft ? classes.hideArrow : "hideArrow"}
-                    >
-                        <ArrowBackIcon />
-                    </IconButton>
-                    <div
-                        style={{
-                            display: "flex",
-                            width: "1205px",
-                            overflow: "hidden",
-                        }}
-                    >
-                        <List
-                            ref={listRef}
-                            style={{
-                                display: "flex",
-                                padding: 0,
-                                margin: 0,
-                                transform: `translateX(${-scrollX}px)`,
-                            }}
-                        >
-                            {props.children
-                                ? props.children.map((item, index) => (
-                                      <Grid
-                                          item
-                                          xs={5}
-                                          sm={3}
-                                          md={
-                                              props.space !== undefined
-                                                  ? props.space
-                                                  : 3
-                                          }
-                                          key={index}
-                                          style={{ maxWidth: "194px", margin: "0 5px" }}
-                                      >
-                                          {item}
-                                      </Grid>
-                                  ))
-                                : null}
-                        </List>
-                    </div>
-                    <IconButton
-                        onClick={() => handleScroll("right")}
-                        style={{position: 'absolute', right: "-30px", backgroundColor: "white"}}
-                        className={!canScrollRight ? classes.hideArrow : "hideArrow"}
-                    >
-                        <ArrowForwardIcon />
-                    </IconButton>
+                    {props.children
+                        ? props.children.map((item, index) => (
+                              <Grid
+                                  item
+                                  xs={5}
+                                  sm={3}
+                                  md={
+                                      props.space !== undefined
+                                          ? props.space
+                                          : 3
+                                  }
+                                  key={index}
+                                  style={{ maxWidth: "194px" }}
+                              >
+                                  {item}
+                              </Grid>
+                          ))
+                        : null}
                 </Grid>
             </Grid>
         </div>

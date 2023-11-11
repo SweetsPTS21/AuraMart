@@ -51,7 +51,7 @@ const Stats = (props) => {
                             className={classes.card}
                             style={{ marginTop: "2em" }}
                         >
-                            <ProductStats noLoading products={allProducts}/>
+                            <ProductStats noLoading />
                         </Grid>
                         <Grid
                             item
@@ -98,40 +98,38 @@ const Stats = (props) => {
                                   style={{ margin: 0 }}
                                   key={index}
                               >
-                                  {prod && (
-                                      <ProductCard
-                                          style={{
-                                              backgroundImage: `linear-gradient(60deg, #EEEEEE, #DDDDDD)`,
-                                              height: "30em",
-                                          }}
-                                          key={prod.id}
-                                          id={prod.id}
-                                          slug={
-                                              prod.name.length > 0
-                                                  ? prod.name.replace(
-                                                        new RegExp(" ", "g"),
-                                                        "-"
-                                                    )
-                                                  : prod.name
-                                          }
-                                          type={"review"}
-                                          price={prod.price}
-                                          discount={
-                                              prod.discount !== undefined
-                                                  ? prod.discount
-                                                  : 0
-                                          }
-                                          title={prod.name}
-                                          image={
-                                              prod.photo === "no-photo.jpg"
-                                                  ? NoPhoto
-                                                  : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
-                                          }
-                                          rating={prod.averageRating}
-                                          link={true}
-                                          count={product.count}
-                                      />
-                                  )}
+                                  <ProductCard
+                                      style={{
+                                          backgroundImage: `linear-gradient(60deg, #EEEEEE, #DDDDDD)`,
+                                          height: "30em",
+                                      }}
+                                      key={prod.id}
+                                      id={prod.id}
+                                      slug={
+                                          prod.name.length > 0
+                                              ? prod.name.replace(
+                                                    new RegExp(" ", "g"),
+                                                    "-"
+                                                )
+                                              : prod.name
+                                      }
+                                      type={"review"}
+                                      price={prod.price}
+                                      discount={
+                                          prod.discount !== undefined
+                                              ? prod.discount
+                                              : 0
+                                      }
+                                      title={prod.name}
+                                      image={
+                                          prod.photo === "no-photo.jpg"
+                                              ? NoPhoto
+                                              : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                                      }
+                                      rating={prod.averageRating}
+                                      link={true}
+                                      count={product.count}
+                                  />
                               </Grid>
                           );
                       })

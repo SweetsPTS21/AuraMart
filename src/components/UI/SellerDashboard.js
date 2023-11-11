@@ -39,13 +39,12 @@ const SellerDashbroad = (props) => {
     const user = useSelector((state) => state.auth.userData);
     const shop = useSelector((state) => state.shops.userShop);
     const [selectedIndex, setSelectedIndex] = useState(
-        shop ? index : 9
+        index ? index : 0
     );
 
-    // useEffect(() => {
-    //     setSelectedIndex(index)
-    // }, [index, shop]);
-
+    useEffect(() => {
+        setSelectedIndex(shop ? index: 9);
+    }, [index]);
     const options = shop ? [
         "Home page",
         "Orders Management",
@@ -98,10 +97,10 @@ const SellerDashbroad = (props) => {
         <div style={{width: "100%", marginBottom: "2em", zIndex: "0" }}>
             <Grid
                 container
-                style={{ margin: "0 auto", maxWidth: "1600px", minWidth: "1333px"}}
+                style={{ margin: "0 auto", width: "1333px"}}
                 spacing={5}
             >
-                <Grid item xs={2} style={{ margin: 0 }}>
+                <Grid item xs={3} style={{ margin: 0 }}>
                     <section
                         style={{
                             display: "flex",
@@ -185,7 +184,7 @@ const SellerDashbroad = (props) => {
                         ))}
                     </List>
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={9}>
                     <Grid container>{renderMenuItemComponent()}</Grid>
                 </Grid>
             </Grid>
