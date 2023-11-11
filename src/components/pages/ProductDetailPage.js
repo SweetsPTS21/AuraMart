@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     discount: {
         color: "rgba(36, 36, 36, 0.6)",
         border: "1px solid #FFFFFF",
-        padding: "3px",
+        padding: "3px 8px",
         fontSize: "0.75em",
         marginLeft: "0.5em",
         borderRadius: "0.5em",
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     image: {
         borderRadius: "0.5em",
     },
-    title: { fontSize: "1.5em", color: "#858585", lineHeight: "0.5cm" },
+    title: { fontSize: "1.5em", color: "#858585" },
 
     shopInfo__avatar: {
         width: "64px",
@@ -469,7 +469,7 @@ const ProductPriceInfo = ({ product }) => {
                     }}
                 >
                     {discount_price !== "NaN" ? (
-                        <span style={{ padding: 0, margin: 0 }}>
+                        <>
                             <span style={{ fontSize: "2em", fontWeight: 500 }}>
                                 {discounted_price()}
                             </span>
@@ -479,7 +479,7 @@ const ProductPriceInfo = ({ product }) => {
                             >
                                 -{product.discount}%
                             </span>
-                        </span>
+                        </>
                     ) : (
                         <span
                             style={{
@@ -736,7 +736,7 @@ const ShippingInfo = () => {
                         <span>
                             Please select the shipping location in order to be
                             forecasted a delivery time accurately.{" "}
-                            <Link to="#">Enter your address.</Link>
+                            <Link to="/dashboard/3">Enter your address.</Link>
                         </span>
                     )}
                 </Grid>
@@ -883,7 +883,9 @@ const ShopInfo = (props) => {
                     <span>{shop.description}</span>
                 </Grid>
                 <Grid item xs={2}>
-                    <Button color="primary" size="medium" variant="outlined">Folow</Button>
+                    <Button color="primary" size="medium" variant="outlined">
+                        Folow
+                    </Button>
                 </Grid>
             </Grid>
         </div>

@@ -14,10 +14,11 @@ import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
 import ReactLoading from "react-loading";
+import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 
 const OrderStats = (props) => {
     const classes = userStyles();
-    const allOrders = useSelector((state) => state.orders.allOrders); // all orders
+    const allOrders = props.orders;
 
     const [orderChart, setOrderChart] = useState(null);
     const [orderChartStatus, setOrderChartStatus] = useState(null);
@@ -36,6 +37,7 @@ const OrderStats = (props) => {
         let Last7daysOrdersCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allOrders !== null &&
+            allOrders !== undefined &&
             allOrders.forEach((order, index) => {
                 if (
                     Moment2(order.createdAt) // if order is from the last 7 days
@@ -147,7 +149,7 @@ const OrderStats = (props) => {
             "Shipping",
             "Delivered",
         ];
-        let Last7daysOrderStatus = [0, 0, 0, 0, 0, 0];
+        let Last7daysOrderStatus = [5, 2, 11, 7, 1, 3];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allOrders !== null &&
             allOrders.forEach((order, index) => {
@@ -206,100 +208,44 @@ const OrderStats = (props) => {
         const delays2 = 80,
             durations2 = 500;
         const orderChart_ = {
-            data: {
-                labels: Last7daysOrderStatusLabel,
-                series: [
-                    {
-                        value: Last7daysOrderStatus[0],
-                        name: "Ordered Successfully",
-                        className: "one",
-                        meta: "Meta One",
-                    },
-                    {
-                        value: Last7daysOrderStatus[1],
-                        name: "Tiki Received",
-                        className: "two",
-                        meta: "Meta",
-                    },
-                    {
-                        value: Last7daysOrderStatus[2],
-                        name: "Getting Product",
-                        className: "three",
-                        meta: "Meta",
-                    },
-                    {
-                        value: Last7daysOrderStatus[3],
-                        name: "Packing",
-                        className: "four",
-                        meta: "Meta",
-                    },
-                    {
-                        value: Last7daysOrderStatus[4],
-                        name: "Shipping",
-                        className: "five",
-                        meta: "Meta",
-                    },
-                    {
-                        value: Last7daysOrderStatus[5],
-                        name: "Delivered",
-                        className: "six",
-                        meta: "Meta",
-                    },
-                ],
-            },
-            options: {
-                height: 200,
-                donut: true,
-                donutWidth: 15,
-
-                chartMargin: "50",
-                chartPadding: 33,
-
-                labelOffset: 30,
-                labelDirection: "explode",
-            },
-            animation: {
-                draw: function (data) {
-                    if (data.type === "slice") {
-                        // Get the total path length in order to use for dash array animation
-                        let pathLength = data.element._node.getTotalLength();
-
-                        // Set a dasharray that matches the path length as prerequisite to animate dashoffset
-                        data.element.attr({
-                            "stroke-dasharray":
-                                pathLength + "px " + pathLength + "px",
-                        });
-
-                        // Create animation definition while also assigning an ID to the animation for later sync usage
-                        let animationDefinition = {
-                            "stroke-dashoffset": {
-                                id: "anim" + data.index,
-                                dur: 1000,
-                                from: -pathLength + "px",
-                                to: "0px",
-                                easing: Chartist.Svg.Easing.easeOutQuint,
-                                // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-                                fill: "freeze",
-                            },
-                        };
-
-                        // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
-                        if (data.index !== 0) {
-                            animationDefinition["stroke-dashoffset"].begin =
-                                "anim" + (data.index - 1) + ".end";
-                        }
-
-                        // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
-                        data.element.attr({
-                            "stroke-dashoffset": -pathLength + "px",
-                        });
-
-                        // We can't use guided mode as the animations need to rely on setting begin manually
-                        // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
-                        data.element.animate(animationDefinition, false);
-                    }
+            data: [
+                {
+                    value: Last7daysOrderStatus[0],
+                    label: "Ordered Successfully",
+                    className: "one",
+                    meta: "Meta One",
                 },
-            },
+                {
+                    value: Last7daysOrderStatus[1],
+                    label: "Tiki Received",
+                    className: "two",
+                    meta: "Meta",
+                },
+                {
+                    value: Last7daysOrderStatus[2],
+                    label: "Getting Product",
+                    className: "three",
+                    meta: "Meta",
+                },
+                {
+                    value: Last7daysOrderStatus[3],
+                    label: "Packing",
+                    className: "four",
+                    meta: "Meta",
+                },
+                {
+                    value: Last7daysOrderStatus[4],
+                    label: "Shipping",
+                    className: "five",
+                    meta: "Meta",
+                },
+                {
+                    value: Last7daysOrderStatus[5],
+                    label: "Delivered",
+                    className: "six",
+                    meta: "Meta",
+                },
+            ],
         };
 
         setOrderChartStatus(orderChart_);
@@ -377,14 +323,28 @@ const OrderStats = (props) => {
                     {orderChartStatus !== null && (
                         <Card chart onClick={calculateCurrentStatusData}>
                             <CardHeader color="tiki">
-                                <ChartistGraph
-                                    className="ct-chart"
-                                    data={orderChartStatus.data}
-                                    type="Pie"
-                                    options={orderChartStatus.options}
-                                    donut={true}
-                                    // responsiveOptions={orderChartStatus.responsiveOptions}
-                                    listener={orderChartStatus.animation}
+                                <PieChart
+                                    series={[
+                                        {
+                                            data: orderChartStatus.data,
+                                            highlightScope: {
+                                                faded: "global",
+                                                highlighted: "item",
+                                            },
+                                            faded: {
+                                                innerRadius: 30,
+                                                additionalRadius: -30,
+                                                color: "gray",
+                                            },
+                                        },
+                                    ]}
+                                    sx={{
+                                        [`& .${pieArcLabelClasses.root}`]: {
+                                            fill: "white",
+                                            fontWeight: "bold",
+                                        },
+                                    }}
+                                    {...size}
                                 />
                             </CardHeader>
                             <CardBody>

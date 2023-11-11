@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Progress } from "reactstrap";
 import Countdown from "react-countdown-now";
 import Rating from "@material-ui/lab/Rating";
@@ -112,7 +112,7 @@ const Card = (props) => {
                                     <span className={classes.divider}>|</span>
                                 </div>
                             </Grid> */}
-                            <Grid item style={{ margin: 0 }}>
+                            <Grid item className={classes.title__container}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>
@@ -324,7 +324,7 @@ const Card = (props) => {
                             </p>
                         )}
                         <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid item style={{ margin: 0 }}>
+                            <Grid item className={classes.title__container}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>

@@ -149,6 +149,7 @@ export const createNewVoucher = (voucher, id) => async (dispatch) => {
             } else {
                 message.error(res.data.error);
             }
+            dispatch(getVouchersByShopId(id));
         })
         .catch((err) => {
             message.error("Error creating voucher");
@@ -162,7 +163,12 @@ export const updateVoucher = (voucher, id) => async (dispatch) => {
     await axios
         .put(url, voucher)
         .then((res) => {
-            message.success("Updated voucher");
+            if (res.data.success) {
+                message.success("Voucher updated");
+            } else {
+                message.error(res.data.error);
+            }
+            dispatch(getVouchersByShopId(id));
         })
         .catch((err) => {
             message.error("Error updating voucher");
@@ -181,6 +187,7 @@ export const deleteVoucher = (shopId, id) => async (dispatch) => {
             } else {
                 message.error(res.data.error);     
             }
+            dispatch(getVouchersByShopId(shopId));
         })
         .catch((err) => {
             message.error("Error deleting voucher");

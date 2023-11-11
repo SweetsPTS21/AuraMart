@@ -1,8 +1,11 @@
-import {GET_TOP_SOLD_PRODUCTS, GET_TOP_SOLD_PRODUCTS_OF_A_SHOP} from "../actions/statsActions";
+import {
+    GET_TOP_SOLD_PRODUCTS,
+    GET_TOP_SOLD_PRODUCTS_OF_A_SHOP,
+} from "../actions/statsActions";
 
 const initialState = {
-    topProducts : null,
-    topProductsOfShop: null
+    topProducts: [],
+    topProductsOfShop: null,
 };
 
 export default function (state = initialState, action) {
@@ -10,12 +13,12 @@ export default function (state = initialState, action) {
         case GET_TOP_SOLD_PRODUCTS:
             return {
                 ...state,
-                topProducts: action.topProducts
+                topProducts: action.topProducts,
             };
         case GET_TOP_SOLD_PRODUCTS_OF_A_SHOP:
             return {
                 ...state,
-                topProductsOfShop: action.productsOfShop
+                topProductsOfShop: action.productsOfShop,
             };
 
         default:

@@ -8,22 +8,17 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Card from "../UI/Card";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
-import { NavLink } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router-dom";
 import {
     Link,
     Element,
-    Events,
     animateScroll as scroll,
-    scrollSpy,
-    scroller,
 } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../layout/NavBar";

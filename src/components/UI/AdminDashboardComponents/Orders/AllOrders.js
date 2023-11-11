@@ -341,7 +341,7 @@ const AllOrders = (props) => {
                     className={classes.card}
                     style={{ marginTop: "2em" }}
                 >
-                    <OrderStats />
+                    <OrderStats orders={allOrders}/>
                 </Grid>
             </Grid>
             <Grid container spacing={1} style={{ marginLeft: "0.5em" }}>

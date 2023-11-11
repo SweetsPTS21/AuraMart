@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import OrderStats from "../AdminDashboardComponents/Stats/OrderStats";
@@ -36,22 +37,134 @@ const useStyles = makeStyles((theme) => ({
     },
     block: {
         display: "flex",
+        flexDirection: "column",
         marginBottom: "1em",
         padding: "0.5em",
+        color: "#000000",
         backgroundColor: "#FFFFFF",
         borderRadius: "0.5em",
     },
+    cardTitle: {
+        color: "#3C4858",
+        marginTop: "0px",
+        minHeight: "auto",
+        fontWeight: "300",
+        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        marginBottom: "3px",
+        textDecoration: "none",
+        "& small": {
+            color: "#777",
+            fontWeight: "400",
+            lineHeight: "1",
+        },
+    },
+    cardCategory: {
+        color: "#999",
+        margin: "0",
+        fontSize: "14px",
+        marginTop: "0",
+        paddingTop: "10px",
+        marginBottom: "0",
+    },
 }));
 
-const HomeConfig = () => {
+const HomeConfig = (props) => {
     const classes = useStyles();
+    const [ordersLastUpdated, setOrdersLastUpdated] = useState(Date.now());
+    const products = props.products ? props.products : [];
     return (
-        <Grid item xs={12} className={classes.block}>
-            <div className={classes.config__header}>Home Config</div>
-        </Grid>
+        <>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="tiki" stats icon>
+                        <CardIcon color="tiki">
+                            <Report />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Total Orders</p>
+                        <h3 className={classes.cardTitle}>{12}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="success" stats icon>
+                        <CardIcon color="success">
+                            <Store />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Total Products</p>
+                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="warning" stats icon>
+                        <CardIcon color="warning">
+                            <Money />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Today Revenue</p>
+                        <h3 className={classes.cardTitle}>{"+250000"}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="primary" stats icon>
+                        <CardIcon color="primary">
+                            <Accessibility />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Follower</p>
+                        <h3 className={classes.cardTitle}>{"+25"}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+        </>
     );
 };
-
 const ShopStatistic = (props) => {
     const orders = props.orders ? props.orders : [];
     const reviews = props.reviews ? props.reviews : [];
@@ -82,6 +195,16 @@ const ShopStatistic = (props) => {
 
 const SellerHome = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const shop = useSelector((state) => state.shops.userShop);
+    const orders = useSelector((state) => state.orders.allShopOrders);
+    const products = useSelector((state) => state.products.productsInShop);
+    const reviews = useSelector((state) => state.reviews.allReviews);
+
+    useEffect(() => {
+        dispatch(getAllOrdersOfAShop(shop.id));
+        dispatch(getProductsByShopId(shop.id));
+    }, [shop]);
 
     return (
         <div className={classes.root}>

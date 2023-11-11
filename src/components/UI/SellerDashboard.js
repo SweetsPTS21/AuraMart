@@ -105,7 +105,7 @@ const SellerDashbroad = (props) => {
                 }}
                 spacing={5}
             >
-                <Grid item xs={3} style={{ margin: 0 }}>
+                <Grid item xs={2} style={{ margin: 0 }}>
                     <section
                         style={{
                             display: "flex",
@@ -189,7 +189,7 @@ const SellerDashbroad = (props) => {
                         ))}
                     </List>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={10}>
                     <Grid container>{renderMenuItemComponent()}</Grid>
                 </Grid>
             </Grid>
