@@ -52,14 +52,6 @@ const HomeConfig = () => {
     );
 };
 
-const ShopStatistic = () => {
-    const classes = useStyles();
-    return (
-        <Grid item xs={12} className={classes.block}>
-            <div className={classes.config__header}>Shop Statistic</div>
-        </Grid>
-    );
-};
 const ShopStatistic = (props) => {
     const orders = props.orders ? props.orders : [];
     const reviews = props.reviews ? props.reviews : [];
