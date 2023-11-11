@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -40,26 +39,17 @@ import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 
-import { getUserAddress } from "../../store/actions/addressActions";
-
 const AccountDashBoard = (props) => {
     const classes = userStyles();
-    const dispatch = useDispatch();
     const [selectedIndex, setSelectedIndex] = useState(
         props.index ? props.index : 0
     );
 
-    const userData = useSelector((state) => state.auth.userData);
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.userData);
 
     useEffect(() => {
         setSelectedIndex(props.index);
     }, [props.index]);
-
-    useEffect(() => {
-        dispatch(getUserAddress(user.id));
-    }, [dispatch, user.id]);
-
     const options = [
         "Account Information",
         "My notice",
@@ -171,7 +161,7 @@ const AccountDashBoard = (props) => {
                             <span
                                 style={{ fontWeight: 600, fontSize: "1.2em" }}
                             >
-                                {userData.name}
+                                {user.name}
                             </span>{" "}
                         </p>
                     </section>

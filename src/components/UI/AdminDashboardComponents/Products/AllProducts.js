@@ -307,7 +307,7 @@ const AllProducts = (props) => {
                     className={classes.card}
                     style={{ marginTop: "2em" }}
                 >
-                    <ProductStats products={allProducts}/>
+                    <ProductStats />
                 </Grid>
             </Grid>
             <Grid container>

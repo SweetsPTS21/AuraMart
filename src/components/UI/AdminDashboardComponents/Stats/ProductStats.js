@@ -17,7 +17,7 @@ import ReactLoading from "react-loading";
 
 const ProductStats = (props) => {
     const classes = userStyles();
-    const allProducts = props.products;
+    const allProducts = useSelector((state) => state.products.products); // all reviews
 
     const [productChart, setProductChart] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);

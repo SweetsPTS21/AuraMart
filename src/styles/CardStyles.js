@@ -5,7 +5,8 @@ const useStyles = makeStyles((theme) => ({
         width: "186px",
         padding: "12px",
         border: "1px solid #e5e5e5",
-        borderRadius: "0.5em",
+        borderRadius: "0.5em",        
+        margin: "4px",
         "&:hover": {
             boxShadow:
                 "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
@@ -20,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     divider: { marginLeft: "0.15em", marginRight: "0.15em", color: "#858585" },
-    title__container: {
-        height: "50px",
-        margin: 0,
-        overflow: "hidden",
-        textOverflow: "ellipse",
-    },
     title: {
         fontSize: "0.75em",
         color: "#858585",
@@ -48,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         border: "1px solid #FFFFFF",
         borderRadius: "0.5em",
         backgroundColor: "#f5f5fa",
-        padding: "3px",
+        padding: "3px"
     },
     price: { fontSize: "0.8em", color: "#858585", marginTop: 0 },
     progress: {

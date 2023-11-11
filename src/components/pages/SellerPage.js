@@ -10,17 +10,16 @@ const SellerPage = (props) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
 
-    useEffect(() => {
+    useEffect(()=>{
         dispatch(shopActions.getShopByUserId(user.id));
-    }, [user]);
-
+    },[]);
     return (
-        <div style={{ backgroundColor: "#EEEEEE" }}>
-            <NavBar {...props} />
-            <SellerDashbroad index={index} />
-            <Footer />
+        <div style={{ backgroundColor: "#EEEEEE"}}>
+            < NavBar {...props}/>
+            <SellerDashbroad index={index}/>
+            < Footer/>
         </div>
-    );
-};
+    )
+}
 
 export default SellerPage;
