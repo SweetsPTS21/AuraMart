@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -169,7 +168,7 @@ const AccountDashBoard = (props) => {
                             <span
                                 style={{ fontWeight: 600, fontSize: "1.2em" }}
                             >
-                                {userData.name}
+                                {user.name}
                             </span>{" "}
                         </p>
                     </section>

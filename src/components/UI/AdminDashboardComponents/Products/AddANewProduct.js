@@ -530,8 +530,10 @@ const AddANewProduct = (props) => {
 
     return (
         <div style={{ width: "100%" }}>
+        <div style={{ width: "100%" }}>
             <Grid
                 container
+                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
                 style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
                 spacing={3}
             >

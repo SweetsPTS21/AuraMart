@@ -403,8 +403,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const UpdateAProductForm = (props) => {
-    const { product, setShowProductCard, style } = props;
+const UpdateAProductForm = ({ product, setShowProductCard }) => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const allShops = useSelector((state) => state.shops.shops);
@@ -580,14 +579,14 @@ const UpdateAProductForm = (props) => {
     };
 
     return (
-        <div style={style}>
+        <div style={{ width: "100%" }}>
             <Grid
                 container
-                // style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
+                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
                 spacing={3}
             >
                 <Grid item xs={12} sm={12} md={12}>
-                    <Card>
+                    <Card style={{ marginLeft: "1vw" }}>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Update A Product

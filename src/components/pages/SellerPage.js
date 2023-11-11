@@ -11,6 +11,7 @@ const SellerPage = (props) => {
     const user = useSelector((state) => state.auth.user);
 
     useEffect(()=>{
+    useEffect(()=>{
         dispatch(shopActions.getShopByUserId(user.id));
     },[user]);
     
@@ -19,7 +20,13 @@ const SellerPage = (props) => {
             < NavBar {...props}/>
             <SellerDashbroad index={index}/>
             < Footer/>
+        <div style={{ backgroundColor: "#EEEEEE"}}>
+            < NavBar {...props}/>
+            <SellerDashbroad index={index}/>
+            < Footer/>
         </div>
+    )
+}
     )
 }
 

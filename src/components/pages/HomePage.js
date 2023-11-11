@@ -185,7 +185,6 @@ const HomePage = (props) => {
 
                         <div style={{ margin: "0" }}>
                             <ItemContainer
-                                length={3}
                                 title={"PRODUCTS YOU HAVE LOOKED FOR"}
                                 gridStyle={{ maxWidth: "100%" }}
                             >
@@ -218,7 +217,6 @@ const HomePage = (props) => {
                                 />
                             </ItemContainer>
                             <ItemContainer
-                                length={productsWithDiscount.length}
                                 seeMore={() => {
                                     setSeeMoreDiscountedProd((val) => val + 10);
                                     setLoadingDisProd(true);
@@ -243,7 +241,6 @@ const HomePage = (props) => {
                             <HotKeyword />
                             {products !== null && (
                                 <ItemContainer
-                                    length={products.length}
                                     title={"Recommended for you"}
                                     seeMore={() => {
                                         setSeeMoreProd((val) => val + 10);
