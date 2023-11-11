@@ -195,7 +195,7 @@ const AllReviews = (props) => {
                     </Fab>
                 </Grid>
                 <Grid item xs={9} md={9} lg={9} className={classes.card}>
-                    <ReviewStats />
+                    <ReviewStats reviews={allReviews}/>
                 </Grid>
             </Grid>
             <Grid container spacing={2} style={{ marginLeft: "0.5em" }}>

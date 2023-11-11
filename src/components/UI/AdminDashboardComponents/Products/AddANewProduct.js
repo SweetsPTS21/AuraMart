@@ -529,14 +529,13 @@ const AddANewProduct = (props) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{width: "100%"}}>
             <Grid
                 container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
                 spacing={3}
             >
-                <Grid item xs={12} sm={12} md={8}>
-                    <Card style={{ marginLeft: "13vw" }}>
+                <Grid item style={{margin: "0 auto", width: "670px"}}>
+                    <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Add Product

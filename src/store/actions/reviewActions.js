@@ -99,7 +99,7 @@ export const addNewReview = (review, productId) => async (dispatch) => {
         .then(res => {
 
             if(!res.data.success) {
-                return message.error("Error adding review");
+                return message.error(res.data.error);
             };
             dispatch(getProductReviews(productId));
             // message.success("Got review");

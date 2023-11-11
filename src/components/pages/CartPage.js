@@ -28,7 +28,7 @@ import { TextField } from "@material-ui/core";
 import MyVoucher from "../UI/AccountDashboardComponents/MyVoucher";
 import { Typography } from "antd";
 
-const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles((theme) => ({
     root: {
         // padding: "0 10%",
         width: "80%",

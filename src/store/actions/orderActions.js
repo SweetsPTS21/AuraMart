@@ -55,13 +55,9 @@ export const getOrderById = (orderId) => async (dispatch) => {
     await axios.get(url)
         .then(res => {
             dispatch({
-                type: GET_SINGLE_ORDER_BY_ID,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_SINGLE_ORDER_BY_ID,
                 order: res.data.data
             });
-
-            // message.success("Got order");
-
-
         })
         .catch(err => {
                 console.log('Error' + err);
@@ -76,9 +72,9 @@ export const getOrdersByUserId = (userId) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders`;
     await axios.get(url)
         .then(res => {
-            const myOrders = res.data.data.filter(order => order.user._id === userId);
+            const myOrders = res.data.data.filter(order => order.user === userId);
             dispatch({
-                type: GET_MY_ORDERS,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_MY_ORDERS,
                 orders: myOrders
             });
 
@@ -122,7 +118,7 @@ export const updateOrderById = (order, orderId) => async (dispatch) => {
             if(!res.data.success) {
                 return  message.error("Error updating order");
             }
-            dispatch(getAllOrders());
+            dispatch(getAllOrdersOfAShop(order.shop));
             message.success("Updated order");
         })
         .catch(err => {
@@ -141,7 +137,7 @@ export const deleteOrderById = (orderId) => async (dispatch) => {
             if(!res.data.success) {
                 return  message.error("Error deleting order");
             }
-            dispatch(getAllOrders());
+            // dispatch(getAllOrdersOfAShop(order.shop));
             message.success("Deleted order");
         })
         .catch(err => {
