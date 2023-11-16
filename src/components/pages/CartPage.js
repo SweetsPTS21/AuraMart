@@ -96,7 +96,6 @@ const paperStyle = createTheme({
 
 const ApplyVoucher = (props) => {
     const classes = useStyles();
-    const user = useSelector((state) => state.auth.user);
     const [shopTotal, setShopTotal] = useState(props.shopTotalAmount);
 
     const handleClose = () => {
@@ -117,7 +116,6 @@ const ApplyVoucher = (props) => {
                         action={"apply"}
                         total={shopTotal}
                         setTotal={setShopTotal}
-                        user={user}
                         {...props}
                     />
                 </DialogContent>
@@ -500,6 +498,16 @@ const CartPage = (props) => {
                             style={{ marginTop: 10 }}
                         >
                             Order
+                        </Button>
+                    </Link>
+                    <Link to={"/result?vnp_Amount=12000&vnp_ResponseCode=00"} className={classes.removeLink}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginTop: 10 }}
+                        >
+                            Check
                         </Button>
                     </Link>
                 </Grid>

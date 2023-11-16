@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import DashboardPage from "./components/pages/DashboardPage";
@@ -11,6 +11,7 @@ import CartPage from "./components/pages/CartPage";
 import OrdersPage from "./components/pages/OrdersPage";
 import PrivateRoute from "./components/common/PrivateRoute";
 import Checkout from "./components/pages/Checkout";
+import OrderResultPage from "./components/pages/OrderResultPage";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -60,50 +61,57 @@ function App() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <BrowserRouter>
-                    <Switch>
+                <Router>
+                    <Routes>
                         <Route
                             exact
                             path={"/"}
-                            render={(routeProps) => (
+                            element={
                                 <HomePage
-                                    {...routeProps}
-                                    showForm={false}
+                                    howForm={false}
                                     checkIsAdmin={false}
                                     checkIsSeller={false}
                                 />
-                            )}
+                            }
                         />
                         <Route
                             exact
                             path={"/product/:type"}
-                            render={(routeProps) => (
-                                <ProductCategoryPage {...routeProps} />
-                            )}
+                            element={<ProductCategoryPage />}
                         />
-                        <PrivateRoute
-                            exact
+                        <Route
                             path={"/dashboard/:type"}
-                            component={DashboardPage}
+                            element={
+                                <PrivateRoute
+                                    component={DashboardPage}
+                                ></PrivateRoute>
+                            }
                         />
-                        <PrivateRoute
+
+                        <Route
                             exact
                             path={"/admin"}
-                            component={AdminPage}
-                            checkIsAdmin
+                            element={
+                                <PrivateRoute
+                                    component={AdminPage}
+                                    checkIsAdmin
+                                />
+                            }
                         />
-                        <PrivateRoute
+                        <Route
                             exact
                             path={"/seller/:type"}
-                            component={SellerPage}
-                            checkIsSeller
+                            element={
+                                <PrivateRoute
+                                    component={SellerDashbroad}
+                                    checkIsSeller
+                                />
+                            }
                         />
                         <Route
                             exact
                             path={"/seller/register/:type"}
-                            render={(routeProps) => (
-                                <SellerPage type={9} />
-                            )}
+                            element={<SellerPage type={9} />}
                         />
                         {/*<Route*/}
                         {/*    exact*/}
@@ -114,60 +122,54 @@ function App() {
                         <Route
                             exact
                             path={"/:productName/:productId"}
-                            render={(routeProps) => (
-                                <ProductDetailPage {...routeProps} />
-                            )}
+                            element={<ProductDetailPage />}
                         />
                         <Route
                             exact
                             path={"/tiki/shops/:shopId"}
-                            component={ShopPage}
+                            element={<ShopPage />}
                         />
                         <Route
                             exact
                             path={"/underDevelopment"}
-                            render={(routeProps) => (
+                            element={
                                 <UnderDevelopmentPage
-                                    {...routeProps}
                                     status={"underDevelopment"}
                                 />
-                            )}
+                            }
                         />
                         <Route
                             exact
                             path={"/notFound"}
-                            render={(routeProps) => (
-                                <UnderDevelopmentPage
-                                    {...routeProps}
-                                    status={"notFound"}
-                                />
-                            )}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={"/cart"}
-                            component={CartPage}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={"/orders"}
-                            component={OrdersPage}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={"/checkout"}
-                            component={Checkout}
+                            element={
+                                <UnderDevelopmentPage status={"notFound"} />
+                            }
                         />
                         <Route
-                            render={(routeProps) => (
-                                <UnderDevelopmentPage
-                                    {...routeProps}
-                                    status={"404"}
-                                />
-                            )}
+                            exact
+                            path={"/cart"}
+                            element={<PrivateRoute component={CartPage} />}
                         />
-                    </Switch>
-                </BrowserRouter>
+                        <Route
+                            exact
+                            path={"/orders"}
+                            element={<PrivateRoute component={OrdersPage} />}
+                        />
+                        <Route
+                            exact
+                            path={"/checkout"}
+                            element={<PrivateRoute component={Checkout} />}
+                        />
+                        <Route
+                            exact
+                            path={"/result"}
+                            element={<OrderResultPage />}
+                        />
+                        <Route
+                            element={<UnderDevelopmentPage status={"404"} />}
+                        />
+                    </Routes>
+                </Router>
             </PersistGate>
         </Provider>
     );

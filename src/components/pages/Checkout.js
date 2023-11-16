@@ -29,7 +29,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
-import zaloPay from "../../image/icon-zalopay.svg";
+import VNPAY from "../../image/icon-zalopay.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -928,11 +928,12 @@ const PaymentMethodUI = ({
     handleOrder,
     shipAddress,
     currentAddress,
+    payment,
+    setPayment,
 }) => {
     const cartInfo = useSelector((state) => state.cart.items);
     const [shipping, setShipping] = useState("standard");
     const [payXu, setPayXu] = useState(false);
-    const [payment, setPayment] = useState("cash");
 
     const handleShipping = (event) => {
         setShipping(event.target.value);
@@ -1124,9 +1125,9 @@ const PaymentMethodUI = ({
                                 >
                                     <Grid item>
                                         <Radio
-                                            checked={payment === "cash"}
+                                            checked={payment === "COD"}
                                             onChange={handlePayment}
-                                            value="cash"
+                                            value="COD"
                                             name="radio-button-demo"
                                         />
                                     </Grid>
@@ -1187,20 +1188,20 @@ const PaymentMethodUI = ({
                                 >
                                     <Grid item>
                                         <Radio
-                                            checked={payment === "zalopay"}
+                                            checked={payment === "VNPAY"}
                                             onChange={handlePayment}
-                                            value="zalopay"
+                                            value="VNPAY"
                                             name="radio-button-demo"
                                         />
                                     </Grid>
                                     <Grid item xl={10}>
                                         <img
-                                            src={zaloPay}
+                                            src={VNPAY}
                                             style={{ marginRight: "2%" }}
                                         />
-                                        <span>Pay with ZaloPay</span>
+                                        <span>Pay with VNPAY</span>
                                         <p style={{ color: "#FFAE00" }}>
-                                            Please install ZaloPay app to pay
+                                            Please install VNPAY app to pay
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1281,6 +1282,8 @@ const BodyTemplate = ({
     currentAddress,
     shipAddress,
     setShipAddress,
+    payment,
+    setPayment,
 }) => {
     switch (activeStep) {
         case 0:
@@ -1309,6 +1312,8 @@ const BodyTemplate = ({
                     handleOrder={handleOrder}
                     shipAddress={shipAddress}
                     currentAddress={currentAddress}
+                    payment={payment}
+                    setPayment={setPayment}
                 />
             );
 
@@ -1364,6 +1369,7 @@ const Checkout = (props) => {
     const [currentAddress, setCurrentAddress] = useState(
         useSelector((state) => state.address.currentAddress)
     );
+    const [payment, setPayment] = useState("COD");
 
     const steps = ["Log in", "Address", "Payment & orders"];
 
@@ -1426,12 +1432,12 @@ const Checkout = (props) => {
                     shipAddress.city,
                 total,
             };
-            dispatch(await orderActions.addNewOrder(order_));
+            dispatch(await orderActions.addNewOrder(order_, payment));
         }
-        dispatch(await cartActions.clearCart());
-        setTimeout(msg, 1);
-        props.history.push("/");
-        setLoading(false);
+        // dispatch(await cartActions.clearCart());
+        // setTimeout(msg, 1);
+        // props.history.push("/");
+        // setLoading(false);
     };
 
     return (
@@ -1505,6 +1511,8 @@ const Checkout = (props) => {
                                     currentAddress={currentAddress}
                                     shipAddress={shipAddress}
                                     setShipAddress={setShipAddress}
+                                    payment={payment}
+                                    setPayment={setPayment}
                                 />
                             )}
                             <div style={{ marginTop: "2%" }}>

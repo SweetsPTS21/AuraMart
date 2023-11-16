@@ -76,7 +76,7 @@ const Card = (props) => {
             >
                 <div
                     className={classes.container}
-                    style={{ height: "330px" }}
+                    style={{ ...props.style }}
                     onClick={
                         props.onClick !== undefined ? props.onClick : undefined
                     }

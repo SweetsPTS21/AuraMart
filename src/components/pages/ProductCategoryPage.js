@@ -8,6 +8,7 @@ import Card from "../UI/Card";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import { useSelector } from "react-redux";
 import Footer from "../layout/Footer";
+import { useParams } from "react-router-dom";
 
 if (!String.prototype.contains) {
     String.prototype.contains = function (s) {
@@ -40,7 +41,7 @@ const item = [
 ];
 
 const ProductCategoryPage = (props) => {
-    const { type } = props.match.params;
+    const { type } = useParams();
 
     const products = useSelector((state) => state.products.products);
     const [filteredProducts, setFilteredProducts] = useState(null);

@@ -1,9 +1,10 @@
 import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import { useParams } from 'react-router-dom';
 
 const DemoCarousel = (props)=>{
-    const {type} = props.match.params;
+    const {type} = useParams();
 
     return (
         <div style={{marginBottom: '2em'}}>

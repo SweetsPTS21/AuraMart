@@ -294,7 +294,6 @@ const VoucherRender = (props) => {
 };
 
 const UserVoucher = (props) => {
-    const classes = userStyles();
     const dispatch = useDispatch();
     const type = props.type;
     const action = props.action;

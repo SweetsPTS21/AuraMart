@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        width: "186px",
         padding: "12px",
         border: "1px solid #e5e5e5",
         borderRadius: "0.5em",

@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
         case GET_SHOP_BY_ID:
             return {
                 ...state,
-                currentShop: action.shops,
+                currentShop: action.shop,
             };
         case GET_SHOP_BY_USER_ID:
             return {

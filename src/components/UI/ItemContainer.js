@@ -35,16 +35,16 @@ const userStyles = makeStyles(() => ({
         color: "#858585",
     },
     hideArrow: {
-        display: "none"
-    }
+        display: "none",
+    },
 }));
 
-const ItemContainer = (props) => {
+const Type1 = (props) => {
     const classes = userStyles();
-    const length = props.length < 10 ? props.length : 10;
-    const [scrollX, setScrollX] = useState(0);
     const listRef = useRef(null);
 
+    const { listData, length } = props;
+    const [scrollX, setScrollX] = useState(0);
     const handleScroll = (direction) => {
         const scrollAmount = direction === "left" ? -970 : 970;
         setScrollX(scrollX + scrollAmount);
@@ -52,7 +52,121 @@ const ItemContainer = (props) => {
     };
 
     const canScrollLeft = scrollX > 0;
-    const canScrollRight = scrollX < (length-5) * 194;
+    const canScrollRight = scrollX < (length - 5) * 194;
+
+    return (
+        <Grid
+            item
+            xs={12}
+            className={classes.grid}
+            style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+            }}
+        >
+            <IconButton
+                onClick={() => handleScroll("left")}
+                style={{
+                    position: "absolute",
+                    left: "-30px",
+                    backgroundColor: "white",
+                }}
+                className={!canScrollLeft ? classes.hideArrow : "hideArrow"}
+            >
+                <ArrowBackIcon />
+            </IconButton>
+            <div
+                style={{
+                    display: "flex",
+                    width: "1205px",
+                    overflow: "hidden",
+                }}
+            >
+                <List
+                    ref={listRef}
+                    style={{
+                        display: "flex",
+                        padding: 0,
+                        margin: 0,
+                        transform: `translateX(${-scrollX}px)`,
+                    }}
+                >
+                    {listData.length > 0 &&
+                        listData.map((item, index) => (
+                            <Grid
+                                item
+                                xs={5}
+                                sm={3}
+                                md={props.space !== undefined ? props.space : 3}
+                                key={index}
+                                style={{
+                                    maxWidth: "194px",
+                                    margin: "0 5px",
+                                }}
+                            >
+                                {item}
+                            </Grid>
+                        ))}
+                </List>
+            </div>
+            <IconButton
+                onClick={() => handleScroll("right")}
+                style={{
+                    position: "absolute",
+                    right: "-30px",
+                    backgroundColor: "white",
+                }}
+                className={!canScrollRight ? classes.hideArrow : "hideArrow"}
+            >
+                <ArrowForwardIcon />
+            </IconButton>
+        </Grid>
+    );
+};
+
+const Type2 = (props) => {
+    const { listData } = props;
+    const classes = userStyles();
+    return (
+        <Grid
+            item
+            xs={12}
+            style={{
+                padding: "0.5em 0",
+                // backgroundColor: "white",
+                borderRadius: "0.5em",
+                position: "relative",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(169px, 0fr))", // Adjust column width as needed
+                gap: "0.5em",
+            }}
+        >
+            {listData.length > 0 &&
+                listData.map((item, index) => (
+                    <Grid
+                        item
+                        xs={5}
+                        sm={3}
+                        md={props.space !== undefined ? props.space : 3}
+                        key={index}
+                        style={{
+                            maxWidth: "194px",
+                            margin: "0 5px",
+                        }}
+                    >
+                        {item}
+                    </Grid>
+                ))}
+        </Grid>
+    );
+};
+
+const ItemContainer = (props) => {
+    const classes = userStyles();
+    const { type } = props;
+    const length = props.length < 10 ? props.length : 10;
+    const listData = props.children ? props.children : [];
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
@@ -123,11 +237,14 @@ const ItemContainer = (props) => {
             {/* Render countdown item */}
             <Grid
                 container
-                className={classes.grid}
-                style={{ flexDirection: "column" }}
+                style={{
+                    flexDirection: "column",
+                    backgroundColor: "white",
+                    borderRadius: "0.5em",
+                }}
             >
                 {props.todayOnly ? (
-                     <Grid item xs={12} className={classes.todayOnly}>
+                    <Grid item xs={12} className={classes.todayOnly}>
                         <span style={{ fontWeight: 700 }}>Giá tốt hôm nay</span>
 
                         {props.timeInMilliSec && (
@@ -140,64 +257,15 @@ const ItemContainer = (props) => {
                         )}
                     </Grid>
                 ) : null}
-
-                <Grid
-                    item
-                    xs={12}
-                    className={classes.grid}
-                    style={{position: "relative", display: "flex", alignItems: "center" }}
-                >
-                    <IconButton
-                        onClick={() => handleScroll("left")}
-                        style={{position: 'absolute', left: "-30px", backgroundColor: "white"}}
-                        className={!canScrollLeft ? classes.hideArrow : "hideArrow"}
-                    >
-                        <ArrowBackIcon />
-                    </IconButton>
-                    <div
-                        style={{
-                            display: "flex",
-                            width: "1205px",
-                            overflow: "hidden",
-                        }}
-                    >
-                        <List
-                            ref={listRef}
-                            style={{
-                                display: "flex",
-                                padding: 0,
-                                margin: 0,
-                                transform: `translateX(${-scrollX}px)`,
-                            }}
-                        >
-                            {props.children
-                                ? props.children.map((item, index) => (
-                                      <Grid
-                                          item
-                                          xs={5}
-                                          sm={3}
-                                          md={
-                                              props.space !== undefined
-                                                  ? props.space
-                                                  : 3
-                                          }
-                                          key={index}
-                                          style={{ maxWidth: "194px", margin: "0 5px" }}
-                                      >
-                                          {item}
-                                      </Grid>
-                                  ))
-                                : null}
-                        </List>
-                    </div>
-                    <IconButton
-                        onClick={() => handleScroll("right")}
-                        style={{position: 'absolute', right: "-30px", backgroundColor: "white"}}
-                        className={!canScrollRight ? classes.hideArrow : "hideArrow"}
-                    >
-                        <ArrowForwardIcon />
-                    </IconButton>
-                </Grid>
+                {type === "slider" ? (
+                    <Type1
+                        space={props.space}
+                        listData={listData}
+                        length={length}
+                    />
+                ) : (
+                    <Type2 space={props.space} listData={listData} />
+                )}
             </Grid>
         </div>
     );

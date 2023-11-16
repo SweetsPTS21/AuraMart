@@ -45,7 +45,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import { SideBySideMagnifier } from "react-image-magnifiers";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Moment from "moment";
 import Moment2 from "react-moment";
 
@@ -61,7 +61,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { message } from "antd";
 import FormGroup from "@material-ui/core/FormGroup";
-import UnderDevelopmentPage from "./UnderDevelopmentPage";
+const defaultAvatar = "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -866,7 +866,10 @@ const RecommendProducts = () => {
 const ShopInfo = (props) => {
     const classes = useStyles();
     const shop = props.shop;
-    const shopAvatar = props.shop.avatar;
+    const shopAvatar =
+        props.shop.avatar !== "no-photo.jpg"
+            ? props.shop.avatar
+            : defaultAvatar;
     return (
         <div className={classes.block}>
             <div>SHOP INFO</div>
@@ -1494,7 +1497,7 @@ const ProductReview = ({ product, reviews }) => {
 const ProductDetailPage = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { productName, productId } = props.match.params;
+    const { productName, productId } = useParams();
     const [firstImageLoad, setFirstImageLoad] = useState(true);
     // const product = useSelector(state => state.products.products !== null && state.products.products.find(prod => prod.id === productId));
     const product = useSelector((state) => state.products.currentProduct);

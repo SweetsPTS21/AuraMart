@@ -8,7 +8,7 @@ import { message } from "antd";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const SET_CURRENT_USER_INFO = "SET_CURRENT_USER_INFO";
 
-const api_url = "http://localhost:5000";
+const api_url = process.env.REACT_APP_API;
 
 // 🔓 Register User
 export const registerUser =

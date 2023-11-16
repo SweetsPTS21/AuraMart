@@ -15,11 +15,7 @@ import Card from "../UI/Card";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router-dom";
-import {
-    Link,
-    Element,
-    animateScroll as scroll,
-} from "react-scroll";
+import { Link, Element, animateScroll as scroll } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../layout/NavBar";
 import Voucher from "../UI/Voucher";
@@ -29,8 +25,10 @@ import * as configActions from "../../store/actions/configActions";
 import * as voucherActions from "../../store/actions/voucherActions";
 import Banner from "../UI/Banner";
 import { Typography } from "@material-ui/core";
-const defaultBackground = "https://getwallpapers.com/wallpaper/full/7/1/6/464954.jpg";
-const defaultAvatar = "https://www.w3schools.com/howto/img_avatar.png";
+const defaultBackground =
+    "https://getwallpapers.com/wallpaper/full/7/1/6/464954.jpg";
+const defaultAvatar =
+    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -138,7 +136,7 @@ const useStyle = makeStyles((theme) => ({
         cursor: "pointer",
         "&:hover": {
             textDecoration: "none",
-            color: "#F4F4F4"
+            color: "#F4F4F4",
         },
     },
 
@@ -154,10 +152,11 @@ const useStyle = makeStyles((theme) => ({
 //Shop header and info
 const ShopInfo = (props) => {
     const classes = useStyle();
-    const shop = props.shop;
+    const shop = props.shop ? props.shop : {};
     const decoration = props.decorationsInShop;
     const shopBackground = decoration[1] ? decoration[1] : defaultBackground;
-    const shopAvatar = shop.avatar;
+    const shopAvatar =
+        shop.avatar !== "no-photo.jpg" ? shop.avatar : defaultAvatar;
     return (
         <Grid
             item
@@ -177,9 +176,7 @@ const ShopInfo = (props) => {
             <Grid item container xs={12} className={classes.shopInfo_info}>
                 <Grid item container xs={4} className={classes.shopInfo__image}>
                     <Grid item xs={3}>
-                        <div
-                            className={classes.avatar}
-                        >
+                        <div className={classes.avatar}>
                             <img src={shopAvatar} alt="" />
                         </div>
                     </Grid>
@@ -215,7 +212,7 @@ const ShopInfo = (props) => {
                         offset={-70}
                         duration={500}
                         className={classes.navLink}
-                        style={{fontWeight: "bold"}}
+                        style={{ fontWeight: "bold" }}
                     >
                         <div className={classes.navItem}>Cửa hàng</div>
                     </Link>
@@ -356,8 +353,15 @@ const ShopVoucher = (props) => {
     const canScrollLeft = scrollX > 0;
     const canScrollRight = scrollX < (vouchers.length - 2) * 110 - 32;
     return (
-        <Grid item xs={12} className={classes.block} style={{display: "flex", flexDirection: "column", padding: "1em"}}>
-            <Typography variant="h5" className={classes.voucher__tittle}>Shop vouchers</Typography>
+        <Grid
+            item
+            xs={12}
+            className={classes.block}
+            style={{ display: "flex", flexDirection: "column", padding: "1em" }}
+        >
+            <Typography variant="h5" className={classes.voucher__tittle}>
+                Shop vouchers
+            </Typography>
             {vouchers && vouchers.length > 0 ? (
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <IconButton
@@ -435,7 +439,9 @@ const ShopPage = (props) => {
         (state) => state.products.productsInShop
     );
     const configsInShop = useSelector((state) => state.configs.configsInShop);
-    const currentConfig = configsInShop ? configsInShop.filter((item) => item.using === true) : [];
+    const currentConfig = configsInShop
+        ? configsInShop.filter((item) => item.using === true)
+        : [];
     const decorationsInShop = currentConfig
         ? currentConfig.flatMap((item) => item.decoration)
         : [];
@@ -484,7 +490,10 @@ const ShopPage = (props) => {
                             <DealProducts productsInShop={productsInShop} />
                         </Element>
                         <ShopBanner bannersInShop={bannersInShop} />
-                        <Element name="shopProducts" className={classes.section}>
+                        <Element
+                            name="shopProducts"
+                            className={classes.section}
+                        >
                             <ShopProducts productsInShop={productsInShop} />
                         </Element>
                     </Grid>

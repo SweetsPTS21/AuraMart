@@ -2,10 +2,11 @@ import React from 'react'
 import NavBar from "../layout/NavBar";
 import AccountDashBoard from "../UI/AccountDashboard";
 import Footer from "../layout/Footer";
+import { useParams } from 'react-router-dom';
 
 
 const DashboardPage = (props) => {
-    const {type} = props.match.params;
+    const {type} = useParams();
     return (
         <div>
             < NavBar {...props}/>

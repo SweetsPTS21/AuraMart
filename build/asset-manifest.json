@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.8a710c43.css",
-    "main.js": "/static/js/main.fac23369.js",
+    "main.js": "/static/js/main.651ebe0e.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/banner2.png": "/static/media/banner2.f4af662f2892e885c3a4.png",
     "static/media/banner5.png": "/static/media/banner5.f1781c6a2d7abd09982c.png",
@@ -47,6 +47,6 @@
   },
   "entrypoints": [
     "static/css/main.8a710c43.css",
-    "static/js/main.fac23369.js"
+    "static/js/main.651ebe0e.js"
   ]
 }

@@ -15,6 +15,7 @@ import { message } from "antd";
 import * as voucherActions from "../../store/actions/voucherActions";
 import { useEffect } from "react";
 import { updateFinalTotal } from "../../store/actions/cartActions";
+import * as shopActions from "../../store/actions/shopActions";
 
 const userStyles = makeStyles(() => ({
     container: {
@@ -127,6 +128,10 @@ const Voucher = (props) => {
         }
     }, [userVouchers, voucher.id]);
 
+    useEffect(() => {
+        dispatch(shopActions.getShopById(shopId));
+    }, [shopId]);
+
     const handleSaveClick = () => {
         const msg = message.loading("Saving voucher...", 0);
         dispatch(voucherActions.addUserVoucherByUserId(user._id, voucher.id));
@@ -185,7 +190,7 @@ const Voucher = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={3} className={classes.voucher__button}>
-                    {user._id === shop.user && action !== "apply" ? (
+                    {shop && user._id === shop.user && action !== "apply" ? (
                         <Grid item xs={12} className={classes.voucher__modify}>
                             <Button
                                 size="medium"

@@ -12,6 +12,7 @@ import ItemContainer from "../UI/ItemContainer";
 import { useSelector, useDispatch } from "react-redux";
 import * as errorActions from "../../store/actions/errorActions";
 import * as addressActions from "../../store/actions/addressActions";
+import { getRecommendedProducts } from "../../store/actions/productActions";
 import { message } from "antd";
 // import "antd/dist/antd.css";
 
@@ -32,10 +33,14 @@ const HomePage = (props) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const products = useSelector((state) => state.products.products);
+    const recommendProds = useSelector(
+        (state) => state.products.recommendProds
+    );
     const [productsWithDiscount, setProductsWithDiscount] = useState([]);
     const [seeMoreDiscountedProd, setSeeMoreDiscountedProd] = useState(10);
     const [loadingDisProd, setLoadingDisProd] = useState(false);
     const [seeMoreProd, setSeeMoreProd] = useState(20);
+    const [seeMoreRecommendProd, setSeeMoreRecommendProd] = useState(10);
     const [loadingProd, setLoadingProd] = useState(false);
 
     const getProductsWithDiscount = async () => {
@@ -68,6 +73,12 @@ const HomePage = (props) => {
         setTimeout(() => getProductsWithDiscount(), 1000);
     }, [products]);
 
+    useEffect(() => {
+        if (user && user.id !== undefined) {
+            dispatch(getRecommendedProducts(user.id));
+        }
+    }, [user]);
+
     // using dispatch to get user address
     // useEffect(() => {
     //     dispatch(addressActions.getUserAddress(user.id));
@@ -99,7 +110,7 @@ const HomePage = (props) => {
                                 (Math.floor(Math.random() * 10) + 2) * 100000
                             } // 50 seconds
                             link={true}
-                            style={{ height: "330px" }}
+                            style={{ height: "330px", width: "186px" }}
                         />
                     )
             )
@@ -129,7 +140,39 @@ const HomePage = (props) => {
                             }
                             rating={prod.averageRating}
                             link={true}
-                            style={{ height: "330px" }}
+                            style={{ height: "330px", width: "186px" }}
+                        />
+                    )
+            )
+        );
+    };
+
+    const renderRecommendProd = () => {
+        return (
+            recommendProds &&
+            recommendProds.length > 0 &&
+            recommendProds.map(
+                (prod, index) =>
+                //just to make sure that the product is not null and the index is less than 10
+                    index < seeMoreRecommendProd && prod && (
+                        <Card
+                            key={prod.id}
+                            id={prod.id}
+                            type={"review"}
+                            slug={prod.slug}
+                            price={prod.price}
+                            discount={
+                                prod.discount !== undefined ? prod.discount : 0
+                            }
+                            title={prod.name}
+                            image={
+                                prod.photo === "no-photo.jpg"
+                                    ? BottleWarmer
+                                    : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                            }
+                            rating={prod.averageRating}
+                            link={true}
+                            style={{ height: "330px", width: "170px" }}
                         />
                     )
             )
@@ -219,6 +262,7 @@ const HomePage = (props) => {
                             </ItemContainer>
                             <ItemContainer
                                 length={productsWithDiscount.length}
+                                type={"slider"}
                                 seeMore={() => {
                                     setSeeMoreDiscountedProd((val) => val + 10);
                                     setLoadingDisProd(true);
@@ -244,7 +288,8 @@ const HomePage = (props) => {
                             {products !== null && (
                                 <ItemContainer
                                     length={products.length}
-                                    title={"Recommended for you"}
+                                    type={"slider"}
+                                    title={"All products you might like"}
                                     seeMore={() => {
                                         setSeeMoreProd((val) => val + 10);
                                         setLoadingProd(true);
@@ -257,6 +302,28 @@ const HomePage = (props) => {
                                 >
                                     {renderProd()}
                                 </ItemContainer>
+                            )}
+                            {recommendProds ? (
+                                <div>
+                                    <ItemContainer
+                                        length={recommendProds.length}
+                                        type={"container"}
+                                        title={"Recommended for you"}
+                                        seeMore={() => {
+                                            setSeeMoreProd((val) => val + 10);
+                                            setLoadingProd(true);
+                                            setTimeout(
+                                                () => setLoadingProd(false),
+                                                500
+                                            );
+                                        }}
+                                        loading={loadingProd}
+                                    >
+                                        {renderRecommendProd()}
+                                    </ItemContainer>
+                                </div>
+                            ) : (
+                                <p>no recommend product</p>
                             )}
                         </div>
                         <Footer />

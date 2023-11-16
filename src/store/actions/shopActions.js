@@ -32,10 +32,9 @@ export const getShopById = (id) => async (dispatch) => {
         .then((res) => {
             dispatch({
                 type: GET_SHOP_BY_ID, //this call test dispatch. to dispsatch to our reducer
-                shops: res.data.data,
+                shop: res.data.data,
             });
 
-            // message.success("Got shop");
         })
         .catch((err) => {
             message.error("Error getting shop");
@@ -50,8 +49,7 @@ export const getShopByUserId = (userId) => async (dispatch) => {
         .then((res) => {
             if (!res.data.success) {
                 return message.error("Error getting shop");
-            }
-            else {
+            } else {
                 dispatch({
                     type: GET_SHOP_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
                     shops: res.data.data,

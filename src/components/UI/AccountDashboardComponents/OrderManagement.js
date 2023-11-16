@@ -17,6 +17,7 @@ import Moment2 from "moment";
 import { Timeline } from "rsuite";
 import { Link } from "react-router-dom";
 import Ripples from "react-ripples";
+import {getProductById} from "../../../store/actions/productActions";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -96,6 +97,7 @@ const OrderManagement = (props) => {
     useEffect(() => {
         dispatch(orderActions.getOrdersByUserId(userId));
     }, []);
+    
 
     const OrderStep = ({ myOrder }) => {
         const QontoConnector = withStyles({
@@ -206,7 +208,7 @@ const OrderManagement = (props) => {
             return allProduct.find((product) => product._id === productId);
         };
 
-        const product = getProductById(myOrder.product);
+        const product = myOrder.product;
 
         const { shop, total, quantity, phone, address, _id, createdAt } =
             myOrder;
