@@ -110,7 +110,7 @@ const HomePage = (props) => {
                                 (Math.floor(Math.random() * 10) + 2) * 100000
                             } // 50 seconds
                             link={true}
-                            style={{ height: "330px", width: "186px" }}
+                            style={{ height: "330px", width: "170px" }}
                         />
                     )
             )
@@ -140,7 +140,7 @@ const HomePage = (props) => {
                             }
                             rating={prod.averageRating}
                             link={true}
-                            style={{ height: "330px", width: "186px" }}
+                            style={{ height: "330px", width: "170px" }}
                         />
                     )
             )
@@ -153,8 +153,9 @@ const HomePage = (props) => {
             recommendProds.length > 0 &&
             recommendProds.map(
                 (prod, index) =>
-                //just to make sure that the product is not null and the index is less than 10
-                    index < seeMoreRecommendProd && prod && (
+                    //just to make sure that the product is not null and the index is less than 10
+                    index < seeMoreRecommendProd &&
+                    prod && (
                         <Card
                             key={prod.id}
                             id={prod.id}
@@ -202,7 +203,7 @@ const HomePage = (props) => {
                         width: "100%",
                         height: "100%",
                         display: "flex",
-                        maxWidth: "1400px",
+                        maxWidth: "1200px",
                         padding: "0.5em",
                     }}
                 >
@@ -277,8 +278,7 @@ const HomePage = (props) => {
                                     100000
                                 } // 50 seconds
                                 todayOnly={true}
-                                // no title will show a tiki deal title
-                                //{/*There are 3 types of card default, deal and review. Each card has a props you need to pass to it*/}
+                                itemWidth={"170px"}
                             >
                                 {renderDiscountedProd()}
                             </ItemContainer>
@@ -299,6 +299,7 @@ const HomePage = (props) => {
                                         );
                                     }}
                                     loading={loadingProd}
+                                    itemWidth={"170px"}
                                 >
                                     {renderProd()}
                                 </ItemContainer>
@@ -318,6 +319,7 @@ const HomePage = (props) => {
                                             );
                                         }}
                                         loading={loadingProd}
+                                        itemWidth={"170px"}
                                     >
                                         {renderRecommendProd()}
                                     </ItemContainer>

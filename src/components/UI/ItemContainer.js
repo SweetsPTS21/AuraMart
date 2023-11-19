@@ -11,7 +11,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 const userStyles = makeStyles(() => ({
     root: {
         margin: "0",
-        padding: "0.5em",
+        // padding: "0.5em",
     },
     title: {
         fontSize: "1.2em",
@@ -39,11 +39,12 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
+// Place item in a slide
 const Type1 = (props) => {
     const classes = userStyles();
     const listRef = useRef(null);
 
-    const { listData, length } = props;
+    const { listData, length, itemWidth } = props;
     const [scrollX, setScrollX] = useState(0);
     const handleScroll = (direction) => {
         const scrollAmount = direction === "left" ? -970 : 970;
@@ -79,7 +80,7 @@ const Type1 = (props) => {
             <div
                 style={{
                     display: "flex",
-                    width: "1205px",
+                    // width: "1205px",
                     overflow: "hidden",
                 }}
             >
@@ -101,7 +102,7 @@ const Type1 = (props) => {
                                 md={props.space !== undefined ? props.space : 3}
                                 key={index}
                                 style={{
-                                    maxWidth: "194px",
+                                    maxWidth: itemWidth,
                                     margin: "0 5px",
                                 }}
                             >
@@ -125,21 +126,19 @@ const Type1 = (props) => {
     );
 };
 
+// Place item in a grid
 const Type2 = (props) => {
-    const { listData } = props;
-    const classes = userStyles();
+    const { listData, itemWidth } = props;
     return (
         <Grid
             item
             xs={12}
             style={{
-                padding: "0.5em 0",
-                // backgroundColor: "white",
+                padding: "0.5em",
                 borderRadius: "0.5em",
                 position: "relative",
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(169px, 0fr))", // Adjust column width as needed
-                gap: "0.5em",
+                display: "flex",
+                flexWrap: "wrap",
             }}
         >
             {listData.length > 0 &&
@@ -151,8 +150,8 @@ const Type2 = (props) => {
                         md={props.space !== undefined ? props.space : 3}
                         key={index}
                         style={{
-                            maxWidth: "194px",
-                            margin: "0 5px",
+                            maxWidth: itemWidth,
+                            margin: "5px",
                         }}
                     >
                         {item}
@@ -167,6 +166,7 @@ const ItemContainer = (props) => {
     const { type } = props;
     const length = props.length < 10 ? props.length : 10;
     const listData = props.children ? props.children : [];
+    const itemWidth = props.itemWidth ? props.itemWidth : "170px";
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
@@ -262,9 +262,14 @@ const ItemContainer = (props) => {
                         space={props.space}
                         listData={listData}
                         length={length}
+                        itemWidth={itemWidth}
                     />
                 ) : (
-                    <Type2 space={props.space} listData={listData} />
+                    <Type2
+                        space={props.space}
+                        listData={listData}
+                        itemWidth={itemWidth}
+                    />
                 )}
             </Grid>
         </div>

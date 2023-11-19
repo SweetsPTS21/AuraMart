@@ -11,28 +11,30 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Check from "@material-ui/icons/Check";
 import StepConnector from "@material-ui/core/StepConnector";
-import CardHeader from "../AdminDashboardComponents/Card/CardHeader";
-import CardBody from "../AdminDashboardComponents/Card/CardBody";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import { StoreRounded } from "@material-ui/icons";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Moment2 from "moment";
 import { Timeline } from "rsuite";
 import { Link } from "react-router-dom";
-import Ripples from "react-ripples";
-import {getProductById} from "../../../store/actions/productActions";
+import BottleWarmer from "../../../image/bottoleWarmer.jpg";
 
 const userStyles = makeStyles(() => ({
     button: {
+        textTransform: "none !important",
         backgroundColor: "#ff9100",
         borderColor: "#ff9100",
         "&:focus": {
             outline: "none",
         },
         color: "rgba(0,0,0,0.8)",
-
-        fontSize: "0.7em",
         margin: 0,
         marginLeft: "1em",
-        marginRight: "0.5em",
-        marginTop: "2em",
+        marginTop: "1em",
         marginBottom: "1em",
     },
     input: {
@@ -54,7 +56,7 @@ const userStyles = makeStyles(() => ({
             "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
     },
     grid2: {
-        padding: "2em",
+        padding: "1em",
         marginTop: "1em",
         marginBottom: "1.5em",
         backgroundColor: "white",
@@ -76,6 +78,63 @@ const userStyles = makeStyles(() => ({
     removeLinkStyles: {
         textDecoration: "none !important",
     },
+    card__shop: {
+        display: "flex",
+        alignItems: "center",
+        padding: "1em",
+        borderBottom: "1px solid rgba(0,0,0,0.1)",
+        borderTop: "1px solid rgba(0,0,0,0.1)",
+    },
+    card__shop__name: {
+        display: "flex",
+        fontSize: "1.2em",
+        fontWeight: 600,
+        color: "rgba(0,0,0,0.8)",
+    },
+    card__order__status: {
+        display: "flex",
+        justifyContent: "flex-end",
+    },
+    card__shop__view__button: {
+        textTransform: "none",
+        backgroundColor: "#ff9100",
+        borderColor: "#ff9100",
+        "&:focus": {
+            outline: "none",
+        },
+        "&:hover": {
+            backgroundColor: "rgba(255, 145, 0, 0.1)",
+        },
+        color: "rgba(0,0,0,0.8)",
+        fontSize: "0.7em",
+        marginLeft: "1em",
+        width: "6em",
+        height: "2em",
+    },
+    card__product: {
+        display: "flex",
+        alignItems: "center",
+        padding: "1em",
+        borderBottom: "1px solid rgba(0,0,0,0.1)",
+    },
+    card__product__info: {
+        display: "flex",
+    },
+    card__product__price: {
+        display: "flex",
+        justifyContent: "flex-end",
+    },
+    card__actions: {
+        display: "flex",
+        justifyContent: "flex-end",
+        padding: "1em",
+        paddingBottom: "0",
+    },
+    card__actions__button: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
     "@global .MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded":
         {
             top: "45% !important",
@@ -87,6 +146,456 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
+function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
+    };
+}
+
+const OrderStep = ({ myOrder }) => {
+    const QontoConnector = withStyles({
+        alternativeLabel: {
+            top: 10,
+            left: "calc(-50% + 16px)",
+            right: "calc(50% + 16px)",
+        },
+        active: {
+            "& $line": {
+                borderColor: "#189EFF",
+            },
+        },
+        completed: {
+            "& $line": {
+                borderColor: "#189EFF",
+            },
+        },
+        line: {
+            borderColor: "#eaeaf0",
+            borderTopWidth: 3,
+            borderRadius: 1,
+        },
+    })(StepConnector);
+    const useQontoStepIconStyles = makeStyles({
+        root: {
+            color: "#eaeaf0",
+            display: "flex",
+            height: 22,
+            alignItems: "center",
+        },
+        active: {
+            color: "#189EFF",
+        },
+        circle: {
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+            backgroundColor: "currentColor",
+        },
+        completed: {
+            color: "#189EFF",
+            zIndex: 1,
+            fontSize: 18,
+        },
+    });
+
+    function QontoStepIcon(props) {
+        const classes = useQontoStepIconStyles();
+        const { active, completed } = props;
+
+        return (
+            <div
+                className={clsx(classes.root, {
+                    [classes.active]: active,
+                })}
+            >
+                {completed ? (
+                    <Check className={classes.completed} />
+                ) : (
+                    <div className={classes.circle} />
+                )}
+            </div>
+        );
+    }
+
+    QontoStepIcon.propTypes = {
+        active: PropTypes.bool,
+        completed: PropTypes.bool,
+    };
+    const getCurrentState = () => {
+        if (myOrder.currentState === "Delivered") return 5;
+        if (myOrder.currentState === "Shipping") return 4;
+        if (myOrder.currentState === "Packing") return 3;
+        if (myOrder.currentState === "Getting Product") return 2;
+        if (myOrder.currentState === "Tiki Received") return 1;
+        if (myOrder.currentState === "Ordered Successfully") return 0;
+    };
+    const [activeStep, setActiveStep] = useState(getCurrentState());
+
+    const steps = [
+        "Ordered Successfully",
+        "Tiki Received",
+        "Getting Product",
+        "Packing",
+        "Shipping",
+        "Delivered",
+    ];
+
+    return (
+        <Stepper
+            alternativeLabel
+            activeStep={activeStep}
+            connector={<QontoConnector />}
+        >
+            {steps.map((label) => (
+                <Step key={label}>
+                    <StepLabel StepIconComponent={QontoStepIcon}>
+                        {label}
+                    </StepLabel>
+                </Step>
+            ))}
+        </Stepper>
+    );
+};
+
+const oldStyle = ({ myOrder }) => {
+    const classes = userStyles();
+    const product = myOrder.product;
+
+    const { shop, total, quantity, phone, address, _id, createdAt } = myOrder;
+    return (
+        <>
+            <p
+                style={{
+                    fontSize: "1.4em",
+                    marginBottom: "0.5em",
+                    textAlign: "center",
+                }}
+            >
+                You ordered
+                <Link
+                    to={`/${product.slug}/${product._id}`}
+                    className={classes.removeLinkStyles}
+                >
+                    <span className={classes.boldGreen}> {product.name}</span>{" "}
+                </Link>
+                from <span className={classes.boldGreen}>{shop.name}</span>
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p>
+                    Original Product Price -{" "}
+                    <span className={classes.priceText}>{product.price}đ</span>
+                </p>
+                <p>
+                    Total Price(discounted) -{" "}
+                    <span className={classes.priceText}>{total}đ</span>
+                </p>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p>Quantity ordered - {quantity}</p>
+                <p style={{ marginTop: "0.5em" }}>Contact is - {phone}</p>
+            </div>
+            <p>Address - {address}</p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p className={classes.boldGreen} style={{ marginTop: "1.5em" }}>
+                    {" "}
+                    Order made on{" "}
+                    {Moment2(createdAt).format("MMMM DD YYYY, h:mm:ss a")}
+                </p>
+                <p style={{ marginTop: "1.5em" }}>Order Id is - {_id}</p>
+            </div>
+        </>
+    );
+};
+
+const OrderCard = ({ myOrder }) => {
+    const classes = userStyles();
+    const product = myOrder.product;
+
+    const { shop, total, quantity, phone, address, _id, createdAt } = myOrder;
+
+    return (
+        <div className={classes.grid2}>
+            <OrderStep myOrder={myOrder} />
+            <Grid container>
+                <Grid item container xs={12} className={classes.card__shop}>
+                    <Grid item xs={6} className={classes.card__shop__name}>
+                        <StoreRounded />
+                        <Typography style={{ marginLeft: "0.5em" }}>
+                            {shop.name}
+                        </Typography>
+                        <Button className={classes.card__shop__view__button}>
+                            Xem shop
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} className={classes.card__order__status}>
+                        <div className={classes.boldGreen}>
+                            {myOrder.currentState}
+                        </div>
+                    </Grid>
+                </Grid>
+                <Grid item container xs={12} className={classes.card__product}>
+                    <Grid
+                        item
+                        container
+                        xs={8}
+                        className={classes.card__product__info}
+                    >
+                        <Grid item xs={2}>
+                            <img
+                                src={BottleWarmer}
+                                alt=""
+                                style={{ width: "82px", height: "82px" }}
+                            />
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Link
+                                to={`/${product.slug}/${product._id}`}
+                                className={classes.removeLinkStyles}
+                            >
+                                <Typography
+                                    style={{
+                                        fontSize: "1em",
+                                        fontWeight: 500,
+                                        color: "rgba(0,0,0,0.8)",
+                                    }}
+                                >
+                                    {product.name}
+                                </Typography>
+                            </Link>
+                            <Typography
+                                style={{
+                                    fontSize: "0.9em",
+                                    fontWeight: 500,
+                                    color: "#AAA",
+                                }}
+                            >
+                                Phân loại hàng: {product.category}
+                            </Typography>
+                            <Typography
+                                style={{
+                                    fontSize: "0.9em",
+                                    fontWeight: 500,
+                                    color: "rgba(0,0,0,0.8)",
+                                }}
+                            >
+                                Số lượng: {quantity}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={4} className={classes.card__product__price}>
+                        <Typography
+                            style={{
+                                color: "rgba(36, 36, 36, 0.6)",
+                                fontSize: "0.75em",
+                                marginLeft: "1.5em",
+                                border: "1px solid #FFFFFF",
+                                borderRadius: "0.5em",
+                                backgroundColor: "#f5f5fa",
+                                padding: "3px 6px",
+                            }}
+                        >
+                            -{product.discount}%{" "}
+                        </Typography>
+
+                        <Typography
+                            style={{
+                                fontSize: "1em",
+                                color: "#FF2800",
+                            }}
+                        >
+                            {product.price}đ
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid item container xs={12} className={classes.card__actions}>
+                    <Grid
+                        item
+                        xs={12}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-end",
+                            margin: "0.5em 0",
+                        }}
+                    >
+                        <Typography
+                            style={{
+                                fontSize: "1.3em",
+                                color: "#FF2800",
+                            }}
+                        >
+                            Thành tiền: {total}đ
+                        </Typography>
+                    </Grid>
+
+                    <Grid
+                        item
+                        container
+                        xs={12}
+                        className={classes.card__actions__button}
+                    >
+                        <Typography
+                            style={{
+                                fontSize: "1em",
+                                fontWeight: 600,
+                                color: "rgba(0,0,0,0.8)",
+                            }}
+                        >
+                            Dự kiến giao hàng: 20/10/2023
+                        </Typography>
+                        <Grid
+                            item
+                            xs={8}
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                        >
+                            <Button className={classes.button}>
+                                Hủy đơn hàng
+                            </Button>
+                            <Button className={classes.button}>
+                                Xem chi tiết đơn hàng
+                            </Button>
+                            <Button className={classes.button}>
+                                Liên hệ shop
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </div>
+    );
+};
+
+const OrderPanel = (props) => {
+    const classes = userStyles();
+    const { myOrders } = props;
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (
+        <Grid item xs={12} className={classes.voucher__content__tab}>
+            <Box sx={{ width: "100%" }}>
+                <Box
+                    sx={{
+                        borderBottom: 1,
+                        borderColor: "divider",
+                        backgroundColor: "#fff"
+                    }}
+                >
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                        style={{padding: "0"}}
+                    >
+                        <Tab label="Tất cả" {...a11yProps(0)} />
+                        <Tab label="Chờ thanh toán" {...a11yProps(1)} />
+                        <Tab label="Vận chuyển" {...a11yProps(2)} />
+                        <Tab label="Chờ giao hàng" {...a11yProps(3)} />
+                        <Tab label="Hoàn thành" {...a11yProps(4)} />
+                        <Tab label="Đã hủy" {...a11yProps(5)} />
+                        <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} />
+                    </Tabs>
+                </Box>
+                <CustomTabPanel value={value} index={0}>
+                    <div>
+                        {myOrders.map((order, index) => (
+                            <OrderCard myOrder={order} key={index} />
+                        ))}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                (order.currentState ===
+                                    "Ordered Successfully" ||
+                                    order.currentState === "Tiki Received" ||
+                                    order.currentState === "Getting Product") &&
+                                order.paymentState === "Pending" &&
+                                order.paymentMethod !== "COD" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                order.currentState === "Shipping" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={3}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                order.currentState === "Delivered" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={4}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                order.currentState === "Delivered" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={5}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                order.currentState === "Cancelled" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+            </Box>
+        </Grid>
+    );
+};
+
 const OrderManagement = (props) => {
     const classes = userStyles();
     const dispatch = useDispatch();
@@ -97,195 +606,16 @@ const OrderManagement = (props) => {
     useEffect(() => {
         dispatch(orderActions.getOrdersByUserId(userId));
     }, []);
-    
-
-    const OrderStep = ({ myOrder }) => {
-        const QontoConnector = withStyles({
-            alternativeLabel: {
-                top: 10,
-                left: "calc(-50% + 16px)",
-                right: "calc(50% + 16px)",
-            },
-            active: {
-                "& $line": {
-                    borderColor: "#189EFF",
-                },
-            },
-            completed: {
-                "& $line": {
-                    borderColor: "#189EFF",
-                },
-            },
-            line: {
-                borderColor: "#eaeaf0",
-                borderTopWidth: 3,
-                borderRadius: 1,
-            },
-        })(StepConnector);
-        const useQontoStepIconStyles = makeStyles({
-            root: {
-                color: "#eaeaf0",
-                display: "flex",
-                height: 22,
-                alignItems: "center",
-            },
-            active: {
-                color: "#189EFF",
-            },
-            circle: {
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: "currentColor",
-            },
-            completed: {
-                color: "#189EFF",
-                zIndex: 1,
-                fontSize: 18,
-            },
-        });
-
-        function QontoStepIcon(props) {
-            const classes = useQontoStepIconStyles();
-            const { active, completed } = props;
-
-            return (
-                <div
-                    className={clsx(classes.root, {
-                        [classes.active]: active,
-                    })}
-                >
-                    {completed ? (
-                        <Check className={classes.completed} />
-                    ) : (
-                        <div className={classes.circle} />
-                    )}
-                </div>
-            );
-        }
-
-        QontoStepIcon.propTypes = {
-            active: PropTypes.bool,
-            completed: PropTypes.bool,
-        };
-        const getCurrentState = () => {
-            if (myOrder.currentState === "Delivered") return 5;
-            if (myOrder.currentState === "Shipping") return 4;
-            if (myOrder.currentState === "Packing") return 3;
-            if (myOrder.currentState === "Getting Product") return 2;
-            if (myOrder.currentState === "Tiki Received") return 1;
-            if (myOrder.currentState === "Ordered Successfully") return 0;
-        };
-        const [activeStep, setActiveStep] = useState(getCurrentState());
-
-        const steps = [
-            "Ordered Successfully",
-            "Tiki Received",
-            "Getting Product",
-            "Packing",
-            "Shipping",
-            "Delivered",
-        ];
-
-        return (
-            <Stepper
-                alternativeLabel
-                activeStep={activeStep}
-                connector={<QontoConnector />}
-            >
-                {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel StepIconComponent={QontoStepIcon}>
-                            {label}
-                        </StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-        );
-    };
-    const OrderCard = ({ myOrder }) => {
-        const getProductById = (productId) => {
-            return allProduct.find((product) => product._id === productId);
-        };
-
-        const product = myOrder.product;
-
-        const { shop, total, quantity, phone, address, _id, createdAt } =
-            myOrder;
-        return (
-            <div className={classes.grid2}>
-                <OrderStep myOrder={myOrder} />
-                <p
-                    style={{
-                        fontSize: "1.4em",
-                        marginBottom: "0.5em",
-                        textAlign: "center",
-                    }}
-                >
-                    You ordered
-                    <Link
-                        to={`/${product.slug}/${product._id}`}
-                        className={classes.removeLinkStyles}
-                    >
-                        <span className={classes.boldGreen}>
-                            {" "}
-                            {product.name}
-                        </span>{" "}
-                    </Link>
-                    from <span className={classes.boldGreen}>{shop.name}</span>
-                </p>
-                <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                    <p>
-                        Original Product Price -{" "}
-                        <span className={classes.priceText}>
-                            {product.price}đ
-                        </span>
-                    </p>
-                    <p>
-                        Total Price(discounted) -{" "}
-                        <span className={classes.priceText}>
-                            {total.toFixed(2)}đ
-                        </span>
-                    </p>
-                </div>
-                <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                    <p>Quantity ordered - {quantity}</p>
-                    <p style={{ marginTop: "0.5em" }}>Contact is - {phone}</p>
-                </div>
-                <p>Address - {address}</p>
-                <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                    <p
-                        className={classes.boldGreen}
-                        style={{ marginTop: "1.5em" }}
-                    >
-                        {" "}
-                        Order made on{" "}
-                        {Moment2(createdAt).format("MMMM DD YYYY, h:mm:ss a")}
-                    </p>
-                    <p style={{ marginTop: "1.5em" }}>Order Id is - {_id}</p>
-                </div>
-            </div>
-        );
-    };
 
     return (
         <div style={{ width: "100%" }}>
             <div className={classes.title}>My Order</div>
+
             {myOrders !== null &&
             myOrders.length > 0 &&
             allProduct !== null &&
             allProduct.length > 0 ? (
-                <div>
-                    {myOrders.map((order, index) => (
-                        <OrderCard myOrder={order} key={index} />
-                    ))}
-                </div>
+                <OrderPanel myOrders={myOrders} allProduct={allProduct} />
             ) : (
                 <div style={{ width: "80%" }}>
                     <div className={classes.grid}>

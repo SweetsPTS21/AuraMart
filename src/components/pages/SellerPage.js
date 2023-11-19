@@ -4,23 +4,30 @@ import * as shopActions from "../../store/actions/shopActions";
 import SellerDashbroad from "../UI/SellerDashboard";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
+import SellerRegister from "../UI/SellerDashbroadComponents/SellerRegister";
 
 const SellerPage = (props) => {
     const index = props.type ? props.type : 0;
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.userData);
 
-    useEffect(()=>{
-        dispatch(shopActions.getShopByUserId(user.id));
-    },[user]);
-    
+    useEffect(() => {
+        if (user && user.role === "seller")
+            dispatch(shopActions.getShopByUserId(user.id));
+    }, [user]);
+
     return (
-        <div style={{ backgroundColor: "#EEEEEE"}}>
-            < NavBar {...props}/>
-            <SellerDashbroad index={index}/>
-            < Footer/>
+        <div style={{ backgroundColor: "#EEEEEE" }}>
+            <NavBar {...props} />
+            {user && user.role !== "user" ? (
+                <SellerDashbroad index={index} />
+            ) : (
+                <SellerRegister />
+            )}
+
+            <Footer />
         </div>
-    )
-}
+    );
+};
 
 export default SellerPage;

@@ -187,6 +187,46 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         borderRadius: "0.5em",
     },
+    chatPopup: {
+        position: "fixed",
+        bottom: "1em",
+        right: "1em",
+        zIndex: 999999,
+        backgroundColor: "#fff",
+        borderRadius: "0.5em",
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+        "&:hover": {
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+        },
+    },
+    chatPopupNotLogin: {
+        position: "fixed",
+        bottom: "1em",
+        right: "1em",
+        zIndex: 999999,
+        backgroundColor: "#fff",
+        borderRadius: "0.5em",
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+        "&:hover": {
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+        },
+        padding: "1em",
+    },
+    chatPopupHeader: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0.5em 1em",
+        borderBottom: "1px solid #dddde3",
+    },
+    chatPopupContent: {
+        width: "630px",
+        height: "460px",
+        paddingBotom: "0.5em",
+        paddingLeft: "0.5em",
+        paddingRight: "0.5em",
+    },
+
     "@global #autocomContainer .MuiInputBase-root.MuiInput-root.MuiAutocomplete-inputRoot.MuiInputBase-fullWidth.MuiInput-fullWidth.MuiInputBase-formControl.MuiInput-formControl.MuiInputBase-adornedEnd.MuiInput-underline:before":
         {
             border: "none !important",
@@ -205,6 +245,48 @@ const useStyles = makeStyles((theme) => ({
     "@global .MuiButtonBase-root.MuiFab-root:focus": {
         outline: "none",
     },
+
+    "@global .ce-wrapper": {
+        height: "452px !important",
+    },
+    "@global .ce-chat-list": {
+        height: "452px !important",
+    },
+    "@global .ce-chat-list-column": {
+        width: "30% !important",
+        maxWidth: "30% !important",
+        flex: "0 0 30% !important",
+        paddingLeft: "0.5em !important",
+    },
+    "@global .ce-chat-feed": {
+        height: "452px !important",
+    },
+    "@global .ce-chat-feed-column": {
+        width: "70% !important",
+        maxWidth: "70% !important",
+        flex: "0 0 70% !important",
+    },
+    "@global .ce-settings-column": {
+        display: "none !important",
+    },
+    "@global .ce-settings": {
+        overflow: "auto !important",
+    },
+    "@global .ce-settings-container": {
+        width: "100% !important",
+    },
+
+    "@global .ce-quill-container": {
+        border: "1px solid #ccc !important",
+        borderRadius: "0.5em !important",
+    },
+    "@global .ql-container.ql-snow": {
+        border: "none !important",
+    },
+    "@global .ql-toolbar.ql-snow": {
+        border: "none !important",
+    },
+
 }));
 
 export default useStyles;

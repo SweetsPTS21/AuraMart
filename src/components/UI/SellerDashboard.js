@@ -22,6 +22,7 @@ import avatar from "../../image/avatar.png";
 
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import navbarStyles from "../../styles/NavbarStyles";
 import { useSelector } from "react-redux";
 import SellerHome from "./SellerDashbroadComponents/SellerHome";
 import OrdersManagement from "./SellerDashbroadComponents/OrdersManagement";
@@ -31,31 +32,207 @@ import Stocks from "./SellerDashbroadComponents/Stocks";
 import BillingInformation from "./SellerDashbroadComponents/BillingInfomation";
 import CustomerService from "./SellerDashbroadComponents/CustomerService";
 import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
-import SellerRegister from "./SellerDashbroadComponents/SellerRegister";
+import { Typography } from "antd";
+import { IconButton, Fab } from "@material-ui/core";
+import { ChatEngine } from "react-chat-engine";
+import {
+    NotificationsOutlined,
+    ArrowBackOutlined,
+    ChatBubbleOutline,
+    CloseRounded,
+} from "@material-ui/icons";
+import { Link } from "react-router-dom";
+
+const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
+
+const DashboardPageHeader = (props) => {
+    const { user } = props;
+    const classes = navbarStyles();
+    const [openChat, setOpenChat] = useState(false);
+
+    const handleOpenChatPopup = () => {
+        setOpenChat(!openChat);
+    };
+
+    return (
+        <div
+            style={{
+                position: "fixed",
+                top: 0,
+                width: "100%",
+                height: "64px",
+                backgroundColor: "#fff",
+                boxShadow: "0 1px 0 0 rgba(0,0,0,.1)",
+                zIndex: 9999,
+            }}
+        >
+            <Grid container style={{ display: "flex", padding: "1em" }}>
+                <Grid
+                    item
+                    container
+                    xs={10}
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        borderRight: "1px solid #ccc",
+                    }}
+                >
+                    <Grid
+                        item
+                        xs={3}
+                        style={{ display: "flex", alignItems: "Center" }}
+                    >
+                        <img
+                            src={tikiNow}
+                            style={{ width: "32px", height: "32px" }}
+                            alt={"oven"}
+                        />
+                        <Typography
+                            style={{
+                                fontSize: "1.3em",
+                                fontWeight: 400,
+                                textAlign: "center",
+                                marginLeft: "0.5em",
+                                fontFamily: "inherit",
+                            }}
+                        >
+                            Kênh người bán
+                        </Typography>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={2}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            borderRadius: "0.5em",
+                        }}
+                    >
+                        <IconButton
+                            size="small"
+                            style={{
+                                padding: "0 0.5em",
+                                borderRadius: "1.3em",
+                                margin: 0,
+                                "&:hover": {
+                                    backgroundColor: "#BBB",
+                                },
+                            }}
+                        >
+                            <img
+                                src={tikixu}
+                                style={{ width: "32px", height: "32px" }}
+                                alt={"oven"}
+                            />
+                            <Typography
+                                style={{
+                                    fontSize: "0.8em",
+                                    textAlign: "center",
+                                    marginLeft: "0.5em",
+                                }}
+                            >
+                                {user.name}
+                            </Typography>
+                        </IconButton>
+                    </Grid>
+                </Grid>
+                <Grid
+                    item
+                    xs={2}
+                    style={{ display: "flex", alignItems: "center" }}
+                >
+                    <IconButton
+                        size="small"
+                        style={{
+                            padding: "0 0.5em",
+                            borderRadius: "1.3em",
+                            margin: 0,
+                            marginLeft: "1em",
+                        }}
+                    >
+                        <NotificationsOutlined />
+                    </IconButton>
+
+                    <Link to="/">
+                        <IconButton
+                            size="small"
+                            style={{
+                                padding: "0.2em 0.5em",
+                                border: "1px solid #ccc",
+                                borderRadius: "1.3em",
+                                margin: 0,
+                                marginLeft: "1em",
+                                "&:hover": {
+                                    backgroundColor: "#BBB",
+                                },
+                            }}
+                        >
+                            <ArrowBackOutlined />
+                            Trang chủ
+                        </IconButton>
+                    </Link>
+                </Grid>
+            </Grid>
+            <Fab
+                aria-label="up"
+                size={"large"}
+                style={{
+                    top: "90%",
+                    right: "2%",
+                    position: "fixed",
+                    zIndex: 99999,
+                    backgroundColor: "#0a68ff",
+                }}
+                onClick={() => handleOpenChatPopup()}
+            >
+                <ChatBubbleOutline fontSize="large" htmlColor="#fff" />
+            </Fab>
+            {openChat && (
+                <div className={classes.chatPopup}>
+                    <Grid container className={classes.chatPopupInner}>
+                        <Grid item xs={12} className={classes.chatPopupHeader}>
+                            <Typography
+                                style={{
+                                    fontSize: "20px",
+                                    fontFamily: "inherit",
+                                }}
+                            >
+                                Chat
+                            </Typography>
+                            <IconButton onClick={() => setOpenChat(!openChat)}>
+                                <CloseRounded />
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={12} className={classes.chatPopupContent}>
+                            <ChatEngine
+                                publicKey={chatPublicKey}
+                                userName={user.email}
+                                userPassword={user._id}
+                            />
+                        </Grid>
+                    </Grid>
+                </div>
+            )}
+        </div>
+    );
+};
 
 const SellerDashbroad = (props) => {
-    const index = parseInt(props.index);
+    const index = 0;
     const classes = userStyles();
     const user = useSelector((state) => state.auth.userData);
-    const shop = useSelector((state) => state.shops.userShop);
-    const [selectedIndex, setSelectedIndex] = useState(shop ? index : 9);
+    const [selectedIndex, setSelectedIndex] = useState(index);
 
-    // useEffect(() => {
-    //     setSelectedIndex(shop ? index: 9);
-    // }, [index]);
-
-    const options = shop
-        ? [
-              "Home page",
-              "Orders Management",
-              "Products Management",
-              "Shop Management",
-              "Stocks",
-              "Billing Information",
-              "Customer Service",
-              "Help Center",
-          ]
-        : ["Register as a seller"];
+    const options = [
+        "Home page",
+        "Orders Management",
+        "Products Management",
+        "Shop Management",
+        "Stocks",
+        "Billing Information",
+        "Customer Service",
+        "Help Center",
+    ];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
         <NotificationsIcon className={classes.item} />,
@@ -67,7 +244,7 @@ const SellerDashbroad = (props) => {
         <QuestionAnswerIcon className={classes.item} />,
     ];
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(options.length == 1 ? 9 : index);
+        setSelectedIndex(index);
         // setToggleDrawer(true)
     };
     const renderMenuItemComponent = () => {
@@ -88,106 +265,87 @@ const SellerDashbroad = (props) => {
                 return <CustomerService />;
             case 7:
                 return <HelpCenter />;
-            case 9:
-                return <SellerRegister />;
             default:
                 return <p>default</p>;
         }
     };
     return (
-        <div style={{ width: "100%", marginBottom: "2em", zIndex: "0" }}>
+        <div
+            style={{
+                width: "100%",
+                height: "100vh",
+                marginBottom: "2em",
+                zIndex: "0",
+            }}
+        >
+            <DashboardPageHeader user={user} />
+            <div style={{ height: "64px" }}></div>
             <Grid
                 container
                 style={{
-                    margin: "0 auto",
-                    maxWidth: "1600px",
-                    minWidth: "1333px",
+                    width: "100%",
+                    height: "100%",
+                    margin: 0,
+                    minWidth: "1200px",
                 }}
                 spacing={5}
             >
-                <Grid item xs={2} style={{ margin: 0 }}>
-                    <section
-                        style={{
-                            display: "flex",
-                            justifyContent: "start",
-                            marginLeft: "0.5em",
-                        }}
-                    >
-                        <img
-                            src={avatar}
-                            style={{
-                                width: "3em",
-                                display: "inline-block",
-                                marginRight: "1em",
-                                borderRadius: "50%",
-                            }}
-                            alt={"oven"}
-                        />
-                        <p
-                            style={{
-                                display: "inline-block",
-                                fontSize: "0.8em",
-                                marginBottom: 0,
-                                paddingTop: "1em",
-                            }}
+                <Grid
+                    item
+                    xs={2}
+                    style={{ margin: 0, backgroundColor: "#fff" }}
+                >
+                    <section style={{ position: "fixed" }}>
+                        <List
+                            component="nav"
+                            aria-label="main mailbox folders"
+                            style={{ margin: 0 }}
                         >
-                            <span>Account of</span> <br />{" "}
-                            <span
-                                style={{ fontWeight: 600, fontSize: "1.2em" }}
-                            >
-                                {user.name}
-                            </span>{" "}
-                        </p>
-                    </section>
-
-                    <List
-                        component="nav"
-                        aria-label="main mailbox folders"
-                        style={{ margin: 0 }}
-                    >
-                        {options.map((option, index) => (
-                            <ListItem
-                                style={{
-                                    marginTop: 0,
-                                    marginBottom: 0,
-                                    paddingTop: "1.51%",
-                                    paddingBottom: "1.51%",
-                                    alignItems: "center",
-                                }}
-                                key={option}
-                                button
-                                selected={index === selectedIndex}
-                                onClick={
-                                    (event) => handleMenuItemClick(event, index)
-                                    // onMouseEnter={event => handleMenuItemClick(event, index)
-                                }
-                            >
-                                <ListItemIcon
+                            {options.map((option, index) => (
+                                <ListItem
                                     style={{
                                         marginTop: 0,
                                         marginBottom: 0,
-                                        paddingTop: 0,
-                                        paddingBottom: 0,
+                                        paddingTop: "1.51%",
+                                        paddingBottom: "1.51%",
+                                        alignItems: "center",
                                     }}
+                                    key={option}
+                                    button
+                                    selected={index === selectedIndex}
+                                    onClick={
+                                        (event) =>
+                                            handleMenuItemClick(event, index)
+                                        // onMouseEnter={event => handleMenuItemClick(event, index)
+                                    }
                                 >
-                                    {optionsIcon[index]}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={option}
-                                    primaryTypographyProps={{
-                                        variant: "inherit",
-                                    }}
-                                    style={{
-                                        marginTop: 0,
-                                        marginBottom: 0,
-                                        paddingTop: 0,
-                                        paddingBottom: 0,
-                                    }}
-                                    className={classes.item2}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
+                                    <ListItemIcon
+                                        style={{
+                                            marginTop: 0,
+                                            marginBottom: 0,
+                                            paddingTop: 0,
+                                            paddingBottom: 0,
+                                        }}
+                                    >
+                                        {optionsIcon[index]}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={option}
+                                        primaryTypographyProps={{
+                                            variant: "inherit",
+                                        }}
+                                        style={{
+                                            marginTop: 0,
+                                            marginBottom: 0,
+                                            paddingTop: 0,
+                                            paddingBottom: 0,
+                                        }}
+                                        className={classes.item2}
+                                    />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </section>
                 </Grid>
                 <Grid item xs={10}>
                     <Grid container>{renderMenuItemComponent()}</Grid>

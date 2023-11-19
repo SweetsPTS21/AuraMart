@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import { useDispatch } from "react-redux";
 import { message } from "antd";
 import * as shopActions from "../../../../store/actions/shopActions";
+import * as authActions from "../../../../store/actions/authActions";
 import {
     tikiCardHeader,
     whiteColor,
@@ -134,6 +135,7 @@ const userStyles = makeStyles(() => ({
 }));
 
 const AddANewShop = (props) => {
+    const { role } = props;
     const classes = userStyles();
     const dispatch = useDispatch();
 
@@ -155,7 +157,18 @@ const AddANewShop = (props) => {
             address,
         };
 
-        dispatch(await shopActions.createNewShop(shop));
+        if (role === "user") {
+            shop = {
+                ...shop,
+                userId: props.userId,
+            };
+            dispatch(await shopActions.registerANewShop(shop));
+            dispatch(await authActions.logoutUser());
+            window.location.href = "/";
+            message.success("Shop created successfully. Please login again");
+        } else {
+            dispatch(await shopActions.createNewShop(shop));
+        }
 
         setTimeout(msg, 1);
 

@@ -1,9 +1,10 @@
 import React from "react";
+import AddANewShop from "../AdminDashboardComponents/Shops/AddANewShop";
 
 const SellerRegister = () => {
     return (
         <div>
-            <h2>Create your own shop</h2>
+            <AddANewShop role={"user"}/>
         </div>
     );
 };

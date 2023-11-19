@@ -61,7 +61,8 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { message } from "antd";
 import FormGroup from "@material-ui/core/FormGroup";
-const defaultAvatar = "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
+const defaultAvatar =
+    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         width: "100%",
-        maxWidth: "1333px",
+        maxWidth: "1200px",
         justifyContent: "center",
     },
     discount: {
@@ -1538,7 +1539,7 @@ const ProductDetailPage = (props) => {
         <div
             style={{
                 width: "100%",
-                minWidth: "1333px",
+                minWidth: "1200px",
                 height: "100%",
                 backgroundColor: "#F4F4F4",
                 overflowX: "visible",

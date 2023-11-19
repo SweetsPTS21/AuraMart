@@ -61,6 +61,22 @@ export const getShopByUserId = (userId) => async (dispatch) => {
         });
 };
 
+export const registerANewShop = (shop) => async (dispatch) => {
+    const url = `${api_url}/api/v1/shops/register`;
+    await axios
+        .post(url, shop)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error creating shop");
+            }
+            dispatch(getAllShops());
+            message.success("shop created successfully");
+        })
+        .catch((err) => {
+            message.error("Error creating shop");
+        });
+};
+
 // 🔒
 export const createNewShop = (shop) => async (dispatch) => {
     const url = `${api_url}/api/v1/shops`;

@@ -66,16 +66,13 @@ export const getOrderById = (orderId) => async (dispatch) => {
 
 // 🔓
 export const getOrdersByUserId = (userId) => async (dispatch) => {
-    const url = `${api_url}/api/v1/orders`;
+    const url = `${api_url}/api/v1/users/${userId}/orders`;
     await axios
         .get(url)
         .then((res) => {
-            const myOrders = res.data.data.filter(
-                (order) => order.user === userId
-            );
             dispatch({
                 type: GET_MY_ORDERS, //this call test dispatch. to dispsatch to our reducer
-                orders: myOrders,
+                orders: res.data.data,
             });
 
             // message.success("Got orders");
@@ -118,6 +115,28 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
     if (payment === "COD") {
         console.log("COD");
     }
+    if (payment === "MOMO") {
+        const url = `${api_url}/api/v1/payment/momo/create`;
+        const data = {
+            amount: order.total,
+            order: order.id,
+            orderInfo: `Thanh toan cho don hang ${order.id}`,
+        };
+        try {
+            const response = await axios.post(url, data);
+            console.log(response);
+            if (response.data.code === "00" || response.data.code === 0) {
+                const redirectUrl = response.data.data;
+                window.location.href = redirectUrl;
+            } else {
+                message.error("Error making order");
+            }
+        } catch (err) {
+            console.log("Error", err);
+            message.error("Error making order");
+        }
+    }
+
     if (payment === "VNPAY") {
         const url = `${api_url}/api/v1/payment/vnpay/create`;
         const data = {

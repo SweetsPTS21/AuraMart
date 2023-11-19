@@ -169,7 +169,7 @@ const Card = (props) => {
                             <>
                                 <img
                                     src={DealTag}
-                                    alt="deal tag "
+                                    alt="deal tag"
                                     width={"38vw"}
                                     style={{ position: "absolute" }}
                                 />
@@ -177,8 +177,8 @@ const Card = (props) => {
                                     style={{
                                         fontWeight: "bold",
                                         position: "absolute",
-                                        marginTop: "1vh",
-                                        marginLeft: "0.28vw",
+                                        marginTop: "0.2em",
+                                        marginLeft: "0.4em",
                                         fontSize: "0.85em",
                                         color: "white",
                                     }}

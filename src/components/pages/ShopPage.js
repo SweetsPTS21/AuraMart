@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
     makeStyles,
-    createTheme,
-    ThemeProvider,
 } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -17,8 +15,13 @@ import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router-dom";
 import { Link, Element, animateScroll as scroll } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
+
 import NavBar from "../layout/NavBar";
 import Voucher from "../UI/Voucher";
+import Footer from "../layout/Footer";
+import ItemContainer from "../UI/ItemContainer";
+import { newChat, addPerson, getChats } from "react-chat-engine";
+
 import * as shopActions from "../../store/actions/shopActions";
 import * as productAction from "../../store/actions/productActions";
 import * as configActions from "../../store/actions/configActions";
@@ -38,7 +41,7 @@ const useStyle = makeStyles((theme) => ({
     },
 
     container: {
-        width: "1333px",
+        width: "1200px",
         margin: "0 auto",
         display: "flex",
         justifyContent: "center",
@@ -157,6 +160,52 @@ const ShopInfo = (props) => {
     const shopBackground = decoration[1] ? decoration[1] : defaultBackground;
     const shopAvatar =
         shop.avatar !== "no-photo.jpg" ? shop.avatar : defaultAvatar;
+
+    const userData = useSelector((state) => state.auth.userData);
+    const [chatID, setChatID] = useState(null);
+
+    const chatEngineData = {
+        projectID: "0c8bb7fc-8146-4063-99f5-77c2f518da58",
+        userName: userData.email,
+        userPassword: userData._id,
+    };
+
+    const createNewChat = () => {
+        newChat(
+            chatEngineData,
+            {
+                title: shop.name,
+                admin_user: userData.email,
+                access_key: userData._id,
+            },
+            function (data) {
+                setChatID(data.id);
+            }
+        );
+    };
+
+    const handleChatClick = () => {
+        getChats(chatEngineData, (data) => {
+            const chat = data.find(
+                (chat) =>
+                    chat.admin.username === userData.email &&
+                    chat.title === shop.name
+            );
+            if (chat) {
+                setChatID(chat.id);
+            } else {
+                createNewChat();
+            }
+        });
+    };
+    useEffect(() => {
+        if (chatID) {
+            addPerson(chatEngineData, chatID, "seller01", function (data) {
+                console.log(data);
+            });
+        }
+    }, [chatID, chatEngineData]);
+
     return (
         <Grid
             item
@@ -198,7 +247,11 @@ const ShopInfo = (props) => {
                     <Button className={classes.shopInfo__button} size="medium">
                         Theo dõi
                     </Button>
-                    <Button className={classes.shopInfo__button} size="medium">
+                    <Button
+                        className={classes.shopInfo__button}
+                        size="medium"
+                        onClick={handleChatClick}
+                    >
                         Chat
                     </Button>
                 </Grid>
@@ -266,75 +319,108 @@ const ShopInfo = (props) => {
         </Grid>
     );
 };
+
 //All products of a shop
 const ShopProducts = (props) => {
     const classes = useStyle();
-    const products = props.productsInShop;
+    const products = props.productsInShop ? props.productsInShop : [];
+    const [seeMoreDiscountedProd, setSeeMoreDiscountedProd] = useState(10);
+    const [loadingDisProd, setLoadingDisProd] = useState(false);
+
+    const renderShopProducts = () => {
+        return products && products.length > 0 ? (
+            products.map((prod, index) => (
+                <Card
+                    key={index}
+                    type={"default"}
+                    id={prod.id}
+                    slug={prod.slug}
+                    price={prod.price}
+                    discount={prod.discount}
+                    title={prod.name}
+                    image={
+                        prod.photo === "no-photo.jpg"
+                            ? BottleWarmer
+                            : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                    }
+                    link={true}
+                    style={{ height: "330px", width: "184px" }}
+                />
+            ))
+        ) : (
+            <div>Shop không có sản phẩm nào</div>
+        );
+    };
+
     return (
-        <Grid item xs={12} className={classes.block}>
-            {products && products.length > 0 ? (
-                products.map((prod, index) => (
-                    <Card
-                        key={index}
-                        type={"default"}
-                        id={prod.id}
-                        slug={prod.slug}
-                        price={prod.price}
-                        discount={prod.discount}
-                        title={prod.name}
-                        image={
-                            prod.photo === "no-photo.jpg"
-                                ? BottleWarmer
-                                : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
-                        }
-                        // sold={Math.floor(Math.random() * 50) + 50} // picking random num since this feature isn't implemented yet
-                        // hot={true}
-                        // timeInMilliSec={(Math.floor(Math.random() * 10) + 2) * 100000} // 50 seconds
-                        link={true}
-                        style={{ height: "330px" }}
-                    />
-                ))
-            ) : (
-                <div>Shop không có sản phẩm nào</div>
-            )}
-        </Grid>
+        <ItemContainer
+            length={products.length}
+            type={"container"}
+            title={"All products you might like"}
+            seeMore={() => {
+                seeMoreDiscountedProd((val) => val + 10);
+                setLoadingDisProd(true);
+                setTimeout(() => setLoadingDisProd(false), 500);
+            }}
+            loading={loadingDisProd}
+            itemWidth={"184px"}
+        >
+            {renderShopProducts()}
+        </ItemContainer>
     );
 };
 
 //Deal products of day
 const DealProducts = (props) => {
     const classes = useStyle();
-    const products = props.productsInShop;
+    const products = props.productsInShop ? props.productsInShop : [];
+    const [seeMoreProd, setSeeMoreProd] = useState(20);
+    const [loadingProd, setLoadingProd] = useState(false);
+
+    const renderDealProducts = () => {
+        return products && products.length > 0 ? (
+            products.map((prod, index) => (
+                <Card
+                    key={index}
+                    type={"deal"}
+                    id={prod.id}
+                    slug={prod.slug}
+                    price={prod.price}
+                    discount={prod.discount}
+                    title={prod.name}
+                    image={
+                        prod.photo === "no-photo.jpg"
+                            ? BottleWarmer
+                            : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                    }
+                    sold={Math.floor(Math.random() * 50) + 50} // picking random num since this feature isn't implemented yet
+                    hot={true}
+                    timeInMilliSec={
+                        (Math.floor(Math.random() * 10) + 2) * 100000
+                    } // 50 seconds
+                    link={true}
+                    style={{ height: "330px", width: "170px" }}
+                />
+            ))
+        ) : (
+            <div>Shop không có sản phẩm nào</div>
+        );
+    };
+
     return (
-        <Grid item xs={12} className={classes.block}>
-            {products && products.length > 0 ? (
-                products.map((prod, index) => (
-                    <Card
-                        key={index}
-                        type={"deal"}
-                        id={prod.id}
-                        slug={prod.slug}
-                        price={prod.price}
-                        discount={prod.discount}
-                        title={prod.name}
-                        image={
-                            prod.photo === "no-photo.jpg"
-                                ? BottleWarmer
-                                : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
-                        }
-                        sold={Math.floor(Math.random() * 50) + 50} // picking random num since this feature isn't implemented yet
-                        hot={true}
-                        timeInMilliSec={
-                            (Math.floor(Math.random() * 10) + 2) * 100000
-                        } // 50 seconds
-                        link={true}
-                        style={{ height: "330px" }}
-                    />
-                ))
-            ) : (
-                <div>Shop không có sản phẩm nào</div>
-            )}
-        </Grid>
+        <ItemContainer
+            length={products.length}
+            type={"slider"}
+            title={"All products you might like"}
+            seeMore={() => {
+                setSeeMoreProd((val) => val + 10);
+                setLoadingProd(true);
+                setTimeout(() => setLoadingProd(false), 500);
+            }}
+            loading={loadingProd}
+        >
+            {renderDealProducts()}
+        </ItemContainer>
     );
 };
 
@@ -467,7 +553,7 @@ const ShopPage = (props) => {
         <div
             style={{
                 width: "100%",
-                minWidth: "1333px",
+                minWidth: "1200px",
                 height: "100%",
                 backgroundColor: "#F4F4F4",
                 overflowX: "visible",
@@ -494,11 +580,21 @@ const ShopPage = (props) => {
                             name="shopProducts"
                             className={classes.section}
                         >
-                            <ShopProducts productsInShop={productsInShop} />
+                            <Grid container style={{padding: 0, margin: 0}}>
+                                <Grid item xs={2}>
+                                    <p>This is filter</p>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <ShopProducts
+                                        productsInShop={productsInShop}
+                                    />
+                                </Grid>
+                            </Grid>
                         </Element>
                     </Grid>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

@@ -6,7 +6,7 @@ import {
 
 const initialState = {
     shops: null,
-    currentShop: null,
+    currentShop: {},
     userShop: null,
 };
 

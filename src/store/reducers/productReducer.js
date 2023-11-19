@@ -8,7 +8,7 @@ import {
 const initialState = {
     products: null,
     currentProduct: null,
-    productsInShop: null,
+    productsInShop: [],
     recommendProds: null,
 };
 

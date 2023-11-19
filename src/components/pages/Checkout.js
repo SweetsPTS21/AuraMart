@@ -1167,16 +1167,15 @@ const PaymentMethodUI = ({
                                 >
                                     <Grid item>
                                         <Radio
-                                            checked={payment === "atm"}
+                                            checked={payment === "MOMO"}
                                             onChange={handlePayment}
-                                            value="atm"
+                                            value="MOMO"
                                             name="radio-button-demo"
                                         />
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
                                         <p>
-                                            Pay with internal ATM / Internet
-                                            Banking
+                                            Pay with MOMO
                                         </p>
                                     </Grid>
                                 </Grid>

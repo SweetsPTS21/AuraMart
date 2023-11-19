@@ -365,7 +365,7 @@ const AdminDashBoard = (props) => {
             case 17:
                 return <FindAShop />;
             case 18:
-                return <AddANewShop />;
+                return <AddANewShop role={"admin"}/>;
             case 19:
                 return <UpdateAShop />;
             case 20:

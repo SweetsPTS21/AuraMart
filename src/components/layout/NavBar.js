@@ -10,25 +10,18 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import PersonAddDisabledIcon from "@material-ui/icons/PersonAddDisabled";
 import Icon from "@material-ui/core/Icon";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import PersonIcon from "@material-ui/icons/Person";
-import FacebookIcon from "@material-ui/icons/Facebook";
+import { Grid } from "@material-ui/core";
 
 import tikiLogo from "../../image/logo.png";
 import navImage from "../../image/navImage.png";
 import tikiAssistant from "../../image/tiki_assistant.png";
 import sprite from "../../image/sprite.png";
-import tikiNow from "../../image/tiki-now.png";
 import ticketBox from "../../image/ticketBox.png";
-import zaloLogo from "../../image/Logo_Zalo.png";
 import userStyles from "../../styles/NavbarStyles";
 import { loadCSS } from "fg-loadcss";
 import ProductNavigation from "../UI/ProductNavigation";
@@ -36,13 +29,15 @@ import TransitionsModal from "../user/UserModal";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../../store/actions/authActions";
 import { message } from "antd";
-import TikiXu from "../../image/tiki-xu.svg";
-import Bookcare from "../../image/bookcare.svg";
-import Tikinow2 from "../../image/tiki-now2.png";
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { ChatBubbleOutline } from "@material-ui/icons";
+import { ChatEngine } from "react-chat-engine";
+
+const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
 
 const NavBar = (props) => {
     const classes = userStyles();
@@ -53,6 +48,8 @@ const NavBar = (props) => {
     const [index, setIndex] = useState(0);
     const [search, setSearch] = useState("");
     const [position, setPosition] = useState(false);
+
+    const [openChat, setOpenChat] = useState(false);
 
     const cartQuantity = useSelector((state) =>
         Object.keys(state.cart).length !== 0
@@ -83,6 +80,10 @@ const NavBar = (props) => {
         let intervalId_ = setInterval(() => {
             scrollStep(scrollStepInPx, intervalId_);
         }, delayInMs);
+    };
+
+    const handleOpenChatPopup = () => {
+        setOpenChat(!openChat);
     };
 
     useEffect(() => {
@@ -232,7 +233,7 @@ const NavBar = (props) => {
                     My account
                 </Button>
             </Link>
-            {user && user.role != 'user' ?(
+            {user && user.role != "user" ? (
                 <Link
                     to={"/seller/0"}
                     onClick={(e) => e.stopPropagation()}
@@ -244,7 +245,7 @@ const NavBar = (props) => {
                 </Link>
             ) : (
                 <Link
-                    to={"/seller/register/0"}
+                    to={"/seller/register"}
                     onClick={(e) => e.stopPropagation()}
                     className={classes.removeDefaultLink}
                 >
@@ -258,23 +259,6 @@ const NavBar = (props) => {
         <div></div>
     );
 
-    const NavSection1 = (
-        <Toolbar
-            className={classNames(classes.toolbar, classes.sectionDesktop)}
-            style={{
-                paddingLeft: 0,
-                paddingRight: 0,
-                marginTop: "-0.1em",
-                height: "1.8em",
-            }}
-        >
-            <img
-                src={navImage}
-                alt="navbar promo"
-                style={{ height: "100%", width: "100%" }}
-            />
-        </Toolbar>
-    );
     const NavSection2 = (
         <Toolbar
             className={classNames(classes.toolbar, classes.sectionDesktop)}
@@ -798,21 +782,85 @@ const NavBar = (props) => {
                 </div>
             </div>
             {/*Fav Nav*/}
-            {position && (
+            {position && !openChat && (
                 <Fab
                     aria-label="up"
-                    size={"small"}
+                    size={"large"}
                     style={{
                         top: "90%",
                         right: "2%",
                         position: "fixed",
                         zIndex: 99999,
+                        backgroundColor: "#0a68ff",
                     }}
-                    onClick={() => scrollToTop(50, 8.66)}
+                    // onClick={() => scrollToTop(50, 8.66)}
+                    onClick={() => handleOpenChatPopup()}
                 >
-                    <ArrowUpwardIcon />
+                    <ChatBubbleOutline fontSize="large" htmlColor="#fff" />
                 </Fab>
             )}
+            {openChat &&
+                (isLoggedIn ? (
+                    <div className={classes.chatPopup}>
+                        <Grid container className={classes.chatPopupInner}>
+                            <Grid
+                                item
+                                xs={12}
+                                className={classes.chatPopupHeader}
+                            >
+                                <Typography style={{ fontSize: "20px" }}>
+                                    Chat
+                                </Typography>
+                                <IconButton
+                                    onClick={() => setOpenChat(!openChat)}
+                                >
+                                    <Icon className={"fas fa-times"} />
+                                </IconButton>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                className={classes.chatPopupContent}
+                            >
+                                {isLoggedIn && (
+                                    <ChatEngine
+                                        publicKey={chatPublicKey}
+                                        userName={user.email}
+                                        userPassword={user._id}
+                                    />
+                                )}
+                            </Grid>
+                        </Grid>
+                    </div>
+                ) : (
+                    <div className={classes.chatPopupNotLogin}>
+                        <Grid container>
+                            <Grid
+                                item
+                                xs={12}
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Typography
+                                    style={{
+                                        fontSize: "20px",
+                                        marginRight: "1em",
+                                    }}
+                                >
+                                    Please login to chat
+                                </Typography>
+                                <IconButton
+                                    onClick={() => setOpenChat(!openChat)}
+                                >
+                                    <Icon className={"fas fa-times"} />
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+                    </div>
+                ))}
         </section>
     );
 };

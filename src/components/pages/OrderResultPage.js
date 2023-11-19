@@ -1,72 +1,166 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import NavBar from "../layout/NavBar";
-import axios from "axios";
+import Button from "@material-ui/core/Button";
+import { ArrowBackRounded } from "@material-ui/icons";
+import { DoneAllRounded, ClearRounded } from "@material-ui/icons";
+
+import * as paymentActions from "../../store/actions/paymentActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: "#F4F4F4",
         height: "100%",
     },
     container: {
-        maxWidth: "1333px",
+        maxWidth: "1200px",
         margin: "auto",
         padding: "0 10px",
         height: "100%",
     },
+    result: {
+        backgroundColor: "#fff",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "1.5em",
+        margin: "2em 0",
+        borderRadius: "0.5em",
+    },
+    grid: {
+        width: "550px",
+        margin: "0 auto",
+    },
 }));
 
+const renderResult = (code, message, success) => {
+    if (success) {
+        return (
+            <>
+                <h2 style={{ marginBottom: "1em" }}>
+                    Thành Công{" "}
+                    <DoneAllRounded color="action" fontSize="inherit" />{" "}
+                </h2>
+                <h4>Kiểm tra tình trạng đơn hàng của bạn</h4>
+                <Link to="/">
+                    <Button variant="outlined" color="primary">
+                        Quay về trang chủ
+                    </Button>
+                </Link>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <h2 style={{ marginBottom: "1em" }}>
+                    Thất Bại{" "}
+                    <ClearRounded color="secondary" fontSize="inherit" />
+                </h2>
+                <p>Mã lỗi: {code}</p>
+                <p>Lời nhắn: {message}</p>
+                <Link to="/">
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        style={{ padding: "0.5em" }}
+                    >
+                        <ArrowBackRounded />
+                        Quay về trang chủ
+                    </Button>
+                </Link>
+            </>
+        );
+    }
+};
+
 const OrderResultPage = (props) => {
+    const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
-    const { search } = useLocation();
     const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");
+    const resultCode = searchParams.get("resultCode");
     const [success, setSuccess] = useState(false);
+    const vnpayStatus = useSelector((state) => state.payments.vnpayStatus);
+    const momoStatus = useSelector((state) => state.payments.momoStatus);
 
     const sendResult = () => {
         const query = searchParams.toString();
-        const api_url = process.env.REACT_APP_API;
+        if (vnp_ResponseCode) {
+            dispatch(paymentActions.checkVnpayPayment(query));
+        }
+        if (resultCode === "0") {
+            dispatch(paymentActions.checkMomoPayment(query));
+        }
+    };
 
-        axios
-            .get(`${api_url}/api/v1/payment/vnpay/vnpay_ipn?` + query)
-            .then((res) => {
-                console.log(res);
-                if (res.data.RspCode === "00") {
-                    setSuccess(true);
-                }
-            });
+    const checkResult = () => {
+        if (
+            (vnpayStatus && vnpayStatus.rspcode === "00") ||
+            (momoStatus && momoStatus.rspcode === "00")
+        ) {
+            setSuccess(true);
+        }
     };
 
     useEffect(() => {
-        if (vnp_ResponseCode && vnp_ResponseCode === "00")
-            sendResult();
-    }, []);
+        if (vnp_ResponseCode === "00" || resultCode === "0") sendResult();
+
+        if (vnpayStatus || momoStatus) checkResult();
+    }, [vnpayStatus, momoStatus]);
 
     const classes = useStyles();
     return (
         <div
             style={{
                 width: "100%",
-                minWidth: "1333px",
+                minWidth: "1200px",
                 height: "100%",
                 backgroundColor: "#F4F4F4",
                 overflowX: "visible",
             }}
         >
-            <NavBar {...props} />
             <div className={classes.root}>
                 <div className={classes.container}>
-                    <Grid container>
-                        <Grid item xs={12}>
-                            {vnp_ResponseCode === "00" && success ? (
+                    <Grid container className={classes.grid}>
+                        <Grid item xs={12} className={classes.result}>
+                            {vnpayStatus &&
+                                vnp_ResponseCode &&
+                                vnpayStatus.rspcode !== "00" &&
+                                renderResult(
+                                    vnpayStatus.rspcode,
+                                    vnpayStatus.message,
+                                    success
+                                )}
+
+                            {momoStatus &&
+                                resultCode &&
+                                momoStatus.rspcode !== "00" &&
+                                renderResult(
+                                    momoStatus.rspcode,
+                                    momoStatus.message,
+                                    success
+                                )}
+                            {!resultCode && !vnp_ResponseCode && (
                                 <>
-                                    <h2>Thành Công</h2>
-                                    <p>{JSON.stringify("query" + search)}</p>
+                                    <h2 style={{ marginBottom: "1em" }}>
+                                        Trang không tồn tại{" "}
+                                        <ClearRounded
+                                            color="secondary"
+                                            fontSize="inherit"
+                                        />
+                                    </h2>
+                                    <Link to="/">
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            style={{ padding: "0.5em" }}
+                                        >
+                                            <ArrowBackRounded />
+                                            Quay về trang chủ
+                                        </Button>
+                                    </Link>
                                 </>
-                            ) : (
-                                <h2>Thất Bại</h2>
                             )}
                         </Grid>
                     </Grid>

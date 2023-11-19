@@ -110,8 +110,8 @@ function App() {
                         />
                         <Route
                             exact
-                            path={"/seller/register/:type"}
-                            element={<SellerPage type={9} />}
+                            path={"/seller/register"}
+                            element={<SellerPage/>}
                         />
                         {/*<Route*/}
                         {/*    exact*/}
