@@ -13,7 +13,7 @@ import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 
 const OrderStats = (props) => {
@@ -269,9 +269,7 @@ const OrderStats = (props) => {
         <div style={{ width: "100%" }}>
             <Grid container spacing={3}>
                 {orderChart === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
+                    <LoadingSpinner
                         width={"5%"}
                         height={"5%"}
                         className={classes.loading2}

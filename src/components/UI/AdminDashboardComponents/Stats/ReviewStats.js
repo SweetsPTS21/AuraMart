@@ -13,12 +13,12 @@ import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const ReviewStats = (props) => {
     const classes = userStyles();
     const allReviews = props.reviews;
-    
+
     const [reviewChart, setReviewChart] = useState(null);
     const [reviewChartRating, setReviewChartRating] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
@@ -270,9 +270,7 @@ const ReviewStats = (props) => {
         <div style={{ width: "100%" }}>
             <Grid container spacing={3}>
                 {reviewChart === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
+                    <LoadingSpinner
                         width={"5%"}
                         height={"5%"}
                         className={classes.loading2}

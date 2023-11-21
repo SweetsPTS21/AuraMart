@@ -19,7 +19,7 @@ import Fab from "@material-ui/core/Fab";
 import UpdateAProductForm from "./UpdateAProductForm";
 import NoPhoto from "../../../../image/nophoto.png";
 import ProductCard from "../../Card";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const UpdateAProduct = (props) => {
     const classes = userStyles();
@@ -280,7 +280,7 @@ const UpdateAProduct = (props) => {
                                   image={
                                       product.photo === "no-photo.jpg"
                                           ? NoPhoto
-                                          : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                          : product.photo
                                   }
                                   rating={product.averageRating}
                                   link={false}
@@ -308,15 +308,7 @@ const UpdateAProduct = (props) => {
                         />
                     </Grid>
                 ) : null}
-                {(products_ === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {(products_ === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

@@ -96,22 +96,6 @@ const Card = (props) => {
                     </div>
                     <div>
                         <Grid container style={{ marginBottom: "0.5em" }}>
-                            {/* <Grid
-                                item
-                                xs={3}
-                                md={4}
-                                lg={4}
-                                style={{ margin: 0, marginTop: "0.1em" }}
-                            >
-                                <div>
-                                    <img
-                                        src={TikiNow}
-                                        alt="tikinow"
-                                        width={"70%"}
-                                    />{" "}
-                                    <span className={classes.divider}>|</span>
-                                </div>
-                            </Grid> */}
                             <Grid item className={classes.title__container}>
                                 <span className={classes.title}>
                                     {props.title}
@@ -279,7 +263,7 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
-    // Recommened for you section
+    // Recommened for you section/review section
     const type3 = (
         <Ripples>
             <Link
@@ -342,12 +326,6 @@ const Card = (props) => {
                                         -{props.discount}%
                                     </span>
                                 </p>
-                                {/* <p
-                                    className={classes.price}
-                                    style={{ marginBottom: 0 }}
-                                >
-                                    <s>{numberWithCommas(props.price)} </s>VND
-                                </p> */}
                             </>
                         ) : (
                             <>

@@ -19,7 +19,7 @@ import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import tikiNow from "../../image/tiki-now2.png";
 import tikixu from "../../image/tikixu.svg";
 import bookcare from "../../image/bookcare.svg";
-import avatar from "../../image/avatar.png";
+import DefaultAvatar from "../../image/avatar.png";
 
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
@@ -47,7 +47,7 @@ const AccountDashBoard = (props) => {
         props.index ? props.index : 0
     );
     const dispatch = useDispatch();
-    
+
     const user = useSelector((state) => state.auth.user);
     const userData = useSelector((state) => state.auth.userData);
 
@@ -134,11 +134,14 @@ const AccountDashBoard = (props) => {
         }
     };
     return (
-        <div style={{ width: "80%", marginBottom: "2em", zIndex: "0" }}>
+        <div style={{ width: "100%", marginBottom: "2em", zIndex: "0" }}>
             <Grid
                 container
-                style={{ marginTop: "0.7em", marginLeft: "6em" }}
-                spacing={5}
+                style={{
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                    marginTop: "1.5em",
+                }}
             >
                 <Grid item xs={3} style={{ margin: 0 }}>
                     <section
@@ -149,12 +152,18 @@ const AccountDashBoard = (props) => {
                         }}
                     >
                         <img
-                            src={avatar}
+                            src={
+                                userData.avatar !== "no-photo.jpg"
+                                    ? userData.avatar
+                                    : DefaultAvatar
+                            }
                             style={{
-                                width: "3em",
+                                width: "64px",
+                                height: "64px",
                                 display: "inline-block",
                                 marginRight: "1em",
                                 borderRadius: "50%",
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 10px",
                             }}
                             alt={"oven"}
                         />

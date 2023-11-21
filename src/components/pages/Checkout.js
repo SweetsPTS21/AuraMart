@@ -1433,10 +1433,10 @@ const Checkout = (props) => {
             };
             dispatch(await orderActions.addNewOrder(order_, payment));
         }
-        // dispatch(await cartActions.clearCart());
-        // setTimeout(msg, 1);
+        dispatch(await cartActions.clearCart());
+        setTimeout(msg, 1);
         // props.history.push("/");
-        // setLoading(false);
+        setLoading(false);
     };
 
     return (

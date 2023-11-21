@@ -50,11 +50,12 @@ const userStyles = makeStyles((theme) => ({
     },
     stock__dialog: {
         padding: "1em 0",
+        display: "flex",
+        flexWrap: "wrap",
     },
-    stock__dialog__part: {
+    part: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         padding: "0 1em",
         margin: "0.5em 0",
     },
@@ -62,6 +63,9 @@ const userStyles = makeStyles((theme) => ({
         {
             maxWidth: "600px !important",
         },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
+    },
 }));
 
 const StockTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -120,8 +124,7 @@ const DialogDelete = (props) => {
 const UpdateStock = (props) => {
     const classes = userStyles();
     const dispatch = useDispatch();
-    const { open, setOpen, type, shopId } = props;
-    const stock = type === 2 ? props.stock : {};
+    const { open, setOpen, type, shopId, stock } = props;
     const [name, setName] = useState(stock.name);
     const [phone, setPhone] = useState(stock.phone);
     const [address, setAddress] = useState(stock.address);
@@ -156,7 +159,11 @@ const UpdateStock = (props) => {
                     Add/Update stock for your shop here
                 </DialogContentText>
                 <Grid container className={classes.stock__dialog}>
-                    <Grid item xs={6} className={classes.stock__dialog__part}>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
                         <Typography>Name</Typography>
                         <MuiInput
                             aria-label="Name"
@@ -168,7 +175,7 @@ const UpdateStock = (props) => {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.stock__dialog__part}>
+                    <Grid item xs={6} style={{ flexDirection: "column" }}>
                         <Typography>Description</Typography>
                         <MuiInput
                             aria-label="Description"
@@ -179,14 +186,18 @@ const UpdateStock = (props) => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.stock__dialog__part}>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
                         <Typography>Capacity</Typography>
                         <MuiNumberInput
                             value={capacity}
                             setValue={setCapacity}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.stock__dialog__part}>
+                    <Grid item xs={6} style={{ flexDirection: "column" }}>
                         <Typography style={{ marginBottom: "0.5em" }}>
                             Phone
                         </Typography>
@@ -197,7 +208,7 @@ const UpdateStock = (props) => {
                             onChange={(e) => setPhone(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.stock__dialog__part}>
+                    <Grid item xs={6} style={{ flexDirection: "column" }}>
                         <Typography style={{ marginBottom: "0.5em" }}>
                             Address
                         </Typography>
@@ -235,7 +246,7 @@ const Stocks = () => {
     const stocks = useSelector((state) => state.stocks.allShopStocks);
 
     useEffect(() => {
-        dispatch(getAllStocksOfAShop(shop.id));
+        if (shop) dispatch(getAllStocksOfAShop(shop.id));
     }, [shop]);
 
     const filteredStocks = stocks
@@ -253,15 +264,10 @@ const Stocks = () => {
         setPage(value);
     };
 
-    const handleAdd = () => {
-        setOpen(true);
-        setType(1);
-    };
-
-    const handleUpdate = (stock) => {
+    const handleUpdate = (type, stock) => {
         setCurrentStock(stock);
         setOpen(true);
-        setType(2);
+        setType(type);
     };
 
     const handleConfirmDelete = () => {
@@ -307,7 +313,7 @@ const Stocks = () => {
                 <Button
                     variant="contained"
                     color="success"
-                    onClick={handleAdd}
+                    onClick={() => handleUpdate(1, {})}
                     style={{ marginLeft: "1em" }}
                 >
                     Add new stock
@@ -357,7 +363,7 @@ const Stocks = () => {
                                         >
                                             <IconButton
                                                 onClick={(e) =>
-                                                    handleUpdate(stock)
+                                                    handleUpdate(type, stock)
                                                 }
                                                 color="primary"
                                             >
@@ -385,18 +391,23 @@ const Stocks = () => {
                     </TableBody>
                 </Table>
             </StockTableContainer>
-            <UpdateStock
-                open={open}
-                setOpen={setOpen}
-                stock={currentStock}
-                type={type}
-                shopId={shop.id}
-            />
-            <DialogDelete
-                openDialog={openDialog}
-                setOpenDialog={setOpenDialog}
-                handleConfirmDelete={handleConfirmDelete}
-            />
+            {open && (
+                <UpdateStock
+                    open={open}
+                    setOpen={setOpen}
+                    stock={currentStock}
+                    type={type}
+                    shopId={shop.id}
+                />
+            )}
+            {openDialog && (
+                <DialogDelete
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    handleConfirmDelete={handleConfirmDelete}
+                />
+            )}
+
             <Pagination
                 count={Math.ceil(filteredStocks.length / itemsPerPage)}
                 page={page}

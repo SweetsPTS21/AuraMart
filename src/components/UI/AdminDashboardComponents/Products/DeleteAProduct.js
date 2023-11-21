@@ -26,7 +26,7 @@ import Fab from "@material-ui/core/Fab";
 import { message } from "antd";
 import NoPhoto from "../../../../image/nophoto.png";
 import ProductCard from "../../Card";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const DeleteAProduct = (props) => {
     const classes = userStyles();
@@ -136,10 +136,7 @@ const DeleteAProduct = (props) => {
                             style={{ marginTop: "2em", marginBottom: "1em" }}
                         >
                             <a href="#" onClick={(e) => e.preventDefault()}>
-                                <img
-                                    src={`${process.env.REACT_APP_API}/uploads/${product.photo}`}
-                                    alt="..."
-                                />
+                                <img src={product.photo} alt="..." />
                             </a>
                         </CardAvatar>
                     )}
@@ -456,7 +453,7 @@ const DeleteAProduct = (props) => {
                                   image={
                                       product.photo === "no-photo.jpg"
                                           ? NoPhoto
-                                          : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                          : product.photo
                                   }
                                   rating={product.averageRating}
                                   link={false}
@@ -490,15 +487,7 @@ const DeleteAProduct = (props) => {
                         />
                     </Grid>
                 ) : null}
-                {(products_ === null || loading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {(products_ === null || loading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import ProductCard from "../../Card";
 import NoPhoto from "../../../../image/nophoto.png";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 import * as statsActions from "../../../../store/actions/statsActions";
 import ShopStats from "./ShopStats";
@@ -26,11 +26,7 @@ const Stats = (props) => {
 
     return (
         <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-            >
+            <Grid container style={{ paddingLeft: "1em" }}>
                 {allProducts !== null ? (
                     <>
                         <Grid
@@ -69,6 +65,7 @@ const Stats = (props) => {
                             style={{
                                 fontSize: "1.5em",
                                 marginLeft: "1em",
+                                marginBottom: "1.5em",
                                 fontWeight: 600,
                             }}
                         >
@@ -76,13 +73,7 @@ const Stats = (props) => {
                         </Grid>
                     </>
                 ) : (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
+                    <LoadingSpinner />
                 )}
                 {topProducts !== null &&
                 allProducts !== null &&
@@ -90,61 +81,44 @@ const Stats = (props) => {
                     ? topProducts.map((product, index) => {
                           let prod = getProductDetails(product._id);
                           return (
-                              <Grid
-                                  item
-                                  xs={4}
-                                  md={4}
-                                  lg={3}
-                                  style={{ margin: 0 }}
-                                  key={index}
-                              >
-                                  {prod && (
-                                      <ProductCard
-                                          style={{
-                                              backgroundImage: `linear-gradient(60deg, #EEEEEE, #DDDDDD)`,
-                                              height: "30em",
-                                          }}
-                                          key={prod.id}
-                                          id={prod.id}
-                                          slug={
-                                              prod.name.length > 0
-                                                  ? prod.name.replace(
-                                                        new RegExp(" ", "g"),
-                                                        "-"
-                                                    )
-                                                  : prod.name
-                                          }
-                                          type={"review"}
-                                          price={prod.price}
-                                          discount={
-                                              prod.discount !== undefined
-                                                  ? prod.discount
-                                                  : 0
-                                          }
-                                          title={prod.name}
-                                          image={
-                                              prod.photo === "no-photo.jpg"
-                                                  ? NoPhoto
-                                                  : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
-                                          }
-                                          rating={prod.averageRating}
-                                          link={true}
-                                          count={product.count}
-                                      />
-                                  )}
-                              </Grid>
+                              prod && (
+                                  <ProductCard
+                                      style={{
+                                          width: "180px",
+                                          backgroundColor: "#fff",
+                                      }}
+                                      key={prod.id}
+                                      id={prod.id}
+                                      slug={
+                                          prod.name.length > 0
+                                              ? prod.name.replace(
+                                                    new RegExp(" ", "g"),
+                                                    "-"
+                                                )
+                                              : prod.name
+                                      }
+                                      type={"review"}
+                                      price={prod.price}
+                                      discount={
+                                          prod.discount !== undefined
+                                              ? prod.discount
+                                              : 0
+                                      }
+                                      title={prod.name}
+                                      image={
+                                          prod.photo === "no-photo.jpg"
+                                              ? NoPhoto
+                                              : prod.photo
+                                      }
+                                      rating={prod.averageRating}
+                                      link={true}
+                                      count={product.count}
+                                  />
+                              )
                           );
                       })
                     : null}
-                {topProducts === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {topProducts === null && <LoadingSpinner />}
             </Grid>
         </div>
     );

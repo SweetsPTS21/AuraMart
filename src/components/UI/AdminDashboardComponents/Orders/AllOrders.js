@@ -20,10 +20,11 @@ import classNames from "classnames";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { OrderCard } from "./OrderCard";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import OrderStats from "../Stats/OrderStats";
+import ManagementPage from "../ManagementPage";
 
 const AllOrders = (props) => {
     const classes = userStyles();
@@ -341,33 +342,14 @@ const AllOrders = (props) => {
                     className={classes.card}
                     style={{ marginTop: "2em" }}
                 >
-                    <OrderStats orders={allOrders}/>
+                    <OrderStats orders={allOrders} />
                 </Grid>
             </Grid>
             <Grid container spacing={1} style={{ marginLeft: "0.5em" }}>
-                {orders !== null && orders.length > 0
-                    ? orders.map((order, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={6}
-                              lg={4}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <OrderCard order={order} />
-                          </Grid>
-                      ))
-                    : null}
-                {(orders === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {orders !== null && orders.length > 0 ? (
+                    <ManagementPage data={orders} dataType={"orders"} />
+                ) : null}
+                {(orders === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

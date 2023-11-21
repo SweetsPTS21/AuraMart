@@ -13,9 +13,7 @@ const AdminPage = (props) => {
     },[]);
     return (
         <div style={{ backgroundColor: "#EEEEEE"}}>
-            < NavBar {...props}/>
             <AdminDashBoard index={1}/>
-            < Footer/>
         </div>
     )
 };

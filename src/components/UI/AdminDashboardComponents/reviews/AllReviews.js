@@ -22,7 +22,8 @@ import { ReviewCard } from "./ReviewCard";
 import Fab from "@material-ui/core/Fab";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
+import ManagementPage from "../ManagementPage";
 
 const AllReviews = (props) => {
     const classes = userStyles();
@@ -199,32 +200,10 @@ const AllReviews = (props) => {
                 </Grid>
             </Grid>
             <Grid container spacing={2} style={{ marginLeft: "0.5em" }}>
-                {reviews !== null && reviews.length > 0
-                    ? reviews.map((review, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={4}
-                              lg={4}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <ReviewCard
-                                  review={review}
-                                  getUser={() => getReviewOwner(review.user)}
-                              />
-                          </Grid>
-                      ))
-                    : null}
-                {(reviews === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {reviews !== null && reviews.length > 0 ? (
+                    <ManagementPage data={reviews} dataType={"reviews"} />
+                ) : null}
+                {(reviews === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

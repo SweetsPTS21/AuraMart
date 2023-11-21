@@ -400,6 +400,7 @@ const userStyles = makeStyles(() => ({
 }));
 
 const AddANewProduct = (props) => {
+    const { style } = props;
     const classes = userStyles();
     const dispatch = useDispatch();
     const allShops = useSelector((state) => state.shops.shops);
@@ -529,12 +530,8 @@ const AddANewProduct = (props) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-            >
+        <div style={style}>
+            <Grid container>
                 <Grid item style={{ margin: "0 auto", width: "670px" }}>
                     <Card>
                         <CardHeader color="tiki">

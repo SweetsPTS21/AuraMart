@@ -14,7 +14,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import NoPhoto from "../../../../image/nophoto.png";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ProductCard from "../../Card";
 
 const FindAProduct = (props) => {
@@ -271,7 +271,7 @@ const FindAProduct = (props) => {
                                 image={
                                     product.photo === "no-photo.jpg"
                                         ? NoPhoto
-                                        : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                        : product.photo
                                 }
                                 rating={product.averageRating}
                                 link={true}
@@ -304,15 +304,7 @@ const FindAProduct = (props) => {
                         </section>
                     </Grid>
                 )}
-                {isLoading && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {isLoading && <LoadingSpinner />}
             </Grid>
         </div>
     );

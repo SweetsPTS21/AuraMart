@@ -23,7 +23,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import CardBody from "../Card/CardBody";
 import Fab from "@material-ui/core/Fab";
 import { message } from "antd";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import { ShopCard } from "./ShopCard2";
 
 const DeleteAShop = (props) => {
@@ -364,15 +364,7 @@ const DeleteAShop = (props) => {
                         />
                     </Grid>
                 ) : null}
-                {shops_ === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {shops_ === null && <LoadingSpinner />}
             </Grid>
         </div>
     );

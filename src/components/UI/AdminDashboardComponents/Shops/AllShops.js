@@ -24,8 +24,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ShopCard } from "./ShopCard2";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ShopStats from "../Stats/ShopStats";
+import ManagementPage from "../ManagementPage";
 
 const AllShops = (props) => {
     const classes = userStyles();
@@ -248,85 +249,13 @@ const AllShops = (props) => {
                         <ArrowBackIcon />
                     </Fab>
                 )}
-                {currentShop !== null && toggleShop
-                    ? currentShop.products.map((product, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={4}
-                              lg={3}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <ProductCard
-                                  style={{
-                                      backgroundImage: `linear-gradient(60deg, #EEEEEE, #DDDDDD)`,
-                                      height: "30em",
-                                  }}
-                                  key={product.id}
-                                  id={product.id}
-                                  type={"review"}
-                                  slug={product.slug}
-                                  price={product.price}
-                                  discount={
-                                      product.discount !== undefined
-                                          ? product.discount
-                                          : 0
-                                  }
-                                  title={product.name}
-                                  image={
-                                      product.photo === "no-photo.jpg"
-                                          ? NoPhoto
-                                          : `${process.env.REACT_APP_API}/uploads/${product.photo}`
-                                  }
-                                  rating={product.averageRating}
-                                  link={true}
-                              />
-                          </Grid>
-                      ))
-                    : null}
-                {currentShop !== null &&
-                    currentShop.products.length <= 0 &&
-                    toggleShop && (
-                        <Grid
-                            item
-                            xs={10}
-                            md={10}
-                            lg={12}
-                            style={{ margin: 0 }}
-                        >
-                            <section
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-around",
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            >
-                                <p
-                                    style={{
-                                        fontSize: "3em",
-                                        fontWeight: 600,
-                                        textAlign: "center",
-                                        marginTop: "2em",
-                                        color: "rgba(149, 149, 149, 1)",
-                                    }}
-                                >
-                                    No product in this shop.
-                                </p>
-                            </section>
-                        </Grid>
-                    )}
-                {(shops === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
+                {currentShop !== null && toggleShop ? (
+                    <ManagementPage
+                        data={currentShop.products}
+                        dataType={"products"}
                     />
-                )}
+                ) : null}
+                {(shops === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

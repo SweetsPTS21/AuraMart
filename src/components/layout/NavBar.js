@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -42,6 +43,7 @@ const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
 const NavBar = (props) => {
     const classes = userStyles();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // function to open and close modal
     const [open, setOpen] = useState(false);
@@ -530,7 +532,7 @@ const NavBar = (props) => {
                     className={classes.searchIcon}
                     onClick={() =>
                         search.length > 0 &&
-                        props.history.push(`/product/${search}`)
+                        navigate(`/product/${search}`)
                     }
                 >
                     <SearchIcon />
@@ -561,7 +563,7 @@ const NavBar = (props) => {
                             }}
                             onKeyPress={(e) => {
                                 e.charCode === 13 &&
-                                    props.history.push(`/product/${search}`); // if enter key is pressed redirect to product category and search
+                                    navigate(`/product/${search}`); // if enter key is pressed redirect to product category and search
                             }}
                             renderOption={(option, state) => (
                                 <p
@@ -572,7 +574,7 @@ const NavBar = (props) => {
                                         color: "#000",
                                     }}
                                     onClick={() =>
-                                        props.history.push(
+                                        navigate(
                                             `/product/${option.name}`
                                         )
                                     }

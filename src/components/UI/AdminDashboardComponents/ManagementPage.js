@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Autocomplete,
     TextField,
@@ -22,14 +22,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import { styled, useTheme } from "@mui/material/styles";
 import { Typography } from "@material-ui/core";
-import UpdateAProductForm from "../AdminDashboardComponents/Products/UpdateAProductForm";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductsByShopId } from "../../../store/actions/productActions";
-import AddANewProduct from "../AdminDashboardComponents/Products/AddANewProduct";
-import { set } from "date-fns";
+import AddANewProduct from "./Products/AddANewProduct";
+import UpdateAProductForm from "./Products/UpdateAProductForm";
+import AddNewUser from "./User/AddNewUser";
+import UpdateUserForm from "./User/UpdateUserForm";
+import AddNewOrder from "./Orders/AddNewOrder";
+import UpdateOrderForm from "./Orders/UpdateOrderForm";
+import AddANewReview from "./reviews/AddNewReview";
+import UpdateReviewForm from "./reviews/UpdateReviewForm";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,9 +49,6 @@ const useStyles = makeStyles((theme) => ({
         {
             maxWidth: "600px !important",
         },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
-        backgroundColor: "rgb(0 0 0 / 32%) !important",
-    },
 }));
 
 const ProductTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -90,7 +91,7 @@ const DialogDelete = (props) => {
             <DialogTitle id="alert-dialog-title">{"Warning!"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Do you want to delete this product?
+                    Do you want to delete this item?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -103,8 +104,9 @@ const DialogDelete = (props) => {
     );
 };
 
-const UpdateProduct = (props) => {
-    const { open, setOpen, product, type } = props;
+const UpdateData = (props) => {
+    const { open, setOpen, item, type, dataType } = props;
+    const [showDialog, setShowDialog] = useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -115,18 +117,54 @@ const UpdateProduct = (props) => {
             <DialogTitle>Edit Product</DialogTitle>
             <DialogContent>
                 {/* Form fields for editing the product */}
-                {type === 0 ? (
-                    <AddANewProduct
-                        style={{ width: "100%", padding: 0, margin: 0 }}
-                    />
-                ) : (
-                    <UpdateAProductForm
-                        product={product}
-                        setShowProductCard={setOpen}
-                        style={{ padding: 0, margin: 0 }}
-                        role="seller"
-                    />
-                )}
+                {dataType === "products" &&
+                    (type === 0 ? (
+                        <AddANewProduct
+                            style={{ width: "100%", padding: 0, margin: 0 }}
+                        />
+                    ) : (
+                        <UpdateAProductForm
+                            product={item}
+                            setShowProductCard={setShowDialog}
+                            style={{ padding: 0, margin: 0 }}
+                        />
+                    ))}
+                {dataType === "users" &&
+                    (type === 0 ? (
+                        <AddNewUser
+                            style={{ width: "100%", padding: 0, margin: 0 }}
+                        />
+                    ) : (
+                        <UpdateUserForm
+                            user={item}
+                            setShowUserCard={setShowDialog}
+                            style={{ padding: 0, margin: 0 }}
+                        />
+                    ))}
+                {dataType === "orders" &&
+                    (type === 0 ? (
+                        <AddNewOrder
+                            style={{ width: "100%", padding: 0, margin: 0 }}
+                        />
+                    ) : (
+                        <UpdateOrderForm
+                            order={item}
+                            setShowUpdateForm={setShowDialog}
+                            style={{ padding: 0, margin: 0 }}
+                        />
+                    ))}
+                {dataType === "reviews" &&
+                    (type === 0 ? (
+                        <AddANewReview
+                            style={{ width: "100%", padding: 0, margin: 0 }}
+                        />
+                    ) : (
+                        <UpdateReviewForm
+                            review={item}
+                            setShowUpdateForm={setShowDialog}
+                            style={{ padding: 0, margin: 0 }}
+                        />
+                    ))}
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
@@ -135,28 +173,48 @@ const UpdateProduct = (props) => {
     );
 };
 
-const ProductsManagement = () => {
+const ManagementPage = (props) => {
     const theme = useTheme();
-    const classes = useStyles();
-    const dispatch = useDispatch();
+    const classes = useStyles(theme);
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [searchText, setSearchText] = useState("");
+    const [currentItem, setCurrentItem] = useState({});
     const [page, setPage] = useState(1);
     const [type, setType] = useState(0);
     const itemsPerPage = 5;
-    const [currentItem, setCurrentItem] = useState({});
+    const { data, dataType } = props;
 
-    const shop = useSelector((state) => state.shops.userShop);
-    const products = useSelector((state) => state.products.productsInShop);
-    useEffect(() => {
-        if (shop)
-            dispatch(getProductsByShopId(shop.id));
-    }, [shop]);
-
-    const filteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const usersCol = ["_id", "name", "age", "gender", "email", "role"];
+    const productsCol = [
+        "_id",
+        "name",
+        "price",
+        "quantity",
+        "category",
+        "brand",
+    ];
+    const ordersCol = [
+        "_id",
+        "user",
+        "address",
+        "phone",
+        "total",
+        "shop",
+        "currentState",
+        "paymentMethod",
+        "paymentState",
+        "createdAt",
+    ];
+    const reviewsCol = [
+        "_id",
+        "title",
+        "text",
+        "rating",
+        "product",
+        "user",
+        "createdAt",
+    ];
 
     const handleSearch = () => {
         // Implement your search logic here
@@ -167,15 +225,16 @@ const ProductsManagement = () => {
         setPage(value);
     };
 
-    const handleOpenDialog = (type, product) => {
+    const handleOpenDialog = (type, item) => {
         setOpen(true);
         setType(type);
-        setCurrentItem(product);
+        setCurrentItem(item);
     };
 
     const handleConfirmDelete = () => {
         console.log("Delete product");
     };
+
     return (
         <div style={{ width: "100%", padding: "0.5em" }}>
             <div
@@ -192,8 +251,8 @@ const ProductsManagement = () => {
             >
                 <Typography variant="h5">Search</Typography>
                 <Autocomplete
-                    id="search-product"
-                    options={products.map((product) => product.name)}
+                    id="search-item"
+                    options={data.map((item) => item.name)}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -227,44 +286,64 @@ const ProductsManagement = () => {
                 <Table>
                     <ProductTableHead>
                         <TableRow>
-                            <ProductTableCell>ID Product</ProductTableCell>
-                            <ProductTableCell>Product Name</ProductTableCell>
-                            <ProductTableCell>Product Price</ProductTableCell>
-                            <ProductTableCell>Product Status</ProductTableCell>
-                            <ProductTableCell>Sale status</ProductTableCell>
+                            {dataType === "users" &&
+                                usersCol.map((col) => (
+                                    <ProductTableCell>{col}</ProductTableCell>
+                                ))}
+                            {dataType === "products" &&
+                                productsCol.map((col) => (
+                                    <ProductTableCell>{col}</ProductTableCell>
+                                ))}
+                            {dataType === "orders" &&
+                                ordersCol.map((col) => (
+                                    <ProductTableCell>{col}</ProductTableCell>
+                                ))}
+                            {dataType === "reviews" &&
+                                reviewsCol.map((col) => (
+                                    <ProductTableCell>{col}</ProductTableCell>
+                                ))}
                             <ProductTableCell>Actions</ProductTableCell>
                         </TableRow>
                     </ProductTableHead>
                     <TableBody>
-                        {filteredProducts
+                        {data
                             .slice(
                                 (page - 1) * itemsPerPage,
                                 page * itemsPerPage
                             )
-                            .map((product) => (
+                            .map((item) => (
                                 <>
-                                    <TableRow key={product.id}>
-                                        <ProductTableCell>
-                                            {product.id}
-                                        </ProductTableCell>
-                                        <ProductTableCell>
-                                            {product.name}
-                                        </ProductTableCell>
-                                        <ProductTableCell>
-                                            {product.price}
-                                        </ProductTableCell>
-                                        <ProductTableCell>
-                                            {product.status}
-                                        </ProductTableCell>
-                                        <ProductTableCell>
-                                            {product.sale}
-                                        </ProductTableCell>
+                                    <TableRow key={item._id}>
+                                        {dataType === "users" &&
+                                            usersCol.map((col) => (
+                                                <ProductTableCell>
+                                                    {item[col]}
+                                                </ProductTableCell>
+                                            ))}
+                                        {dataType === "products" &&
+                                            productsCol.map((col) => (
+                                                <ProductTableCell>
+                                                    {item[col]}
+                                                </ProductTableCell>
+                                            ))}
+                                        {dataType === "orders" &&
+                                            ordersCol.map((col) => (
+                                                <ProductTableCell>
+                                                    {item[col]}
+                                                </ProductTableCell>
+                                            ))}
+                                        {dataType === "reviews" &&
+                                            reviewsCol.map((col) => (
+                                                <ProductTableCell>
+                                                    {item[col]}
+                                                </ProductTableCell>
+                                            ))}
                                         <ProductTableCell
                                             style={{ width: "152px" }}
                                         >
                                             <IconButton
                                                 onClick={(e) =>
-                                                    handleOpenDialog(1, product)
+                                                    handleOpenDialog(1, item)
                                                 }
                                                 color="primary"
                                             >
@@ -284,11 +363,12 @@ const ProductsManagement = () => {
                                         </ProductTableCell>
                                     </TableRow>
                                     {open && (
-                                        <UpdateProduct
+                                        <UpdateData
                                             open={open}
                                             setOpen={setOpen}
-                                            product={currentItem}
+                                            item={currentItem}
                                             type={type}
+                                            dataType={dataType}
                                         />
                                     )}
                                     {openDialog && (
@@ -302,10 +382,10 @@ const ProductsManagement = () => {
                                     )}
                                 </>
                             ))}
-                        {filteredProducts.length === 0 && (
+                        {data.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={6} align="center">
-                                    No products found!
+                                    No items found!
                                 </TableCell>
                             </TableRow>
                         )}
@@ -314,7 +394,7 @@ const ProductsManagement = () => {
             </ProductTableContainer>
 
             <Pagination
-                count={Math.ceil(filteredProducts.length / itemsPerPage)}
+                count={Math.ceil(data.length / itemsPerPage)}
                 page={page}
                 onChange={handlePageChange}
                 color="primary"
@@ -328,4 +408,4 @@ const ProductsManagement = () => {
     );
 };
 
-export default ProductsManagement;
+export default ManagementPage;

@@ -18,11 +18,12 @@ import classNames from "classnames";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import NoPhoto from "../../../../image/nophoto.png";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import Fab from "@material-ui/core/Fab";
 import ProductStats from "../Stats/ProductStats";
+import ManagementPage from "../ManagementPage";
 
 const AllProducts = (props) => {
     const classes = userStyles();
@@ -311,54 +312,11 @@ const AllProducts = (props) => {
                 </Grid>
             </Grid>
             <Grid container>
-                {products !== null && products.length > 0
-                    ? products.map((product, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={4}
-                              lg={3}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <ProductCard
-                                  style={{
-                                      backgroundColor:
-                                          "rgba(256, 256, 256, 0.2)",
-                                      height: "30em",
-                                  }}
-                                  key={product.id}
-                                  id={product.id}
-                                  type={"review"}
-                                  slug={product.slug}
-                                  price={product.price}
-                                  discount={
-                                      product.discount !== undefined
-                                          ? product.discount
-                                          : 0
-                                  }
-                                  title={product.name}
-                                  image={
-                                      product.photo === "no-photo.jpg"
-                                          ? NoPhoto
-                                          : `${process.env.REACT_APP_API}/uploads/${product.photo}`
-                                  }
-                                  rating={product.averageRating}
-                                  link={true}
-                              />
-                          </Grid>
-                      ))
-                    : null}
+                {products !== null && products.length > 0 ? (
+                    <ManagementPage data={products} dataType={"products"} />
+                ) : null}
 
-                {(products === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {(products === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

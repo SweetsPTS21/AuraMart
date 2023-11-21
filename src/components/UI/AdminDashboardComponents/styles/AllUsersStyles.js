@@ -142,6 +142,9 @@ const useStyles = makeStyles((theme) => ({
     "@global .MuiFab-secondary:hover": {
         backgroundColor: "#189EFF",
     },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
+    },
     fabGreen: {
         backgroundColor: "#50AA54",
         color: "white",

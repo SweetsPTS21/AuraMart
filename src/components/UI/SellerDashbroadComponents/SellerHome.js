@@ -202,8 +202,10 @@ const SellerHome = () => {
     const reviews = useSelector((state) => state.reviews.allReviews);
 
     useEffect(() => {
-        dispatch(getAllOrdersOfAShop(shop.id));
-        dispatch(getProductsByShopId(shop.id));
+        if (shop) {
+            dispatch(getAllOrdersOfAShop(shop.id));
+            dispatch(getProductsByShopId(shop.id));
+        }
     }, [shop]);
 
     return (

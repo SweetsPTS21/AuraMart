@@ -20,6 +20,7 @@ import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import tikiGraphicMap from "../../image/tiki-graphic-map.png";
+import loginImage from "../../image/login.png";
 import Grid from "@material-ui/core/Grid";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -32,21 +33,24 @@ import * as reviewActions from "../../store/actions/reviewActions";
 import { useDispatch } from "react-redux";
 import { message } from "antd";
 import * as productActions from "../../store/actions/productActions";
+import { TextField } from "@material-ui/core";
 
 // style for both modal and tabs
 const useStyles = makeStyles((theme) => ({
     modal: {
         display: "flex",
-        alignItems: "center",
+        marginTop: "5%",
         justifyContent: "center",
         zIndex: "100 !important",
     },
     paper: {
-        backgroundColor: "rgb(248, 248, 248)",
+        backgroundColor: "#fff",
         border: "none",
-        borderRadius: 6,
+        borderRadius: "1em",
         boxShadow: theme.shadows[5],
-        width: "auto",
+        maxWidth: "800px",
+        width: "800px",
+        height: "530px",
     },
     destab: {
         display: "flex",
@@ -54,20 +58,23 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         position: "auto",
     },
+    container: {
+        height: "100%",
+    },
     tabSection: {
         position: "relative",
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        borderRadius: 6,
+        height: "100%",
     },
     descriptionSection: {
         position: "relative",
-        backgroundColor: theme.palette.background.paper,
-        // marginRight: "2%",
-        borderRadius: 6,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
     },
     formStyle: {
-        padding: "0 10% 10% 10%",
+        // padding: "0 2em",
     },
     formStyle2: {
         padding: 0,
@@ -78,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
     buttonStyle: {
         marginTop: "16px",
         marginBottom: "8px",
+        marginRight: "8px",
+        textTransform: "none",
+        fontSize: "1em",
     },
     "@global .MuiRating-label ": {
         display: "block !important",
@@ -108,8 +118,13 @@ function TabPanel(props) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
+            style={{ height: "calc(100% - 48px)" }}
         >
-            {value === index && <Box p={5}>{children}</Box>}
+            {value === index && (
+                <Box p={5} style={{ height: "100%" }}>
+                    {children}
+                </Box>
+            )}
         </Typography>
     );
 }
@@ -141,49 +156,22 @@ const ModalTabSection = (props) => {
     };
 
     return (
-        <Grid container>
+        <Grid container className={classes.container}>
             <div className={classes.destab}>
                 <Grid
                     item
-                    md={6}
-                    sm={6}
-                    xs={6}
-                    style={{ backgroundColor: "white" }}
+                    xs={7}
+                    style={{ backgroundColor: "#fff", borderRadius: "1em" }}
                 >
-                    <Grid container alignItems="center">
-                        <div className={classes.descriptionSection}>
-                            <div className="description-section">
-                                <TabPanel value={value} index={0}>
-                                    <h2>Log in</h2>
-                                    <p className={classes.textDescription}>
-                                        Login in to track your orders, save your
-                                        favorite products, get many interesting
-                                        news
-                                    </p>
-                                </TabPanel>
-                                <TabPanel value={value} index={1}>
-                                    <h2>Sign up</h2>
-                                    <p className={classes.textDescription}>
-                                        Signing up to track your orders, save
-                                        your favorite products, get many
-                                        interesting news
-                                    </p>
-                                </TabPanel>
-                            </div>
-                            <div className="image-section">
-                                <img
-                                    src={tikiGraphicMap}
-                                    alt="tiki-graphic-map"
-                                    style={{ height: "100%", width: "100%" }}
-                                />
-                            </div>
-                        </div>
-                    </Grid>
-                </Grid>
-                <Grid item md={12} sm={12} xs={12}>
                     <div className={classes.tabSection}>
                         <MuiThemeProvider theme={tabTheme}>
-                            <AppBar position="static">
+                            <AppBar
+                                position="static"
+                                style={{
+                                    backgroundColor: "#0180ce",
+                                    borderTopLeftRadius: "1em",
+                                }}
+                            >
                                 <Tabs
                                     value={value}
                                     onChange={handleChange}
@@ -221,6 +209,40 @@ const ModalTabSection = (props) => {
                         </MuiThemeProvider>
                     </div>
                 </Grid>
+                <Grid
+                    item
+                    xs={5}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        borderTopRightRadius: "1em",
+                        borderBottomRightRadius: "1em",
+                        background:
+                            "linear-gradient(to bottom, #dbeeff, #ebf5ff)",
+                    }}
+                >
+                    <Grid container alignItems="center">
+                        <div className={classes.descriptionSection}>
+                            <img
+                                src={loginImage}
+                                alt="tiki-graphic-map"
+                                style={{ height: "200px", width: "200px" }}
+                            />
+
+                            <Typography
+                                style={{
+                                    width: "200px",
+                                    textAlign: "center",
+                                    marginTop: "1.5em",
+                                    fontSize: "1.2em",
+                                    color: "#019eff",
+                                }}
+                            >
+                                Mua sắm tại Aumart - Mua hàng online giá tốt,
+                            </Typography>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         </Grid>
     );
@@ -237,16 +259,16 @@ const ModalComment = (props) => {
 
     const [text, setText] = useState("");
     const labels = {
-        0.5: "Useless",
-        1: "Useless+",
-        1.5: "Poor",
-        2: "Poor+",
-        2.5: "Ok",
-        3: "Ok+",
-        3.5: "Good",
-        4: "Good+",
-        4.5: "Excellent",
-        5: "Excellent+",
+        0.5: "Rất không hài lòng",
+        1: "Rất không hài lòng",
+        1.5: "Không hài lòng",
+        2: "Không hài lòng",
+        2.5: "Sản phẩm ổn",
+        3: "Sản phẩm tốt",
+        3.5: "Sản phẩm tốt",
+        4: "Rất tốt",
+        4.5: "Rất tốt",
+        5: "Tuyệt vời",
     };
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
@@ -276,15 +298,18 @@ const ModalComment = (props) => {
             md={12}
             sm={12}
             xs={12}
-            style={{ padding: "10%", minWidth: "520px" }}
+            style={{ padding: "10%", minWidth: "520px", height: "100%", position: "relative" }}
         >
+            <Typography variant="h5" style={{ marginBottom: "1em" }}>
+                Đánh giá sản phẩm
+            </Typography>
             <ValidatorForm onSubmit={handleSubmit}>
                 <FormGroup>
                     <FormControl fullWidth={true}>
                         <TextValidator
                             size="small"
-                            label="Title"
-                            placeholder="Enter you comment title"
+                            label="Tiêu đề"
+                            placeholder="Bạn nghĩ gì về sản phẩm này?"
                             value={title}
                             margin="normal"
                             InputLabelProps={{
@@ -294,13 +319,14 @@ const ModalComment = (props) => {
                             variant="standard"
                             validators={["required"]}
                             errorMessages={["Enter your comment title"]}
+                            fullWidth
                         />
                     </FormControl>
                     <InputLabel
                         htmlFor="my-input2"
                         style={{ marginTop: "1em", fontSize: "0.8em" }}
                     >
-                        Rating
+                        Đánh giá
                     </InputLabel>
 
                     <FormControl>
@@ -330,37 +356,44 @@ const ModalComment = (props) => {
                         </div>
                     </FormControl>
                     <FormControl fullWidth={true}>
-                        <TextareaAutosize
-                            aria-label="empty textarea"
-                            minRows={3}
-                            placeholder="Write your comment here..."
-                            width="420px"
+                        <TextField
+                            minRows={4}
+                            placeholder="Thêm đánh giá của bạn về sản phẩm này"
+                            multiline
                             onChange={handleChangeText}
                             value={text}
                             required
+                            variant="filled"
                             style={{ borderColor: "#303F9F" }}
                         />
                     </FormControl>
-                    <Button
-                        type={"submit"}
-                        variant="contained"
-                        color="secondary"
-                        fullWidth={true}
-                        disabled={isLoading}
-                        className={classes.buttonStyle}
+                    <div
+                        style={{
+                            height: "64px",
+                            display: "flex",
+                            position: "absolute",
+                            bottom: "5%",
+                            right: "5%",
+                        }}
                     >
-                        Comment
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth={true}
-                        className={classes.buttonStyle}
-                        onClick={handleDiscard}
-                    >
-                        Discard
-                    </Button>
+                        <Button
+                            variant="outlined"
+                            color="default"
+                            className={classes.buttonStyle}
+                            onClick={handleDiscard}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            type={"submit"}
+                            variant="contained"
+                            color="secondary"
+                            disabled={isLoading}
+                            className={classes.buttonStyle}
+                        >
+                            Hoàn thành
+                        </Button>
+                    </div>
                 </FormGroup>
             </ValidatorForm>
         </Grid>

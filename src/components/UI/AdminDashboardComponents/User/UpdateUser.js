@@ -18,7 +18,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Fab from "@material-ui/core/Fab";
 import UpdateUserForm from "./UpdateUserForm";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const UpdateUser = (props) => {
     const classes = userStyles();
@@ -313,15 +313,7 @@ const UpdateUser = (props) => {
                         />
                     </Grid>
                 ) : null}
-                {(users_ === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {(users_ === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

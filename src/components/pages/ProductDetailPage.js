@@ -7,6 +7,7 @@ import {
     createTheme,
     ThemeProvider,
 } from "@material-ui/core/styles";
+import LoadingSpinner from "../layout/LoadingSpinner";
 import TikiNow from "../../image/tiki-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
@@ -45,7 +46,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import { SideBySideMagnifier } from "react-image-magnifiers";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Moment from "moment";
 import Moment2 from "react-moment";
 
@@ -61,6 +62,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { message } from "antd";
 import FormGroup from "@material-ui/core/FormGroup";
+import RecommendProduct from "../layout/RecommendProduct";
 const defaultAvatar =
     "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
@@ -75,6 +77,11 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "0.5em",
         backgroundColor: "#FFFFFF",
         padding: "16px",
+    },
+    loading: {
+        position: "fixed",
+        left: "55%",
+        top: "65%",
     },
     container: {
         width: "100%",
@@ -276,9 +283,7 @@ const ImageList = ({ product, setCurrentImg }) => {
                     button
                     onClick={() =>
                         product.photo !== "no-photo.jpg"
-                            ? setCurrentImg(
-                                  `${process.env.REACT_APP_API}/uploads/${product.photo}`
-                              )
+                            ? setCurrentImg(product.photo)
                             : setCurrentImg(noPhoto)
                     }
                     style={{ padding: "0, 2em", justifyContent: "center" }}
@@ -287,7 +292,7 @@ const ImageList = ({ product, setCurrentImg }) => {
                         style={{ maxWidth: "5.5em", borderRadius: "0.5em" }}
                         src={
                             product.photo !== "no-photo.jpg"
-                                ? `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                ? product.photo
                                 : noPhoto
                         }
                         alt={"listItemImage"}
@@ -808,6 +813,16 @@ const ServiceAndPromotion = ({ product }) => {
     );
 };
 
+const RecommendProd = (props) => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.block}>
+            <RecommendProduct {...props} />
+        </div>
+    );
+};
+
 const TikiTranding = () => {
     const classes = useStyles();
     return (
@@ -856,14 +871,7 @@ const TikiTranding = () => {
  * @author PTSON
  * @date 22/09/2023
  */
-const RecommendProducts = () => {
-    const classes = useStyles();
-    return (
-        <div className={classes.block}>
-            <InterestedProducts />
-        </div>
-    );
-};
+
 const ShopInfo = (props) => {
     const classes = useStyles();
     const shop = props.shop;
@@ -1497,6 +1505,7 @@ const ProductReview = ({ product, reviews }) => {
 
 const ProductDetailPage = (props) => {
     const classes = useStyles();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { productName, productId } = useParams();
     const [firstImageLoad, setFirstImageLoad] = useState(true);
@@ -1525,13 +1534,11 @@ const ProductDetailPage = (props) => {
     useEffect(() => {
         if (product !== null && product !== undefined) {
             setCurrentImg(
-                product.photo !== "no-photo.jpg"
-                    ? `${process.env.REACT_APP_API}/uploads/${product.photo}`
-                    : noPhoto
+                product.photo !== "no-photo.jpg" ? product.photo : noPhoto
             );
         }
-        if (product === undefined) {
-            props.history.push("/notFound");
+        if (!product) {
+            navigate("/notFound");
         }
     }, [product]);
 
@@ -1656,7 +1663,7 @@ const ProductDetailPage = (props) => {
                                         <ServiceAndPromotion
                                             product={product}
                                         />
-                                        <RecommendProducts />
+
                                         <ShopInfo shop={product.shop} />
                                         <TikiTranding />
                                         <ProductDetailInfo product={product} />
@@ -1676,6 +1683,17 @@ const ProductDetailPage = (props) => {
                                 style={{ padding: "0 0.5em 0.5em 0.5em" }}
                             >
                                 {ProductQA()}
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                style={{ padding: "0 0.5em 0.5em 0.5em" }}
+                            >
+                                <RecommendProd
+                                    user={user}
+                                    itemWidth={"170px"}
+                                    type={"slider"}
+                                />
                             </Grid>
                             <Grid item xs={12} style={{ padding: "0.5em" }}>
                                 {product !== null && product !== undefined && (
@@ -1702,6 +1720,7 @@ const ProductDetailPage = (props) => {
                         </div>
                     </Grid>
                 </Grid>
+                {product === null || productReviews === null ? <LoadingSpinner /> : null}
             </div>
             <Footer />
         </div>

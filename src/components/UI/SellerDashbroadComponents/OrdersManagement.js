@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
         {
             maxWidth: "600px !important",
         },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
+        backgroundColor: "rgba(0, 0, 0, 0.5) !important",
+    },
 }));
 
 const OrderTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -255,11 +258,13 @@ const OrdersManagement = () => {
     const [page, setPage] = useState(1);
     const [type, setType] = useState(0);
     const itemsPerPage = 5;
+    const [currentItem, setCurrentItem] = useState({});
 
     const shop = useSelector((state) => state.shops.userShop);
     const orders = useSelector((state) => state.orders.allShopOrders);
     useEffect(() => {
-        dispatch(getAllOrdersOfAShop(shop.id));
+        if (shop)
+            dispatch(getAllOrdersOfAShop(shop.id));
     }, [shop]);
 
     const filteredOrders = orders
@@ -277,9 +282,10 @@ const OrdersManagement = () => {
         setPage(value);
     };
 
-    const handleOpenDialog = (type) => {
+    const handleOpenDialog = (type, order) => {
         setOpen(true);
         setType(type);
+        setCurrentItem(order);
     };
 
     const handleConfirmDelete = () => {
@@ -377,7 +383,7 @@ const OrdersManagement = () => {
                                         >
                                             <IconButton
                                                 onClick={(e) =>
-                                                    handleOpenDialog(1)
+                                                    handleOpenDialog(1, order)
                                                 }
                                                 color="primary"
                                             >
@@ -393,19 +399,23 @@ const OrdersManagement = () => {
                                             </IconButton>
                                         </OrderTableCell>
                                     </TableRow>
-                                    <UpdateOrder
-                                        open={open}
-                                        setOpen={setOpen}
-                                        order={order}
-                                        type={type}
-                                    />
-                                    <DialogDelete
-                                        openDialog={openDialog}
-                                        setOpenDialog={setOpenDialog}
-                                        handleConfirmDelete={
-                                            handleConfirmDelete
-                                        }
-                                    />
+                                    {open && (
+                                        <UpdateOrder
+                                            open={open}
+                                            setOpen={setOpen}
+                                            order={currentItem}
+                                            type={type}
+                                        />
+                                    )}
+                                    {openDialog && (
+                                        <DialogDelete
+                                            openDialog={openDialog}
+                                            setOpenDialog={setOpenDialog}
+                                            handleConfirmDelete={
+                                                handleConfirmDelete
+                                            }
+                                        />
+                                    )}
                                 </>
                             ))}
                         {filteredOrders.length === 0 && (

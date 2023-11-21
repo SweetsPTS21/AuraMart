@@ -245,11 +245,17 @@ const SignUp = (props) => {
             </MuiPickersUtilsProvider>
             <Button
                 variant="contained"
-                color="primary"
                 fullWidth={true}
                 className={classes.buttonStyle}
                 onClick={handleSubmit}
                 disabled={loading}
+                style={{
+                    backgroundColor: "#ff424e",
+                    height: "3em",
+                    color: "#fff",
+                    fontSize: "1.2em",
+                    textTransform: "none",
+                }}
             >
                 Signup
             </Button>

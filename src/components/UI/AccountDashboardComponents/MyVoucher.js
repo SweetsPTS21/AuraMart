@@ -195,7 +195,7 @@ const VoucherRender = (props) => {
                                 </Typography>
                             </Button>
                         )}
-                        <Link to="/vouchers/create">
+                        <Link to="#">
                             <Typography variant="contained" color="primary">
                                 Voucher History
                             </Typography>

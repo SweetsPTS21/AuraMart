@@ -419,12 +419,14 @@ const ShopManagement = () => {
         : [];
 
     useEffect(() => {
-        dispatch(shopActions.getShopByUserId(user.id));
-    }, []);
+        if (user && user.role === "seller")
+            dispatch(shopActions.getShopByUserId(user.id));
+    }, [user]);
 
     useEffect(() => {
-        dispatch(configActions.getConfigsByShopId(shop.id));
-    }, []);
+        if (shop)
+            dispatch(configActions.getConfigsByShopId(shop.id));
+    }, [shop]);
 
     return (
         <div className={classes.root}>

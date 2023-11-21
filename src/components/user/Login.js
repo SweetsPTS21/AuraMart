@@ -4,15 +4,15 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormGroup from "@material-ui/core/FormGroup";
 import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
 import PersonIcon from "@material-ui/icons/Person";
-import FacebookIcon from "@material-ui/icons/Facebook";
+import { Facebook, GitHub } from "@material-ui/icons";
 import zaloLogo from "../../image/Logo_Zalo.png";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/authActions";
 import { message } from "antd";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 
 const userStyles = makeStyles(() => ({
     groupButton: {
@@ -97,88 +97,118 @@ const Login = (props) => {
         </div>
     );
     const form2 = (
-        <div>
-            <FormGroup onSubmit={handleSubmit}>
-                <FormControl margin="normal">
-                    <InputLabel htmlFor="my-input">Email address</InputLabel>
-                    <Input
-                        id="my-input"
-                        aria-describedby="my-helper-text"
-                        name="email"
-                        onChange={handleEmailInputChange}
-                    />
-                    {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
-                </FormControl>
-                <FormControl margin="normal">
-                    <InputLabel htmlFor="my-input">Password</InputLabel>
-                    <Input
-                        id="my-input2"
-                        type="password"
-                        aria-describedby="my-helper-text"
-                        name="password"
-                        onChange={handlePasswordInputChange}
-                    />
-                </FormControl>
-                <div className={classes.groupButton}>
+        <Grid
+            container
+            style={{
+                display: "flex",
+                justifyContent: "space-between",
+                height: "100%",
+            }}
+        >
+            <Grid item xs={12}>
+                <FormGroup onSubmit={handleSubmit}>
+                    <FormControl margin="normal">
+                        <InputLabel htmlFor="my-input">
+                            Email address
+                        </InputLabel>
+                        <Input
+                            id="my-input"
+                            aria-describedby="my-helper-text"
+                            name="email"
+                            onChange={handleEmailInputChange}
+                        />
+                        {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
+                    </FormControl>
+                    <FormControl margin="normal">
+                        <InputLabel htmlFor="my-input">Password</InputLabel>
+                        <Input
+                            id="my-input2"
+                            type="password"
+                            aria-describedby="my-helper-text"
+                            name="password"
+                            onChange={handlePasswordInputChange}
+                        />
+                    </FormControl>
                     <Button
                         variant="contained"
                         size={"small"}
-                        style={{ backgroundColor: "#FDDE54", height: "3em" }}
-                        startIcon={<PersonIcon />}
+                        style={{
+                            backgroundColor: "#ff424e",
+                            height: "3em",
+                            color: "#fff",
+                            fontSize: "1.2em",
+                            textTransform: "none",
+                        }}
                         className={classes.button}
                         onClick={handleSubmit}
                         disabled={loading}
                     >
-                        Login
+                        Đăng nhập
                     </Button>
-                    <Button
-                        size={"small"}
-                        variant="contained"
+                </FormGroup>
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                }}
+            >
+                <Typography
+                    variant="body2"
+                    style={{
+                        textAlign: "center",
+                        fontSize: "1.2em",
+                        color: "#bbb",
+                    }}
+                >
+                    Hoặc tiếp tục bằng
+                </Typography>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        margin: "1em 0",
+                    }}
+                >
+                    <IconButton
                         style={{
-                            backgroundColor: "#4267B2",
-                            color: "white",
-                            height: "3em",
+                            width: "60px",
+                            height: "60px",
+                            backgroundColor: "#3b5998",
+                            margin: "0 0.5em",
+                            color: "#fff",
+                            boxShadow: "0 0 5px #bbb",
                         }}
-                        startIcon={<FacebookIcon />}
-                        className={classes.button}
                     >
-                        Login with Facebook
-                    </Button>
-                    <Button
-                        size={"small"}
-                        variant="contained"
+                        <Facebook />
+                    </IconButton>
+                    <IconButton
                         style={{
-                            backgroundColor: "#DC4F42",
-                            color: "white",
-                            height: "3em",
+                            width: "60px",
+                            height: "60px",
+                            backgroundColor: "#fff",
+                            margin: "0 0.5em",
+                            boxShadow: "0 0 5px #bbb",
                         }}
-                        startIcon={<Icon className={"fab fa-google"} />}
-                        className={classes.button}
                     >
-                        Login with Google
-                    </Button>
-                    <Button
-                        size={"small"}
-                        variant="contained"
-                        style={{
-                            backgroundColor: "#0180CE",
-                            color: "white",
-                            height: "3em",
-                        }}
-                        startIcon={
-                            <img
-                                src={zaloLogo}
-                                alt="zalo"
-                                style={{ width: "1em" }}
-                            />
-                        }
-                        className={classes.button}
-                    >
-                        Login with Zalo
-                    </Button>
+                        <GitHub />
+                    </IconButton>
                 </div>
-            </FormGroup>
-        </div>
+                <Typography
+                    variant="body2"
+                    style={{
+                        textAlign: "left",
+                        fontSize: "0.7em",
+                        color: "#bbb",
+                    }}
+                >
+                    Bằng việc tiếp tục, bạn đã đọc và đồng ý với điều khoản sử dụng và Chính sách bảo mật thông tin cá nhân của Tiki
+                </Typography>
+            </Grid>
+        </Grid>
     );
 
     const handleForm = (type) => {

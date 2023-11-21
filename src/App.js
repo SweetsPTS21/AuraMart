@@ -31,7 +31,7 @@ import SellerDashbroad from "./components/UI/SellerDashboard";
 import SellerPage from "./components/pages/SellerPage";
 
 const actionsOnPageLoad = () => {
-    store.dispatch(getAllProducts());
+    store.dispatch(getAllProducts("?limit=100"));
     store.dispatch(getCart());
     store.dispatch(getAllShops());
     store.dispatch(getAllOrders());

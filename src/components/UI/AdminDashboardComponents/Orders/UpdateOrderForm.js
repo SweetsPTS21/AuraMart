@@ -134,9 +134,12 @@ const userStyles = makeStyles(() => ({
     "@global .k-upload-files.k-reset": {
         backgroundColor: "white !important",
     },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
+    },
 }));
 
-const UpdateOrderForm = ({ order, setShowUpdateForm }) => {
+const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
     const classes = userStyles();
     const dispatch = useDispatch();
 
@@ -191,10 +194,10 @@ const UpdateOrderForm = ({ order, setShowUpdateForm }) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
-            <Grid container style={{ marginTop: "0.7em", marginLeft: "0.5em" }}>
-                <Grid item xs={12} sm={12} md={12}>
-                    <Card style={{ marginLeft: "3vw" }}>
+        <div style={style}>
+            <Grid container>
+                <Grid item xs={12} sm={12} md={12} style={{ margin: "0 auto", width: "420px" }}>
+                    <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Update An Order

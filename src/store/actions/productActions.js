@@ -12,8 +12,8 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 const api_url = process.env.REACT_APP_API;
 
 // 🔓
-export const getAllProducts = () => async (dispatch) => {
-    const url = `${api_url}/api/v1/products`;
+export const getAllProducts = (query) => async (dispatch) => {
+    const url = `${api_url}/api/v1/products${query ? query : ""}`;
     console.log(url);
     await axios
         .get(url)
@@ -117,16 +117,13 @@ export const createProduct = (product, shopId, photo) => async (dispatch) => {
 
 // 🔒
 export const updateProductById =
-    (product, productId, photo) => async (dispatch) => {
+    (product, productId) => async (dispatch) => {
         const url = `${api_url}/api/v1/products/${productId}`;
         await axios
             .put(url, product)
             .then(async (res) => {
                 if (!res.data.success) {
                     return message.error("Error updating product");
-                }
-                if (photo !== null) {
-                    await dispatch(updateProductPhoto(photo, res.data.data.id));
                 }
                 await dispatch(getAllProducts());
 

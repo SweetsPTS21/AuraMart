@@ -21,7 +21,8 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import CardAvatar from "../Card/CardAvatar";
 import CardBody from "../Card/CardBody";
 import Fab from "@material-ui/core/Fab";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
+import ManagementPage from "../ManagementPage";
 
 const FindAUser = (props) => {
     const classes = userStyles();
@@ -308,82 +309,10 @@ const FindAUser = (props) => {
                 </Grid>
             </Grid>
             <Grid container>
-                {users_ !== null && users_.length > 0 && !showUserCard
-                    ? users_.map((user, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={4}
-                              lg={3}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <UserCard
-                                  onClick={() => {
-                                      setShowUserCard((val) => !val);
-                                      setCurrentUserId(user._id);
-                                  }}
-                                  style={{ paddingBottom: "1em" }}
-                                  float
-                                  avatar={pickRandBackground()}
-                                  name={user.name}
-                                  positionName={user.email}
-                                  stats={[
-                                      {
-                                          name: "Gender",
-                                          value:
-                                              user.gender
-                                                  .charAt(0)
-                                                  .toUpperCase() +
-                                              user.gender.slice(1),
-                                      },
-                                      {
-                                          name: "Role",
-                                          value:
-                                              user.role
-                                                  .charAt(0)
-                                                  .toUpperCase() +
-                                              user.role.slice(1),
-                                      },
-                                      {
-                                          name: "Age",
-                                          value: user.age,
-                                      },
-                                  ]}
-                              />
-                          </Grid>
-                      ))
-                    : null}
-                {showUserCard && (
-                    <Fab
-                        aria-label="add"
-                        style={{ marginTop: "3em", marginLeft: "5em" }}
-                        onClick={() => setShowUserCard((val) => !val)}
-                    >
-                        <ArrowBackIcon />
-                    </Fab>
-                )}
-
-                {users_ !== null && users_.length > 0 && showUserCard ? (
-                    <Grid
-                        item
-                        xs={10}
-                        md={6}
-                        lg={4}
-                        style={{ margin: "2em", marginLeft: "18vw" }}
-                    >
-                        <UserCardFull />
-                    </Grid>
+                {users_ !== null && users_.length > 0 && !showUserCard ? (
+                    <ManagementPage data={users_} />
                 ) : null}
-                {(users_ === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {(users_ === null || isLoading) && <LoadingSpinner />}
             </Grid>
         </div>
     );

@@ -23,7 +23,7 @@ import CardAvatar from "../Card/CardAvatar";
 import CardBody from "../Card/CardBody";
 import Fab from "@material-ui/core/Fab";
 import { message } from "antd";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const DeleteUser = (props) => {
     const classes = userStyles();
@@ -365,15 +365,7 @@ const DeleteUser = (props) => {
                           </Grid>
                       ))
                     : null}
-                {users_ === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {users_ === null && <LoadingSpinner />}
                 {showUserCard && (
                     <Fab
                         aria-label="add"

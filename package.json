@@ -32,6 +32,7 @@
         "date-fns": "^2.30.0",
         "dotenv": "^16.3.1",
         "fg-loadcss": "^3.1.0",
+        "firebase": "^10.6.0",
         "jwt-decode": "^3.1.2",
         "moment": "latest",
         "node-sass": "^9.0.0",

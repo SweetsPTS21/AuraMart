@@ -212,9 +212,9 @@ const AddNewOrder = () => {
 
     return (
         <div style={{ width: "100%" }}>
-            <Grid container style={{ marginTop: "2em" }}>
-                <Grid item xs={11} sm={8} md={7}>
-                    <Card style={{ marginLeft: "18vw" }}>
+            <Grid container>
+                <Grid item xs={12} style={{ margin: "0 auto", width: "420px" }}>
+                    <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Add An Order

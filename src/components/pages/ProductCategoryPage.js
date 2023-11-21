@@ -6,9 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import ItemContainer from "../UI/ItemContainer";
 import Card from "../UI/Card";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../layout/Footer";
 import { useParams } from "react-router-dom";
+import { getAllProducts } from "../../store/actions/productActions";
 
 if (!String.prototype.contains) {
     String.prototype.contains = function (s) {
@@ -42,10 +43,17 @@ const item = [
 
 const ProductCategoryPage = (props) => {
     const { type } = useParams();
+    const dispatch = useDispatch();
 
     const products = useSelector((state) => state.products.products);
     const [filteredProducts, setFilteredProducts] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
+
+    useEffect(() => {
+        if (products.length === 25) {
+            dispatch(getAllProducts("?limit=80"));
+        }
+    }, []);
 
     const handleSearch = async (returnResult = false) => {
         // setFilteredProducts(
@@ -208,6 +216,7 @@ const ProductCategoryPage = (props) => {
                             <ItemContainer
                                 space={3}
                                 title={""}
+                                type={"container"}
                                 gridStyle={{
                                     boxShadow:
                                         "0 0px 0px 0 rgba(0, 0, 0, 0.1), 0 0px 0px 0 rgba(0, 0, 0, 0.1)",
@@ -221,7 +230,6 @@ const ProductCategoryPage = (props) => {
                                 {filteredProducts !== null &&
                                     filteredProducts.map((prod, index) => (
                                         <Card
-                                            style={{ width: "13vw" }}
                                             key={prod.id}
                                             id={prod.id}
                                             type={"review"}
@@ -235,10 +243,12 @@ const ProductCategoryPage = (props) => {
                                             image={
                                                 prod.photo === "no-photo.jpg"
                                                     ? BottleWarmer
-                                                    : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                                                    : prod.photo
                                             }
                                             rating={prod.averageRating}
                                             link={true}
+                                            slug={prod.slug}
+                                            style={{ width: "180px", height: "330px"}}
                                         />
                                     ))}
                             </ItemContainer>
@@ -262,7 +272,7 @@ const ProductCategoryPage = (props) => {
                                         color: "rgba(149, 149, 149, 1)",
                                     }}
                                 >
-                                    No products found :(
+                                    {"No products found :(("}
                                 </p>
                             </section>
                         )}

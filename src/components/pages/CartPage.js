@@ -227,7 +227,7 @@ const CartPage = (props) => {
                                             item.product.photo ===
                                             "no-photo.jpg"
                                                 ? noPhoto
-                                                : `${process.env.REACT_APP_API}/uploads/${item.product.photo}`
+                                                : item.product.photo
                                         }
                                         soldBy={item.product.shop.name}
                                         price={item.product.price}

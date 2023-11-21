@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import userStyles from "../styles/FindAUserStyles";
 import classNames from "classnames";
 import Moment2 from "moment";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 import * as reviewActions from "../../../../store/actions/reviewActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -579,15 +579,7 @@ const UpdateOrDeleteReview = (props) => {
                         />
                     </Grid>
                 ) : null}
-                {reviews_ === null && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {reviews_ === null && <LoadingSpinner />}
             </Grid>
         </div>
     );

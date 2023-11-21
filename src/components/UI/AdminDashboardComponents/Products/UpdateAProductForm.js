@@ -13,6 +13,7 @@ import { message } from "antd";
 import * as productActions from "../../../../store/actions/productActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
+import { styled } from "@mui/material/styles";
 import {
     tikiCardHeader,
     whiteColor,
@@ -21,8 +22,8 @@ import {
     hexToRgb,
 } from "../Card/styles/material-dashboard-react.js";
 import "@progress/kendo-theme-default/dist/all.css";
-import { Upload, UploadFileStatus } from "@progress/kendo-react-upload";
-import uuid from "react-uuid";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../../utils/firebaseConfig";
 
 export const countries = [
     { code: "AD", label: "Andorra", phone: "376" },
@@ -304,6 +305,9 @@ const userStyles = makeStyles(() => ({
         marginBottom: "3px",
         textDecoration: "none",
     },
+    formControl: {
+        width: "100%",
+    },
     "@global .MuiChip-root.MuiAutocomplete-tag.MuiChip-outlined.MuiChip-sizeSmall.MuiChip-deletable":
         {
             color: whiteColor,
@@ -403,8 +407,20 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
+const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+});
+
 const UpdateAProductForm = (props) => {
-    const { product, setShowProductCard, style } = props;
+    const { product, setShowProductCard, style, role } = props;
     const classes = userStyles();
     const dispatch = useDispatch();
     const allShops = useSelector((state) => state.shops.shops);
@@ -436,15 +452,8 @@ const UpdateAProductForm = (props) => {
             : ["Black&Red", "Black&Green", "Black&Blue"]
     );
     const [shop, setShop] = useState(product.shop.id);
-    const [defaultPhoto, setDefaultPhoto] = useState(
-        product.photo === "no-photo.jpg"
-            ? null
-            : `${process.env.REACT_APP_API}/uploads/${product.photo}`
-    ); // img link from db
-    const [photo, setPhoto] = useState(null); // photo object that upload component uses
-    const [photoPreview, setPhotoPreview] = useState(null); // photoPreview
-    const [photoFile, setPhotoFile] = useState(null); // raw photo file that we will send to db
-    const [firstLoad, setFirstLoad] = useState(true);
+
+    const [photo, setPhoto] = useState(product.photo); // photo object that upload component uses
 
     const categoryOptions = [
         "phone-tablet",
@@ -462,16 +471,6 @@ const UpdateAProductForm = (props) => {
     ];
 
     const [isLoading, setIsLoading] = useState(false);
-
-    if (firstLoad) {
-        // users wouldn't have been set so we use settimeout
-        setTimeout(() => {
-            defaultPhoto !== null
-                ? convertImageUrlToFile(defaultPhoto)
-                : setPhotoPreview(undefined);
-            setFirstLoad(false);
-        }, 500);
-    }
 
     useEffect(() => {
         ValidatorForm.addValidationRule(
@@ -494,14 +493,16 @@ const UpdateAProductForm = (props) => {
             "isShopInputEmpty",
             (value) => value.length > 0
         );
-    }, [category, specs, description, discount, photoPreview]);
+    }, [category, specs, description, discount]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        // e.preventDefault();
         setIsLoading(true);
         const msg = message.loading("Updating product!", 0);
         let desc = description.join();
         let specification = specs.join();
+
+        // if photo is not changed, use the old photo
         let product_ = {
             name,
             category,
@@ -514,76 +515,83 @@ const UpdateAProductForm = (props) => {
             origin,
             discount: parseInt(discount),
             colors,
+            photo,
         };
-        dispatch(
-            await productActions.updateProductById(
-                product_,
-                product.id,
-                photoFile
-            )
-        );
+        dispatch(await productActions.updateProductById(product_, product.id));
 
         setShowProductCard((val) => !val);
         setTimeout(msg, 1);
         setIsLoading(false);
     };
 
-    const convertImageUrlToFile = (url) => {
-        let file;
-        let newFileObj;
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.onload = (e) => {
-            if (xhr.status === 200) {
-                file = new File([xhr.response], `Product Image.jpeg`);
-                newFileObj = {
-                    name: file.name,
-                    extension: "jpeg",
-                    getRawFile: () => {
-                        return file;
-                    },
-                    size: file.size,
-                    progress: 0,
-                    status: UploadFileStatus.Initial,
-                    uid: uuid(), // some random id
-                };
+    const uploadImage = async (e) => {
+        e.preventDefault();
+        const fileUpload = e.target.files[0];
 
-                setPhotoPreview(newFileObj);
-                setTimeout(() => addImageToListUi(defaultPhoto), 1000);
-            }
-        };
-        xhr.send();
+        if (
+            !fileUpload.type.includes("image/jpg") &&
+            !fileUpload.type.includes("image/png") &&
+            !fileUpload.type.includes("image/jpeg")
+        ) {
+            message.error("File type must be jpg/jpeg or png");
+            return;
+        }
+        
+        // check file size
+        if (fileUpload.size > 3 * 1024 * 1024) {
+            message.error("File size cannot exceed more than 3MB");
+            return;
+        }
+
+        const storageRef = ref(
+            storage,
+            `images/products/${product._id}/photo_${fileUpload.name}`
+        );
+
+        const msg = message.loading("Uploading image!", 0);
+
+        try {
+            const snapshot = await uploadBytes(storageRef, fileUpload);
+            message.success("File uploaded successfully");
+
+            const url = await getDownloadURL(snapshot.ref);
+            setPhoto(url);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        } finally {
+            setTimeout(msg, 1);
+        }
     };
 
-    const onAdd = async (event) => {
-        const file = event.affectedFiles[0];
-        let preview;
-        const reader = new FileReader();
-
-        reader.onloadend = (ev) => {
-            preview = ev.target.result;
-        };
-
-        reader.readAsDataURL(file.getRawFile());
-        setPhoto(file);
-        setPhotoFile(file.getRawFile());
-        setTimeout(() => addImageToListUi(preview), 1000);
-    };
-
-    const addImageToListUi = (file) => {
-        let img = document.createElement("img");
-        setPhotoPreview(file);
-        img.src = file;
-        img.style.width = "6em";
-        let container = document.getElementsByClassName("k-file-single")[0];
-        container.insertBefore(img, container.childNodes[1]);
-    };
+    // const handleChangeImage = () => {
+    //     // Select image from computer
+    //     // image max size 3MB
+    //     const input = document.createElement("input");
+    //     input.type = "file";
+    //     input.accept = "image/*";
+    //     input.onchange = (e) => {
+    //         const file = e.target.files[0];
+    //         if (!file) return;
+    //         if (file.size > 3 * 1024 * 1024) {
+    //             message.error("File size cannot exceed more than 3MB");
+    //             return;
+    //         }
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = (e) => {
+    //             // set avatar
+    //             setPhotoFile(file);
+    //             setPhoto(e.target.result);
+    //         };
+    //     };
+    //     input.click();
+    // };
 
     return (
         <div style={style}>
             <Grid
                 container
-                // style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
+                //
                 spacing={3}
             >
                 <Grid item xs={12} sm={12} md={12}>
@@ -599,7 +607,9 @@ const UpdateAProductForm = (props) => {
                         <CardBody>
                             <ValidatorForm onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <TextValidator
                                             size="small"
                                             label="Product Name"
@@ -620,7 +630,10 @@ const UpdateAProductForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-                                    <FormControl style={{ marginTop: "1.5em" }}>
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
                                         <Autocomplete
                                             multiple
                                             style={{ width: "100%" }}
@@ -685,6 +698,7 @@ const UpdateAProductForm = (props) => {
                                         />
                                     </FormControl>
                                     <FormControl
+                                        className={classes.formControl}
                                         style={{
                                             flexDirection: "row",
                                             justifyContent: "space-between",
@@ -734,6 +748,7 @@ const UpdateAProductForm = (props) => {
                                         />
                                     </FormControl>
                                     <FormControl
+                                        className={classes.formControl}
                                         style={{
                                             flexDirection: "row",
                                             justifyContent: "space-between",
@@ -774,7 +789,10 @@ const UpdateAProductForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-                                    <FormControl style={{ marginTop: "1.5em" }}>
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
                                         <Autocomplete
                                             multiple
                                             id="tags-fillederfa"
@@ -823,6 +841,7 @@ const UpdateAProductForm = (props) => {
                                         />
                                     </FormControl>
                                     <FormControl
+                                        className={classes.formControl}
                                         style={{
                                             flexDirection: "row",
                                             justifyContent: "space-between",
@@ -916,7 +935,10 @@ const UpdateAProductForm = (props) => {
                                         />
                                     </FormControl>
 
-                                    <FormControl style={{ marginTop: "1.5em" }}>
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
                                         <Autocomplete
                                             multiple
                                             id="tags-filledew"
@@ -957,77 +979,88 @@ const UpdateAProductForm = (props) => {
                                                 />
                                             )}
                                         />
-                                        <FormControl>
-                                            <Autocomplete
-                                                id="wmemo"
-                                                options={allShops}
-                                                classes={{
-                                                    option: classes.option,
-                                                }}
-                                                inputValue={shop}
-                                                style={{ width: "100%" }}
-                                                noOptionsText={`No shop with that name`}
-                                                onChange={(e, value) => {
-                                                    setShop(
-                                                        value !== null
-                                                            ? value._id
-                                                            : ""
-                                                    );
-                                                }}
-                                                getOptionLabel={(option) =>
-                                                    option.name +
-                                                    "  " +
-                                                    option._id
-                                                }
-                                                autoHighlight
-                                                renderOption={(
-                                                    option,
-                                                    state
-                                                ) => (
-                                                    <p
-                                                        style={{
-                                                            padding: "0.1em",
-                                                            margin: "0",
-                                                            width: "300",
-                                                            height: "100% !important",
-                                                            color: "#000",
-                                                            overflowX: "hidden",
-                                                        }}
-                                                    >
-                                                        {option.name}
-                                                        <br />
-                                                        {option._id}
-                                                    </p>
-                                                )}
-                                                renderInput={(params) => (
-                                                    <TextValidator
-                                                        {...params}
-                                                        fullWidth
-                                                        size="small"
-                                                        value={shop}
-                                                        label="Product's Shop"
-                                                        style={{ margin: 8 }}
-                                                        placeholder="Enter product's shop"
-                                                        margin="normal"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        inputProps={{
-                                                            ...params.inputProps,
-                                                        }}
-                                                        variant="standard"
-                                                        validators={[
-                                                            "isShopInputEmpty",
-                                                        ]}
-                                                        errorMessages={[
-                                                            "Enter product's shop",
-                                                        ]}
-                                                    />
-                                                )}
-                                            />
-                                        </FormControl>
+                                        {role === "admin" && (
+                                            <FormControl
+                                                className={classes.formControl}
+                                            >
+                                                <Autocomplete
+                                                    id="wmemo"
+                                                    options={allShops}
+                                                    classes={{
+                                                        option: classes.option,
+                                                    }}
+                                                    inputValue={shop}
+                                                    style={{ width: "100%" }}
+                                                    noOptionsText={`No shop with that name`}
+                                                    onChange={(e, value) => {
+                                                        setShop(
+                                                            value !== null
+                                                                ? value._id
+                                                                : ""
+                                                        );
+                                                    }}
+                                                    getOptionLabel={(option) =>
+                                                        option.name +
+                                                        "  " +
+                                                        option._id
+                                                    }
+                                                    autoHighlight
+                                                    renderOption={(
+                                                        option,
+                                                        state
+                                                    ) => (
+                                                        <p
+                                                            style={{
+                                                                padding:
+                                                                    "0.1em",
+                                                                margin: "0",
+                                                                width: "300",
+                                                                height: "100% !important",
+                                                                color: "#000",
+                                                                overflowX:
+                                                                    "hidden",
+                                                            }}
+                                                        >
+                                                            {option.name}
+                                                            <br />
+                                                            {option._id}
+                                                        </p>
+                                                    )}
+                                                    renderInput={(params) => (
+                                                        <TextValidator
+                                                            {...params}
+                                                            fullWidth
+                                                            size="small"
+                                                            value={shop}
+                                                            label="Product's Shop"
+                                                            style={{
+                                                                margin: 8,
+                                                            }}
+                                                            placeholder="Enter product's shop"
+                                                            margin="normal"
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                            }}
+                                                            inputProps={{
+                                                                ...params.inputProps,
+                                                            }}
+                                                            variant="standard"
+                                                            validators={[
+                                                                "isShopInputEmpty",
+                                                            ]}
+                                                            errorMessages={[
+                                                                "Enter product's shop",
+                                                            ]}
+                                                        />
+                                                    )}
+                                                />
+                                            </FormControl>
+                                        )}
                                     </FormControl>
-                                    <FormControl style={{ marginTop: "1.5em" }}>
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
                                         <Autocomplete
                                             multiple
                                             id="tags-filledrea"
@@ -1075,7 +1108,9 @@ const UpdateAProductForm = (props) => {
                                             )}
                                         />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         {/*<Input inputProps={{onDrop: onDrop}} placeholder={"blaaaaaaaa"}/>*/}
                                         <p
                                             style={{
@@ -1089,52 +1124,36 @@ const UpdateAProductForm = (props) => {
                                         >
                                             Product Image
                                         </p>
-                                        {photoPreview !== null && (
-                                            <Upload
-                                                files={[photo]}
-                                                // onAdd={(e)=>onAdd(e)}
-                                                restrictions={{
-                                                    maxFileSize: 1000000,
-                                                    allowedExtensions: [
-                                                        ".jpg",
-                                                        ".png",
-                                                        ".apng",
-                                                        ".bmp",
-                                                        ".gif",
-                                                        ".ico",
-                                                        ".cur",
-                                                        ".jpeg",
-                                                        ".jfif",
-                                                        ".pjpeg",
-                                                        ".pjp",
-                                                        ".svg",
-                                                        ".tif",
-                                                        ".tiff",
-                                                        ".webp",
-                                                    ],
+                                        {product.photo !== null && (
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent:
+                                                        "space-between",
                                                 }}
-                                                onAdd={async (e) => {
-                                                    await onAdd(e);
-                                                }}
-                                                onRemove={() => {
-                                                    setPhoto(undefined);
-                                                    setPhotoFile(null);
-                                                }}
-                                                batch={false}
-                                                multiple={false}
-                                                defaultFiles={
-                                                    photoPreview !== undefined
-                                                        ? [photoPreview]
-                                                        : []
-                                                }
-                                                withCredentials={false}
-                                                saveUrl={
-                                                    "https://demos.telerik.com/kendo-ui/service-v4/upload/save"
-                                                }
-                                                removeUrl={
-                                                    "https://demos.telerik.com/kendo-ui/service-v4/upload/remove"
-                                                }
-                                            />
+                                            >
+                                                <img
+                                                    src={photo}
+                                                    alt=""
+                                                    style={{
+                                                        width: "64px",
+                                                        height: "64px",
+                                                    }}
+                                                />
+                                                <Button
+                                                    component="label"
+                                                    variant="contained"                                                  
+                                                    style={{ marginTop: "1em" }}
+                                                >
+                                                    Upload file
+                                                    <VisuallyHiddenInput
+                                                        type="file"
+                                                        onChange={(e) =>
+                                                            uploadImage(e)
+                                                        }
+                                                    />
+                                                </Button>
+                                            </div>
                                         )}
                                     </FormControl>
                                     <p
@@ -1147,7 +1166,7 @@ const UpdateAProductForm = (props) => {
                                             marginTop: "1em",
                                         }}
                                     >
-                                        Select Image or drag and drop image
+                                        Select Image to upload
                                     </p>
 
                                     <Button

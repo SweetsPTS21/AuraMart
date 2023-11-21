@@ -21,7 +21,7 @@ import ProductCard from "../../Card";
 import Fab from "@material-ui/core/Fab";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ReviewCard } from "./ReviewCard";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const ReviewOfProduct = (props) => {
     const classes = userStyles();
@@ -97,12 +97,7 @@ const ReviewOfProduct = (props) => {
     };
     return (
         <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-                className={classes.appBar}
-            >
+            <Grid container spacing={3} className={classes.appBar}>
                 <Grid item xs={6} md={4} lg={3} style={{ margin: 0 }}>
                     <Button
                         color="transparent"
@@ -279,7 +274,7 @@ const ReviewOfProduct = (props) => {
                                   image={
                                       product.photo === "no-photo.jpg"
                                           ? NoPhoto
-                                          : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                          : product.photo
                                   }
                                   rating={product.averageRating}
                                   link={false}
@@ -287,15 +282,7 @@ const ReviewOfProduct = (props) => {
                           </Grid>
                       ))
                     : null}
-                {loading && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading}
-                    />
-                )}
+                {loading && <LoadingSpinner />}
                 {toggleProduct && (
                     <Grid item xs={12} md={12} lg={12} style={{ margin: 0 }}>
                         <Fab

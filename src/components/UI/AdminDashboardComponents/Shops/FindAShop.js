@@ -269,7 +269,7 @@ const FindAShop = (props) => {
                                 image={
                                     product.photo === "no-photo.jpg"
                                         ? NoPhoto
-                                        : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                        : product.photo
                                 }
                                 rating={product.averageRating}
                                 link={true}

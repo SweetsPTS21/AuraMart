@@ -101,13 +101,9 @@ const AddANewReview = (props) => {
 
     return (
         <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-            >
-                <Grid item xs={10} sm={10} md={8} lg={6}>
-                    <Card style={{ marginLeft: "13vw" }}>
+            <Grid container>
+                <Grid item xs={12} style={{ margin: "0 auto", width: "420px" }}>
+                    <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Add Review

@@ -43,6 +43,9 @@ const userStyles = makeStyles(() => ({
         marginBottom: "3px",
         textDecoration: "none",
     },
+    formControl: {
+        width: "100%",
+    },
     "@global button:focus": {
         outline: "none !important",
     },
@@ -68,21 +71,25 @@ const userStyles = makeStyles(() => ({
     "@global .MuiCheckbox-colorSecondary.Mui-checked": {
         color: "#189EFF !important",
     },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
+    },
 }));
 
 const UpdateUserForm = (props) => {
+    const { user, style } = props;
     const classes = userStyles();
     const dispatch = useDispatch();
-    const [name, setName] = useState(props.user.name);
-    const [email, setEmail] = useState(props.user.email);
-    const [phone, setPhone] = useState(props.user.phone);
-    const [address, setAddress] = useState(props.user.address);
-    const [newPassword, setNewPassword] = useState(props.user.password);
-    const [retypePassword, setRetypePassword] = useState(props.user.password);
-    const [selectedDate, setSelectedDate] = useState(props.user.dob);
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [phone, setPhone] = useState(user.phone);
+    const [address, setAddress] = useState(user.address);
+    const [newPassword, setNewPassword] = useState(user.password);
+    const [retypePassword, setRetypePassword] = useState(user.password);
+    const [selectedDate, setSelectedDate] = useState(user.dob);
 
-    const [gender, setGender] = useState(props.user.gender);
-    const [role, setRole] = useState(props.user.role);
+    const [gender, setGender] = useState(user.gender);
+    const [role, setRole] = useState(user.role);
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [checked, setChecked] = useState(false);
@@ -98,9 +105,9 @@ const UpdateUserForm = (props) => {
         e.preventDefault();
         setIsLoading(true);
         const msg = message.loading("Updating user!", 0);
-        let user;
+        let user_;
         if (checked) {
-            user = {
+            user_ = {
                 newName: name,
                 newPassword: newPassword,
                 newRole: role,
@@ -110,7 +117,7 @@ const UpdateUserForm = (props) => {
                 newDob: selectedDate,
             };
         } else {
-            user = {
+            user_ = {
                 newName: name,
                 newRole: role,
                 newGender: gender,
@@ -119,7 +126,7 @@ const UpdateUserForm = (props) => {
                 newDob: selectedDate,
             };
         }
-        await dispatch(userActions.updateUserById(user, props.user._id));
+        await dispatch(userActions.updateUserById(user_, user._id));
 
         props.setShowUserCard((val) => !val);
         setTimeout(msg, 1);
@@ -127,14 +134,16 @@ const UpdateUserForm = (props) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-            >
-                <Grid item xs={12} sm={12} md={12}>
-                    <Card style={{ marginLeft: "3vw" }}>
+        <div style={style}>
+            <Grid container>
+                <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ margin: "0 auto", width: "420px" }}
+                >
+                    <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>
                                 Update User
@@ -146,7 +155,9 @@ const UpdateUserForm = (props) => {
                         <CardBody>
                             <ValidatorForm onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <TextValidator
                                             size="small"
                                             label="Full Name"
@@ -167,7 +178,9 @@ const UpdateUserForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <TextValidator
                                             size="small"
                                             label="Email"
@@ -189,7 +202,9 @@ const UpdateUserForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <TextValidator
                                             size="small"
                                             label="Phone"
@@ -210,7 +225,9 @@ const UpdateUserForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <TextValidator
                                             size="small"
                                             label="Address"
@@ -232,6 +249,7 @@ const UpdateUserForm = (props) => {
                                         />
                                     </FormControl>
                                     <FormControl
+                                        className={classes.formControl}
                                         style={{
                                             marginLeft: "0.6em",
                                             marginTop: "0.5em",
@@ -285,6 +303,7 @@ const UpdateUserForm = (props) => {
                                         </RadioGroup>
                                     </FormControl>
                                     <FormControl
+                                        className={classes.formControl}
                                         style={{
                                             marginLeft: "0.8em",
                                             marginRight: "0.5em",
@@ -310,7 +329,9 @@ const UpdateUserForm = (props) => {
                                             />
                                         </MuiPickersUtilsProvider>
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
                                         <FormControlLabel
                                             style={{
                                                 color: "rgb(153, 153, 153)",
@@ -336,7 +357,9 @@ const UpdateUserForm = (props) => {
                                         />
                                     </FormControl>
                                     {checked && (
-                                        <FormControl>
+                                        <FormControl
+                                            className={classes.formControl}
+                                        >
                                             <TextValidator
                                                 size="small"
                                                 label="New Password"

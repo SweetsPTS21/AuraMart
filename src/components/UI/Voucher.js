@@ -129,7 +129,9 @@ const Voucher = (props) => {
     }, [userVouchers, voucher.id]);
 
     useEffect(() => {
-        dispatch(shopActions.getShopById(shopId));
+        if (shopId) {
+            dispatch(shopActions.getShopById(shopId));
+        }
     }, [shopId]);
 
     const handleSaveClick = () => {

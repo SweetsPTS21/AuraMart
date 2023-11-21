@@ -175,7 +175,7 @@ const Review = ({ review }) => {
                                         image={
                                             product.photo === "no-photo.jpg"
                                                 ? noPhoto
-                                                : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                                : product.photo
                                         }
                                     />
                                 )}

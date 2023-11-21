@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { UserCard } from "react-ui-cards";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
 import Moment2 from "moment";
@@ -14,10 +13,10 @@ import CardFooter from "../Card/CardFooter";
 import { Accessibility, AccessTime, Update } from "@material-ui/icons";
 import CardAvatar from "../Card/CardAvatar";
 import CardBody from "../Card/CardBody";
-import Fab from "@material-ui/core/Fab";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 import UserStats from "../Stats/UserStats";
+import { makeStyles } from "@material-ui/core/styles";
+import ManagementPage from "../ManagementPage";
 
 const AllUsers = (props) => {
     const classes = userStyles();
@@ -96,62 +95,7 @@ const AllUsers = (props) => {
                 return null;
         }
     };
-    const UserCardFull = () => {
-        return allUsers !== null && currentUserProfile !== null ? (
-            // setCurrentUserProfile(allUsers.find(user => user._id === currentUserId));
-            <Card
-                profile
-                style={{
-                    height: "100%",
-                    backgroundColor: "rgba(213, 213, 213, 0.1)",
-                }}
-            >
-                <CardAvatar profile>
-                    <a href="#" onClick={(e) => e.preventDefault()}>
-                        <img src={pickRandBackground()} alt="..." />
-                    </a>
-                </CardAvatar>
-                <CardBody profile>
-                    <h6 className={classes.cardCategory}>
-                        {currentUserProfile !== null && currentUserProfile.role}
-                    </h6>
-                    <h4 className={classes.cardTitle}>
-                        {currentUserProfile !== null && currentUserProfile.name}
-                    </h4>
-                    <div style={{ textAlign: "left" }}>
-                        <p className={classes.cardText}>
-                            <b>Email</b>:{" "}
-                            {currentUserProfile !== null &&
-                                currentUserProfile.email}
-                        </p>
-                        <p className={classes.cardText}>
-                            <b>Gender</b>:{" "}
-                            {currentUserProfile !== null &&
-                                currentUserProfile.gender}
-                        </p>
-                        <p className={classes.cardText}>
-                            <b>Sold</b>: 0 products
-                        </p>
-                        <p className={classes.cardText}>
-                            <b>Bought</b>: 0 products
-                        </p>
-                        <p className={classes.cardText}>
-                            <b>Age</b>:{" "}
-                            {currentUserProfile !== null &&
-                                currentUserProfile.age}
-                        </p>
-                        <p style={{ marginTop: "1em" }}>
-                            Account created on{" "}
-                            {Moment2(
-                                currentUserProfile !== null &&
-                                    currentUserProfile.createdAt
-                            ).format("MMMM DD, YYYY")}
-                        </p>
-                    </div>
-                </CardBody>
-            </Card>
-        ) : null;
-    };
+
     return (
         <div style={{ width: "100%" }}>
             <Grid
@@ -288,81 +232,11 @@ const AllUsers = (props) => {
                 </Grid>
             </Grid>
             <Grid container>
-                {users_ !== null && users_.length > 0 && !showUserCard
-                    ? users_.map((user, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={4}
-                              lg={3}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <UserCard
-                                  style={{ paddingBottom: "1em" }}
-                                  onClick={() => {
-                                      setShowUserCard((val) => !val);
-                                      setCurrentUserProfile(user);
-                                  }}
-                                  float
-                                  avatar={pickRandBackground()}
-                                  name={user.name}
-                                  positionName={user.email}
-                                  stats={[
-                                      {
-                                          name: "Gender",
-                                          value:
-                                              user.gender
-                                                  .charAt(0)
-                                                  .toUpperCase() +
-                                              user.gender.slice(1),
-                                      },
-                                      {
-                                          name: "Role",
-                                          value:
-                                              user.role
-                                                  .charAt(0)
-                                                  .toUpperCase() +
-                                              user.role.slice(1),
-                                      },
-                                      {
-                                          name: "Age",
-                                          value: user.age,
-                                      },
-                                  ]}
-                              />
-                          </Grid>
-                      ))
-                    : null}
-                {showUserCard && (
-                    <Fab
-                        aria-label="add"
-                        style={{ marginTop: "3em", marginLeft: "5em" }}
-                        onClick={() => setShowUserCard((val) => !val)}
-                    >
-                        <ArrowBackIcon />
-                    </Fab>
-                )}
-                {users_ !== null && users_.length > 0 && showUserCard ? (
-                    <Grid
-                        item
-                        xs={10}
-                        md={6}
-                        lg={4}
-                        style={{ margin: "2em", marginLeft: "16vw" }}
-                    >
-                        <UserCardFull />
-                    </Grid>
-                ) : null}
-                {(users_ === null || isLoading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                <Grid item xs={12} md={12} lg={12}>
+                    {users_ !== null && users_.length > 0 && !showUserCard ? (
+                        <ManagementPage data={users_} dataType={"users"} />
+                    ) : null}
+                </Grid>
             </Grid>
         </div>
     );

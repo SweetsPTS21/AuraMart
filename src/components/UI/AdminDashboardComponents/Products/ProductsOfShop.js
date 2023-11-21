@@ -15,7 +15,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import NoPhoto from "../../../../image/nophoto.png";
 import ProductCard from "../../Card";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const ProductsOfShop = (props) => {
     const classes = userStyles();
@@ -65,12 +65,7 @@ const ProductsOfShop = (props) => {
     };
     return (
         <div style={{ width: "100%" }}>
-            <Grid
-                container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
-                spacing={3}
-                className={classes.appBar}
-            >
+            <Grid container spacing={3} className={classes.appBar}>
                 <Grid item xs={6} md={4} lg={3} style={{ margin: 0 }}>
                     <Button color="transparent" className={classes.title}>
                         Find Product Of A Shop
@@ -229,7 +224,7 @@ const ProductsOfShop = (props) => {
                                 image={
                                     product.photo === "no-photo.jpg"
                                         ? NoPhoto
-                                        : `${process.env.REACT_APP_API}/uploads/${product.photo}`
+                                        : product.photo
                                 }
                                 rating={product.averageRating}
                                 link={true}
@@ -261,15 +256,7 @@ const ProductsOfShop = (props) => {
                         </section>
                     </Grid>
                 )}
-                {isLoading && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading3}
-                    />
-                )}
+                {isLoading && <LoadingSpinner />}
             </Grid>
         </div>
     );

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    makeStyles,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
@@ -10,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Card from "../UI/Card";
+import RecommendProduct from "../layout/RecommendProduct";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router-dom";
@@ -20,6 +19,7 @@ import NavBar from "../layout/NavBar";
 import Voucher from "../UI/Voucher";
 import Footer from "../layout/Footer";
 import ItemContainer from "../UI/ItemContainer";
+import LoadingSpinner from "../layout/LoadingSpinner";
 import { newChat, addPerson, getChats } from "react-chat-engine";
 
 import * as shopActions from "../../store/actions/shopActions";
@@ -48,7 +48,11 @@ const useStyle = makeStyles((theme) => ({
         padding: "0.5em",
         borderRadius: "0.5em",
     },
-
+    loading: {
+        position: "fixed",
+        left: "55%",
+        top: "65%",
+    },
     section: {
         width: "100%",
     },
@@ -332,7 +336,7 @@ const ShopProducts = (props) => {
             products.map((prod, index) => (
                 <Card
                     key={index}
-                    type={"default"}
+                    type={"review"}
                     id={prod.id}
                     slug={prod.slug}
                     price={prod.price}
@@ -341,7 +345,7 @@ const ShopProducts = (props) => {
                     image={
                         prod.photo === "no-photo.jpg"
                             ? BottleWarmer
-                            : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                            : prod.photo
                     }
                     link={true}
                     style={{ height: "330px", width: "184px" }}
@@ -391,7 +395,7 @@ const DealProducts = (props) => {
                     image={
                         prod.photo === "no-photo.jpg"
                             ? BottleWarmer
-                            : `${process.env.REACT_APP_API}/uploads/${prod.photo}`
+                            : prod.photo
                     }
                     sold={Math.floor(Math.random() * 50) + 50} // picking random num since this feature isn't implemented yet
                     hot={true}
@@ -411,7 +415,7 @@ const DealProducts = (props) => {
         <ItemContainer
             length={products.length}
             type={"slider"}
-            title={"All products you might like"}
+            title={"Hot deals"}
             seeMore={() => {
                 setSeeMoreProd((val) => val + 10);
                 setLoadingProd(true);
@@ -521,6 +525,7 @@ const ShopPage = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
     const shop = useSelector((state) => state.shops.currentShop);
+    const user = useSelector((state) => state.auth.user);
     const productsInShop = useSelector(
         (state) => state.products.productsInShop
     );
@@ -537,16 +542,12 @@ const ShopPage = (props) => {
         : [];
 
     useEffect(() => {
-        dispatch(shopActions.getShopById(shopId));
-        dispatch(productAction.getProductsByShopId(shopId));
-    }, [shopId]);
-
-    useEffect(() => {
-        dispatch(configActions.getConfigsByShopId(shopId));
-    }, [shopId]);
-
-    useEffect(() => {
-        dispatch(voucherActions.getVouchersByShopId(shopId));
+        if (shopId) {
+            dispatch(shopActions.getShopById(shopId));
+            dispatch(productAction.getProductsByShopId(shopId));
+            dispatch(configActions.getConfigsByShopId(shopId));
+            dispatch(voucherActions.getVouchersByShopId(shopId));
+        }
     }, [shopId]);
 
     return (
@@ -565,7 +566,7 @@ const ShopPage = (props) => {
                     <Grid container>
                         <Element name="shopInfo" className={classes.section}>
                             <ShopInfo
-                                shop={shop}
+                                shop={shop ? shop : {}}
                                 decorationsInShop={decorationsInShop}
                             />
                         </Element>
@@ -580,7 +581,7 @@ const ShopPage = (props) => {
                             name="shopProducts"
                             className={classes.section}
                         >
-                            <Grid container style={{padding: 0, margin: 0}}>
+                            <Grid container style={{ padding: 0, margin: 0 }}>
                                 <Grid item xs={2}>
                                     <p>This is filter</p>
                                 </Grid>
@@ -591,9 +592,24 @@ const ShopPage = (props) => {
                                 </Grid>
                             </Grid>
                         </Element>
+                        <Element
+                            name="recommendedProducts"
+                            className={classes.section}
+                        >
+                            <RecommendProduct
+                                user={user}
+                                itemWidth={"170px"}
+                                type={"slider"}
+                            />
+                        </Element>
                     </Grid>
                 </div>
             </div>
+            {shop === null ||
+            productsInShop == null ||
+            configsInShop == null ? (
+                <LoadingSpinner />
+            ) : null}
             <Footer />
         </div>
     );

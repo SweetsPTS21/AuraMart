@@ -26,7 +26,7 @@ import CardFooter from "../Card/CardFooter";
 import { Timeline } from "rsuite";
 import { message } from "antd";
 import UpdateOrderForm from "./UpdateOrderForm";
-import ReactLoading from "react-loading";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const OrderCard = ({
     order,
@@ -723,15 +723,7 @@ const UpdateOrDeleteOrder = (props) => {
                             </section>
                         </Grid>
                     )}
-                {(orders_ === null || loading) && (
-                    <ReactLoading
-                        type={"balls"}
-                        color={"#189EFF"}
-                        width={"10%"}
-                        height={"10%"}
-                        className={classes.loading}
-                    />
-                )}
+                {(orders_ === null || loading) && <LoadingSpinner />}
                 {showUpdateForm && (
                     <Fab
                         aria-label="add"
