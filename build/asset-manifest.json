@@ -1,20 +1,27 @@
 {
   "files": {
     "main.css": "/static/css/main.8a710c43.css",
-    "main.js": "/static/js/main.651ebe0e.js",
+    "main.js": "/static/js/main.32b25222.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/banner2.png": "/static/media/banner2.f4af662f2892e885c3a4.png",
     "static/media/banner5.png": "/static/media/banner5.f1781c6a2d7abd09982c.png",
     "static/media/banner6.png": "/static/media/banner6.fb1e9f8d7f3a10cb5255.png",
     "static/media/banner3.png": "/static/media/banner3.08fccb47da004c5b36c9.png",
     "static/media/banner4.png": "/static/media/banner4.f28f09b4d887a454e685.png",
+    "static/media/mini_banner1.jpg": "/static/media/mini_banner1.a9409e9d4e1eba493203.jpg",
+    "static/media/mini_banner2.jpg": "/static/media/mini_banner2.5d461cf3edc2e0077425.jpg",
+    "static/media/banner_search3.jpg": "/static/media/banner_search3.804480a7ef3e57699d47.jpg",
+    "static/media/mini_banner3.jpg": "/static/media/mini_banner3.804480a7ef3e57699d47.jpg",
+    "static/media/banner_search2.jpg": "/static/media/banner_search2.acfc1e452aa1dbdc106b.jpg",
     "static/media/banner1.jpg": "/static/media/banner1.3e0a2d058ac54a330dd2.jpg",
+    "static/media/banner_search1.jpg": "/static/media/banner_search1.801137665d89242192f3.jpg",
     "static/media/banner7.jpg": "/static/media/banner7.d52f5155ef653a9bd972.jpg",
     "static/media/gear.png": "/static/media/gear.1e8d5d08d682069249c2.png",
     "static/media/navImage.png": "/static/media/navImage.798030ed34207a528d93.png",
     "static/media/exclusiveDeal1.png": "/static/media/exclusiveDeal1.9c3306946285ef49342c.png",
     "static/media/IP4.png": "/static/media/IP4.0d14c0a3635d5d3de866.png",
     "static/media/IP3.png": "/static/media/IP3.c6d09401c5133f6b24c6.png",
+    "static/media/login.png": "/static/media/login.263ec79f53129acd3f14.png",
     "static/media/IP5.png": "/static/media/IP5.3b39d4f7fed9839b35b7.png",
     "static/media/icon-zalopay.svg": "/static/media/icon-zalopay.df14f09d3ea0b5b8cbc623f4c9322c51.svg",
     "static/media/sprite.png": "/static/media/sprite.05517568530c7c20351f.png",
@@ -47,6 +54,6 @@
   },
   "entrypoints": [
     "static/css/main.8a710c43.css",
-    "static/js/main.651ebe0e.js"
+    "static/js/main.32b25222.js"
   ]
 }
