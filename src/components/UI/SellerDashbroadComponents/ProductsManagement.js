@@ -244,7 +244,7 @@ const ProductsManagement = () => {
                             .map((product) => (
                                 <>
                                     <TableRow key={product.id}>
-                                        <ProductTableCell>
+                                        <ProductTableCell style={{ width: "220px" }}>
                                             {product.id}
                                         </ProductTableCell>
                                         <ProductTableCell>
@@ -260,7 +260,7 @@ const ProductsManagement = () => {
                                             {product.sale}
                                         </ProductTableCell>
                                         <ProductTableCell
-                                            style={{ width: "152px" }}
+                                            style={{ width: "180px" }}
                                         >
                                             <IconButton
                                                 onClick={(e) =>

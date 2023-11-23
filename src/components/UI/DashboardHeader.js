@@ -5,7 +5,7 @@ import tikixu from "../../image/tikixu.svg";
 
 import navbarStyles from "../../styles/NavbarStyles";
 import { Typography } from "antd";
-import { IconButton, Fab } from "@material-ui/core";
+import { IconButton, Fab, Button } from "@material-ui/core";
 import { ChatEngine } from "react-chat-engine";
 import {
     NotificationsOutlined,
@@ -15,6 +15,7 @@ import {
     Dashboard,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
 
@@ -22,6 +23,7 @@ const DashboardHeader = (props) => {
     const { user } = props;
     const classes = navbarStyles();
     const [openChat, setOpenChat] = useState(false);
+    const shop = useSelector((state) => state.shops.currentShop);
 
     const handleOpenChatPopup = () => {
         setOpenChat(!openChat);
@@ -73,6 +75,25 @@ const DashboardHeader = (props) => {
                                 ? "Kênh quản lý"
                                 : "Kênh người bán"}
                         </Typography>
+                        <Link to={`/tiki/shops/${shop.id}`}>
+                            <Button
+                                style={{
+                                    marginLeft: "1em",
+                                    color: "#fff",
+                                    backgroundColor: "#ff424e",
+                                    textTransform: "none",
+                                    "&:focus": {
+                                        outline: "none",
+                                    },
+                                    "&:hover": {
+                                        backgroundColor: "#ff424e",
+                                    },
+                                }}
+                            >
+                                {" "}
+                                Cửa hàng
+                            </Button>
+                        </Link>
                     </Grid>
                     <Grid
                         item

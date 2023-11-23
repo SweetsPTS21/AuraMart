@@ -263,8 +263,7 @@ const OrdersManagement = () => {
     const shop = useSelector((state) => state.shops.userShop);
     const orders = useSelector((state) => state.orders.allShopOrders);
     useEffect(() => {
-        if (shop)
-            dispatch(getAllOrdersOfAShop(shop.id));
+        if (shop) dispatch(getAllOrdersOfAShop(shop.id));
     }, [shop]);
 
     const filteredOrders = orders
@@ -359,7 +358,7 @@ const OrdersManagement = () => {
                                         <OrderTableCell
                                             style={{ maxWidth: "548px" }}
                                         >
-                                            {order.name}
+                                            {order.receiver}
                                         </OrderTableCell>
                                         <OrderTableCell>
                                             {order.phone}

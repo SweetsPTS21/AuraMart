@@ -6,9 +6,7 @@ const useStyles = makeStyles((theme) => ({
         border: "1px solid #e5e5e5",
         borderRadius: "0.5em",
         "&:hover": {
-            boxShadow:
-                "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
-
+            boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
             cursor: "pointer",
         },
         display: "inline-flex",
@@ -109,6 +107,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none !important",
         color: "inherit !important",
     },
+    "@global .progress-bar": {
+        height: "100%",
+    }
 }));
 
 export default useStyles;

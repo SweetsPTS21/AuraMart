@@ -6,14 +6,17 @@ import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
 
 const userStyles = makeStyles(() => ({
     button: {
-        backgroundColor: "#ff9100",
-        borderColor: "#ff9100",
+        backgroundColor: "#ff424e",
+        height: "3em",
+        color: "#fff",
+        fontSize: "1.2em",
+        textTransform: "none",
         "&:focus": {
             outline: "none",
         },
-        color: "rgba(0,0,0,0.8)",
-
-        fontSize: "0.7em",
+        "&:hover": {
+            backgroundColor: "#ff424e",
+        },
         margin: 0,
         marginLeft: "1em",
         marginRight: "0.5em",
@@ -34,18 +37,14 @@ const userStyles = makeStyles(() => ({
         marginTop: "0.5em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
+        borderRadius: "0.5em",
     },
     grid2: {
         padding: "2em",
         marginTop: "0.6em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
+        borderRadius: "0.5em",
     },
     removeLinkStyles: {
         textDecoration: "none !important",

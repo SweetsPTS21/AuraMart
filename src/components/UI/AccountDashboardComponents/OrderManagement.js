@@ -25,13 +25,17 @@ import BottleWarmer from "../../../image/bottoleWarmer.jpg";
 
 const userStyles = makeStyles(() => ({
     button: {
-        textTransform: "none !important",
-        backgroundColor: "#ff9100",
-        borderColor: "#ff9100",
+        backgroundColor: "#ff424e",
+        height: "2em",
+        color: "#fff",
+        fontSize: "1em",
+        textTransform: "none",
         "&:focus": {
             outline: "none",
         },
-        color: "rgba(0,0,0,0.8)",
+        "&:hover": {
+            backgroundColor: "#ff424e",
+        },
         margin: 0,
         marginLeft: "1em",
         marginTop: "1em",
@@ -51,9 +55,7 @@ const userStyles = makeStyles(() => ({
         marginTop: "0.5em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
+        borderRadius: "0.5em",
     },
     grid2: {
         padding: "1em",
@@ -350,9 +352,11 @@ const OrderCard = ({ myOrder }) => {
                         <Typography style={{ marginLeft: "0.5em" }}>
                             {shop.name}
                         </Typography>
-                        <Button className={classes.card__shop__view__button}>
+                        <Link to={`/tiki/shops/${shop._id}`} >
+                        <Button className={classes.card__shop__view__button} >
                             Xem shop
                         </Button>
+                        </Link>
                     </Grid>
                     <Grid item xs={6} className={classes.card__order__status}>
                         <div className={classes.boldGreen}>
@@ -511,14 +515,14 @@ const OrderPanel = (props) => {
                     sx={{
                         borderBottom: 1,
                         borderColor: "divider",
-                        backgroundColor: "#fff"
+                        backgroundColor: "#fff",
                     }}
                 >
                     <Tabs
                         value={value}
                         onChange={handleChange}
                         aria-label="basic tabs example"
-                        style={{padding: "0"}}
+                        style={{ padding: "0" }}
                     >
                         <Tab label="Tất cả" {...a11yProps(0)} />
                         <Tab label="Chờ thanh toán" {...a11yProps(1)} />
@@ -634,6 +638,7 @@ const OrderManagement = (props) => {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}
+                                style={{height: "3em", fontSize: "1.2em"}}
                             >
                                 Continue shopping
                             </Button>

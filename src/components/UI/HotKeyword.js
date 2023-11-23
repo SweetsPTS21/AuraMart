@@ -1,6 +1,10 @@
 import React from "react";
-import Carousel from "@brainhubeu/react-carousel";
+import DemoCarousel from "./Categories/Carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
+import banner1 from "../../image/mini_banner1.jpg";
+import banner2 from "../../image/mini_banner2.jpg";
+import banner3 from "../../image/mini_banner3.jpg";
+
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -28,7 +32,7 @@ const userStyles = makeStyles(() => ({
         padding: "1.25em",
         textAlign: "center",
         borderRadius: "5px",
-        width: "8.75vw",
+        width: "30vw",
         "&:hover": {
             boxShadow:
                 "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
@@ -42,173 +46,13 @@ const userStyles = makeStyles(() => ({
 }));
 
 const HotKeyword = (props) => {
-    const classes = userStyles();
-    const pickRandColor = () => {
-        let colors = [
-            "#438B56",
-            "#7C7568",
-            "#AB8731",
-            "#7B3987",
-            "#AB5056",
-            "#315B7B",
-            "#317972",
-            "#AA6F36",
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-    };
+    const banner = [banner1, banner2, banner3];
+    
     return (
         <div
-            style={{ marginLeft: "2em", marginRight: "2em", marginTop: "2em" }}
+            style={{  margin: "2em 0"}}
         >
-            <div
-                style={{
-                    fontSize: "1.1em",
-                    fontWeight: 400,
-                    marginBottom: "0.3em",
-                    marginLeft: "2.5em",
-                }}
-            >
-                HOT KEYWORD
-            </div>
-            <Carousel
-                slidesPerPage={8}
-                slidesPerScroll={8}
-                arrows
-                infinite
-                offset={1}
-            >
-                <div
-                    className={classes.image}
-                    style={{
-                        backgroundColor: pickRandColor(),
-                        marginLeft: "3em",
-                    }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Backpack
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Medical Sutures
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            3m mask
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Men's jacket
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Iphone11
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            lock and lock
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Backup charger
-                        </span>
-                    </Link>
-                </div>
-                <div
-                    className={classes.image}
-                    style={{ backgroundColor: pickRandColor() }}
-                >
-                    <Link to={"#"} className={classes.removeLinkStyle}>
-                        <span
-                            style={{
-                                fontSize: "0.8em",
-                                marginTop: "0.5em",
-                                textAlign: "center",
-                            }}
-                        >
-                            Ipad
-                        </span>
-                    </Link>
-                </div>
-            </Carousel>
+            <DemoCarousel  banner={banner} style={{borderRadius: "0.5em"}}/>
         </div>
     );
 };

@@ -38,18 +38,12 @@ const SidebarItem = ({
         </>
     );
 };
-const useStyles = makeStyles((theme) => ({
-    "@global #price, #price2": {
-        width: "4em",
-        // height: "1em",
-        padding: "0.2em 0.7em",
-    },
-}));
 
-const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
+const Sidebar = ({ items, item, item2, depthStep, depth, handleFilter }) => {
     const [priceMin, setPriceMin] = useState(null);
     const [priceMax, setPriceMax] = useState(null);
     const [rating, setRating] = useState(6);
+
     const checkIsComplexSearch = (rating_) => {
         let isComplex;
         if (priceMax !== null || priceMin !== null) isComplex = "both";
@@ -59,18 +53,19 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
 
         handleFilter(isComplex, rating__, priceMin, priceMax);
     };
-    const classes = useStyles();
+
     return (
-        <div>
-            <div
-                style={{
-                    borderStyle: "solid",
-                    borderRadius: "1px",
-                    borderColor: "white",
-                }}
-            >
+        <div
+            style={{
+                borderRadius: "0.5em",
+                backgroundColor: "white",
+                padding: "0.5em",
+                paddingTop: "1em",
+            }}
+        >
+            <div>
                 <p style={{ paddingLeft: "15px", fontWeight: 600 }}>
-                    PRODUCT CATEGORIES{" "}
+                    Bộ lọc tìm kiếm{" "}
                 </p>
                 <List disablePadding dense>
                     {items.map((sidebarItem, index) => (
@@ -91,7 +86,7 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                         marginBottom: "0.5em",
                     }}
                 >
-                    RATE
+                    Theo đánh giá
                 </p>
                 <List disablePadding dense>
                     <ListItem
@@ -159,15 +154,15 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                     </ListItem>
                 </List>
                 <hr />
-                <p style={{ paddingLeft: "15px", fontWeight: 600 }}>PRICE</p>
+                <p style={{ paddingLeft: "15px", fontWeight: 600 }}>Theo giá</p>
                 <p style={{ paddingLeft: "15px", color: "gray" }}>
-                    select range:
+                    Khoảng giá:
                 </p>
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete="off" style={{padding: "0 1em"}}>
                     <div
                         style={{
                             display: "flex",
-                            justifyContent: "space-around",
+                            justifyContent: "space-between",
                             marginTop: "0.5em",
                         }}
                     >
@@ -181,7 +176,7 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                                 setPriceMin(parseInt(e.target.value))
                             }
                         />{" "}
-                        _
+                        <span> - </span>{" "}
                         <TextField
                             id="price2"
                             variant="outlined"
@@ -198,8 +193,8 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                         type="submit"
                         size={"small"}
                         style={{
-                            marginTop: "0.5em",
-                            marginLeft: "6%",
+                            marginTop: "1em",
+                            paddingLeft: "1em",
                             color: "#189EFF",
                             border: "1px solid #189EFF",
                         }}
@@ -207,13 +202,14 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                             e.preventDefault();
                             checkIsComplexSearch();
                         }}
+                        fullWidth
                     >
                         OK
                     </Button>
                 </form>
             </div>
             <hr />
-            <p style={{ paddingLeft: "15px", fontWeight: 600 }}>BRAND</p>
+            <p style={{ paddingLeft: "1em", fontWeight: 600 }}>Theo thương hiệu</p>
             <List style={{ size: "small", color: "grey" }}>
                 {item.map((sidebarBrandItem, index) => (
                     <ListItem button>
@@ -222,9 +218,9 @@ const Sidebar = ({ items, item, depthStep, depth, handleFilter }) => {
                 ))}
             </List>
             <hr />
-            <p style={{ paddingLeft: "15px", fontWeight: 600 }}>PROVIDER</p>
+            <p style={{ paddingLeft: "1em", fontWeight: 600 }}>Theo nơi bán</p>
             <List style={{ size: "small", color: "grey" }}>
-                {item.map((sidebarBrandItem, index) => (
+                {item2.map((sidebarBrandItem, index) => (
                     <ListItem button>
                         <ListItemText primary={sidebarBrandItem.label} />
                     </ListItem>

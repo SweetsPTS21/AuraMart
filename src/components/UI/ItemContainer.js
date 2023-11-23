@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
+import { Pagination, Grid, List } from "@mui/material";
 import Countdown from "react-countdown-now";
 import sprite from "../../image/sprite.png";
 import IconButton from "@material-ui/core/IconButton";
@@ -24,13 +23,11 @@ const userStyles = makeStyles(() => ({
         borderRadius: "0.5em",
     },
     timer: {
-        width: "40%",
-        marginLeft: "1.5em",
+        marginLeft: "1em",
         fontSize: "1em",
-        color: "#858585",
     },
     todayOnly: {
-        padding: "12px 12px 0 12px",
+        padding: "12px",
         fontSize: "1em",
         color: "#858585",
     },
@@ -47,13 +44,13 @@ const Type1 = (props) => {
     const { listData, length, itemWidth } = props;
     const [scrollX, setScrollX] = useState(0);
     const handleScroll = (direction) => {
-        const scrollAmount = direction === "left" ? -970 : 970;
+        const scrollAmount = direction === "left" ? -900 : 900;
         setScrollX(scrollX + scrollAmount);
         listRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     };
 
     const canScrollLeft = scrollX > 0;
-    const canScrollRight = scrollX < (length - 5) * 194;
+    const canScrollRight = scrollX < (length - 5) * 170;
 
     return (
         <Grid
@@ -129,42 +126,63 @@ const Type1 = (props) => {
 // Place item in a grid
 const Type2 = (props) => {
     const { listData, itemWidth } = props;
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
     return (
-        <Grid
-            item
-            xs={12}
-            style={{
-                padding: "0.5em",
-                borderRadius: "0.5em",
-                position: "relative",
-                display: "flex",
-                flexWrap: "wrap",
-            }}
-        >
-            {listData.length > 0 &&
-                listData.map((item, index) => (
-                    <Grid
-                        item
-                        xs={5}
-                        sm={3}
-                        md={props.space !== undefined ? props.space : 3}
-                        key={index}
-                        style={{
-                            maxWidth: itemWidth,
-                            margin: "5px",
-                        }}
-                    >
-                        {item}
-                    </Grid>
-                ))}
-        </Grid>
+        <>
+            <Grid
+                item
+                xs={12}
+                style={{
+                    padding: "1em",
+                    borderRadius: "0.5em",
+                    position: "relative",
+                    display: "flex",
+                    flexWrap: "wrap",
+                }}
+            >
+                {listData.length > 0 &&
+                    listData
+                        .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                        .map((item, index) => (
+                            <Grid
+                                item
+                                key={index}
+                                style={{
+                                    maxWidth: itemWidth,
+                                    marginRight: "5px",
+                                    marginBottom: "5px",
+                                }}
+                            >
+                                {item}
+                            </Grid>
+                        ))}
+            </Grid>
+            <Pagination
+                count={Math.ceil(listData.length / itemsPerPage)}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+                style={{
+                    marginTop: "1em",
+                    marginBottom: "1em",
+                    display: "flex",
+                    justifyContent: "center",
+                }}
+            />
+        </>
     );
 };
 
 const ItemContainer = (props) => {
     const classes = userStyles();
     const { type } = props;
-    const length = props.length < 10 ? props.length : 10;
+    const length = props.length;
     const listData = props.children ? props.children : [];
     const itemWidth = props.itemWidth ? props.itemWidth : "170px";
 
@@ -183,7 +201,57 @@ const ItemContainer = (props) => {
             // Render a countdown
             return (
                 <span>
-                    {hours}:{minutes}:{seconds}
+                    <span
+                        style={{
+                            backgroundColor: "#FF4C57",
+                            color: "#fff",
+                            padding: "4px 6px",
+                            borderRadius: "5px",
+                            fontWeight: 700,
+                        }}
+                    >
+                        {hours}
+                    </span>
+                    <span
+                        style={{
+                            fontSize: "1.2em",
+                            fontWeight: "600",
+                            margin: "0 0.2em",
+                        }}
+                    >
+                        :
+                    </span>
+                    <span
+                        style={{
+                            backgroundColor: "#FF4C57",
+                            color: "#fff",
+                            padding: "4px 6px",
+                            borderRadius: "5px",
+                            fontWeight: 700,
+                        }}
+                    >
+                        {minutes}
+                    </span>
+                    <span
+                        style={{
+                            fontSize: "1.2em",
+                            fontWeight: "600",
+                            margin: "0 0.2em",
+                        }}
+                    >
+                        :
+                    </span>
+                    <span
+                        style={{
+                            backgroundColor: "#FF4C57",
+                            color: "#fff",
+                            padding: "4px 6px",
+                            borderRadius: "5px",
+                            fontWeight: 700,
+                        }}
+                    >
+                        {seconds}
+                    </span>
                 </span>
             );
         }
@@ -197,7 +265,7 @@ const ItemContainer = (props) => {
                     style={{
                         backgroundColor: "white",
                         padding: "12px",
-                        marginBottom: "16px",
+                        margin: "1em 0",
                         borderRadius: "0.5em",
                     }}
                 >
@@ -245,7 +313,15 @@ const ItemContainer = (props) => {
             >
                 {props.todayOnly ? (
                     <Grid item xs={12} className={classes.todayOnly}>
-                        <span style={{ fontWeight: 700 }}>Giá tốt hôm nay</span>
+                        <span
+                            style={{
+                                fontSize: "1.2em",
+                                fontWeight: 600,
+                                color: "#3c4858",
+                            }}
+                        >
+                            Giá tốt hôm nay
+                        </span>
 
                         {props.timeInMilliSec && (
                             <span className={classes.timer}>

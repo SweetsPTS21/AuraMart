@@ -4,7 +4,7 @@ import ProductCategoryDeal from "../UI/ProductCategoryDeal";
 import ProductNavigation from "../UI/ProductNavigation";
 import Footer from "../layout/Footer";
 import Card from "../UI/Card";
-import ProductDeal from "../UI/ProductDeal";
+import TikiInfo from "../UI/TikiInfo";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import InterestedProducts from "../UI/InterestedProducts";
 import HotKeyword from "../UI/HotKeyword";
@@ -184,7 +184,7 @@ const HomePage = (props) => {
                         }}
                     >
                         <ProductCategoryDeal />
-                        <ProductDeal />
+                        <TikiInfo />
 
                         <div style={{ margin: "0" }}>
                             <ItemContainer
@@ -246,17 +246,9 @@ const HomePage = (props) => {
                             <HotKeyword />
                             {products !== null && (
                                 <ItemContainer
-                                    length={products.length}
+                                    length={20}
                                     type={"slider"}
-                                    title={"All products you might like"}
-                                    seeMore={() => {
-                                        setSeeMoreProd((val) => val + 10);
-                                        setLoadingProd(true);
-                                        setTimeout(
-                                            () => setLoadingProd(false),
-                                            500
-                                        );
-                                    }}
+                                    title={"Sản phẩm nổi bật"}
                                     loading={loadingProd}
                                     itemWidth={"170px"}
                                 >

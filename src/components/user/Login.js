@@ -53,6 +53,8 @@ const Login = (props) => {
         setTimeout(msg, 1);
         setLoading(false);
     };
+
+    // form login in checkout page
     const form1 = (
         <div style={{ width: "100%", borderRadius: "4px" }}>
             <FormGroup
@@ -85,8 +87,13 @@ const Login = (props) => {
                 <Button
                     variant="contained"
                     size={"small"}
-                    style={{ backgroundColor: "#FDDE54" }}
-                    startIcon={<PersonIcon />}
+                    style={{
+                        backgroundColor: "#ff424e",
+                        height: "3em",
+                        color: "#fff",
+                        fontSize: "1.2em",
+                        textTransform: "none",
+                    }}
                     className={classes.button}
                     onClick={handleSubmit}
                     disabled={loading}
@@ -96,6 +103,8 @@ const Login = (props) => {
             </FormGroup>
         </div>
     );
+
+    // form login in main page
     const form2 = (
         <Grid
             container

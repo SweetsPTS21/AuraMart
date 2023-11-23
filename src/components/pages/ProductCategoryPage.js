@@ -11,6 +11,10 @@ import Footer from "../layout/Footer";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../store/actions/productActions";
 
+import banner1 from "../../image/banner_search1.jpg";
+import banner2 from "../../image/banner_search2.jpg";
+import banner3 from "../../image/banner_search3.jpg";
+
 if (!String.prototype.contains) {
     String.prototype.contains = function (s) {
         return this.indexOf(s) > -1;
@@ -19,26 +23,35 @@ if (!String.prototype.contains) {
 
 const items = [
     {
-        name: "camera",
-        label: "Camera",
+        name: "danh mục sản phẩm",
+        label: "Theo danh mục",
         items: [
-            { name: "camera", label: "Camera" },
-            { name: "supervise camera", label: "Supervise camera" },
-            { name: "accesories", label: "Accesories" },
-            { name: "lens", label: "Lens" },
-            { name: "group tube", label: "Group Tube" },
-            { name: "light equipment", label: "Light Equiment" },
+            { name: "beauty", label: "Làm đẹp" },
+            { name: "family", label: "Gia đình" },
+            { name: "electronic", label: "Điện tử" },
+            { name: "momandbaby", label: "Mẹ và bé" },
+            { name: "sport", label: "Thể thao" },
+            { name: "assesories", label: "Phụ kiện & trang sức" },
         ],
     },
 ];
 
-const item = [
-    { name: "camera", label: "Camera" },
-    { name: "supervise camera1", label: "Supervise camera" },
-    { name: "accesories", label: "Accesories" },
-    { name: "lens", label: "Lens" },
-    { name: "group tube", label: "Group Tube" },
-    { name: "light equipment", label: "Light Equiment" },
+const brand = [
+    { name: "apple", label: "Apple" },
+    { name: "unilever", label: "Unilever" },
+    { name: "bitis", label: "Bitis" },
+    { name: "cocolux", label: "Cocolux" },
+    { name: "lamia365", label: "Lamia365" },
+    { name: "logitech", label: "Logitech Official" },
+];
+
+const address = [
+    { name: "hcm", label: "Hồ Chí Minh" },
+    { name: "hn", label: "Hà Nội" },
+    { name: "dn", label: "Đà Nẵng" },
+    { name: "hp", label: "Hải Phòng" },
+    { name: "ct", label: "Cần Thơ" },
+    { name: "bd", label: "Bình Dương" },
 ];
 
 const ProductCategoryPage = (props) => {
@@ -48,6 +61,8 @@ const ProductCategoryPage = (props) => {
     const products = useSelector((state) => state.products.products);
     const [filteredProducts, setFilteredProducts] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
+
+    const banner = [banner1, banner2, banner3];
 
     useEffect(() => {
         if (products.length === 25) {
@@ -144,7 +159,7 @@ const ProductCategoryPage = (props) => {
                 const filtered = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
-                        product.averageRating === 5
+                        product.averageRating >= 5
                 );
                 setFilteredProducts(filtered);
                 return filtered;
@@ -152,7 +167,7 @@ const ProductCategoryPage = (props) => {
                 const filtered_ = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
-                        product.averageRating === 4
+                        product.averageRating >= 4
                 );
                 setFilteredProducts(filtered_);
                 return filtered_;
@@ -160,7 +175,7 @@ const ProductCategoryPage = (props) => {
                 const filtered__ = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
-                        product.averageRating === 3
+                        product.averageRating >= 3
                 );
                 return filtered__;
             default:
@@ -189,20 +204,42 @@ const ProductCategoryPage = (props) => {
                 <Grid
                     container
                     style={{
-                        backgroundColor: "#fff",
                         padding: "0.5em",
-                        boxShadow:
-                            "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
+                        // boxShadow:
+                        //     "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
                     }}
                 >
-                    <Grid item xs={3}>
+                    <Grid
+                        item
+                        xs={3}
+                        style={{ borderRadius: "0.5em", paddingRight: "1em" }}
+                    >
                         <SideBar
                             items={items}
-                            item={item}
+                            item={brand}
+                            item2={address}
                             handleFilter={handleFilter}
                         />
                     </Grid>
-                    <Grid item xs={9}>
+                    <Grid
+                        item
+                        xs={9}
+                        style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "0.5em",
+                        }}
+                    >
+                        <div style={{ fontSize: "1.3em", margin: "1em" }}>
+                            <span style={{ fontWeight: 600 }}>
+                                Search results for{" "}
+                                <span style={{ fontWeight: 400, color: "grey" }}>
+                                    '{type}'
+                                </span>
+                            </span>
+                            <span style={{ color: "grey", float: "right", fontSize: "0.6em" }}>
+                                {props.results ? props.results : 0} results
+                            </span>
+                        </div>
                         <DemoCarousel
                             {...props}
                             results={
@@ -210,11 +247,12 @@ const ProductCategoryPage = (props) => {
                                     ? filteredProducts.length
                                     : 0
                             }
+                            banner={banner}
+                            style={{marginBottom: "2em", padding: "1em"}}
                         />
                         {filteredProducts !== null &&
                         filteredProducts.length > 0 ? (
                             <ItemContainer
-                                space={3}
                                 title={""}
                                 type={"container"}
                                 gridStyle={{
@@ -226,6 +264,7 @@ const ProductCategoryPage = (props) => {
                                     padding: 0,
                                     borderRadius: 0,
                                 }}
+                                itemWidth={"180px"}
                             >
                                 {filteredProducts !== null &&
                                     filteredProducts.map((prod, index) => (
@@ -248,7 +287,10 @@ const ProductCategoryPage = (props) => {
                                             rating={prod.averageRating}
                                             link={true}
                                             slug={prod.slug}
-                                            style={{ width: "180px", height: "330px"}}
+                                            style={{
+                                                width: "180px",
+                                                height: "330px",
+                                            }}
                                         />
                                     ))}
                             </ItemContainer>

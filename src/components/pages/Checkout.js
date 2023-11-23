@@ -35,7 +35,7 @@ import { message } from "antd";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import MenuItem from "@material-ui/core/MenuItem";
 import * as orderActions from "../../store/actions/orderActions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loadCSS } from "fg-loadcss";
 import * as authActions from "../../store/actions/authActions";
 import * as cartActions from "../../store/actions/cartActions";
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
     },
     instructions: {
+        position: "relative",
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
@@ -66,12 +67,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         display: "flex",
         height: "auto",
+        borderRadius: "0.5em",
     },
     bill: {
         backgroundColor: theme.palette.background.paper,
         height: "auto",
-        boxShadow:
-            "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1.5px 5px 0 rgba(0, 0, 0, 0.1)",
+        borderRadius: "0.5em",
     },
     button: {
         color: "rgb(0, 182, 240)",
@@ -87,6 +88,11 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
             backgroundColor: "rgba(0, 182, 240, 0.8)",
         },
+    },
+    title: {
+        fontSize: "1.2em",
+        fontWeight: 600,
+        margin: 0,
     },
     "@global .MuiTab-wrapper": {
         width: "auto !important",
@@ -147,6 +153,7 @@ function TabPanel(props) {
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
+            style={{width: "450px"}}
         >
             {value === index && <Box p={3}>{children}</Box>}
         </Typography>
@@ -214,13 +221,13 @@ const Bill = () => {
                     <span style={{ fontWeight: 600 }}>{item.quantity}</span>
                     <span style={{ fontWeight: 600 }}> x </span>
                     <span>
-                        <Link to={`/${item.product.title}/${item.product._id}`}>
+                        <Link to={`/${item.product.slug}/${item.product._id}`}>
                             {item.product.name}
                         </Link>
                     </span>
                 </p>
                 <p style={{ fontSize: "0.8em", marginTop: "1.5em" }}>
-                    Sold by <strong>{item.product.shop.name}</strong>
+                    Cửa hàng <strong>{item.product.shop.name}</strong>
                 </p>
             </div>
         );
@@ -239,7 +246,7 @@ const Bill = () => {
                 }}
             >
                 <p>
-                    Bill
+                    Hóa đơn
                     <span>
                         {" "}
                         ({cartItems.length} product{cartItems.length > 1 && "s"}
@@ -252,7 +259,7 @@ const Bill = () => {
                                 size="small"
                                 style={{ position: "relative", float: "right" }}
                             >
-                                Change
+                                Thay đổi
                             </Button>
                         </Link>
                     </span>
@@ -304,6 +311,7 @@ const Bill = () => {
         </div>
     );
 };
+
 const LoginUI = () => {
     const classes = useStyles();
     const [value, setValue] = useState(0);
@@ -319,69 +327,20 @@ const LoginUI = () => {
                 style={{
                     textAlign: "center",
                     padding: "0 10%",
+                    fontSize: "1.2em",
                     marginBottom: "2%",
                 }}
             >
-                <p>Pay orders with only one step with:</p>
-                <div
-                    className="login-with-group-button"
-                    style={{ marginTop: "1.5em" }}
-                >
-                    <Button
-                        size={"small"}
-                        variant="contained"
-                        className={classes.button}
-                        style={{
-                            backgroundColor: "#4267B2",
-                            color: "white",
-                            marginRight: "2%",
-                        }}
-                        startIcon={<FacebookIcon />}
-                    >
-                        Login with Facebook
-                    </Button>
-                    <span>or</span>
-                    <Button
-                        size={"small"}
-                        variant="contained"
-                        style={{
-                            backgroundColor: "#DC4F42",
-                            color: "white",
-                            margin: "0 2%",
-                        }}
-                        startIcon={<Icon className={"fab fa-google"} />}
-                    >
-                        Sign in with Google
-                    </Button>
-                    <span>or</span>
-                    <Button
-                        size={"small"}
-                        variant="contained"
-                        style={{
-                            backgroundColor: "#0180CE",
-                            color: "white",
-                            marginLeft: "2%",
-                        }}
-                        startIcon={
-                            <img
-                                src={zaloLogo}
-                                alt="zalo"
-                                style={{ width: "1em" }}
-                            />
-                        }
-                    >
-                        Login with Zalo
-                    </Button>
-                </div>
+                <p>Đăng nhập để tiếp tục thanh toán</p>
             </div>
             <div className="login-form" style={{ marginTop: "2.5em" }}>
                 <Grid container spacing={2}>
-                    <Grid item xl={8}>
+                    <Grid item xs={6}>
                         <div
                             className={classes.tabsContainer}
                             style={{
-                                boxShadow:
-                                    "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.08)",
+                                borderRadius: "0.5em",
+                                height: "100%"
                             }}
                         >
                             <Tabs
@@ -401,12 +360,12 @@ const LoginUI = () => {
                                 }}
                             >
                                 <Tab
-                                    label="Login"
+                                    label="Đăng nhập"
                                     {...a11yProps(0)}
                                     style={{ justifyContent: "start" }}
                                 />
                                 <Tab
-                                    label="Signup"
+                                    label="Đăng ký"
                                     {...a11yProps(1)}
                                     style={{ justifyContent: "start" }}
                                 />
@@ -419,7 +378,7 @@ const LoginUI = () => {
                             </TabPanel>
                         </div>
                     </Grid>
-                    <Grid item xl={4}>
+                    <Grid item xs={6}>
                         <Bill />
                     </Grid>
                 </Grid>
@@ -429,14 +388,7 @@ const LoginUI = () => {
 };
 
 // address ui
-const AddressUI = ({
-    handleNext,
-    activeStep,
-    shipAddress,
-    setShipAddress,
-    currentAddress,
-    loading,
-}) => {
+const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
     const classes = useStyles();
 
     const [fullName, setFullName] = useState(
@@ -590,20 +542,19 @@ const AddressUI = ({
                 marginLeft: "15%",
                 width: "80%",
                 marginTop: "2.5%",
-                boxShadow:
-                    "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
+                borderRadius: "0.5em",
                 backgroundColor: "white",
             }}
         >
             <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={6} style={{ borderRight: "1px solid #ccc" }}>
                     <ValidatorForm onSubmit={handleSubmit}>
                         <FormGroup>
                             <FormControl>
                                 <TextValidator
                                     size="small"
                                     label="Full Name"
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     placeholder="Your full name"
                                     value={fullName}
                                     margin="normal"
@@ -623,7 +574,7 @@ const AddressUI = ({
                                 <TextValidator
                                     size="small"
                                     label="Phone Number"
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     placeholder="Phone No."
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
@@ -643,7 +594,7 @@ const AddressUI = ({
                                     select
                                     label="City/Province"
                                     value={city}
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     onChange={(e) => setCity(e.target.value)}
                                     // helperText="Please select your city/province"
                                     variant="standard"
@@ -663,7 +614,7 @@ const AddressUI = ({
                                     select
                                     label="District"
                                     value={district}
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     onChange={(e) =>
                                         setDistrict(e.target.value)
                                     }
@@ -685,7 +636,7 @@ const AddressUI = ({
                                     select
                                     label="Ward"
                                     value={ward}
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     onChange={(e) => setWard(e.target.value)}
                                     // helperText="Please select your city/province"
                                     variant="standard"
@@ -702,46 +653,13 @@ const AddressUI = ({
                                     size="small"
                                     label="Address"
                                     value={address}
-                                    style={{ margin: 8 }}
+                                    style={{ width: "350px", margin: 8 }}
                                     onChange={(e) => setAddress(e.target.value)}
                                     // helperText="Please select your city/province"
                                     variant="standard"
                                     validators={["required"]}
                                     errorMessages={["Enter your address"]}
                                 />
-                            </FormControl>
-                            <FormControl
-                                style={{
-                                    marginLeft: "0.5em",
-                                    marginTop: "1.5em",
-                                }}
-                            >
-                                <FormLabel
-                                    component="legend"
-                                    style={{ color: "rgb(153, 153, 153)" }}
-                                >
-                                    Address type
-                                </FormLabel>
-                                <RadioGroup
-                                    aria-label="gender"
-                                    name="gender1"
-                                    value={radio}
-                                    onChange={(e) => setRadio(e.target.value)}
-                                    row
-                                >
-                                    <FormControlLabel
-                                        value="House/Condominium"
-                                        control={<Radio />}
-                                        style={{ color: "rgb(153, 153, 153)" }}
-                                        label="House / Condominium"
-                                    />
-                                    <FormControlLabel
-                                        value="Agency/Company"
-                                        control={<Radio />}
-                                        style={{ color: "rgb(153, 153, 153)" }}
-                                        label="Agency / Company"
-                                    />
-                                </RadioGroup>
                             </FormControl>
 
                             <Button
@@ -752,9 +670,9 @@ const AddressUI = ({
                                 style={{
                                     fontSize: "0.7em",
                                     margin: 0,
-                                    marginLeft: "1em",
-                                    marginRight: "0.5em",
+                                    width: "350px",
                                     marginTop: "2em",
+                                    marginLeft: "0.7em",
                                 }}
                             >
                                 Tiếp tục
@@ -762,11 +680,10 @@ const AddressUI = ({
                         </FormGroup>
                     </ValidatorForm>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} style={{ padding: "0 1em" }}>
                     <>
-                        <div className={classes.title}>My addresses</div>
-                        {listAddress !== null &&
-                            listAddress.length > 0 &&
+                        <div className={classes.title}>Địa chỉ đã lưu</div>
+                        {listAddress !== null && listAddress.length > 0 ? (
                             listAddress.map((address, index) => (
                                 <div
                                     style={{
@@ -846,7 +763,21 @@ const AddressUI = ({
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            ))
+                        ) : (
+                            <span style={{ color: "#a1a1a1", marginTop: "1.5em" }}>
+                                Bạn chưa có địa chỉ nào.
+                                <Link
+                                    to={"/dashboard/3"}
+                                    style={{
+                                        color: "#00b6f0",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Thêm địa chỉ{" "}
+                                </Link>
+                            </span>
+                        )}
                     </>
                 </Grid>
             </Grid>
@@ -862,8 +793,7 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
             className={classes.bill}
             style={{
                 padding: "5%",
-                boxShadow:
-                    "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1.5px 5px 0 rgba(0, 0, 0, 0.1)",
+                borderRadius: "0.5em",
             }}
         >
             <div
@@ -875,7 +805,7 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
                 }}
             >
                 <p>
-                    User address
+                    Địa chỉ giao hàng
                     <span>
                         <Button
                             variant="text"
@@ -883,7 +813,7 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
                             style={{ position: "relative", float: "right" }}
                             onClick={() => setActiveStep(1)}
                         >
-                            Change
+                            Thay đổi
                         </Button>
                     </span>
                 </p>
@@ -899,7 +829,7 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
                             {shipAddress.address}, {shipAddress.ward},{" "}
                             {shipAddress.district},{shipAddress.city}
                         </p>
-                        <p style={{ margin: 0 }}>Phone: {shipAddress.phone}</p>
+                        <p style={{ margin: 0 }}>Số điện thoại: {shipAddress.phone}</p>
                     </div>
                 ) : currentAddress ? (
                     <div>
@@ -911,7 +841,7 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
                             {currentAddress.district},{currentAddress.city}
                         </p>
                         <p style={{ margin: 0 }}>
-                            Phone: {currentAddress.phone}
+                            Số điện thoại: {currentAddress.phone}
                         </p>
                     </div>
                 ) : (
@@ -953,14 +883,13 @@ const PaymentMethodUI = ({
                 <Grid item xs={8}>
                     <div className="shipping-method-section">
                         <p style={{ fontWeight: 600 }}>
-                            1. Choose the shipping method
+                            1. Phương thức vận chuyển
                         </p>
                         <FormControl component="fieldset" fullWidth>
                             <div
                                 style={{
                                     marginTop: "2%",
-                                    boxShadow:
-                                        "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1.5px 5px 0 rgba(0, 0, 0, 0.1)",
+                                    borderRadius: "0.5em",
                                     backgroundColor: "white",
                                     width: "100%",
                                     padding: "2%",
@@ -991,7 +920,7 @@ const PaymentMethodUI = ({
                                                 margin: 0,
                                             }}
                                         >
-                                            Shipping on Thursday, 26/03
+                                            Giao hàng vào Thursday, 26/03
                                         </p>
                                         <span
                                             style={{
@@ -1001,7 +930,7 @@ const PaymentMethodUI = ({
                                         >
                                             19.000d
                                         </span>
-                                        <span>Standard shipping</span>
+                                        <span>Giao hàng tiêu chuẩn</span>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1025,7 +954,7 @@ const PaymentMethodUI = ({
                                                 margin: 0,
                                             }}
                                         >
-                                            Shipping on Thursday, 26/03
+                                            Giao hàng vào Thursday, 23/03
                                         </p>
                                         <span
                                             style={{
@@ -1033,67 +962,9 @@ const PaymentMethodUI = ({
                                                 marginRight: "2em",
                                             }}
                                         >
-                                            19.000d
+                                            25.000d
                                         </span>
-                                        <span>Standard shipping</span>
-                                    </Grid>
-                                </Grid>
-                            </div>
-                        </FormControl>
-                    </div>
-
-                    <div
-                        className="payment-with-Tiki-xu"
-                        style={{ marginTop: "4%" }}
-                    >
-                        <p style={{ fontWeight: 600 }}>2. Pay with Tiki Xu</p>
-                        <FormControl component="fieldset" fullWidth>
-                            <div
-                                style={{
-                                    marginTop: "2%",
-                                    boxShadow:
-                                        "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1.5px 5px 0 rgba(0, 0, 0, 0.1)",
-                                    backgroundColor: "white",
-                                    width: "100%",
-                                    padding: "2%",
-                                    fontSize: "0.85em",
-                                }}
-                            >
-                                <Grid
-                                    container
-                                    xl={12}
-                                    spacing={2}
-                                    style={{
-                                        marginBottom: "1%",
-                                        paddingTop: "2.5%",
-                                    }}
-                                >
-                                    <Grid item>
-                                        <Radio
-                                            checked={payXu === true}
-                                            onChange={handlePayxu}
-                                            value={true}
-                                            name="radio-button-demo"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <p
-                                            style={{
-                                                color: "#26bc4e",
-                                                margin: 0,
-                                            }}
-                                        >
-                                            Shipping on Thursday, 26/03
-                                        </p>
-                                        <span
-                                            style={{
-                                                color: "lightgrey",
-                                                marginRight: "2em",
-                                            }}
-                                        >
-                                            19.000d
-                                        </span>
-                                        <span>Standard shipping</span>
+                                        <span>Giao hàng nhanh</span>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -1101,13 +972,12 @@ const PaymentMethodUI = ({
                     </div>
 
                     <div className="payment-method" style={{ marginTop: "4%" }}>
-                        <p style={{ fontWeight: 600 }}>3. Payment method</p>
+                        <p style={{ fontWeight: 600 }}>2. Phương thức thanh toán</p>
                         <FormControl component="fieldset" fullWidth>
                             <div
                                 style={{
                                     marginTop: "2%",
-                                    boxShadow:
-                                        "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1.5px 5px 0 rgba(0, 0, 0, 0.1)",
+                                    borderRadius: "0.5em",
                                     backgroundColor: "white",
                                     width: "100%",
                                     padding: "2%",
@@ -1133,8 +1003,7 @@ const PaymentMethodUI = ({
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
                                         <p>
-                                            Pay with cash when receiving a
-                                            product
+                                            Thanh toán khi nhận hàng
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1154,8 +1023,7 @@ const PaymentMethodUI = ({
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
                                         <p>
-                                            Pay with international cards: Visa,
-                                            Master, JCB
+                                            Thanh toán bằng thẻ quốc tế Visa, Master, JCB
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1174,9 +1042,7 @@ const PaymentMethodUI = ({
                                         />
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
-                                        <p>
-                                            Pay with MOMO
-                                        </p>
+                                        <p>Thanh toán bằng MOMO</p>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1198,10 +1064,7 @@ const PaymentMethodUI = ({
                                             src={VNPAY}
                                             style={{ marginRight: "2%" }}
                                         />
-                                        <span>Pay with VNPAY</span>
-                                        <p style={{ color: "#FFAE00" }}>
-                                            Please install VNPAY app to pay
-                                        </p>
+                                        <span>Thanh toán bằng VNPay</span>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1232,12 +1095,10 @@ const PaymentMethodUI = ({
                                             Sale
                                         </span>
                                         <span style={{ color: "lightgrey" }}>
-                                            Sacombank card discounts 150.000d
-                                            for order of 1m and above
+                                            Giảm 200k cho đơn từ 1 triệu khi thanh toán bằng sacombank
                                         </span>
                                         <p style={{ color: "#FFAE00" }}>
-                                            The time for joining the program or
-                                            the numbers of products has expired.
+                                           Chương trình khuyến mãi đã kết thúc
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1288,7 +1149,7 @@ const BodyTemplate = ({
         case 0:
             return (
                 <div>
-                    <p style={{ fontWeight: 600 }}>1. New user/Login</p>
+                    <p style={{ fontWeight: 600 }}>1. Đăng ký/Đăng nhập</p>
                     <LoginUI />
                 </div>
             );
@@ -1328,6 +1189,7 @@ const BodyTemplate = ({
 const Checkout = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.auth.userData);
     const curUser = useSelector((state) => state.auth.user);
     const defaultAddress = useSelector((state) => state.address.defaultAddress);
@@ -1379,7 +1241,7 @@ const Checkout = (props) => {
         );
         isLoggedIn ? setActiveStep(1) : setActiveStep(0);
         if (cartItems.length <= 0) {
-            setTimeout(() => props.history.goBack(), 1000);
+            setTimeout(() => navigate("/cart"), 1000);
             message.error("No items in cart to checkout!");
         }
     }, []);
@@ -1419,7 +1281,7 @@ const Checkout = (props) => {
                 shop: cartItems[i].product.shop.id,
                 product: cartItems[i].productId,
                 quantity: parseInt(cartItems[i].quantity),
-                name: shipAddress.fullName,
+                receiver: shipAddress.fullName,
                 phone: shipAddress.phone,
                 address:
                     shipAddress.address +
@@ -1435,7 +1297,7 @@ const Checkout = (props) => {
         }
         dispatch(await cartActions.clearCart());
         setTimeout(msg, 1);
-        // props.history.push("/");
+        navigate("/");
         setLoading(false);
     };
 
@@ -1514,27 +1376,33 @@ const Checkout = (props) => {
                                     setPayment={setPayment}
                                 />
                             )}
-                            <div style={{ marginTop: "2%" }}>
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    left: 0,
+                                    bottom: "-50px",
+                                    display: "flex",
+                                }}
+                            >
                                 <Button
                                     disabled={activeStep === 0}
                                     onClick={handleBack}
                                     className={classes.backButton}
-                                    style={{ marginRight: "2%" }}
+                                    style={{ marginRight: "1em" }}
                                 >
                                     Back
                                 </Button>
-                                {activeStep !== 1 && (
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.nextButton}
-                                        onClick={handleNext}
-                                    >
-                                        {activeStep === steps.length - 1
-                                            ? "Finish"
-                                            : "Next"}
-                                    </Button>
-                                )}
+                                {activeStep !== 1 &&
+                                    activeStep !== steps.length - 1 && (
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.nextButton}
+                                            onClick={handleNext}
+                                        >
+                                            {"Next"}
+                                        </Button>
+                                    )}
                             </div>
                         </div>
                     </div>

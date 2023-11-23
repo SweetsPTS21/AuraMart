@@ -132,7 +132,7 @@ const userStyles = makeStyles(() => ({
     "@global .k-upload-files.k-reset": {
         backgroundColor: "white !important",
     },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
         backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
 }));
@@ -183,11 +183,9 @@ const AddANewShop = (props) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
-            <Grid
-                container
-            >
-                <Grid item xs={12} sm={12} md={8}>
+        <div style={{ width: "100%"}}>
+            <Grid container>
+                <Grid item xs={12}>
                     <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>Add Shop</h4>

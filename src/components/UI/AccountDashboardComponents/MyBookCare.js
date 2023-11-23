@@ -36,18 +36,14 @@ const userStyles = makeStyles(() => ({
         marginTop: "0.5em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
+        borderRadius: "0.5em",
     },
     grid2: {
         padding: "2em",
         marginTop: "0.6em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.14)",
+        borderRadius: "0.5em",
     },
     removeLinkStyles: {
         textDecoration: "none !important",

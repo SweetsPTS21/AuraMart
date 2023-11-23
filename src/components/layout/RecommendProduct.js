@@ -15,8 +15,6 @@ const RecommendProduct = (props) => {
     const recommendProds = useSelector(
         (state) => state.products.recommendProds
     );
-    const [seeMoreProd, setSeeMoreProd] = useState(20);
-    const [seeMoreRecommendProd, setSeeMoreRecommendProd] = useState(10);
     const [loadingProd, setLoadingProd] = useState(false);
 
     useEffect(() => {
@@ -31,8 +29,6 @@ const RecommendProduct = (props) => {
             recommendProds.length > 0 &&
             recommendProds.map(
                 (prod, index) =>
-                    //just to make sure that the product is not null and the index is less than 10
-                    index < seeMoreRecommendProd &&
                     prod && (
                         <Card
                             key={prod.id}
@@ -60,19 +56,11 @@ const RecommendProduct = (props) => {
 
     return (
         recommendProds ? (
-            <div>
+            <div style={{marginTop: "1.5em", marginBottom: "0.6em"}}>
                 <ItemContainer
                     length={recommendProds.length}
                     type={type}
-                    title={"Recommended for you"}
-                    seeMore={() => {
-                        setSeeMoreProd((val) => val + 10);
-                        setLoadingProd(true);
-                        setTimeout(
-                            () => setLoadingProd(false),
-                            500
-                        );
-                    }}
+                    title={"Gợi ý cho bạn"}
                     loading={loadingProd}
                     itemWidth={itemWidth}
                 >

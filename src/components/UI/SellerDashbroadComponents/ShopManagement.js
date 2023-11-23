@@ -32,10 +32,8 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "0.5em",
     },
     block: {
-        display: "flex",
-        flexDirection: "column",
         marginBottom: "1em",
-        padding: "0.5em",
+        padding: "1em",
         backgroundColor: "#FFFFFF",
         borderRadius: "0.5em",
     },
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         color: "#ff9100",
         borderColor: "#ff9100",
-        marginRight: "1em",
+        marginLeft: "1em",
     },
     title: {
         fontSize: "1.5em",
@@ -62,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
     config__content: {
-        width: "800px",
         margin: "0 auto",
     },
     config__select: {
@@ -89,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 const ShopConfig = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    
+
     const shop = props.shop;
     const intilizeConfigs = [
         {
@@ -98,8 +95,8 @@ const ShopConfig = (props) => {
             address: "",
             phone: "",
             avatar: "",
-            decoration: ['decor1', 'decor2'],
-            banner: ['banner1', 'banner2'],
+            decoration: ["decor1", "decor2"],
+            banner: ["banner1", "banner2"],
             using: false,
         },
     ];
@@ -118,7 +115,6 @@ const ShopConfig = (props) => {
         currentConfig.decoration
     );
     const [shopBanners, setShopBanners] = useState(currentConfig.banner);
-
 
     const handleSubmit = () => {};
     const handleChangeConfig = (item, index) => {
@@ -177,10 +173,9 @@ const ShopConfig = (props) => {
     };
 
     return (
-        <Grid container xs={12} className={classes.block}>
-            <div className={classes.title}>Shop Config</div>
-            <div className={classes.config__content}>
-                <Grid item xs={12} className={classes.block}>
+        <>
+            <Grid item xs={6} style={{paddingRight: "1em"}}>
+                <div className={classes.block} style={{ padding: "2em" }}>
                     <ValidatorForm onSubmit={handleSubmit}>
                         <FormGroup className={classes.grid}>
                             <FormControl>
@@ -190,7 +185,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop name"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="Shop name"
                                     value={name}
                                     margin="normal"
@@ -207,7 +202,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop description"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="Shop description"
                                     value={description}
                                     margin="normal"
@@ -226,7 +221,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop address"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="Shop address"
                                     value={address}
                                     margin="normal"
@@ -243,7 +238,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop phone"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="Shop phone"
                                     value={phone}
                                     margin="normal"
@@ -260,7 +255,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop avatar"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="Shop avatar"
                                     value={avatar}
                                     margin="normal"
@@ -290,10 +285,15 @@ const ShopConfig = (props) => {
                             </Button>
                         </FormGroup>
                     </ValidatorForm>
-                </Grid>
-                <Grid item container xs={12} className={classes.block}>
-                    <div className={classes.config__title}>Configs</div>
-                    <Grid xs={12} className={classes.config__select}>
+                </div>
+            </Grid>
+            <Grid item container xs={6}>
+                <div className={classes.block} style={{ width: "100%", padding: "2em" }}>
+                    <div
+                        className={classes.config__title}
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <span>Config</span>
                         {configs &&
                             configs.map((item, index) => (
                                 <Button
@@ -311,7 +311,7 @@ const ShopConfig = (props) => {
                                     Config {index}
                                 </Button>
                             ))}
-                    </Grid>
+                    </div>
                     <Grid item xs={12} className={classes.config__decor}>
                         <Typography>Decoration(avatar & background)</Typography>
                         {shopDecorations.map((decor, index) => (
@@ -319,7 +319,7 @@ const ShopConfig = (props) => {
                                 key={index}
                                 size="small"
                                 label="image link"
-                                style={{ width: "100%", margin: 8 }}
+                                style={{ width: "600px", margin: 8 }}
                                 placeholder="image url"
                                 value={decor}
                                 margin="normal"
@@ -337,7 +337,7 @@ const ShopConfig = (props) => {
                                 <TextField
                                     size="small"
                                     label="image link"
-                                    style={{ width: "100%", margin: 8 }}
+                                    style={{ width: "600px", margin: 8 }}
                                     placeholder="image url"
                                     value={banner}
                                     margin="normal"
@@ -381,9 +381,9 @@ const ShopConfig = (props) => {
                             Save
                         </Button>
                     </Grid>
-                </Grid>
-            </div>
-        </Grid>
+                </div>
+            </Grid>
+        </>
     );
 };
 
@@ -400,9 +400,11 @@ const ShopVouchers = () => {
     const classes = useStyles();
     return (
         <Grid item xs={12} className={classes.block}>
-            <Grid item xs={12} className={classes.config__header}>Shop vouchers</Grid>
+            <Grid item xs={12} className={classes.config__header}>
+                Shop vouchers
+            </Grid>
             <Grid item xs={12} className={classes.config__content}>
-                <MyVoucher type={"shop"}/>
+                <MyVoucher type={"shop"} />
             </Grid>
         </Grid>
     );
@@ -424,13 +426,12 @@ const ShopManagement = () => {
     }, [user]);
 
     useEffect(() => {
-        if (shop)
-            dispatch(configActions.getConfigsByShopId(shop.id));
+        if (shop) dispatch(configActions.getConfigsByShopId(shop.id));
     }, [shop]);
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3} className={classes.container}>
+            <Grid container className={classes.container}>
                 {shop ? (
                     configsInShop && (
                         <>

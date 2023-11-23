@@ -18,10 +18,14 @@ const userStyles = makeStyles(() => ({
         backgroundColor: "#189EFF",
     },
     image: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
         backgroundColor: "white",
-        padding: "1em",
-        paddingRight: "1.9em",
-        paddingLeft: "1.9em",
+        padding: "0.5em",
+        width: "154px",
+        height: "220px",
+        marginRight: "0.2em",
         borderRadius: "5px",
         "&:hover": {
             boxShadow:
@@ -39,24 +43,23 @@ const InterestedProducts = (props) => {
     const classes = userStyles();
 
     return (
-        <div>
+        <div style={{marginTop: "1.5em"}}>
             <div
                 style={{
                     fontSize: "1.1em",
                     fontWeight: 400,
-                    marginBottom: "0.3em",
-                    marginLeft: "2.5em",
+                    marginBottom: "0.6em",
                 }}
             >
-                INTERESTED PRODUCTS
+                Tìm kiếm hàng đầu
             </div>
-            <Carousel slidesPerPage={6} slidesPerScroll={6} arrows infinite>
+            <div style={{ display: "flex" }}>
                 <div className={classes.image}>
                     <Link to={"#"} className={classes.removeLinkStyle}>
                         <img
                             src={IP1}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -65,7 +68,7 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Gia dụng
                         </div>
                     </Link>
                 </div>
@@ -74,7 +77,7 @@ const InterestedProducts = (props) => {
                         <img
                             src={IP2}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -83,7 +86,7 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Bột giặt
                         </div>
                     </Link>
                 </div>
@@ -92,7 +95,7 @@ const InterestedProducts = (props) => {
                         <img
                             src={IP3}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -101,7 +104,7 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Mẹ và bé
                         </div>
                     </Link>
                 </div>
@@ -110,7 +113,7 @@ const InterestedProducts = (props) => {
                         <img
                             src={IP4}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -119,7 +122,7 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Thực phẩm
                         </div>
                     </Link>
                 </div>
@@ -128,7 +131,7 @@ const InterestedProducts = (props) => {
                         <img
                             src={IP5}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -137,7 +140,7 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Điện tử
                         </div>
                     </Link>
                 </div>
@@ -146,7 +149,7 @@ const InterestedProducts = (props) => {
                         <img
                             src={IP6}
                             alt={"interested products"}
-                            style={{ width: "8vw" }}
+                            style={{ width: "130px" }}
                         />
                         <div
                             style={{
@@ -155,11 +158,11 @@ const InterestedProducts = (props) => {
                                 textAlign: "center",
                             }}
                         >
-                            Voucher - Services
+                            Làm đẹp
                         </div>
                     </Link>
                 </div>
-            </Carousel>
+            </div>
         </div>
     );
 };

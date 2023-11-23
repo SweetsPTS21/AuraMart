@@ -34,7 +34,6 @@ export const getShopById = (id) => async (dispatch) => {
                 type: GET_SHOP_BY_ID, //this call test dispatch. to dispsatch to our reducer
                 shop: res.data.data,
             });
-
         })
         .catch((err) => {
             message.error("Error getting shop");
@@ -74,6 +73,22 @@ export const registerANewShop = (shop) => async (dispatch) => {
         })
         .catch((err) => {
             message.error("Error creating shop");
+        });
+};
+
+export const approveShop = (shopId) => async (dispatch) => {
+    const url = `${api_url}/api/v1/shops/${shopId}/approve`;
+    await axios
+        .put(url)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error(res.data.error);
+            }
+            dispatch(getAllShops());
+            message.success("shop approved successfully");
+        })
+        .catch((err) => {
+            message.error("Error approving shop");
         });
 };
 

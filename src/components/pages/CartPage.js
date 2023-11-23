@@ -376,7 +376,9 @@ const CartPage = (props) => {
                                 alt={"not product logo"}
                             />
                             <p>No products in your cart yet!</p>
-                            <Button variant="contained" color="primary">
+                            <Button variant="contained" style={
+                                {backgroundColor: "#ff424e", color: "#fff"}
+                            }>
                                 <Link
                                     to={"/"}
                                     onClick={(e) => e.stopPropagation()}
@@ -498,16 +500,6 @@ const CartPage = (props) => {
                             style={{ marginTop: 10 }}
                         >
                             Order
-                        </Button>
-                    </Link>
-                    <Link to={"/result?vnp_Amount=12000&vnp_ResponseCode=00"} className={classes.removeLink}>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginTop: 10 }}
-                        >
-                            Check
                         </Button>
                     </Link>
                 </Grid>

@@ -24,10 +24,16 @@ import { message } from "antd";
 
 const userStyles = makeStyles(() => ({
     button: {
-        color: "#ff9100",
-        borderColor: "#ff9100",
+        backgroundColor: "#ff424e",
+        height: "3em",
+        color: "#fff",
+        fontSize: "1.2em",
+        textTransform: "none",
         "&:focus": {
             outline: "none",
+        },
+        "&:hover": {
+            backgroundColor: "#ff424e",
         },
     },
     input: {
@@ -41,9 +47,7 @@ const userStyles = makeStyles(() => ({
     grid: {
         padding: "2em",
         backgroundColor: "white",
-        borderRadius: "3px",
-        boxShadow:
-            "0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)",
+        borderRadius: "0.5em",
     },
     removeLinkStyles: {
         textDecoration: "none !important",
@@ -296,12 +300,18 @@ const Address = (props) => {
 
     const Form = (
         <ValidatorForm onSubmit={handleSubmit} className={classes.grid}>
-            <FormGroup>
+            <FormGroup
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
                 <FormControl>
                     <TextValidator
                         size="small"
                         label="Full Name"
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         placeholder="Your full name"
                         value={name}
                         margin="normal"
@@ -318,7 +328,7 @@ const Address = (props) => {
                     <TextValidator
                         size="small"
                         label="Phone Number"
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         placeholder="Phone No."
                         value={phoneNo}
                         onChange={(e) => setPhoneNo(e.target.value)}
@@ -338,7 +348,7 @@ const Address = (props) => {
                         select
                         label="City/Province"
                         value={city}
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setCity(e.target.value)}
                         // helperText="Please select your city/province"
                         variant="standard"
@@ -358,7 +368,7 @@ const Address = (props) => {
                         select
                         label="District"
                         value={district}
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setDistrict(e.target.value)}
                         // helperText="Please select your city/province"
                         variant="standard"
@@ -378,7 +388,7 @@ const Address = (props) => {
                         select
                         label="Ward"
                         value={ward}
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setWard(e.target.value)}
                         // helperText="Please select your city/province"
                         variant="standard"
@@ -395,41 +405,13 @@ const Address = (props) => {
                         size="small"
                         label="Address"
                         value={address}
-                        style={{ margin: 8 }}
+                        style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setAddress(e.target.value)}
                         // helperText="Please select your city/province"
                         variant="standard"
                         validators={["required"]}
                         errorMessages={["Enter your address"]}
                     />
-                </FormControl>
-                <FormControl style={{ marginLeft: "1em", marginTop: "0.5em" }}>
-                    <FormLabel
-                        component="legend"
-                        style={{ color: "rgb(153, 153, 153)" }}
-                    >
-                        Address type
-                    </FormLabel>
-                    <RadioGroup
-                        aria-label="gender"
-                        name="gender1"
-                        value={radio}
-                        onChange={(e) => setRadio(e.target.value)}
-                        row
-                    >
-                        <FormControlLabel
-                            value="House/Condominium"
-                            control={<Radio />}
-                            style={{ color: "rgb(153, 153, 153)" }}
-                            label="House / Condominium"
-                        />
-                        <FormControlLabel
-                            value="Agency/Company"
-                            control={<Radio />}
-                            style={{ color: "rgb(153, 153, 153)" }}
-                            label="Agency / Company"
-                        />
-                    </RadioGroup>
                 </FormControl>
                 <FormControl>
                     <FormControlLabel
@@ -453,9 +435,8 @@ const Address = (props) => {
                 </FormControl>
 
                 <Button
-                    variant="outlined"
+                    variant="contained"
                     type={"submit"}
-                    color="secondary"
                     className={classes.button}
                     style={{
                         fontSize: "0.7em",
@@ -463,11 +444,12 @@ const Address = (props) => {
                         marginLeft: "1em",
                         marginRight: "0.5em",
                         marginTop: "2em",
+                        width: "420px",
                     }}
                 >
                     Update
                 </Button>
-                {formType=='edit' && (
+                {formType == "edit" && (
                     <Button
                         variant="outlined"
                         color="secondary"
@@ -553,7 +535,9 @@ const Address = (props) => {
                                                 : ""}
                                         </span>{" "}
                                         <br />
-                                        <span style={{color: "#a1a1a1"}}>Địa chỉ: </span>
+                                        <span style={{ color: "#a1a1a1" }}>
+                                            Địa chỉ:{" "}
+                                        </span>
                                         <span>
                                             {address.address +
                                                 ", " +
@@ -564,7 +548,9 @@ const Address = (props) => {
                                                 address.city}
                                         </span>
                                         <br />
-                                        <span style={{color: "#a1a1a1"}}>Số điện thoại: </span>
+                                        <span style={{ color: "#a1a1a1" }}>
+                                            Số điện thoại:{" "}
+                                        </span>
                                         <span>{address.phone}</span> <br />
                                     </div>
                                     <div>

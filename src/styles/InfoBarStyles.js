@@ -8,6 +8,7 @@ const userStyles = makeStyles((theme) => ({
         marginRight: "10%",
     },
     container: {
+        display: "flex",
         width: "100%",
         height: "100%",
         marginLeft: "0",
@@ -29,6 +30,20 @@ const userStyles = makeStyles((theme) => ({
             boxShadow:
                 "0 2px 4px 0 rgba(200, 200, 200, 0.2), 0 3px 10px 0 rgba(200, 200, 200, 0.19)",
         },
+    },
+    item: {
+        width: "240px",
+        height: "100%",
+    },
+    icon: {
+        width: "60px",
+        height: "60px",
+    },
+    text: {
+        fontSize: "1.1em",
+        fontWeight: "500",
+        color: "#3c4858",
+        marginLeft: "0.5em",
     },
     mediumProduct: {
         width: "100%",
@@ -52,6 +67,11 @@ const userStyles = makeStyles((theme) => ({
                 "0 2px 4px 0 rgba(200, 200, 200, 0.2), 0 3px 10px 0 rgba(200, 200, 200, 0.19)",
         },
     },
+    removeLinkStyle: {
+        display: "flex",
+        alignItems: "center",
+        textDecoration: "none !important",
+    },
     "@global .Carousel": {
         position: "unset",
     },
@@ -62,6 +82,9 @@ const userStyles = makeStyles((theme) => ({
     "@global .MuiSvgIcon-root.Active.Indicator": {
         color: "rgba(24, 158, 255, 0.6) !important",
     },
+    "@global .react-ripples": {
+        height: "100%",
+    }
 }));
 
 export default userStyles;
