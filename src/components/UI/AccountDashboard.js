@@ -40,6 +40,7 @@ import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 import { getUserAddress } from "../../store/actions/addressActions";
+import { getOrdersByUserId} from "../../store/actions/orderActions";
 
 const AccountDashBoard = (props) => {
     const classes = userStyles();
@@ -57,6 +58,7 @@ const AccountDashBoard = (props) => {
 
     useEffect(() => {
         dispatch(getUserAddress(user.id));
+        dispatch(getOrdersByUserId(user.id));
     }, [dispatch, user.id]);
 
     const options = [

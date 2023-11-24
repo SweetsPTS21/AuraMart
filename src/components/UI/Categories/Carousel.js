@@ -1,10 +1,8 @@
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { useParams } from "react-router-dom";
 
 const DemoCarousel = (props) => {
-    const { type } = useParams();
     const { banner, style } = props;
 
     return (

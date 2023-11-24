@@ -1,4 +1,4 @@
-import { CHECK_VNPAY_PAYMENT, CHECK_MOMO_PAYMENT } from "../actions/paymentActions";
+import { CHECK_MOMO_PAYMENT, CHECK_VNPAY_PAYMENT } from "../actions/paymentActions";
 
 const initialState = {
     vnpayStatus: null,

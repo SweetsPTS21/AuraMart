@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import FormLabel from "@material-ui/core/FormLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
 import "date-fns";
 import Checkbox from "@material-ui/core/Checkbox";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import AddIcon from "@material-ui/icons/Add";
 
 import MenuItem from "@material-ui/core/MenuItem";
-import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -105,7 +101,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const Address = (props) => {
+const Address = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
@@ -119,9 +115,7 @@ const Address = (props) => {
     const [ward, setWard] = useState("");
     const [phoneNo, setPhoneNo] = useState("");
     const [address, setAddress] = useState("");
-    const [radio, setRadio] = useState("House/Condominium");
-    const [checked, setChecked] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [checked, setChecked] = useState(false)
     const [isEditing, setIsEditing] = useState(false);
 
     const [form, setForm] = useState(false);
@@ -129,7 +123,7 @@ const Address = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
+
         const msg = message.loading("Updating address!", 0);
         const address_ = {
             fullName: name,
@@ -159,18 +153,15 @@ const Address = (props) => {
         setTimeout(msg, 1);
         setIsEditing(false);
         setForm(false);
-        setIsLoading(false);
     };
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
         const msg = message.loading("Deleting address!", 0);
         await dispatch(addressActions.deleteAddressById(addressId, user.id));
         setTimeout(msg, 1);
         setIsEditing(false);
         setForm(false);
-        setIsLoading(false);
     };
 
     const removeValue = () => {
@@ -180,7 +171,6 @@ const Address = (props) => {
         setWard("");
         setPhoneNo("");
         setAddress("");
-        setRadio("House/Condominium");
         setChecked(false);
     };
 
@@ -449,7 +439,7 @@ const Address = (props) => {
                 >
                     Update
                 </Button>
-                {formType == "edit" && (
+                {formType === "edit" && (
                     <Button
                         variant="outlined"
                         color="secondary"
@@ -505,7 +495,7 @@ const Address = (props) => {
                     <div className={classes.title}>My addresses</div>
                     {listAddress !== null &&
                         listAddress.length > 0 &&
-                        listAddress.map((address, index) => (
+                        listAddress.map((address) => (
                             <div
                                 style={{
                                     backgroundColor: "white",

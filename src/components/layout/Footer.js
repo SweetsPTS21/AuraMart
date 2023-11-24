@@ -160,7 +160,7 @@ function Footer() {
                     <a
                         href={"https://hotro.tiki.vn/hc/vi"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Question&Answer
                     </a>
@@ -169,7 +169,7 @@ function Footer() {
                     <a
                         href={"/https://hotro.tiki.vn/hc/vi/requests/new"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Ask for Support
                     </a>
@@ -180,7 +180,7 @@ function Footer() {
                             "/https://hotro.tiki.vn/hc/vi/categories/200126644"
                         }
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Ordering Instruction
                     </a>
@@ -191,7 +191,7 @@ function Footer() {
                             "https://hotro.tiki.vn/hc/vi/categories/200123960"
                         }
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Transport Method
                     </a>
@@ -200,7 +200,7 @@ function Footer() {
                     <a
                         href={"https://tiki.vn/doi-tra-de-dang"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Refund Policy
                     </a>
@@ -209,7 +209,7 @@ function Footer() {
                     <a
                         href={"mailto:hotro@tiki.vn"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Customer Support:support@tiki.vn
                     </a>
@@ -231,7 +231,7 @@ function Footer() {
                     <a
                         href={"https://tiki.vn/gioi-thieu-ve-tiki"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Tiki Introduction
                     </a>
@@ -240,7 +240,7 @@ function Footer() {
                     <a
                         href={"https://tuyendung.tiki.vn/"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Recruitment
                     </a>
@@ -249,7 +249,7 @@ function Footer() {
                     <a
                         href={"https://tiki.vn/bao-mat-thanh-toan"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Payment Security
                     </a>
@@ -258,7 +258,7 @@ function Footer() {
                     <a
                         href={"https://tiki.vn/bao-mat-thong-tin-ca-nhan"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Information Security
                     </a>
@@ -267,7 +267,7 @@ function Footer() {
                     <a
                         href={"https://hotro.tiki.vn/hc/vi/articles/201971214"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Term&Agreement
                     </a>
@@ -276,7 +276,7 @@ function Footer() {
                     <a
                         href={"https://tiki.vn/tu-van/"}
                         target="_blank"
-                        className={classes.removeLinkStyles}
+                        className={classes.removeLinkStyles} rel="noreferrer"
                     >
                         Tiki Advice
                     </a>

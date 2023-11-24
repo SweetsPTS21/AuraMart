@@ -81,7 +81,7 @@ const UpdateUserForm = (props) => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
+    const [email] = useState(user.email);
     const [phone, setPhone] = useState(user.phone);
     const [address, setAddress] = useState(user.address);
     const [newPassword, setNewPassword] = useState(user.password);
@@ -97,7 +97,7 @@ const UpdateUserForm = (props) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isPasswordMatch",
-            (value) => newPassword === retypePassword
+            () => newPassword === retypePassword
         );
     }, [retypePassword, newPassword]);
 

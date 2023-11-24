@@ -14,14 +14,15 @@ import * as productActions from "../../../../store/actions/productActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import {
-    tikiCardHeader,
-    whiteColor,
-    tikiColor,
     blackColor,
     hexToRgb,
+    tikiCardHeader,
+    tikiColor,
+    whiteColor,
 } from "../Card/styles/material-dashboard-react.js";
 import "@progress/kendo-theme-default/dist/all.css";
-import { Upload } from "@progress/kendo-react-upload";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../../utils/firebaseConfig";
 
 export const countries = [
     { code: "AD", label: "Andorra", phone: "376" },
@@ -427,8 +428,7 @@ const AddANewProduct = (props) => {
     ]);
     const [shop, setShop] = useState("");
     const [photo, setPhoto] = useState(null);
-    const [photoPreview, setPhotoPreview] = useState(null);
-    const [photoFile, setPhotoFile] = useState(null);
+    const [photoFile] = useState(null);
 
     const categoryOptions = [
         "phone-tablet",
@@ -450,19 +450,19 @@ const AddANewProduct = (props) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isCategoryEmpty",
-            (value) => category.length > 0
+            () => category.length > 0
         );
         ValidatorForm.addValidationRule(
             "isSpecsEmpty",
-            (value) => specs.length > 0
+            () => specs.length > 0
         );
         ValidatorForm.addValidationRule(
             "isDescriptionEmpty",
-            (value) => description.length > 0
+            () => description.length > 0
         );
         ValidatorForm.addValidationRule(
             "isDiscountNotLowerThanZero",
-            (value) => discount >= 0
+            () => discount >= 0
         );
         ValidatorForm.addValidationRule(
             "isShopInputEmpty",
@@ -502,31 +502,43 @@ const AddANewProduct = (props) => {
         setDimension("");
     };
 
-    const onAdd = async (event) => {
-        const file = event.affectedFiles[0];
-        let preview;
-        const reader = new FileReader();
+    const uploadImage = async (e) => {
+        e.preventDefault();
+        const fileUpload = e.target.files[0];
 
-        reader.onloadend = (ev) => {
-            preview = ev.target.result;
-        };
+        if (
+            !fileUpload.type.includes("image/jpg") &&
+            !fileUpload.type.includes("image/png") &&
+            !fileUpload.type.includes("image/jpeg")
+        ) {
+            message.error("File type must be jpg/jpeg or png");
+            return;
+        }
 
-        reader.readAsDataURL(file.getRawFile());
-        setPhoto(file);
-        setPhotoFile(file.getRawFile());
-        setTimeout(() => addImageToListUi(preview), 1000);
-    };
-    const addImageToListUi = (file) => {
-        // const img = <img src={photo} alt="..."/>;
-        // let imgFormat = document.createElement("p");
-        let img = document.createElement("img");
-        setPhotoPreview(file);
-        img.src = file;
-        img.style.width = "6em";
-        let container = document.getElementsByClassName("k-file-single")[0];
-        container.insertBefore(img, container.childNodes[1]);
-        // document.getElementsByClassName("k-file-extension-wrapper")[0].appendChild(img)
-        // document.getElementsByClassName("k-file-single")[0].appendChild(img)
+        // check file size
+        if (fileUpload.size > 3 * 1024 * 1024) {
+            message.error("File size cannot exceed more than 3MB");
+            return;
+        }
+
+        const storageRef = ref(
+            storage,
+            `images/products/new/photo_${fileUpload.name}`
+        );
+
+        const msg = message.loading("Uploading image!", 0);
+
+        try {
+            const snapshot = await uploadBytes(storageRef, fileUpload);
+            message.success("File uploaded successfully");
+
+            const url = await getDownloadURL(snapshot.ref);
+            setPhoto(url);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        } finally {
+            setTimeout(msg, 1);
+        }
     };
 
     return (
@@ -578,7 +590,7 @@ const AddANewProduct = (props) => {
                                             defaultValue={category}
                                             options={categoryOptions}
                                             getOptionLabel={(option) => option}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option, ) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -790,7 +802,7 @@ const AddANewProduct = (props) => {
                                             onChange={(e, value) => {
                                                 setOrigin(value.label);
                                             }}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option, ) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -926,7 +938,7 @@ const AddANewProduct = (props) => {
                                                 autoHighlight
                                                 renderOption={(
                                                     option,
-                                                    state
+                                                    
                                                 ) => (
                                                     <p
                                                         style={{
@@ -1019,7 +1031,10 @@ const AddANewProduct = (props) => {
                                             )}
                                         />
                                     </FormControl>
-                                    <FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                    >
+                                        {/*<Input inputProps={{onDrop: onDrop}} placeholder={"blaaaaaaaa"}/>*/}
                                         <p
                                             style={{
                                                 color: "rgba(0, 0, 0, 0.54)",
@@ -1032,47 +1047,35 @@ const AddANewProduct = (props) => {
                                         >
                                             Product Image
                                         </p>
-                                        <Upload
-                                            files={[photo]}
-                                            // onAdd={(e)=>onAdd(e)}
-                                            restrictions={{
-                                                maxFileSize: 1000000,
-                                                allowedExtensions: [
-                                                    ".jpg",
-                                                    ".png",
-                                                    ".apng",
-                                                    ".bmp",
-                                                    ".gif",
-                                                    ".ico",
-                                                    ".cur",
-                                                    ".jpeg",
-                                                    ".jfif",
-                                                    ".pjpeg",
-                                                    ".pjp",
-                                                    ".svg",
-                                                    ".tif",
-                                                    ".tiff",
-                                                    ".webp",
-                                                ],
+
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
                                             }}
-                                            onAdd={async (e) => {
-                                                await onAdd(e);
-                                            }}
-                                            onRemove={() => {
-                                                setPhoto(null);
-                                                setPhotoFile(null);
-                                            }}
-                                            batch={false}
-                                            multiple={false}
-                                            defaultFiles={[]}
-                                            withCredentials={false}
-                                            saveUrl={
-                                                "https://demos.telerik.com/kendo-ui/service-v4/upload/save"
-                                            }
-                                            removeUrl={
-                                                "https://demos.telerik.com/kendo-ui/service-v4/upload/remove"
-                                            }
-                                        />
+                                        >
+                                            <img
+                                                src={photo}
+                                                alt=""
+                                                style={{
+                                                    width: "64px",
+                                                    height: "64px",
+                                                }}
+                                            />
+                                            <Button
+                                                component="label"
+                                                variant="contained"
+                                                style={{ marginTop: "1em" }}
+                                            >
+                                                Upload file
+                                                <VisuallyHiddenInput
+                                                    type="file"
+                                                    onChange={(e) =>
+                                                        uploadImage(e)
+                                                    }
+                                                />
+                                            </Button>
+                                        </div>
                                     </FormControl>
                                     <Button
                                         color="tiki"

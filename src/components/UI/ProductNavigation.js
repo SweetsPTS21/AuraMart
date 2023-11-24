@@ -26,9 +26,8 @@ import OvenIcon from "../../image/oven.png";
 import FryingPanIcon from "../../image/fryingPan.png";
 import CleanerIcon from "../../image/cleaner.png";
 import LipStickIcon from "../../image/lipstick.png";
-import cooker from "../../image/cooker.png";
 
-const ProductNavigation = (props) => {
+const ProductNavigation = () => {
     const classes = userStyles();
     const [selectedIndex, setSelectedIndex] = useState(1);
     const options = [

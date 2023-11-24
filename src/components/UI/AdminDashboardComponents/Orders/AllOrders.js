@@ -19,20 +19,19 @@ import List from "@material-ui/core/List";
 import classNames from "classnames";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { OrderCard } from "./OrderCard";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import OrderStats from "../Stats/OrderStats";
 import ManagementPage from "../ManagementPage";
 
-const AllOrders = (props) => {
+const AllOrders = () => {
     const classes = userStyles();
     const allOrders = useSelector((state) => state.orders.allOrders); // all users
     const [orders, setOrders] = useState(null); // to update users that are rendered
     const [firstLoad, setFirstLoad] = useState(true);
 
-    const [ordersLastUpdated, setOrdersLastUpdated] = useState(Date.now());
+    const [ordersLastUpdated] = useState(Date.now());
     const [toggleList, setToggleList] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

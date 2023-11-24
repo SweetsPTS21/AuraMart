@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import userStyles from "../styles/FindAUserStyles";
-import { useSelector } from "react-redux";
 import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
@@ -23,7 +22,7 @@ const OrderStats = (props) => {
     const [orderChart, setOrderChart] = useState(null);
     const [orderChartStatus, setOrderChartStatus] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [orderLastUpdated, setOrderLastUpdated] = useState(Date.now());
+    const [orderLastUpdated] = useState(Date.now());
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -38,7 +37,7 @@ const OrderStats = (props) => {
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allOrders !== null &&
             allOrders !== undefined &&
-            allOrders.forEach((order, index) => {
+            allOrders.forEach((order) => {
                 if (
                     Moment2(order.createdAt) // if order is from the last 7 days
                         .isAfter(dateFrom, "day")
@@ -152,7 +151,7 @@ const OrderStats = (props) => {
         let Last7daysOrderStatus = [5, 2, 11, 7, 1, 3];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allOrders !== null &&
-            allOrders.forEach((order, index) => {
+            allOrders.forEach((order) => {
                 if (
                     Moment2(order.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")
@@ -205,8 +204,6 @@ const OrderStats = (props) => {
                 }
             });
 
-        const delays2 = 80,
-            durations2 = 500;
         const orderChart_ = {
             data: [
                 {

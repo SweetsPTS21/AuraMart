@@ -1,9 +1,10 @@
+/* eslint-disable no-case-declarations */
 import {
     ADD_TO_CART,
+    CLEAR_CART,
     DELETE_FROM_CART,
     GET_CART,
     REMOVE_FROM_CART,
-    CLEAR_CART,
     UPDATE_FINAL_TOTAL,
 } from "../actions/cartActions";
 import CartItem from "../../models/cart-item";
@@ -16,7 +17,7 @@ const initialState = {
     finalTotal: 0,
 };
 
-export default (state = initialState, action) => {
+export default function cartReducer (state = initialState, action) {
     switch (action.type) {
         case ADD_TO_CART:
             const addedProduct = action.product;
@@ -144,6 +145,7 @@ export default (state = initialState, action) => {
                     totalAmount: 0,
                 };
             }
+            break;
         case UPDATE_FINAL_TOTAL:
             const shopTotal = action.shopTotal;
             const voucher = action.voucher;
@@ -181,4 +183,4 @@ export default (state = initialState, action) => {
                 ...state,
             };
     }
-};
+}

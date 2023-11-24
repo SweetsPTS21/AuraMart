@@ -21,7 +21,7 @@ const UserStats = (props) => {
 
     const [userChart, setUserChart] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [userLastUpdated, setUserLastUpdated] = useState(Date.now());
+    const [userLastUpdated] = useState(Date.now());
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -35,7 +35,7 @@ const UserStats = (props) => {
         let Last7daysReviewCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allUsers !== null &&
-            allUsers.forEach((review, index) => {
+            allUsers.forEach((review) => {
                 if (
                     Moment2(review.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")

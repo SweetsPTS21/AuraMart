@@ -1,7 +1,7 @@
 import {
     GET_ALL_PRODUCTS,
-    GET_PRODUCT_BY_ID,
     GET_PRODUCTS_BY_SHOP_ID,
+    GET_PRODUCT_BY_ID,
     GET_RECOMMEND_PRODUCTS_BY_USER_ID,
 } from "../actions/productActions";
 
@@ -12,7 +12,7 @@ const initialState = {
     recommendProds: null,
 };
 
-export default function (state = initialState, action) {
+export default function productReducer(state = initialState, action) {
     switch (action.type) {
         case GET_ALL_PRODUCTS:
             return {

@@ -16,7 +16,6 @@ import uuid from "react-uuid";
 
 import AllUsers from "./AdminDashboardComponents/User/AllUsers";
 import AllProducts from "./AdminDashboardComponents/Products/AllProducts";
-import ProductsOfShop from "./AdminDashboardComponents/Products/ProductsOfShop";
 import AllShops from "./AdminDashboardComponents/Shops/AllShops";
 import AllOrders from "./AdminDashboardComponents/Orders/AllOrders";
 import AllReviews from "./AdminDashboardComponents/reviews/AllReviews";

@@ -60,7 +60,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const QuestionAndAnswer = (props) => {
+const QuestionAndAnswer = () => {
     const classes = userStyles();
 
     return (

@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import {
     Autocomplete,
-    TextField,
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    Pagination,
+    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    IconButton,
-    Pagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
+    TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { makeStyles } from "@material-ui/core/styles";
 import { styled, useTheme } from "@mui/material/styles";
 import { Typography } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-import { getProductsByShopId } from "../../../store/actions/productActions";
 import AddANewProduct from "./Products/AddANewProduct";
 import UpdateAProductForm from "./Products/UpdateAProductForm";
 import AddNewUser from "./User/AddNewUser";
@@ -35,22 +32,6 @@ import UpdateOrderForm from "./Orders/UpdateOrderForm";
 import AddANewReview from "./reviews/AddNewReview";
 import UpdateReviewForm from "./reviews/UpdateReviewForm";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        marginTop: "20px",
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-    },
-    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper":
-        {
-            maxWidth: "600px !important",
-        },
-}));
-
 const ProductTableContainer = styled(TableContainer)(({ theme }) => ({
     marginBottom: theme.spacing(4),
     borderRadius: "0.5em",
@@ -58,6 +39,10 @@ const ProductTableContainer = styled(TableContainer)(({ theme }) => ({
 
 const ProductTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(2),
+    maxWidth: "200px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
 }));
 
 const ProductTableHead = styled(TableHead)(({ theme }) => ({
@@ -106,7 +91,7 @@ const DialogDelete = (props) => {
 
 const UpdateData = (props) => {
     const { open, setOpen, item, type, dataType } = props;
-    const [showDialog, setShowDialog] = useState(false);
+    const [ setShowDialog] = useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -175,10 +160,9 @@ const UpdateData = (props) => {
 
 const ManagementPage = (props) => {
     const theme = useTheme();
-    const classes = useStyles(theme);
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-    const [searchText, setSearchText] = useState("");
+    const [setSearchText] = useState("");
     const [currentItem, setCurrentItem] = useState({});
     const [page, setPage] = useState(1);
     const [type, setType] = useState(0);
@@ -275,7 +259,7 @@ const ManagementPage = (props) => {
                     variant="contained"
                     color="primary"
                     size="medium"
-                    onClick={(e) => handleOpenDialog(0, {})}
+                    onClick={() => handleOpenDialog(0, {})}
                     style={{ marginLeft: "1em" }}
                 >
                     Add New Product
@@ -288,19 +272,19 @@ const ManagementPage = (props) => {
                         <TableRow>
                             {dataType === "users" &&
                                 usersCol.map((col) => (
-                                    <ProductTableCell>{col}</ProductTableCell>
+                                    <ProductTableCell key={col}>{col}</ProductTableCell>
                                 ))}
                             {dataType === "products" &&
                                 productsCol.map((col) => (
-                                    <ProductTableCell>{col}</ProductTableCell>
+                                    <ProductTableCell key={col}>{col}</ProductTableCell>
                                 ))}
                             {dataType === "orders" &&
                                 ordersCol.map((col) => (
-                                    <ProductTableCell>{col}</ProductTableCell>
+                                    <ProductTableCell key={col}>{col}</ProductTableCell>
                                 ))}
                             {dataType === "reviews" &&
                                 reviewsCol.map((col) => (
-                                    <ProductTableCell>{col}</ProductTableCell>
+                                    <ProductTableCell key={col}>{col}</ProductTableCell>
                                 ))}
                             <ProductTableCell>Actions</ProductTableCell>
                         </TableRow>
@@ -316,25 +300,25 @@ const ManagementPage = (props) => {
                                     <TableRow key={item._id}>
                                         {dataType === "users" &&
                                             usersCol.map((col) => (
-                                                <ProductTableCell>
+                                                <ProductTableCell key={col}>
                                                     {item[col]}
                                                 </ProductTableCell>
                                             ))}
                                         {dataType === "products" &&
                                             productsCol.map((col) => (
-                                                <ProductTableCell>
+                                                <ProductTableCell key={col}>
                                                     {item[col]}
                                                 </ProductTableCell>
                                             ))}
                                         {dataType === "orders" &&
                                             ordersCol.map((col) => (
-                                                <ProductTableCell>
+                                                <ProductTableCell key={col}>
                                                     {item[col]}
                                                 </ProductTableCell>
                                             ))}
                                         {dataType === "reviews" &&
                                             reviewsCol.map((col) => (
-                                                <ProductTableCell>
+                                                <ProductTableCell key={col}>
                                                     {item[col]}
                                                 </ProductTableCell>
                                             ))}
@@ -342,7 +326,7 @@ const ManagementPage = (props) => {
                                             style={{ width: "152px" }}
                                         >
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     handleOpenDialog(1, item)
                                                 }
                                                 color="primary"
@@ -353,7 +337,7 @@ const ManagementPage = (props) => {
                                                 <VisibilityIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     setOpenDialog(true)
                                                 }
                                                 color="error"

@@ -1,8 +1,8 @@
 import React from "react";
 import {
-    makeStyles,
-    createTheme,
     MuiThemeProvider,
+    createTheme,
+    makeStyles,
 } from "@material-ui/core/styles";
 import { useState } from "react";
 import Grid from "@material-ui/core/Grid";
@@ -24,11 +24,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { TextField } from "@material-ui/core";
 import MyVoucher from "../UI/AccountDashboardComponents/MyVoucher";
-import { Typography } from "antd";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         // padding: "0 10%",
         width: "80%",
@@ -95,7 +93,6 @@ const paperStyle = createTheme({
 });
 
 const ApplyVoucher = (props) => {
-    const classes = useStyles();
     const [shopTotal, setShopTotal] = useState(props.shopTotalAmount);
 
     const handleClose = () => {
@@ -270,7 +267,7 @@ const CartPage = (props) => {
                                     className={classes.shopVoucher}
                                 >
                                     {totalShopDiscount &&
-                                        totalShopDiscount.map((item, index) => {
+                                        totalShopDiscount.map((item) => {
                                             if (item.shop === key) {
                                                 return (
                                                     <>
@@ -288,7 +285,7 @@ const CartPage = (props) => {
                                 <Button
                                     variant="text"
                                     style={{color: "red"}}
-                                    onClick={(e) =>
+                                    onClick={() =>
                                         handleAddShopVoucherClick(index)
                                     }
                                 >

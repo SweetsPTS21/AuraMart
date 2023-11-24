@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
 import Button from "@material-ui/core/Button";
+import { Add } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import * as shopActions from "../../../store/actions/shopActions";
 import * as configActions from "../../../store/actions/configActions";
-import { set } from "date-fns";
 import { TextField, Typography } from "@material-ui/core";
 import { message } from "antd";
 import MyVoucher from "../AccountDashboardComponents/MyVoucher";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: "flex",
         justifyContent: "center",
@@ -79,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     buttonActive: {
         backgroundColor: "#ff9100",
         color: "#ffffff",
-        marginRight: "1em",
+        marginLeft: "1em",
     },
 }));
 
@@ -135,28 +132,35 @@ const ShopConfig = (props) => {
         setCurrentConfig(item);
         setConfigIndex(index);
     };
-    const handleAddConfig = () => {
+    const handleAddBanner = () => {
         const updatedItems = [...shopBanners, ""];
         setShopBanners(updatedItems);
     };
 
-    const handleRemoveConfig = (index) => {
+    const handleRemoveBanner = (index) => {
         const updatedItems = [...shopBanners];
         updatedItems.splice(index, 1);
         setShopBanners(updatedItems);
     };
 
-    const handleSaveConfig = async (e) => {
+    const handleSaveConfig = async () => {
         const msg = message.loading("Updating configs!", 0);
         const data = {
             ...currentConfig,
             decoration: shopDecorations,
             banner: shopBanners,
+            using: true,
         };
         //e.preventDefault();
-        await dispatch(
-            configActions.updateConfigById(shop.id, data, currentConfig.id)
-        );
+
+        if (currentConfig.id) {
+            await dispatch(
+                configActions.updateConfigById(shop.id, data, currentConfig.id)
+            );
+        } else {
+            await dispatch(configActions.createNewConfig(data, shop.id));
+        }
+
         setTimeout(msg, 1);
     };
 
@@ -172,9 +176,24 @@ const ShopConfig = (props) => {
         setShopBanners(updatedItems);
     };
 
+    const handleAddConfig = () => {
+        const newConfig = {
+            name: "",
+            description: "",
+            address: "",
+            phone: "",
+            avatar: "",
+            decoration: ["decor1", "decor2"],
+            banner: ["banner1", "banner2"],
+            using: false,
+        };
+        configs.push(newConfig);
+        setConfigs(configs);
+    };
+
     return (
         <>
-            <Grid item xs={6} style={{paddingRight: "1em"}}>
+            <Grid item xs={6} style={{ paddingRight: "1em" }}>
                 <div className={classes.block} style={{ padding: "2em" }}>
                     <ValidatorForm onSubmit={handleSubmit}>
                         <FormGroup className={classes.grid}>
@@ -288,7 +307,10 @@ const ShopConfig = (props) => {
                 </div>
             </Grid>
             <Grid item container xs={6}>
-                <div className={classes.block} style={{ width: "100%", padding: "2em" }}>
+                <div
+                    className={classes.block}
+                    style={{ width: "100%", padding: "2em" }}
+                >
                     <div
                         className={classes.config__title}
                         style={{ display: "flex", alignItems: "center" }}
@@ -311,6 +333,13 @@ const ShopConfig = (props) => {
                                     Config {index}
                                 </Button>
                             ))}
+                        <Button
+                            variant="outlined"
+                            className={classes.button}
+                            onClick={() => handleAddConfig()}
+                        >
+                            <Add />
+                        </Button>
                     </div>
                     <Grid item xs={12} className={classes.config__decor}>
                         <Typography>Decoration(avatar & background)</Typography>
@@ -347,7 +376,7 @@ const ShopConfig = (props) => {
                                     }
                                 />
                                 <Button
-                                    onClick={() => handleRemoveConfig(index)}
+                                    onClick={() => handleRemoveBanner(index)}
                                     className={classes.button}
                                     style={{ width: "40px" }}
                                 >
@@ -366,7 +395,7 @@ const ShopConfig = (props) => {
                     >
                         <Button
                             variant="outlined"
-                            onClick={() => handleAddConfig()}
+                            onClick={() => handleAddBanner()}
                             className={classes.button}
                             style={{ width: "80px" }}
                         >
@@ -412,22 +441,8 @@ const ShopVouchers = () => {
 
 const ShopManagement = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const shop = useSelector((state) => state.shops.userShop);
-    const user = useSelector((state) => state.auth.user);
     const configsInShop = useSelector((state) => state.configs.configsInShop);
-    const vouchersInShop = configsInShop
-        ? configsInShop.flatMap((item) => item.vouchers)
-        : [];
-
-    useEffect(() => {
-        if (user && user.role === "seller")
-            dispatch(shopActions.getShopByUserId(user.id));
-    }, [user]);
-
-    useEffect(() => {
-        if (shop) dispatch(configActions.getConfigsByShopId(shop.id));
-    }, [shop]);
 
     return (
         <div className={classes.root}>

@@ -375,14 +375,14 @@ const Reviews = ({ reviews }) => {
     );
 };
 
-const MyComment = (props) => {
+const MyComment = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const reviews = useSelector((state) => state.reviews.userReviews);
 
     useEffect(() => {
         dispatch(reviewActions.getAllUserReviews(user.id));
-    }, [user.id]);
+    }, [user.id, dispatch]);
 
     return (
         <div style={{ width: "100%" }}>

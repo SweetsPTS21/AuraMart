@@ -27,12 +27,11 @@ const userStyle = makeStyles(() => ({
 const Banner = (props) => {
     const classes = userStyle();
     const listImage = props.listImage;
-    const size = listImage.length;
     return (
         <div className={classes.banner}>
             <Grid container spacing={0} className={classes.container}>
                 {listImage ? listImage.map((image, index) => (
-                    <Grid item xs={12} className={classes.banner__image}>
+                    <Grid key={index} item xs={12} className={classes.banner__image}>
                         <img
                             src={image}
                             alt="banner"

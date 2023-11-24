@@ -45,7 +45,6 @@ const userStyles = makeStyles(() => ({
         marginTop: "0.6em",
         marginBottom: "0.5em",
         backgroundColor: "white",
-        borderRadius: "3px",
         borderRadius: "0.5em",
         textDecoration: "none !important",
     },
@@ -60,7 +59,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const BillingInformation = (props) => {
+const BillingInformation = () => {
     const classes = userStyles();
 
     return (

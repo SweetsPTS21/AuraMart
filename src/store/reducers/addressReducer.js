@@ -1,7 +1,7 @@
 import {
-    GET_USER_ADDRESS,
     GET_ALL_ADDRESS,
     GET_SINGLE_ADDRESS_BY_ID,
+    GET_USER_ADDRESS,
 } from "../actions/addressActions";
 
 const initialState = {
@@ -11,7 +11,10 @@ const initialState = {
     userAddress: null,
 };
 
-export default function (state = initialState, action) {
+export default function addressReducer (state = initialState, action) {
+    let st_ =  {};
+    let defaultAddress = null;
+
     switch (action.type) {
         case GET_ALL_ADDRESS:
             return {
@@ -19,14 +22,14 @@ export default function (state = initialState, action) {
                 address: action.address,
             };
         case GET_USER_ADDRESS:
-            const defaultAddress = action.address.filter(
+            defaultAddress = action.address.filter(
                 (address) => address.default === true
             )[0];
-            let st_ = {
+            st_ = {
                 ...state,
                 userAddress: action.address,
                 defaultAddress: defaultAddress,
-            };
+            };      
             sessionStorage.setItem("address", JSON.stringify(st_));
             return st_;
         case GET_SINGLE_ADDRESS_BY_ID:

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,13 +13,9 @@ import RoomIcon from "@material-ui/icons/Room";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import tikiNow from "../../image/tiki-now2.png";
-import tikixu from "../../image/tikixu.svg";
 
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
-import navbarStyles from "../../styles/NavbarStyles";
-import { useSelector } from "react-redux";
 import SellerHome from "./SellerDashbroadComponents/SellerHome";
 import OrdersManagement from "./SellerDashbroadComponents/OrdersManagement";
 import ProductsManagement from "./SellerDashbroadComponents/ProductsManagement";
@@ -27,25 +24,35 @@ import Stocks from "./SellerDashbroadComponents/Stocks";
 import BillingInformation from "./SellerDashbroadComponents/BillingInfomation";
 import CustomerService from "./SellerDashbroadComponents/CustomerService";
 import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
-import { Typography } from "antd";
-import { IconButton, Fab } from "@material-ui/core";
-import { ChatEngine } from "react-chat-engine";
-import {
-    NotificationsOutlined,
-    ArrowBackOutlined,
-    ChatBubbleOutline,
-    CloseRounded,
-} from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import DashboardHeader from "./DashboardHeader";
 
-const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
+import * as shopActions from "../../store/actions/shopActions";
+import { getAllOrdersOfAShop } from "../../store/actions/orderActions";
+import { getProductsByShopId } from "../../store/actions/productActions";
+import { getConfigsByShopId } from "../../store/actions/configActions";
+import { getAllStocksOfAShop } from "../../store/actions/stockActions";
 
-const SellerDashbroad = (props) => {
+const SellerDashbroad = () => {
     const index = 0;
     const classes = userStyles();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.userData);
+    const shop = useSelector((state) => state.shops.userShop);
     const [selectedIndex, setSelectedIndex] = useState(index);
+
+    useEffect(() => {
+        if (user && (user.role === "seller" || user.role === "admin"))
+            dispatch(shopActions.getShopByUserId(user._id));
+    }, [user, dispatch]);
+
+    useEffect(() => {
+        if (shop) {
+            dispatch(getAllOrdersOfAShop(shop.id));
+            dispatch(getProductsByShopId(shop.id));
+            dispatch(getConfigsByShopId(shop.id));
+            dispatch(getAllStocksOfAShop(shop.id));
+        }
+    }, [shop]);
 
     const options = [
         "Home page",

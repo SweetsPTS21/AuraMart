@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import Moment2 from "moment";
 import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
 import { useSelector } from "react-redux";
@@ -10,15 +9,11 @@ import Card from "../Card/Card";
 import CardHeader from "../Card/CardHeader";
 import CardIcon from "../Card/CardIcon";
 import CardFooter from "../Card/CardFooter";
-import { Accessibility, AccessTime, Update } from "@material-ui/icons";
-import CardAvatar from "../Card/CardAvatar";
-import CardBody from "../Card/CardBody";
-import LoadingSpinner from "../../../layout/LoadingSpinner";
+import { AccessTime, Accessibility, Update } from "@material-ui/icons";
 import UserStats from "../Stats/UserStats";
-import { makeStyles } from "@material-ui/core/styles";
 import ManagementPage from "../ManagementPage";
 
-const AllUsers = (props) => {
+const AllUsers = () => {
     const classes = userStyles();
 
     const allUsers = useSelector((state) => state.users.users); // all users
@@ -36,10 +31,9 @@ const AllUsers = (props) => {
         allUsers !== null
             ? allUsers.filter((user) => user.role === "user")
             : []; // all user with user role
-    const [isLoading, setIsLoading] = useState(false);
+    const [setIsLoading] = useState(false);
 
-    const [currentUserProfile, setCurrentUserProfile] = useState(null);
-    const [showUserCard, setShowUserCard] = useState(false);
+    const [showUserCard] = useState(false);
 
     const [usersLastUpdated, setUsersLastUpdated] = useState(Date.now());
     const [sellersLastUpdated, setSellersLastUpdated] = useState(Date.now());
@@ -56,18 +50,6 @@ const AllUsers = (props) => {
                 setFirstLoad(false);
             }, 750);
     }
-    const pickRandBackground = () => {
-        let bgs = [
-            "https://i.imgur.com/w5tX1Pn.jpg",
-            "https://i.imgur.com/uDYejhJ.jpg",
-            "https://images.unsplash.com/photo-1505015390928-f9e55218544f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-            "https://images.unsplash.com/photo-1507984211203-76701d7bb120?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80",
-            "https://images.unsplash.com/photo-1498100152307-ce63fd6c5424?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-            "https://images.unsplash.com/photo-1482235225574-c37692835cf3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80",
-            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80",
-        ];
-        return bgs[Math.floor(Math.random() * bgs.length)];
-    };
     const handleFilter = (filter) => {
         setIsLoading(true);
         switch (filter) {

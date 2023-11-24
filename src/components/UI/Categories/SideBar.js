@@ -5,13 +5,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import StarRateIcon from "@material-ui/icons/Star";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 const SidebarItem = ({
     label,
     items,
-    item,
     depthStep = 10,
     depth = 0,
     ...rest
@@ -212,7 +210,7 @@ const Sidebar = ({ items, item, item2, depthStep, depth, handleFilter }) => {
             <p style={{ paddingLeft: "1em", fontWeight: 600 }}>Theo thương hiệu</p>
             <List style={{ size: "small", color: "grey" }}>
                 {item.map((sidebarBrandItem, index) => (
-                    <ListItem button>
+                    <ListItem key={index} button>
                         <ListItemText primary={sidebarBrandItem.label} />
                     </ListItem>
                 ))}
@@ -221,7 +219,7 @@ const Sidebar = ({ items, item, item2, depthStep, depth, handleFilter }) => {
             <p style={{ paddingLeft: "1em", fontWeight: 600 }}>Theo nơi bán</p>
             <List style={{ size: "small", color: "grey" }}>
                 {item2.map((sidebarBrandItem, index) => (
-                    <ListItem button>
+                    <ListItem key={index} button>
                         <ListItemText primary={sidebarBrandItem.label} />
                     </ListItem>
                 ))}

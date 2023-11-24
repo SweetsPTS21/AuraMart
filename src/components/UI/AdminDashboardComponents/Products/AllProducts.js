@@ -4,7 +4,6 @@ import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../Card/Card";
-import ProductCard from "../../Card";
 import CardHeader from "../Card/CardHeader";
 import CardIcon from "../Card/CardIcon";
 
@@ -17,7 +16,6 @@ import List from "@material-ui/core/List";
 import classNames from "classnames";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import NoPhoto from "../../../../image/nophoto.png";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
@@ -25,7 +23,7 @@ import Fab from "@material-ui/core/Fab";
 import ProductStats from "../Stats/ProductStats";
 import ManagementPage from "../ManagementPage";
 
-const AllProducts = (props) => {
+const AllProducts = () => {
     const classes = userStyles();
     const reviews = useSelector((state) => state.reviews.allReviews);
     const allProducts = useSelector((state) => state.products.products);
@@ -34,7 +32,7 @@ const AllProducts = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
 
-    const [productsLastUpdated, setProductsLastUpdated] = useState(Date.now());
+    const [productsLastUpdated] = useState(Date.now());
     const [toggleList, setToggleList] = useState(false);
     const [filterOptions, setFilterOptions] = useState("createdAt");
 

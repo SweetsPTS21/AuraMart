@@ -12,9 +12,8 @@ import Banner5 from "../../image/banner5.png";
 import Banner6 from "../../image/banner6.png";
 import Banner7 from "../../image/banner7.jpg";
 import Banner8 from "../../image/banner8.jpg";
-import zIndex from "@material-ui/core/styles/zIndex";
 
-const ProductCategoryDeal = (props) => {
+const ProductCategoryDeal = () => {
     const classes = userStyles();
 
     return (

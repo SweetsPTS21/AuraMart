@@ -1,15 +1,13 @@
 import React, {useEffect} from 'react'
-import NavBar from "../layout/NavBar";
-import Footer from "../layout/Footer";
 import AdminDashBoard from "../UI/AdminDashboard";
 import * as userActions from "../../store/actions/userActions";
 import {useDispatch} from "react-redux";
 
 
-const AdminPage = (props) => {
+const AdminPage = () => {
     const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(userActions.getAllUsers());
+        dispatch(userActions.getAllUsers("?limit=100&sort=-createdAt"));
     },[]);
     return (
         <div style={{ backgroundColor: "#EEEEEE"}}>

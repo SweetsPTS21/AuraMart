@@ -7,8 +7,8 @@ export const GET_USER_BY_ID = "GET_USER_BY_ID";
 const api_url = process.env.REACT_APP_API;
 
 // 🔒 admin
-export const getAllUsers = () => async (dispatch) => {
-    const url = `${api_url}/api/v1/users`;
+export const getAllUsers = (query) => async (dispatch) => {
+    const url = `${api_url}/api/v1/users${query ? query : ""}`;
 
     await axios
         .get(url)
@@ -23,7 +23,7 @@ export const getAllUsers = () => async (dispatch) => {
 
             // message.success("Got all users");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting all users");
         });
 };
@@ -44,7 +44,7 @@ export const getUserById = (id) => async (dispatch) => {
 
             // return message.success("Got user");
         })
-        .catch((err) => {
+        .catch(() => {
             // axios.defaults.headers.common['Authorization'] = axios.defaults.headers.common['Authorization'].slice(7);
             return message.error("Error getting user");
         });
@@ -65,11 +65,11 @@ export const createNewUser = (user) => async (dispatch) => {
                 message.destroy();
                 return message.error("Error creating user");
             }
-            dispatch(getAllUsers());
+            dispatch(getAllUsers("?limit=100&sort=-createdAt"));
             message.destroy();
             return message.success("User created successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.destroy();
             return message.error("Error creating user");
         });
@@ -86,7 +86,7 @@ export const updateUserById = (user, userId) => async (dispatch) => {
                 message.destroy();
                 return message.error("Error updating User");
             }
-            await dispatch(getAllUsers());
+            await dispatch(getAllUsers("?limit=100&sort=-createdAt"));
             message.destroy();
             message.success("User updated successfully");
         })
@@ -107,7 +107,7 @@ export const deleteUserById = (userId) => async (dispatch) => {
                 message.destroy();
                 return message.error("Error deleting user");
             }
-            dispatch(getAllUsers());
+            dispatch(getAllUsers("?limit=100&sort=-createdAt"));
             message.destroy();
             message.success("User deleted successfully");
         })

@@ -12,8 +12,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-    MuiPickersUtilsProvider,
     KeyboardDatePicker,
+    MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import * as authActions from "../../store/actions/authActions";
@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import Moment from "moment";
 import { message } from "antd";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     // radio style
     root: {
         "&:hover": {

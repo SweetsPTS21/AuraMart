@@ -15,14 +15,14 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import { styled } from "@mui/material/styles";
 import {
-    tikiCardHeader,
-    whiteColor,
-    tikiColor,
     blackColor,
     hexToRgb,
+    tikiCardHeader,
+    tikiColor,
+    whiteColor,
 } from "../Card/styles/material-dashboard-react.js";
 import "@progress/kendo-theme-default/dist/all.css";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../utils/firebaseConfig";
 
 export const countries = [
@@ -475,19 +475,19 @@ const UpdateAProductForm = (props) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isCategoryEmpty",
-            (value) => category.length > 0
+            () => category.length > 0
         );
         ValidatorForm.addValidationRule(
             "isSpecsEmpty",
-            (value) => specs.length > 0
+            () => specs.length > 0
         );
         ValidatorForm.addValidationRule(
             "isDescriptionEmpty",
-            (value) => description.length > 0
+            () => description.length > 0
         );
         ValidatorForm.addValidationRule(
             "isDiscountNotLowerThanZero",
-            (value) => discount >= 0
+            () => discount >= 0
         );
         ValidatorForm.addValidationRule(
             "isShopInputEmpty",
@@ -645,7 +645,7 @@ const UpdateAProductForm = (props) => {
                                             defaultValue={category}
                                             options={categoryOptions}
                                             getOptionLabel={(option) => option}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option, ) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -864,7 +864,7 @@ const UpdateAProductForm = (props) => {
                                             onChange={(e, value) => {
                                                 setOrigin(value.label);
                                             }}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option, ) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -1007,7 +1007,7 @@ const UpdateAProductForm = (props) => {
                                                     autoHighlight
                                                     renderOption={(
                                                         option,
-                                                        state
+                                                        
                                                     ) => (
                                                         <p
                                                             style={{

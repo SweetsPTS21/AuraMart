@@ -1,19 +1,19 @@
 import {
     container,
-    defaultFont,
-    primaryColor,
+    dangerColor,
     defaultBoxShadow,
+    defaultFont,
+    grayColor,
     infoColor,
+    primaryColor,
     successColor,
     warningColor,
-    dangerColor,
     whiteColor,
-    grayColor,
 } from "../Card/styles/material-dashboard-react.js";
 import { makeStyles } from "@material-ui/core/styles";
 import { hexToRgb } from "../Card/styles/material-dashboard-react";
 
-const userStyles = makeStyles((theme) => ({
+const userStyles = makeStyles(() => ({
     appBar: {
         backgroundColor: "transparent",
         color: grayColor[7],

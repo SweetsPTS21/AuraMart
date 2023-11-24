@@ -37,7 +37,7 @@ export const getUserAddress = (userId) => async (dispatch) => {
 
             // message.success("Got reviews");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting user address");
         });
 };

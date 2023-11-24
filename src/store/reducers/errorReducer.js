@@ -1,4 +1,4 @@
-import { GET_ERRORS, CLEAR_ERRORS } from "../actions/productActions";
+import { CLEAR_ERRORS, GET_ERRORS } from "../actions/productActions";
 
 const initialState = {
 };

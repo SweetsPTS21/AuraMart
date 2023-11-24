@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Autocomplete,
-    TextField,
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    Pagination,
+    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    IconButton,
-    Pagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
+    TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled, useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    getAllOrdersOfAShop,
     updateOrderById,
 } from "../../../store/actions/orderActions";
 import MuiSelect from "../../layout/MuiSelect";
@@ -121,8 +120,7 @@ const DialogDelete = (props) => {
 const UpdateOrder = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { open, setOpen, order, type } = props;
-    const [showOrderCard, setShowOrderCard] = useState(false);
+    const { open, setOpen, order } = props;
 
     const [name, setName] = useState(order.name);
     const [phone, setPhone] = useState(order.phone);
@@ -251,7 +249,6 @@ const UpdateOrder = (props) => {
 const OrdersManagement = () => {
     const theme = useTheme();
     const classes = useStyles();
-    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -260,11 +257,8 @@ const OrdersManagement = () => {
     const itemsPerPage = 5;
     const [currentItem, setCurrentItem] = useState({});
 
-    const shop = useSelector((state) => state.shops.userShop);
     const orders = useSelector((state) => state.orders.allShopOrders);
-    useEffect(() => {
-        if (shop) dispatch(getAllOrdersOfAShop(shop.id));
-    }, [shop]);
+
 
     const filteredOrders = orders
         ? orders.filter((order) =>
@@ -381,7 +375,7 @@ const OrdersManagement = () => {
                                             style={{ width: "152px" }}
                                         >
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     handleOpenDialog(1, order)
                                                 }
                                                 color="primary"
@@ -389,7 +383,7 @@ const OrdersManagement = () => {
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     setOpenDialog(true)
                                                 }
                                                 color="error"

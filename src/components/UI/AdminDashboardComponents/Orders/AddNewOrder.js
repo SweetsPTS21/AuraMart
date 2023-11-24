@@ -14,11 +14,11 @@ import * as orderActions from "../../../../store/actions/orderActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import {
-    tikiCardHeader,
-    whiteColor,
-    tikiColor,
     blackColor,
     hexToRgb,
+    tikiCardHeader,
+    tikiColor,
+    whiteColor,
 } from "../Card/styles/material-dashboard-react.js";
 import TextField from "@material-ui/core/TextField";
 import "@progress/kendo-theme-default/dist/all.css";
@@ -171,7 +171,7 @@ const AddNewOrder = () => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isCategoryEmpty",
-            (value) => currentState !== null
+            () => currentState !== null
         );
         ValidatorForm.addValidationRule(
             "isShopInputEmpty",
@@ -238,7 +238,7 @@ const AddNewOrder = () => {
                                             value={currentState}
                                             options={currentStateOptions}
                                             getOptionLabel={(option) => option}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -317,7 +317,7 @@ const AddNewOrder = () => {
                                                 option.name + "  " + option._id
                                             }
                                             autoHighlight
-                                            renderOption={(option, state) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -381,7 +381,7 @@ const AddNewOrder = () => {
                                                 option.name + "  " + option._id
                                             }
                                             autoHighlight
-                                            renderOption={(option, state) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",

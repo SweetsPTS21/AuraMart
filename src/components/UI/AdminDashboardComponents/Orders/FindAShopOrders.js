@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import userStyles from "../styles/FindAUserStyles";
 import classNames from "classnames";
-import Moment2 from "moment";
-import Moment from "react-moment";
 
 import * as orderActions from "../../../../store/actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";

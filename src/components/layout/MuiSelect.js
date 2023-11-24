@@ -54,7 +54,7 @@ const grey = {
 };
 
 const CustomButton = React.forwardRef(function CustomButton(props, ref) {
-    const { ownerState, ...other } = props;
+    const { ...other } = props;
     return (
         <StyledButton type="button" {...other} ref={ref}>
             {other.children}

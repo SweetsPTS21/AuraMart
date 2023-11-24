@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import DashboardPage from "./components/pages/DashboardPage";
@@ -15,9 +15,9 @@ import OrderResultPage from "./components/pages/OrderResultPage";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./store";
+import { persistor, store } from "./store";
 import setAuthToken from "./utils/setAuthToken";
-import { logoutUser, setCurrentUser } from "./store/actions/authActions";
+import { setCurrentUser } from "./store/actions/authActions";
 import { getAllProducts } from "./store/actions/productActions";
 import { getCart } from "./store/actions/cartActions";
 import { getAllShops } from "./store/actions/shopActions";
@@ -47,7 +47,7 @@ const actionsOnPageLoad = () => {
         // Set user and isAuthenticated
         store.dispatch(setCurrentUser(decoded));
         // Check for expired token
-        const currentTime = Date.now() / 1000;
+        //const currentTime = Date.now() / 1000;
         // if (decoded.exp < currentTime) {
         //     // Logout user
         //     store.dispatch(logoutUser());

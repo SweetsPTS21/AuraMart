@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import userStyles from "../styles/FindAUserStyles";
-import { useSelector } from "react-redux";
 import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
@@ -21,7 +20,7 @@ const ProductStats = (props) => {
 
     const [productChart, setProductChart] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [productLastUpdated, setProductLastUpdated] = useState(Date.now());
+    const [productLastUpdated] = useState(Date.now());
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -35,7 +34,7 @@ const ProductStats = (props) => {
         let Last7daysReviewCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allProducts !== null &&
-            allProducts.forEach((review, index) => {
+            allProducts.forEach((review) => {
                 if (
                     Moment2(review.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,7 +12,7 @@ import RecommendProduct from "../layout/RecommendProduct";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router-dom";
-import { Link, Element, animateScroll as scroll } from "react-scroll";
+import { Element, Link } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
 
 import NavBar from "../layout/NavBar";
@@ -20,7 +20,7 @@ import Voucher from "../UI/Voucher";
 import Footer from "../layout/Footer";
 import ItemContainer from "../UI/ItemContainer";
 import LoadingSpinner from "../layout/LoadingSpinner";
-import { newChat, addPerson, getChats } from "react-chat-engine";
+import { addPerson, getChats, newChat } from "react-chat-engine";
 
 import * as shopActions from "../../store/actions/shopActions";
 import * as productAction from "../../store/actions/productActions";
@@ -33,7 +33,7 @@ const defaultBackground =
 const defaultAvatar =
     "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles(() => ({
     root: {
         display: "flex",
         justifyContent: "center",
@@ -133,7 +133,6 @@ const useStyle = makeStyles((theme) => ({
         borderRadius: "0.5em",
         padding: "0.5em",
         backgroundColor: "#FFFFFF",
-        borderRadius: "0.5em",
     },
     navItem: {
         display: "flex",
@@ -161,18 +160,18 @@ const ShopInfo = (props) => {
     const classes = useStyle();
     const shop = props.shop ? props.shop : {};
     const decoration = props.decorationsInShop;
-    const shopBackground = decoration[1] ? decoration[1] : defaultBackground;
+    const shopBackground = decoration[1] !== "decor2" ? decoration[1] : defaultBackground;
     const shopAvatar =
         shop.avatar !== "no-photo.jpg" ? shop.avatar : defaultAvatar;
 
     const userData = useSelector((state) => state.auth.userData);
     const [chatID, setChatID] = useState(null);
-
     const chatEngineData = {
         projectID: "0c8bb7fc-8146-4063-99f5-77c2f518da58",
         userName: userData.email,
         userPassword: userData._id,
     };
+
 
     const createNewChat = () => {
         newChat(
@@ -326,9 +325,8 @@ const ShopInfo = (props) => {
 
 //All products of a shop
 const ShopProducts = (props) => {
-    const classes = useStyle();
     const products = props.productsInShop ? props.productsInShop : [];
-    const [seeMoreDiscountedProd, setSeeMoreDiscountedProd] = useState(10);
+    const [seeMoreDiscountedProd] = useState(10);
     const [loadingDisProd, setLoadingDisProd] = useState(false);
 
     const renderShopProducts = () => {
@@ -376,9 +374,8 @@ const ShopProducts = (props) => {
 
 //Deal products of day
 const DealProducts = (props) => {
-    const classes = useStyle();
     const products = props.productsInShop ? props.productsInShop : [];
-    const [seeMoreProd, setSeeMoreProd] = useState(20);
+    const [setSeeMoreProd] = useState(20);
     const [loadingProd, setLoadingProd] = useState(false);
 
     const renderDealProducts = () => {
@@ -548,7 +545,7 @@ const ShopPage = (props) => {
             dispatch(configActions.getConfigsByShopId(shopId));
             dispatch(voucherActions.getVouchersByShopId(shopId));
         }
-    }, [shopId]);
+    }, [shopId, dispatch]);
 
     return (
         <div

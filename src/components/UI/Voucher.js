@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button, Typography } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -62,7 +62,6 @@ const userStyles = makeStyles(() => ({
 
 const DialogDelete = (props) => {
     const openDialog = props.open;
-    const dispatch = useDispatch();
 
     const handleClose = () => {
         props.setOpen(false);

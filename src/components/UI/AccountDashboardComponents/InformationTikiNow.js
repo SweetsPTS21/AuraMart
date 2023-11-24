@@ -155,7 +155,7 @@ function a11yProps(index) {
     };
 }
 
-const InformationTikiNow = (props) => {
+const InformationTikiNow = () => {
     const classes = userStyles();
     const [tabValue, setTabValue] = useState("one");
 

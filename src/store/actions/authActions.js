@@ -151,7 +151,7 @@ export const logoutUser = () => async (dispatch) => {
     const url = `${api_url}/api/v1/auth/logout`;
     await axios
         .get(url)
-        .then((res) => {
+        .then(() => {
             message.success("Logged user out");
             // Remove token from localStorage
             localStorage.removeItem("jwtToken");
@@ -159,14 +159,20 @@ export const logoutUser = () => async (dispatch) => {
             setAuthToken(false);
             // Set current user to {} which will set isAuthenticated to false
             dispatch(setCurrentUser({}));
+
+            // clear redux store
+            dispatch({
+                type: "CLEAR_SHOP",
+            });
+
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Unable to log user out");
         });
 };
 
 // 🔓 Forgot Password
-export const forgotPassword = (email) => async (dispatch) => {
+export const forgotPassword = (email) => async () => {
     let url = `${api_url}/api/v1/auth/forgotpassword`;
     await axios
         .post(url, email)

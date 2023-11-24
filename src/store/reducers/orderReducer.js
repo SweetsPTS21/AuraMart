@@ -1,4 +1,4 @@
-import {GET_SINGLE_ORDER_BY_ID, GET_ALL_ORDERS_OF_A_SHOP, GET_ALL_ORDERS, GET_MY_ORDERS} from "../actions/orderActions";
+import {GET_ALL_ORDERS, GET_ALL_ORDERS_OF_A_SHOP, GET_MY_ORDERS, GET_SINGLE_ORDER_BY_ID} from "../actions/orderActions";
 
 const initialState = {
     allOrders: null,
@@ -7,7 +7,7 @@ const initialState = {
     myOrders: null
 };
 
-export default function (state = initialState, action) {
+export default function orderReducer (state = initialState, action) {
     switch (action.type) {
         case GET_ALL_ORDERS_OF_A_SHOP:
             return {

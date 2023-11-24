@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,16 +12,14 @@ import clsx from "clsx";
 import Check from "@material-ui/icons/Check";
 import StepConnector from "@material-ui/core/StepConnector";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import { StoreRounded } from "@material-ui/icons";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Moment2 from "moment";
-import { Timeline } from "rsuite";
 import { Link } from "react-router-dom";
 import BottleWarmer from "../../../image/bottoleWarmer.jpg";
+import MuiDialog from "../../layout/MuiDialog";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -100,17 +98,16 @@ const userStyles = makeStyles(() => ({
     card__shop__view__button: {
         textTransform: "none",
         backgroundColor: "#ff9100",
-        borderColor: "#ff9100",
         "&:focus": {
             outline: "none",
         },
         "&:hover": {
-            backgroundColor: "rgba(255, 145, 0, 0.1)",
+            backgroundColor: "#ff9100",
         },
         color: "rgba(0,0,0,0.8)",
         fontSize: "0.7em",
         marginLeft: "1em",
-        width: "6em",
+        width: "7em",
         height: "2em",
     },
     card__product: {
@@ -258,7 +255,7 @@ const OrderStep = ({ myOrder }) => {
         if (myOrder.currentState === "Tiki Received") return 1;
         if (myOrder.currentState === "Ordered Successfully") return 0;
     };
-    const [activeStep, setActiveStep] = useState(getCurrentState());
+    const [activeStep] = useState(getCurrentState());
 
     const steps = [
         "Ordered Successfully",
@@ -286,61 +283,18 @@ const OrderStep = ({ myOrder }) => {
     );
 };
 
-const oldStyle = ({ myOrder }) => {
-    const classes = userStyles();
-    const product = myOrder.product;
-
-    const { shop, total, quantity, phone, address, _id, createdAt } = myOrder;
-    return (
-        <>
-            <p
-                style={{
-                    fontSize: "1.4em",
-                    marginBottom: "0.5em",
-                    textAlign: "center",
-                }}
-            >
-                You ordered
-                <Link
-                    to={`/${product.slug}/${product._id}`}
-                    className={classes.removeLinkStyles}
-                >
-                    <span className={classes.boldGreen}> {product.name}</span>{" "}
-                </Link>
-                from <span className={classes.boldGreen}>{shop.name}</span>
-            </p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p>
-                    Original Product Price -{" "}
-                    <span className={classes.priceText}>{product.price}đ</span>
-                </p>
-                <p>
-                    Total Price(discounted) -{" "}
-                    <span className={classes.priceText}>{total}đ</span>
-                </p>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p>Quantity ordered - {quantity}</p>
-                <p style={{ marginTop: "0.5em" }}>Contact is - {phone}</p>
-            </div>
-            <p>Address - {address}</p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p className={classes.boldGreen} style={{ marginTop: "1.5em" }}>
-                    {" "}
-                    Order made on{" "}
-                    {Moment2(createdAt).format("MMMM DD YYYY, h:mm:ss a")}
-                </p>
-                <p style={{ marginTop: "1.5em" }}>Order Id is - {_id}</p>
-            </div>
-        </>
-    );
-};
-
 const OrderCard = ({ myOrder }) => {
     const classes = userStyles();
+    const dispatch = useDispatch();
     const product = myOrder.product;
+    const [openDialog, setOpenDialog] = useState(false);
+    const [currentOrderId, setCurrentOrderId] = useState(null);
 
-    const { shop, total, quantity, phone, address, _id, createdAt } = myOrder;
+    const { shop, total, quantity } = myOrder;
+
+    const handleCancelOrder = () => {
+        dispatch(orderActions.cancelOrder(currentOrderId));
+    };
 
     return (
         <div className={classes.grid2}>
@@ -352,10 +306,13 @@ const OrderCard = ({ myOrder }) => {
                         <Typography style={{ marginLeft: "0.5em" }}>
                             {shop.name}
                         </Typography>
-                        <Link to={`/tiki/shops/${shop._id}`} >
-                        <Button className={classes.card__shop__view__button} >
-                            Xem shop
-                        </Button>
+                        <Link to={`/tiki/shops/${shop._id}`}>
+                            <Button
+                                variant="contained"
+                                className={classes.card__shop__view__button}
+                            >
+                                Xem shop
+                            </Button>
                         </Link>
                     </Grid>
                     <Grid item xs={6} className={classes.card__order__status}>
@@ -482,19 +439,66 @@ const OrderCard = ({ myOrder }) => {
                                 justifyContent: "flex-end",
                             }}
                         >
-                            <Button className={classes.button}>
-                                Hủy đơn hàng
-                            </Button>
-                            <Button className={classes.button}>
+                            {myOrder.currentState === "Ordered Successfully" ||
+                            myOrder.currentState === "Tiki Received" ? (
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        height: "2em",
+                                        fontSize: "1em",
+                                        textTransform: "none",
+                                        margin: 0,
+                                        marginLeft: "1em",
+                                        marginTop: "1em",
+                                        marginBottom: "1em",
+                                    }}
+                                    onClick={() => {
+                                        setCurrentOrderId(myOrder._id);
+                                        setOpenDialog(true);
+                                    }}
+                                >
+                                    Hủy đơn hàng
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        height: "2em",
+                                        fontSize: "1em",
+                                        textTransform: "none",
+                                        margin: 0,
+                                        marginLeft: "1em",
+                                        marginTop: "1em",
+                                        marginBottom: "1em",
+                                    }}
+                                    disabled
+                                >
+                                    Hủy đơn hàng
+                                </Button>
+                            )}
+                            <Button
+                                variant="contained"
+                                className={classes.button}
+                            >
                                 Xem chi tiết đơn hàng
                             </Button>
-                            <Button className={classes.button}>
-                                Liên hệ shop
-                            </Button>
+                            <Link to={`/tiki/shops/${shop._id}`}>
+                                <Button
+                                    variant="contained"
+                                    className={classes.button}
+                                >
+                                    Liên hệ shop
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
+            <MuiDialog
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+                handleConfirm={handleCancelOrder}
+            />
         </div>
     );
 };
@@ -600,16 +604,10 @@ const OrderPanel = (props) => {
     );
 };
 
-const OrderManagement = (props) => {
+const OrderManagement = () => {
     const classes = userStyles();
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.auth.user.id);
     const myOrders = useSelector((state) => state.orders.myOrders);
     const allProduct = useSelector((state) => state.products.products);
-
-    useEffect(() => {
-        dispatch(orderActions.getOrdersByUserId(userId));
-    }, []);
 
     return (
         <div style={{ width: "100%" }}>
@@ -638,7 +636,7 @@ const OrderManagement = (props) => {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}
-                                style={{height: "3em", fontSize: "1.2em"}}
+                                style={{ height: "3em", fontSize: "1.2em" }}
                             >
                                 Continue shopping
                             </Button>

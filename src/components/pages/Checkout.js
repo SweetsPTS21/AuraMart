@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -15,9 +15,6 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 
-import FacebookIcon from "@material-ui/icons/Facebook";
-import zaloLogo from "../../image/Logo_Zalo.png";
-import Icon from "@material-ui/core/Icon";
 import Login from "../user/Login";
 import SignUp from "../user/SignUp";
 import hotline from "../../image/hotline.png";
@@ -26,9 +23,6 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 
 import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
 import VNPAY from "../../image/icon-zalopay.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
@@ -37,7 +31,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import * as orderActions from "../../store/actions/orderActions";
 import { Link, useNavigate } from "react-router-dom";
 import { loadCSS } from "fg-loadcss";
-import * as authActions from "../../store/actions/authActions";
 import * as cartActions from "../../store/actions/cartActions";
 import * as addressActions from "../../store/actions/addressActions";
 
@@ -183,7 +176,6 @@ const formatVND = (x) => {
 
 const Bill = () => {
     const classes = useStyles();
-    const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
     const cartTotalAmountDiscounted = useSelector(
         (state) => state.cart.totalAmount_discounted
     );
@@ -403,7 +395,7 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
     const [address, setAddress] = useState(
         shipAddress ? shipAddress.address : ""
     );
-    const [radio, setRadio] = useState(
+    const [radio] = useState(
         shipAddress ? shipAddress.radio : "home"
     );
     const listAddress = useSelector((state) => state.address.userAddress);
@@ -684,7 +676,7 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                     <>
                         <div className={classes.title}>Địa chỉ đã lưu</div>
                         {listAddress !== null && listAddress.length > 0 ? (
-                            listAddress.map((address, index) => (
+                            listAddress.map((address) => (
                                 <div
                                     style={{
                                         backgroundColor: "white",
@@ -861,17 +853,12 @@ const PaymentMethodUI = ({
     payment,
     setPayment,
 }) => {
-    const cartInfo = useSelector((state) => state.cart.items);
     const [shipping, setShipping] = useState("standard");
-    const [payXu, setPayXu] = useState(false);
 
     const handleShipping = (event) => {
         setShipping(event.target.value);
     };
 
-    const handlePayxu = (event) => {
-        setPayXu(event.target.value);
-    };
 
     const handlePayment = (event) => {
         setPayment(event.target.value);
@@ -1186,11 +1173,10 @@ const BodyTemplate = ({
     }
 };
 
-const Checkout = (props) => {
+const Checkout = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.userData);
     const curUser = useSelector((state) => state.auth.user);
     const defaultAddress = useSelector((state) => state.address.defaultAddress);
 
@@ -1222,10 +1208,6 @@ const Checkout = (props) => {
 
     const [activeStep, setActiveStep] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [firstLoad, setFirstLoad] = useState(true);
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [phoneNo, setPhoneNo] = useState("");
     const [shipAddress, setShipAddress] = useState("");
     const [currentAddress, setCurrentAddress] = useState(
         useSelector((state) => state.address.currentAddress)
@@ -1246,17 +1228,6 @@ const Checkout = (props) => {
         }
     }, []);
 
-    if (
-        firstLoad &&
-        (user.address !== undefined ||
-            user.phone !== undefined ||
-            user.name !== undefined)
-    ) {
-        setAddress(user.address);
-        setPhoneNo(user.phone);
-        setName(user.name);
-        setFirstLoad(false);
-    }
 
     if (defaultAddress !== currentAddress) {
         setCurrentAddress(defaultAddress);
@@ -1273,7 +1244,7 @@ const Checkout = (props) => {
     const handleReset = () => {
         setActiveStep(0);
     };
-    const handleOrder = async (e) => {
+    const handleOrder = async () => {
         setLoading(true);
         const msg = message.loading("Ordering!", 0);
         for (let i = 0; i < cartItems.length; i++) {

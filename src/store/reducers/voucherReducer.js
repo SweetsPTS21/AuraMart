@@ -1,9 +1,9 @@
 import {
     GET_ALL_VOUCHERS,
-    GET_VOUCHER_BY_ID,
-    GET_VOUCHER_BY_CODE,
     GET_VOUCHERS_BY_SHOP_ID,
     GET_VOUCHERS_BY_USER_ID,
+    GET_VOUCHER_BY_CODE,
+    GET_VOUCHER_BY_ID,
 } from "../actions/voucherActions";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
     shopVouchers: null,
 };
 
-export default function (state = initialState, action) {
+export default function voucherReducer(state = initialState, action) {
     switch (action.type) {
         case GET_ALL_VOUCHERS:
             return {

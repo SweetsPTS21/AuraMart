@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 // @material-ui/icons
 import Clear from "@material-ui/icons/Clear";
 import Check from "@material-ui/icons/Check";
@@ -30,11 +29,6 @@ export default function CustomInput(props) {
     const labelClasses = classNames({
         [" " + classes.labelRootError]: error,
         [" " + classes.labelRootSuccess]: success && !error,
-    });
-    const underlineClasses = classNames({
-        [classes.underlineError]: error,
-        [classes.underlineSuccess]: success && !error,
-        [classes.underline]: true,
     });
     const marginTop = classNames({
         [classes.marginTop]: labelText === undefined,

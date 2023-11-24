@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import OrderStats from "../AdminDashboardComponents/Stats/OrderStats";
@@ -13,13 +13,13 @@ import CardFooter from "../AdminDashboardComponents/Card/CardFooter";
 import Moment from "react-moment";
 import {
     Accessibility,
-    Update,
-    Store,
     Money,
     Report,
+    Store,
+    Update,
 } from "@material-ui/icons";
 import ReviewStats from "../AdminDashboardComponents/Stats/ReviewStats";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         width: "100%",
         display: "flex",
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeConfig = (props) => {
     const classes = useStyles();
-    const [ordersLastUpdated, setOrdersLastUpdated] = useState(Date.now());
+    const [ordersLastUpdated] = useState(Date.now());
     const products = props.products ? props.products : [];
     return (
         <>
@@ -206,7 +206,7 @@ const SellerHome = () => {
             dispatch(getAllOrdersOfAShop(shop.id));
             dispatch(getProductsByShopId(shop.id));
         }
-    }, [shop]);
+    }, [shop, dispatch]);
 
     return (
         <div className={classes.root}>

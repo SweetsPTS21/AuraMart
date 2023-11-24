@@ -1,8 +1,6 @@
 import userStyles from "../styles/FindAUserStyles";
 import Card from "../Card/Card";
-import CardAvatar from "../Card/CardAvatar";
 import CardBody from "../Card/CardBody";
-import Rating from "@material-ui/lab/Rating";
 import Moment2 from "moment";
 import React, { useState } from "react";
 import { Timeline } from "rsuite";

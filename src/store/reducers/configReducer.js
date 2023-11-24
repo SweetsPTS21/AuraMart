@@ -1,7 +1,7 @@
 import {
     GET_ALL_CONFIGS,
-    GET_CONFIG_BY_ID,
     GET_CONFIGS_BY_SHOP_ID,
+    GET_CONFIG_BY_ID,
 } from "../actions/configActions";
 
 const initialState = {

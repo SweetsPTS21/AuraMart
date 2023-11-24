@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../Card/Card";
 import CardHeader from "../Card/CardHeader";
@@ -12,22 +12,18 @@ import { Accessibility, Update } from "@material-ui/icons";
 import CardFooter from "../Card/CardFooter";
 import {
     Autocomplete,
-    TextField,
     Button,
+    
+    Pagination,
+    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
+    TextField,
     Typography,
-    Paper,
-    Pagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import Fab from "@material-ui/core/Fab";
@@ -61,48 +57,12 @@ const OrderTableHead = styled(TableHead)(({ theme }) => ({
     },
 }));
 
-const DialogDelete = (props) => {
-    const { openDialog, setOpenDialog, handleConfirmDelete } = props;
-
-    const handleClose = () => {
-        setOpenDialog(false);
-    };
-
-    const handleConfirm = () => {
-        handleConfirmDelete();
-        setOpenDialog(false);
-    };
-
-    return (
-        <Dialog
-            open={openDialog}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"Warning!"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Do you want to delete this item?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleConfirm} autoFocus>
-                    Yes
-                </Button>
-                <Button onClick={handleClose}>No</Button>
-            </DialogActions>
-        </Dialog>
-    );
-};
-
 const ShopToApprove = (props) => {
     const { shopsToApprove } = props;
     const theme = useTheme();
     const classes = userStyles();
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState("");
-    const [currentShop, setCurrentShop] = useState(null);
     const [page, setPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -132,7 +92,7 @@ const ShopToApprove = (props) => {
     };
 
     return (
-        <>
+        <div>
             <Typography variant="h5">Duyệt cửa hàng</Typography>
             <div
                 style={{
@@ -273,11 +233,11 @@ const ShopToApprove = (props) => {
                     justifyContent: "center",
                 }}
             />
-        </>
+        </div>
     );
 };
 
-const AllShops = (props) => {
+const AllShops = () => {
     const classes = userStyles();
     const allShops = useSelector((state) => state.shops.shops); // shops
     const [shops, setShops] = useState(null); // to update users that are rendered
@@ -286,12 +246,9 @@ const AllShops = (props) => {
     const [toggleShop, setToggleShop] = useState(false);
     const [currentShop, setCurrentShop] = useState(null);
 
-    const [toggleSortOrder, setToggleSortOrder] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [shopsLastUpdated, setShopsLastUpdated] = useState(Date.now());
-    const [toggleList, setToggleList] = useState(false);
-    const [filterOptions, setFilterOptions] = useState("createdAt");
+    const [shopsLastUpdated] = useState(Date.now());
 
     if (firstLoad) {
         // users wouldn't have been set so we use settimeout

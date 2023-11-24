@@ -18,22 +18,20 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ReviewStats from "../Stats/ReviewStats";
 import ChatIcon from "@material-ui/icons/Chat";
-import { ReviewCard } from "./ReviewCard";
 import Fab from "@material-ui/core/Fab";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ManagementPage from "../ManagementPage";
 
-const AllReviews = (props) => {
+const AllReviews = () => {
     const classes = userStyles();
     const allReviews = useSelector((state) => state.reviews.allReviews);
 
-    const allUsers = useSelector((state) => state.users.users); // all users
     const [reviews, setReviews] = useState(null); // to update users that are rendered
     const [firstLoad, setFirstLoad] = useState(true);
 
-    const [reviewLastUpdated, setReviewLastUpdated] = useState(Date.now());
+    const [reviewLastUpdated] = useState(Date.now());
     const [toggleList, setToggleList] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
     const [filterOptions, setFilterOptions] = useState("createdAt");
@@ -48,9 +46,9 @@ const AllReviews = (props) => {
             }, 1000);
     }
 
-    const getReviewOwner = (userId) => {
-        return allUsers.find((user) => user._id === userId);
-    };
+    // const getReviewOwner = (userId) => {
+    //     return allUsers.find((user) => user._id === userId);
+    // };
 
     const handleFilter = (sortDescending) => {
         setIsLoading(true);

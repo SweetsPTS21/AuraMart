@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import userStyles from "../styles/FindAUserStyles";
-import { useSelector } from "react-redux";
 import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
@@ -22,7 +21,7 @@ const ReviewStats = (props) => {
     const [reviewChart, setReviewChart] = useState(null);
     const [reviewChartRating, setReviewChartRating] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [reviewLastUpdated, setReviewLastUpdated] = useState(Date.now());
+    const [reviewLastUpdated] = useState(Date.now());
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -36,7 +35,7 @@ const ReviewStats = (props) => {
         let Last7daysReviewCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allReviews !== null &&
-            allReviews.forEach((review, index) => {
+            allReviews.forEach((review) => {
                 if (
                     Moment2(review.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")
@@ -151,7 +150,7 @@ const ReviewStats = (props) => {
         let Last7daysReviewCountRatingAverage = [];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
         allReviews !== null &&
-            allReviews.forEach((review, index) => {
+            allReviews.forEach((review) => {
                 if (
                     Moment2(review.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")
@@ -198,7 +197,7 @@ const ReviewStats = (props) => {
                     }
                 }
             });
-        Last7daysReviewCount.forEach((ratingArray, index) => {
+        Last7daysReviewCount.forEach((ratingArray) => {
             Last7daysReviewCountRatingAverage.push(
                 ratingArray.reduce((total, num) => total + num, 0) /
                     ratingArray.length

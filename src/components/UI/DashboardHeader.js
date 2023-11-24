@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import tikiNow from "../../image/tiki-now2.png";
 import tikixu from "../../image/tikixu.svg";
 
 import navbarStyles from "../../styles/NavbarStyles";
 import { Typography } from "antd";
-import { IconButton, Fab, Button } from "@material-ui/core";
+import { Button, Fab, IconButton } from "@material-ui/core";
 import { ChatEngine } from "react-chat-engine";
 import {
-    NotificationsOutlined,
     ArrowBackOutlined,
     ChatBubbleOutline,
     CloseRounded,
-    Dashboard,
+    NotificationsOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,7 +22,7 @@ const DashboardHeader = (props) => {
     const { user } = props;
     const classes = navbarStyles();
     const [openChat, setOpenChat] = useState(false);
-    const shop = useSelector((state) => state.shops.currentShop);
+    const shop = useSelector((state) => state.shops.userShop);
 
     const handleOpenChatPopup = () => {
         setOpenChat(!openChat);
@@ -75,25 +74,27 @@ const DashboardHeader = (props) => {
                                 ? "Kênh quản lý"
                                 : "Kênh người bán"}
                         </Typography>
-                        <Link to={`/tiki/shops/${shop.id}`}>
-                            <Button
-                                style={{
-                                    marginLeft: "1em",
-                                    color: "#fff",
-                                    backgroundColor: "#ff424e",
-                                    textTransform: "none",
-                                    "&:focus": {
-                                        outline: "none",
-                                    },
-                                    "&:hover": {
+                        {shop && (
+                            <Link to={`/tiki/shops/${shop.id}`}>
+                                <Button
+                                    style={{
+                                        marginLeft: "1em",
+                                        color: "#fff",
                                         backgroundColor: "#ff424e",
-                                    },
-                                }}
-                            >
-                                {" "}
-                                Cửa hàng
-                            </Button>
-                        </Link>
+                                        textTransform: "none",
+                                        "&:focus": {
+                                            outline: "none",
+                                        },
+                                        "&:hover": {
+                                            backgroundColor: "#ff424e",
+                                        },
+                                    }}
+                                >
+                                    {" "}
+                                    Cửa hàng
+                                </Button>
+                            </Link>
+                        )}
                     </Grid>
                     <Grid
                         item

@@ -19,7 +19,7 @@ export const getAllConfigs = () => async (dispatch) => {
             });
             // message.success("Got configs");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting configs");
         });
 };
@@ -37,7 +37,7 @@ export const getConfigById = (id) => async (dispatch) => {
 
             // message.success("Got config");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting config");
         });
 };
@@ -55,7 +55,7 @@ export const getConfigsByShopId = (id) => async (dispatch) => {
 
             // message.success("Got configs");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting configs");
         });
 };
@@ -69,10 +69,10 @@ export const createNewConfig = (config, id) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error creating config");
             }
-            dispatch(getAllConfigs());
+            dispatch(getConfigsByShopId(id));
             message.success("config created successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error creating config");
         });
 };
@@ -86,10 +86,10 @@ export const updateConfigById = (shopId, config, id) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error updating config");
             }
-            dispatch(getAllConfigs());
+            dispatch(getConfigsByShopId(id));
             message.success("config updated successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error updating config");
         });
 };

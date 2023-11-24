@@ -45,7 +45,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const AddANewReview = (props) => {
+const AddANewReview = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
 
@@ -218,7 +218,7 @@ const AddANewReview = (props) => {
                                                 option.name + "  " + option._id
                                             }
                                             autoHighlight
-                                            renderOption={(option, state) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",

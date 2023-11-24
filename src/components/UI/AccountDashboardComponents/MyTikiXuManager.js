@@ -73,7 +73,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const MyTikiXuManager = (props) => {
+const MyTikiXuManager = () => {
     const classes = userStyles();
     const [supplier, setSupplier] = useState("");
     const [giftCode, setGiftCode] = useState("");

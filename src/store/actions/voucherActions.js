@@ -22,7 +22,7 @@ export const getAllVouchers = () => async (dispatch) => {
             });
             // message.success("Got vouchers");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting vouchers");
         });
 };
@@ -41,7 +41,7 @@ export const getVoucherById = (id) => async (dispatch) => {
 
             // message.success("Got voucher");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting voucher");
         });
 };
@@ -58,19 +58,21 @@ export const getVoucherByCode = (code, userId) => async (dispatch) => {
                     voucher: res.data.data,
                 });
                 // If success save voucher to user
-                dispatch(addUserVoucherByUserId(userId, res.data.data._id));
+                if (userId) {
+                    dispatch(addUserVoucherByUserId(userId, res.data.data._id));
+                }
                 
                 message.success("Success");
             } else {
                 message.error(res.data.error);
             }
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting voucher");
         });
 };
 
-export const checkVoucherStatus = (userId, id) => async (dispatch) => {
+export const checkVoucherStatus = (userId, id) => async () => {
     const url = `${api_url}/api/v1/users/${userId}/vouchers/${id}`;
     await axios
         .get(url)
@@ -80,7 +82,7 @@ export const checkVoucherStatus = (userId, id) => async (dispatch) => {
             }
             return false;
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting voucher");
         });
 };
@@ -99,7 +101,7 @@ export const getVouchersByShopId = (id) => async (dispatch) => {
 
             // message.success("Got vouchers");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting vouchers");
         });
 };
@@ -116,12 +118,12 @@ export const getVouchersByUserId = (id) => async (dispatch) => {
 
             // message.success("Got vouchers");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting vouchers");
         });
 };
 
-export const addUserVoucherByUserId = (id, voucherId) => async (dispatch) => {
+export const addUserVoucherByUserId = (id, voucherId) => async () => {
     const url = `${api_url}/api/v1/users/${id}/vouchers/${voucherId}`;
     await axios
         .post(url)
@@ -132,7 +134,7 @@ export const addUserVoucherByUserId = (id, voucherId) => async (dispatch) => {
                 message.error(res.data.error);
             }
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error adding voucher");
         });
 };
@@ -151,7 +153,7 @@ export const createNewVoucher = (voucher, id) => async (dispatch) => {
             }
             dispatch(getVouchersByShopId(id));
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error creating voucher");
         });
 };
@@ -170,7 +172,7 @@ export const updateVoucher = (voucher, id) => async (dispatch) => {
             }
             dispatch(getVouchersByShopId(id));
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error updating voucher");
         });
 };
@@ -189,7 +191,7 @@ export const deleteVoucher = (shopId, id) => async (dispatch) => {
             }
             dispatch(getVouchersByShopId(shopId));
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error deleting voucher");
         });
 };

@@ -4,13 +4,15 @@ import {
     GET_SHOP_BY_USER_ID,
 } from "../actions/shopActions";
 
+const CLEAR_SHOP = "CLEAR_SHOP";
+
 const initialState = {
     shops: null,
     currentShop: {},
     userShop: null,
 };
 
-export default function (state = initialState, action) {
+export default function shopReducer (state = initialState, action) {
     switch (action.type) {
         case GET_ALL_SHOPS:
             return {
@@ -26,6 +28,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 userShop: action.shops,
+            };
+        case CLEAR_SHOP:
+            return {
+                ...state,
+                currentShop: {},
+                userShop: null,
             };
         default:
             return state;

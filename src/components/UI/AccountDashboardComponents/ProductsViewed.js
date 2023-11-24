@@ -4,7 +4,7 @@ import BottleWarmer from "../../../image/bottoleWarmer.jpg";
 import React from "react";
 
 
-const ProductsViewed = (props) => {
+const ProductsViewed = () => {
     return (
         <div style={{width: '100%'}}>
             <ItemContainer

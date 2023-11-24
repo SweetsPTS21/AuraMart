@@ -1,5 +1,4 @@
 import React from "react";
-import Carousel from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
 import IP1 from "../../image/IP1.jpg";
 import IP2 from "../../image/IP2.jpg";
@@ -39,7 +38,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const InterestedProducts = (props) => {
+const InterestedProducts = () => {
     const classes = userStyles();
 
     return (

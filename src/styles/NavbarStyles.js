@@ -1,4 +1,4 @@
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -150,7 +150,6 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         zIndex: "999999 !important",
         top: "4em",
-        left: 0,
         bottom: 0,
         left: "60%",
         boxShadow:

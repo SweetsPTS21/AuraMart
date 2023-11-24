@@ -3,9 +3,9 @@ import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
 import {
-    makeStyles,
-    createTheme,
     ThemeProvider,
+    createTheme,
+    makeStyles,
 } from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
 import TikiNow from "../../image/tiki-now.png";
@@ -19,9 +19,6 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CartIcon from "../../image/ic-cart@2x.png";
-import IconButton from "@material-ui/core/IconButton";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import InterestedProducts from "../UI/InterestedProducts";
 import ZoomIcon from "../../image/zoom-in.png";
 // table
 import Table from "@material-ui/core/Table";
@@ -29,7 +26,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Typography } from "@material-ui/core";
 import WarningIcon from "../../image/icon-warning.svg";
 import ResIcon from "../../image/response-icon.png";
 import StarIcon from "@material-ui/icons/Star";
@@ -46,7 +42,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import { SideBySideMagnifier } from "react-image-magnifiers";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Moment from "moment";
 import Moment2 from "react-moment";
 
@@ -511,7 +507,7 @@ const ProductOptions = ({ product }) => {
 
     const classes = useStyles();
     const [amount, setAmount] = useState(1);
-    const [color, setColor] = useState(product.colors[0]);
+    const [setColor] = useState(product.colors[0]);
 
     const handleDecrease = () => {
         if (amount - 1 >= 0) {
@@ -524,14 +520,6 @@ const ProductOptions = ({ product }) => {
     const handleChange = (e) => {
         setAmount(e.target.value);
     };
-
-    // product feature description
-    const descArray =
-        product.description !== undefined
-            ? product.description.split(",").map((item, index) => {
-                  return <li key={index}>{item}</li>;
-              })
-            : null;
 
     // product color options
     const colorOption = product.colors.map((item, index) => {
@@ -556,25 +544,6 @@ const ProductOptions = ({ product }) => {
             </div>
         );
     });
-
-    const groupButton = (price) => {
-        if (price > 5) {
-            return (
-                <Button
-                    variant="contained"
-                    color="primary"
-                    style={{
-                        marginBottom: "1em",
-                        marginTop: "1em",
-                        fontSize: "0.75em",
-                    }}
-                >
-                    {" "}
-                    Installment only 345.000$/month
-                </Button>
-            );
-        }
-    };
 
     const handleAddToCart = () => {
         for (let i = 0; i < amount; i++) {
@@ -707,7 +676,6 @@ const InfoTable = (props) => {
 };
 
 const ShippingInfo = () => {
-    const classes = useStyles();
     const currentAddress = useSelector((state) => state.address.defaultAddress);
     return (
         <div
@@ -941,7 +909,7 @@ const ProductDetailInfo = ({ product }) => {
     );
 };
 
-const ProductQA = (props) => {
+const ProductQA = () => {
     const classes = useStyles();
     return (
         <div className={classes.block} style={{ margin: 0 }}>
@@ -1337,7 +1305,7 @@ const ProductReview = ({ product, reviews }) => {
                             </div>
                         </Grid>
                         <Grid item xs={12}>
-                            {rateStar.map((star, index) => (
+                            {rateStar.map((star) => (
                                 <span
                                     style={{
                                         display: "flex",
@@ -1507,8 +1475,7 @@ const ProductDetailPage = (props) => {
     const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { productName, productId } = useParams();
-    const [firstImageLoad, setFirstImageLoad] = useState(true);
+    const { productId } = useParams();
     // const product = useSelector(state => state.products.products !== null && state.products.products.find(prod => prod.id === productId));
     const product = useSelector((state) => state.products.currentProduct);
     const user = useSelector((state) => state.auth.user);

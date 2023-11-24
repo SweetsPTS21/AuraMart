@@ -1,12 +1,12 @@
 import {
-    warningCardHeader,
-    successCardHeader,
     dangerCardHeader,
     infoCardHeader,
     primaryCardHeader,
     roseCardHeader,
-    whiteColor,
+    successCardHeader,
     tikiCardHeader,
+    warningCardHeader,
+    whiteColor,
 } from "./material-dashboard-react.js";
 
 const cardHeaderStyle = {

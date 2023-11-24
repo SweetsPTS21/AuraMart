@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import ItemContainer from "../UI/ItemContainer";
 import Card from "../UI/Card";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../layout/Footer";
 import { useParams } from "react-router-dom";
 import { getAllProducts } from "../../store/actions/productActions";
@@ -125,9 +125,10 @@ const ProductCategoryPage = (props) => {
 
     const handleFilter = async (isComplexSearch, filterType, min, max) => {
         const filteredProducts_ = await handleSearch(true);
+        let filtered, filtered_, filtered__ = null;
         switch (isComplexSearch) {
             case "both":
-                let filtered = await handleRatingFilter(
+                filtered = await handleRatingFilter(
                     filterType,
                     filteredProducts_
                 );
@@ -135,7 +136,7 @@ const ProductCategoryPage = (props) => {
                 setFilteredProducts(filtered);
                 return;
             case "rating":
-                let filtered_ = await handleRatingFilter(
+                filtered_ = await handleRatingFilter(
                     filterType,
                     filteredProducts_
                 );
@@ -143,7 +144,7 @@ const ProductCategoryPage = (props) => {
                 return;
 
             case "price":
-                let filtered__ = await handlePriceFilter(
+                filtered__ = await handlePriceFilter(
                     min,
                     max,
                     filteredProducts_
@@ -154,9 +155,10 @@ const ProductCategoryPage = (props) => {
     };
 
     const handleRatingFilter = async (filterType, filteredProducts_) => {
+        let filtered, filtered_, filtered__ = null;
         switch (filterType.toString()) {
             case "5":
-                const filtered = await filteredProducts_.filter(
+                filtered = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
                         product.averageRating >= 5
@@ -164,7 +166,7 @@ const ProductCategoryPage = (props) => {
                 setFilteredProducts(filtered);
                 return filtered;
             case "4":
-                const filtered_ = await filteredProducts_.filter(
+                filtered_ = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
                         product.averageRating >= 4
@@ -172,7 +174,7 @@ const ProductCategoryPage = (props) => {
                 setFilteredProducts(filtered_);
                 return filtered_;
             case "3":
-                const filtered__ = await filteredProducts_.filter(
+                filtered__ = await filteredProducts_.filter(
                     (product) =>
                         product.averageRating !== undefined &&
                         product.averageRating >= 3
@@ -267,7 +269,7 @@ const ProductCategoryPage = (props) => {
                                 itemWidth={"180px"}
                             >
                                 {filteredProducts !== null &&
-                                    filteredProducts.map((prod, index) => (
+                                    filteredProducts.map((prod) => (
                                         <Card
                                             key={prod.id}
                                             id={prod.id}

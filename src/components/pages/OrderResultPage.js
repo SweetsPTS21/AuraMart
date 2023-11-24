@@ -1,15 +1,15 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { ArrowBackRounded } from "@material-ui/icons";
-import { DoneAllRounded, ClearRounded } from "@material-ui/icons";
+import { ClearRounded, DoneAllRounded } from "@material-ui/icons";
 
 import * as paymentActions from "../../store/actions/paymentActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
         height: "100%",
@@ -75,7 +75,7 @@ const renderResult = (code, message, success) => {
     }
 };
 
-const OrderResultPage = (props) => {
+const OrderResultPage = () => {
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const vnp_ResponseCode = searchParams.get("vnp_ResponseCode");

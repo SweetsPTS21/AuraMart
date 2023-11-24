@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
@@ -27,9 +27,8 @@ import { format } from "date-fns";
 import * as voucherActions from "../../../store/actions/voucherActions";
 import * as shopActions from "../../../store/actions/shopActions";
 import MuiInput from "../../layout/MuiInput";
-import { ToysOutlined } from "@material-ui/icons";
 
-const userStyles = makeStyles((theme) => ({
+const userStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
     },
@@ -81,7 +80,6 @@ const userStyles = makeStyles((theme) => ({
 
 const VoucherPanel = (props) => {
     const classes = userStyles();
-    const tab = props.index;
     const type = props.type;
     const action = props.action;
     const vouchers = props.vouchers;
@@ -143,12 +141,13 @@ const VoucherRender = (props) => {
     const type = props.type;
     const action = props.action;
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(0);
+    const [tab, setTab] = useState(0);
     const [search, setSearch] = useState("");
     const searchVoucher = useSelector((state) => state.vouchers.userVoucher);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        event.preventDefault();
+        setTab(newValue);
     };
 
     const handleOpenAddDialog = () => {
@@ -159,8 +158,12 @@ const VoucherRender = (props) => {
         setSearch(e.target.value);
     };
 
-    const handleApplySearch = () => {
-        dispatch(voucherActions.getVoucherByCode(search, user.id));
+    const handleApplySearch = async () => {
+        if (type === "shop") {
+            await dispatch(voucherActions.getVoucherByCode(search, ""));
+        } else {
+            await dispatch(voucherActions.getVoucherByCode(search, user.id));
+        }
     };
 
     return (
@@ -259,7 +262,7 @@ const VoucherRender = (props) => {
                                     }}
                                 >
                                     <Tabs
-                                        value={value}
+                                        value={tab}
                                         onChange={handleChange}
                                         aria-label="basic tabs example"
                                     >
@@ -268,7 +271,7 @@ const VoucherRender = (props) => {
                                         <Tab label="Tiki" {...a11yProps(2)} />
                                     </Tabs>
                                 </Box>
-                                <CustomTabPanel value={value} index={0}>
+                                <CustomTabPanel value={tab} index={0}>
                                     <VoucherPanel
                                         index={0}
                                         vouchers={vouchers}
@@ -277,10 +280,10 @@ const VoucherRender = (props) => {
                                         setOpen={setOpen}
                                     />
                                 </CustomTabPanel>
-                                <CustomTabPanel value={value} index={1}>
+                                <CustomTabPanel value={tab} index={1}>
                                     Item Two
                                 </CustomTabPanel>
-                                <CustomTabPanel value={value} index={2}>
+                                <CustomTabPanel value={tab} index={2}>
                                     Item Three
                                 </CustomTabPanel>
                             </Box>
@@ -311,7 +314,7 @@ const UserVoucher = (props) => {
         } else {
             dispatch(voucherActions.getVouchersByUserId(user.id));
         }
-    }, [dispatch, user, shopId]);
+    }, [user, shopId, dispatch, action]);
 
     return (
         <>
@@ -335,7 +338,6 @@ const UserVoucher = (props) => {
 };
 
 const ShopVoucher = (props) => {
-    const classes = userStyles();
     const dispatch = useDispatch();
     const type = props.type;
     const user = useSelector((state) => state.auth.user);
@@ -417,7 +419,6 @@ const AddNewShopVoucher = (props) => {
                                 aria-label="Code input"
                                 placeholder="Eg: ABC123"
                                 value={code}
-                                // setValue={setCode}
                                 className={classes.voucher__input}
                                 autoFocus
                                 onChange={(e) => checkValidCode(e.target.value)}
@@ -501,8 +502,6 @@ const AddNewShopVoucher = (props) => {
 };
 
 const MyVoucher = (props) => {
-    const classes = userStyles();
-    const dispatch = useDispatch();
     const type = props.type;
     const action = props.action;
 

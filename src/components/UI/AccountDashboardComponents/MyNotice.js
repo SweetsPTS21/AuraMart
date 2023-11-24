@@ -174,7 +174,7 @@ function a11yProps(index) {
     };
 }
 
-const MyNotice = (props) => {
+const MyNotice = () => {
     const classes = userStyles();
     const [tabValue, setTabValue] = useState("one");
     const [menu, setMenu] = useState(false);

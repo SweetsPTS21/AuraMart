@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Progress } from "reactstrap";
-import Countdown from "react-countdown-now";
 import Rating from "@material-ui/lab/Rating";
 import Ripples from "react-ripples";
 
@@ -523,7 +522,7 @@ const Card = (props) => {
                         style={{ display: "flex", alignItems: "center" }}
                     >
                         <Button
-                            onClick={(e) => {
+                            onClick={() => {
                                 props.removeItem !== undefined &&
                                     props.removeItem();
                                 setAmount((amt) => amt - 1);
@@ -546,7 +545,7 @@ const Card = (props) => {
                             disabled
                         />
                         <Button
-                            onClick={(e) => {
+                            onClick={() => {
                                 props.addItem !== undefined && props.addItem();
                                 setAmount((amt) => amt + 1);
                             }}

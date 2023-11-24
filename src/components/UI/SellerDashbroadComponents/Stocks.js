@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Autocomplete,
-    TextField,
-    Grid,
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+    IconButton,
+    Pagination,
+    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    IconButton,
-    Pagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
+    TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled, useTheme } from "@mui/material/styles";
 import { Typography } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    getAllStocksOfAShop,
     addNewStock,
     updateStockById,
 } from "../../../store/actions/stockActions";
@@ -233,7 +232,6 @@ const UpdateStock = (props) => {
 
 const Stocks = () => {
     const theme = useTheme();
-    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -244,10 +242,6 @@ const Stocks = () => {
 
     const shop = useSelector((state) => state.shops.userShop);
     const stocks = useSelector((state) => state.stocks.allShopStocks);
-
-    useEffect(() => {
-        if (shop) dispatch(getAllStocksOfAShop(shop.id));
-    }, [shop]);
 
     const filteredStocks = stocks
         ? stocks.filter((stock) =>
@@ -362,7 +356,7 @@ const Stocks = () => {
                                             style={{ width: "152px" }}
                                         >
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     handleUpdate(type, stock)
                                                 }
                                                 color="primary"
@@ -370,7 +364,7 @@ const Stocks = () => {
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     setOpenDialog(true)
                                                 }
                                                 color="error"

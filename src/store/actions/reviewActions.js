@@ -24,7 +24,7 @@ export const getProductReviews = (productId) => async (dispatch) => {
 
 
         })
-        .catch(err => {
+        .catch(() => {
                 message.error("Error getting reviews");
             }
         );
@@ -100,7 +100,7 @@ export const addNewReview = (review, productId) => async (dispatch) => {
 
             if(!res.data.success) {
                 return message.error(res.data.error);
-            };
+            }
             dispatch(getProductReviews(productId));
             // message.success("Got review");
         })
@@ -147,7 +147,7 @@ export const deleteReviewById = (reviewId, productId, userId) => async (dispatch
         .then(res => {
             if(!res.data.success) {
                 return message.error("Error deleting review");
-            };
+            }
             if(productId !== undefined && userId !== undefined){
                 dispatch(getProductReviews(productId));
                 dispatch(getAllUserReviews(userId));

@@ -11,7 +11,7 @@ import Moment from "react-moment";
 
 export const ShopCard = ({ shop, setCurrentShop, toggleShop }) => {
     const classes = userStyles();
-    const [shopsLastUpdated, setShopsLastUpdated] = useState(Date.now());
+    const [shopsLastUpdated] = useState(Date.now());
     const pickRandGradient = () => {
         let grads = [
             { x: "#26B7FF", y: "#5C8BC3" },

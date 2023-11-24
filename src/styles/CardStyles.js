@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
         color: "#858585",
     },
     "@global .progress-bar": {
-        backgroundColor: "#FD752E",
+        height: "100% !important",
+        backgroundColor: "#FD752E !important",
     },
     "@global .ripple,.ripple:before,.ripple:after": {
         display: "block",
@@ -107,9 +108,6 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none !important",
         color: "inherit !important",
     },
-    "@global .progress-bar": {
-        height: "100%",
-    }
 }));
 
 export default useStyles;

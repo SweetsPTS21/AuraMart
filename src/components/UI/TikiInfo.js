@@ -8,7 +8,7 @@ import Ripples from 'react-ripples'
 import { Grid, Typography } from '@material-ui/core';
 
 
-const TikiInfo = (props) => {
+const TikiInfo = () => {
     const classes = userStyles();
     return (
         <div style={{display: 'flex', alignItems: 'center', padding: '0.5em'}}>

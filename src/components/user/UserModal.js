@@ -2,9 +2,9 @@
 // import for modal
 import React, { useEffect, useState } from "react";
 import {
-    makeStyles,
     MuiThemeProvider,
     createTheme,
+    makeStyles,
 } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -19,13 +19,11 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
-import tikiGraphicMap from "../../image/tiki-graphic-map.png";
 import loginImage from "../../image/login.png";
 import Grid from "@material-ui/core/Grid";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
 import Rating from "@material-ui/lab/Rating";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";

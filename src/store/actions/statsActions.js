@@ -23,7 +23,7 @@ export const getTopSoldProducts= (limit="5", sort="order") => async (dispatch) =
 
             message.success("Got top Products");
         })
-        .catch(err => {
+        .catch(() => {
                 message.error("Error getting products");
             }
         );
@@ -46,7 +46,7 @@ export const getTopSoldProductsOfShop= (shopId, limit="5") => async (dispatch) =
 
             message.success("Got Products");
         })
-        .catch(err => {
+        .catch(() => {
                 message.error("Error getting products");
             }
         );

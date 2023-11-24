@@ -1,5 +1,4 @@
 import React from "react";
-import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import HomePage from "../pages/HomePage";
 
@@ -11,10 +10,10 @@ const PrivateRoute = ({
 }) => {
     const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
     const isAdmin = useSelector((state) =>
-        !!state.auth.userData.role ? state.auth.userData.role === "admin" : null
+        state.auth.userData.role ? state.auth.userData.role === "admin" : null
     );
     const isSeller = useSelector((state) =>
-        !!state.auth.userData.role
+        state.auth.userData.role
             ? state.auth.userData.role === "seller"
             : null
     );

@@ -4,14 +4,11 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormGroup from "@material-ui/core/FormGroup";
 import Button from "@material-ui/core/Button";
-import PersonIcon from "@material-ui/icons/Person";
 import { Facebook, GitHub } from "@material-ui/icons";
-import zaloLogo from "../../image/Logo_Zalo.png";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/authActions";
 import { message } from "antd";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Grid, IconButton, Typography } from "@material-ui/core";
 
 const userStyles = makeStyles(() => ({
@@ -41,7 +38,7 @@ const Login = (props) => {
         setPasswordState(e.target.value);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
         setLoading(true);
         const msg = message.loading("Logging in user!", 0);
 

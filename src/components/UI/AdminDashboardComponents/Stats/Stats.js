@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import userStyles from "../styles/AllUsersStyles";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
@@ -11,7 +11,7 @@ import ShopStats from "./ShopStats";
 import UserStats from "./UserStats";
 import ProductStats from "./ProductStats";
 
-const Stats = (props) => {
+const Stats = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const allProducts = useSelector((state) => state.products.products);
@@ -78,7 +78,7 @@ const Stats = (props) => {
                 {topProducts !== null &&
                 allProducts !== null &&
                 topProducts.length > 0
-                    ? topProducts.map((product, index) => {
+                    ? topProducts.map((product) => {
                           let prod = getProductDetails(product._id);
                           return (
                               prod && (

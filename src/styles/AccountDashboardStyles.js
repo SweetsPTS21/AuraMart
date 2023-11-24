@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     item2: {
         fontSize: "0.8em",
         color: "rgba(0,0,0,0.8)",

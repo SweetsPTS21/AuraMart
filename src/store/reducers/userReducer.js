@@ -1,11 +1,11 @@
-import {GET_ALL_USERS, GET_USER_BY_ID} from "../actions/userActions";
+import { GET_ALL_USERS, GET_USER_BY_ID } from "../actions/userActions";
 
 const initialState = {
     users : null,
     currentUser: null
 };
 
-export default function (state = initialState, action) {
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case GET_ALL_USERS:
             return {

@@ -1,54 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Autocomplete,
-    TextField,
     Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    Pagination,
+    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
-    IconButton,
-    Pagination,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
+    TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import { styled, useTheme } from "@mui/material/styles";
 import { Typography } from "@material-ui/core";
 import UpdateAProductForm from "../AdminDashboardComponents/Products/UpdateAProductForm";
-import { useSelector, useDispatch } from "react-redux";
-import { getProductsByShopId } from "../../../store/actions/productActions";
+import { useSelector } from "react-redux";
 import AddANewProduct from "../AdminDashboardComponents/Products/AddANewProduct";
-import { set } from "date-fns";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        marginTop: "20px",
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-    },
-    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper":
-        {
-            maxWidth: "600px !important",
-        },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
-        backgroundColor: "rgb(0 0 0 / 32%) !important",
-    },
-}));
 
 const ProductTableContainer = styled(TableContainer)(({ theme }) => ({
     marginBottom: theme.spacing(4),
@@ -137,8 +114,6 @@ const UpdateProduct = (props) => {
 
 const ProductsManagement = () => {
     const theme = useTheme();
-    const classes = useStyles();
-    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -146,13 +121,7 @@ const ProductsManagement = () => {
     const [type, setType] = useState(0);
     const itemsPerPage = 5;
     const [currentItem, setCurrentItem] = useState({});
-
-    const shop = useSelector((state) => state.shops.userShop);
     const products = useSelector((state) => state.products.productsInShop);
-    useEffect(() => {
-        if (shop)
-            dispatch(getProductsByShopId(shop.id));
-    }, [shop]);
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -216,7 +185,7 @@ const ProductsManagement = () => {
                     variant="contained"
                     color="primary"
                     size="medium"
-                    onClick={(e) => handleOpenDialog(0, {})}
+                    onClick={() => handleOpenDialog(0, {})}
                     style={{ marginLeft: "1em" }}
                 >
                     Add New Product
@@ -263,7 +232,7 @@ const ProductsManagement = () => {
                                             style={{ width: "180px" }}
                                         >
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     handleOpenDialog(1, product)
                                                 }
                                                 color="primary"
@@ -274,7 +243,7 @@ const ProductsManagement = () => {
                                                 <VisibilityIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={(e) =>
+                                                onClick={() =>
                                                     setOpenDialog(true)
                                                 }
                                                 color="error"

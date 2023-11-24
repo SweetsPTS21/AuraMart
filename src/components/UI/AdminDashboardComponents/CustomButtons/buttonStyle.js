@@ -1,15 +1,15 @@
 import {
-  grayColor,
-  primaryColor,
-  infoColor,
-  successColor,
-  warningColor,
-  dangerColor,
-  roseColor,
-  whiteColor,
   blackColor,
+  dangerColor,
+  grayColor,
+  hexToRgb,
+  infoColor,
+  primaryColor,
+  roseColor,
+  successColor,
   tikiColor,
-  hexToRgb
+  warningColor,
+  whiteColor
 } from "../Card/styles/material-dashboard-react.js";
 
 const buttonStyle = {

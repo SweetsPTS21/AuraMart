@@ -13,11 +13,11 @@ import { message } from "antd";
 import * as shopActions from "../../../../store/actions/shopActions";
 import * as authActions from "../../../../store/actions/authActions";
 import {
-    tikiCardHeader,
-    whiteColor,
-    tikiColor,
     blackColor,
     hexToRgb,
+    tikiCardHeader,
+    tikiColor,
+    whiteColor,
 } from "../Card/styles/material-dashboard-react.js";
 import "@progress/kendo-theme-default/dist/all.css";
 

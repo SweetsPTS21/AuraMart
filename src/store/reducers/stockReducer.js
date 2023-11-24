@@ -1,8 +1,8 @@
 import {
-    GET_SINGLE_STOCK_BY_ID,
-    GET_ALL_STOCKS_OF_A_SHOP,
     GET_ALL_STOCKS,
+    GET_ALL_STOCKS_OF_A_SHOP,
     GET_MY_STOCKS,
+    GET_SINGLE_STOCK_BY_ID,
 } from "../actions/stockActions";
 
 const initialState = {

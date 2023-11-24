@@ -140,7 +140,7 @@ export const deleteProductById = (productId) => async (dispatch) => {
     const url = `${api_url}/api/v1/products/${productId}`;
     await axios
         .delete(url)
-        .then((res) => {
+        .then(() => {
             dispatch(getAllProducts());
             dispatch(getProductById(productId));
             message.success("Deleted product");

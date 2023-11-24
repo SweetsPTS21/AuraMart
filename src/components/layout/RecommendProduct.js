@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from "react";
-import { Grid } from "@material-ui/core";
+import React, {useEffect, useState} from "react";
 import Card from "../UI/Card";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ItemContainer from "../UI/ItemContainer";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import { getRecommendedProducts } from "../../store/actions/productActions";
@@ -15,7 +14,7 @@ const RecommendProduct = (props) => {
     const recommendProds = useSelector(
         (state) => state.products.recommendProds
     );
-    const [loadingProd, setLoadingProd] = useState(false);
+    const [loadingProd] = useState(false);
 
     useEffect(() => {
         if (user && user.id !== undefined) {
@@ -28,7 +27,7 @@ const RecommendProduct = (props) => {
             recommendProds &&
             recommendProds.length > 0 &&
             recommendProds.map(
-                (prod, index) =>
+                (prod) =>
                     prod && (
                         <Card
                             key={prod.id}

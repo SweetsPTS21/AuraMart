@@ -60,7 +60,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const ProductsToBuyLater = (props) => {
+const ProductsToBuyLater = () => {
     const classes = userStyles();
 
     return (

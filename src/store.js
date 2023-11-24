@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./store/reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import storage from "redux-persist/lib/storage";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 
 const initialState = {};
 

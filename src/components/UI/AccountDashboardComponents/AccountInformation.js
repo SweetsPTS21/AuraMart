@@ -27,7 +27,7 @@ import DefaultAvatar from "../../../image/avatar.png";
 import { message } from "antd";
 import { styled } from "@mui/material/styles";
 
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../utils/firebaseConfig";
 
 import { updateUserInfo } from "../../../store/actions/authActions";
@@ -118,7 +118,7 @@ const VisuallyHiddenInput = styled("input")({
     width: 1,
 });
 
-const AccountInformation = (props) => {
+const AccountInformation = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.userData);
@@ -132,7 +132,6 @@ const AccountInformation = (props) => {
     const [retypePassword, setRetypePassword] = useState("");
     const [selectedDate, setSelectedDate] = useState(user.dob);
     const [avatar, setAvatar] = useState(user.avatar);
-    const [file, setFile] = useState(null);
     // const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
 
     const [radio, setRadio] = useState(user.gender);
@@ -142,7 +141,7 @@ const AccountInformation = (props) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isPasswordMatch",
-            (value) => newPassword === retypePassword
+            () => newPassword === retypePassword
         );
     }, [retypePassword, newPassword]);
 

@@ -60,7 +60,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const FavoriteProducts = (props) => {
+const FavoriteProducts = () => {
     const classes = userStyles();
 
     return (

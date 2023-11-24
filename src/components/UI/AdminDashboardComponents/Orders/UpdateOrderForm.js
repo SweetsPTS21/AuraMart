@@ -14,11 +14,11 @@ import * as orderActions from "../../../../store/actions/orderActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import {
-    tikiCardHeader,
-    whiteColor,
-    tikiColor,
     blackColor,
     hexToRgb,
+    tikiCardHeader,
+    tikiColor,
+    whiteColor,
 } from "../Card/styles/material-dashboard-react.js";
 import TextField from "@material-ui/core/TextField";
 import "@progress/kendo-theme-default/dist/all.css";
@@ -165,7 +165,7 @@ const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isCategoryEmpty",
-            (value) => currentState !== null
+            () => currentState !== null
         );
     }, [currentState]);
 
@@ -221,7 +221,7 @@ const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
                                             defaultValue={currentState}
                                             options={currentStateOptions}
                                             getOptionLabel={(option) => option}
-                                            renderOption={(option, state) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",

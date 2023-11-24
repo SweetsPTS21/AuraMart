@@ -10,10 +10,8 @@ import InterestedProducts from "../UI/InterestedProducts";
 import HotKeyword from "../UI/HotKeyword";
 import ItemContainer from "../UI/ItemContainer";
 import RecommendProduct from "../layout/RecommendProduct";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as errorActions from "../../store/actions/errorActions";
-import * as addressActions from "../../store/actions/addressActions";
-import { getRecommendedProducts } from "../../store/actions/productActions";
 import { message } from "antd";
 // import "antd/dist/antd.css";
 
@@ -37,8 +35,8 @@ const HomePage = (props) => {
     const [productsWithDiscount, setProductsWithDiscount] = useState([]);
     const [seeMoreDiscountedProd, setSeeMoreDiscountedProd] = useState(10);
     const [loadingDisProd, setLoadingDisProd] = useState(false);
-    const [seeMoreProd, setSeeMoreProd] = useState(20);
-    const [loadingProd, setLoadingProd] = useState(false);
+    const [seeMoreProd] = useState(20);
+    const [loadingProd] = useState(false);
 
     const getProductsWithDiscount = async () => {
         if (products === null) return;

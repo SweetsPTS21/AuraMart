@@ -63,7 +63,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const MyBookCare = (props) => {
+const MyBookCare = () => {
     const classes = userStyles();
 
     return (

@@ -19,7 +19,7 @@ export const getAllShops = () => async (dispatch) => {
             });
             // message.success("Got shops");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting shops");
         });
 };
@@ -35,7 +35,7 @@ export const getShopById = (id) => async (dispatch) => {
                 shop: res.data.data,
             });
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting shop");
         });
 };
@@ -55,7 +55,7 @@ export const getShopByUserId = (userId) => async (dispatch) => {
                 });
             }
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error getting shop");
         });
 };
@@ -71,7 +71,7 @@ export const registerANewShop = (shop) => async (dispatch) => {
             dispatch(getAllShops());
             message.success("shop created successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error creating shop");
         });
 };
@@ -87,7 +87,7 @@ export const approveShop = (shopId) => async (dispatch) => {
             dispatch(getAllShops());
             message.success("shop approved successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error approving shop");
         });
 };
@@ -104,7 +104,7 @@ export const createNewShop = (shop) => async (dispatch) => {
             dispatch(getAllShops());
             message.success("shop created successfully");
         })
-        .catch((err) => {
+        .catch(() => {
             message.error("Error creating shop");
         });
 };
@@ -114,7 +114,7 @@ export const updateShopById = (shop, shopId) => async (dispatch) => {
     const url = `${api_url}/api/v1/shops/${shopId}`;
     await axios
         .put(url, shop)
-        .then((res) => {
+        .then(() => {
             dispatch(getAllShops());
             message.success("shop updated successfully");
         })

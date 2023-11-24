@@ -77,7 +77,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const AddNewUser = (props) => {
+const AddNewUser = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
 
@@ -97,7 +97,7 @@ const AddNewUser = (props) => {
     useEffect(() => {
         ValidatorForm.addValidationRule(
             "isPasswordMatch",
-            (value) => newPassword === retypePassword
+            () => newPassword === retypePassword
         );
     }, [retypePassword, newPassword]);
 

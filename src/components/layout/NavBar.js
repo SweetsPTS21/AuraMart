@@ -19,7 +19,6 @@ import Icon from "@material-ui/core/Icon";
 import { Grid } from "@material-ui/core";
 
 import tikiLogo from "../../image/logo.png";
-import navImage from "../../image/navImage.png";
 import tikiAssistant from "../../image/tiki_assistant.png";
 import sprite from "../../image/sprite.png";
 import ticketBox from "../../image/ticketBox.png";
@@ -34,7 +33,6 @@ import { message } from "antd";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { ChatBubbleOutline } from "@material-ui/icons";
 import { ChatEngine } from "react-chat-engine";
 
@@ -47,7 +45,7 @@ const NavBar = (props) => {
 
     // function to open and close modal
     const [open, setOpen] = useState(false);
-    const [index, setIndex] = useState(0);
+    const [index] = useState(0);
     const [search, setSearch] = useState("");
     const [position, setPosition] = useState(false);
 
@@ -68,21 +66,20 @@ const NavBar = (props) => {
     const handleCloseModal = () => {
         setOpen(false);
     };
-    const handleOnClick = (event) => {
-        setIndex(event.currentTarget.name);
-    };
-    const scrollStep = (scrollStepInPx, intervalId_) => {
-        if (window.pageYOffset === 0) {
-            clearInterval(intervalId_);
-            scrollStepInPx = 0;
-        }
-        window.scroll(0, window.pageYOffset - scrollStepInPx);
-    };
-    const scrollToTop = (scrollStepInPx, delayInMs) => {
-        let intervalId_ = setInterval(() => {
-            scrollStep(scrollStepInPx, intervalId_);
-        }, delayInMs);
-    };
+
+    // const scrollStep = (scrollStepInPx, intervalId_) => {
+    //     if (window.pageYOffset === 0) {
+    //         clearInterval(intervalId_);
+    //         scrollStepInPx = 0;
+    //     }
+    //     window.scroll(0, window.pageYOffset - scrollStepInPx);
+    // };
+
+    // const scrollToTop = (scrollStepInPx, delayInMs) => {
+    //     let intervalId_ = setInterval(() => {
+    //         scrollStep(scrollStepInPx, intervalId_);
+    //     }, delayInMs);
+    // };
 
     const handleOpenChatPopup = () => {
         setOpenChat(!openChat);
@@ -555,7 +552,7 @@ const NavBar = (props) => {
                             getOptionLabel={(option) => {
                                 return option.name;
                             }}
-                            onChange={(e, value) => {
+                            onChange={(e) => {
                                 setSearch(e.target.value);
                             }}
                             onInputChange={(e) => {
@@ -565,7 +562,7 @@ const NavBar = (props) => {
                                 e.charCode === 13 &&
                                     navigate(`/product/${search}`); // if enter key is pressed redirect to product category and search
                             }}
-                            renderOption={(option, state) => (
+                            renderOption={(option) => (
                                 <p
                                     style={{
                                         padding: "0 !important",
@@ -656,7 +653,7 @@ const NavBar = (props) => {
                     aria-label="Log In"
                     color="inherit"
                     className={classes.iconNav}
-                    onClick={(e) => {
+                    onClick={() => {
                         isLoggedIn ? isShowMenu(true) : handleOpenModal();
                     }}
                     name="0" // 0 is login, 1 is register

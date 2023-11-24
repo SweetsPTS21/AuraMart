@@ -164,6 +164,23 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
     }
 };
 
+export const cancelOrder = (orderId) => async (dispatch) => {
+    const url = `${api_url}/api/v1/orders/${orderId}/cancel`;
+    await axios
+        .put(url)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error cancelling order");
+            }
+            dispatch(getOrderById(orderId));
+            message.success("Cancelled order");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error cancelling order");
+        });
+};
+
 // 🔒
 export const updateOrderById = (order, orderId) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/${orderId}`;
@@ -183,7 +200,7 @@ export const updateOrderById = (order, orderId) => async (dispatch) => {
 };
 
 // 🔒
-export const deleteOrderById = (orderId) => async (dispatch) => {
+export const deleteOrderById = (orderId) => async () => {
     const url = `${api_url}/api/v1/orders/${orderId}`;
     await axios
         .delete(url)
