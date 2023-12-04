@@ -7,6 +7,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Grid,
     IconButton,
     Pagination,
     Paper,
@@ -18,14 +19,52 @@ import {
     TableRow,
     TextField,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Delete, Edit, Settings, Visibility } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import UpdateAProductForm from "../AdminDashboardComponents/Products/UpdateAProductForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddANewProduct from "../AdminDashboardComponents/Products/AddANewProduct";
+import MuiNumberInput from "../../layout/MuiNumberInput";
+import MuiInput from "../../layout/MuiInput";
+import MuiSelect from "../../layout/MuiSelect";
+
+import { setSaleProduct } from "../../../store/actions/productActions";
+import { message } from "antd";
+
+const userStyles = makeStyles(() => ({
+    root: {
+        flexGrow: 1,
+        marginTop: "20px",
+    },
+    stock__dialog: {
+        padding: "1em 0",
+        display: "flex",
+        flexWrap: "wrap",
+    },
+    sale__status: {
+        color: "#fff",
+        fontWeight: "500",
+        width: "100px",
+        // height: "30px",
+        borderRadius: "0.5em",
+        textAlign: "center",
+    },
+    part: {
+        display: "flex",
+        flexDirection: "column",
+        padding: "0 1em",
+        margin: "0.5em 0",
+    },
+    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper":
+        {
+            maxWidth: "600px !important",
+        },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
+    },
+}));
 
 const ProductTableContainer = styled(TableContainer)(({ theme }) => ({
     marginBottom: theme.spacing(4),
@@ -112,16 +151,147 @@ const UpdateProduct = (props) => {
     );
 };
 
+const SaleConfig = (props) => {
+    const classes = userStyles();
+    const dispatch = useDispatch();
+    const { shop, open, setOpen, saleProduct } = props;
+    const [sale, setSale] = useState(saleProduct.sale);
+    const [discount, setDiscount] = useState(saleProduct.discount);
+    const [quantity, setQuantity] = useState(saleProduct.quantity);
+    const [soldQuantity] = useState(saleProduct.soldQuantity);
+    const [beginAt, setBeginAt] = useState(saleProduct.beginAt);
+    const [endIn, setEndIn] = useState(saleProduct.endIn);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleSave = async () => {
+        const msg = message.loading("Updating product", 0);
+        const saleProduct_ = {
+            sale: sale === "Sale" ? true : false,
+            discount,
+            quantity,
+            beginAt,
+            endIn,
+            soldQuantity,
+        };
+        await dispatch(setSaleProduct(shop._id, saleProduct.id, saleProduct_));
+        setTimeout(msg, 1);
+        handleClose();
+    };
+
+    const status = ["Sale", "Not On Sale"];
+    const duration = ["30", "60", "90", "120"];
+
+    return (
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Sale config</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Update sale status for this product Sold quantity:{" "}
+                    {soldQuantity}
+                </DialogContentText>
+                <Grid container className={classes.stock__dialog}>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
+                        <Typography>Giảm giá</Typography>
+                        <MuiNumberInput
+                            value={discount}
+                            setValue={setDiscount}
+                            required={true}
+                            defaultValue={0}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
+                        <Typography>Số lượng</Typography>
+                        <MuiNumberInput
+                            value={quantity}
+                            setValue={setQuantity}
+                            required={true}
+                            defaultValue={0}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
+                        <Typography>Bắt đầu vào</Typography>
+                        <MuiInput
+                            aria-label="Begin"
+                            type="date"
+                            defaultValue={Date.now()}
+                            value={beginAt}
+                            onChange={(e) => setBeginAt(e.target.value)}
+                            required={true}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
+                        <Typography>Kết trúc trong (phút)</Typography>
+                        <MuiSelect
+                            aria-label="Sale"
+                            value={endIn}
+                            setValue={setEndIn}
+                            items={duration}
+                            required={true}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        style={{ flexDirection: "column", marginBottom: "1em" }}
+                    >
+                        <Typography style={{ marginBottom: "0.5em" }}>
+                            Sale
+                        </Typography>
+                        <MuiSelect
+                            aria-label="Sale"
+                            value={sale}
+                            setValue={setSale}
+                            items={status}
+                            required={true}
+                            // onChange={(e) => setDate(e.target.value)}
+                        />
+                    </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button
+                    variant={"contained"}
+                    style={{ backgroundColor: "#1976d2" }}
+                    onClick={handleSave}
+                >
+                    Save
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
 const ProductsManagement = () => {
     const theme = useTheme();
+    const classes = userStyles();
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openSaleConfig, setOpenSaleConfig] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [page, setPage] = useState(1);
     const [type, setType] = useState(0);
     const itemsPerPage = 5;
     const [currentItem, setCurrentItem] = useState({});
     const products = useSelector((state) => state.products.productsInShop);
+    const shop = useSelector((state) => state.shops.userShop);
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -139,6 +309,11 @@ const ProductsManagement = () => {
     const handleOpenDialog = (type, product) => {
         setOpen(true);
         setType(type);
+        setCurrentItem(product);
+    };
+
+    const handleOpenSaleConfig = (product) => {
+        setOpenSaleConfig(true);
         setCurrentItem(product);
     };
 
@@ -198,6 +373,7 @@ const ProductsManagement = () => {
                         <TableRow>
                             <ProductTableCell>ID Product</ProductTableCell>
                             <ProductTableCell>Product Name</ProductTableCell>
+                            <ProductTableCell>Image</ProductTableCell>
                             <ProductTableCell>Product Price</ProductTableCell>
                             <ProductTableCell>Product Status</ProductTableCell>
                             <ProductTableCell>Sale status</ProductTableCell>
@@ -213,11 +389,23 @@ const ProductsManagement = () => {
                             .map((product) => (
                                 <>
                                     <TableRow key={product.id}>
-                                        <ProductTableCell style={{ width: "220px" }}>
+                                        <ProductTableCell
+                                            style={{ width: "220px" }}
+                                        >
                                             {product.id}
                                         </ProductTableCell>
                                         <ProductTableCell>
                                             {product.name}
+                                        </ProductTableCell>
+                                        <ProductTableCell>
+                                            <img
+                                                src={product.photo}
+                                                alt={product.name}
+                                                style={{
+                                                    width: "64px",
+                                                    height: "64px",
+                                                }}
+                                            />
                                         </ProductTableCell>
                                         <ProductTableCell>
                                             {product.price}
@@ -226,7 +414,38 @@ const ProductsManagement = () => {
                                             {product.status}
                                         </ProductTableCell>
                                         <ProductTableCell>
-                                            {product.sale}
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
+                                            >
+                                                <Typography
+                                                    className={
+                                                        classes.sale__status
+                                                    }
+                                                    style={{
+                                                        backgroundColor:
+                                                            product.sale
+                                                                ? "green"
+                                                                : "red",
+                                                    }}
+                                                >
+                                                    {product.sale
+                                                        ? "On Sale"
+                                                        : "Not On Sale"}
+                                                </Typography>
+                                                <IconButton
+                                                    color="success"
+                                                    onClick={() =>
+                                                        handleOpenSaleConfig(
+                                                            product
+                                                        )
+                                                    }
+                                                >
+                                                    <Settings />
+                                                </IconButton>
+                                            </div>
                                         </ProductTableCell>
                                         <ProductTableCell
                                             style={{ width: "180px" }}
@@ -237,10 +456,10 @@ const ProductsManagement = () => {
                                                 }
                                                 color="primary"
                                             >
-                                                <EditIcon />
+                                                <Edit />
                                             </IconButton>
                                             <IconButton color="success">
-                                                <VisibilityIcon />
+                                                <Visibility />
                                             </IconButton>
                                             <IconButton
                                                 onClick={() =>
@@ -248,7 +467,7 @@ const ProductsManagement = () => {
                                                 }
                                                 color="error"
                                             >
-                                                <DeleteIcon />
+                                                <Delete />
                                             </IconButton>
                                         </ProductTableCell>
                                     </TableRow>
@@ -267,6 +486,14 @@ const ProductsManagement = () => {
                                             handleConfirmDelete={
                                                 handleConfirmDelete
                                             }
+                                        />
+                                    )}
+                                    {openSaleConfig && (
+                                        <SaleConfig
+                                            shop={shop}
+                                            open={openSaleConfig}
+                                            setOpen={setOpenSaleConfig}
+                                            saleProduct={currentItem}
                                         />
                                     )}
                                 </>

@@ -43,6 +43,7 @@ const useStyles = makeStyles(() => ({
         color: "#000000",
         backgroundColor: "#FFFFFF",
         borderRadius: "0.5em",
+        boxShadow: "0 1px 4px 0 rgba(0,0,0,0.14)",
     },
     cardTitle: {
         color: "#3C4858",

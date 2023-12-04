@@ -134,7 +134,11 @@ const userStyles = makeStyles(() => ({
     "@global .k-upload-files.k-reset": {
         backgroundColor: "white !important",
     },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper":
+        {
+            maxWidth: "600px !important",
+        },
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
         backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
 }));

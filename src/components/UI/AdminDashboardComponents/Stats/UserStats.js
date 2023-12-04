@@ -148,7 +148,7 @@ const UserStats = (props) => {
 
     return (
         <div style={{ width: "100%" }}>
-            <Grid container spacing={3} justifyContent={"space-around"}>
+            <Grid container style={{padding: "0 0.5em"}} justifyContent={"space-around"}>
                 {userChart === null && props.noLoading === undefined && (
                     <LoadingSpinner
                         width={"5%"}

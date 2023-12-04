@@ -176,3 +176,20 @@ export const updateProductPhoto = (photo, productId) => async (dispatch) => {
             message.error("Error updating product photo");
         });
 };
+
+export const setSaleProduct = (shopId, id, saleProduct) => async (dispatch) => {
+    const url = `${api_url}/api/v1/shops/${shopId}/products/${id}`;
+    await axios
+        .put(url, saleProduct)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error setting sale product");
+            }
+            dispatch(getAllProducts());
+            message.success("Set sale product");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error setting sale product");
+        });
+}

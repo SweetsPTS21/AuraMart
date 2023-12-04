@@ -33,15 +33,15 @@ const HomePage = (props) => {
     const user = useSelector((state) => state.auth.user);
     const products = useSelector((state) => state.products.products);
     const [productsWithDiscount, setProductsWithDiscount] = useState([]);
-    const [seeMoreDiscountedProd, setSeeMoreDiscountedProd] = useState(10);
-    const [loadingDisProd, setLoadingDisProd] = useState(false);
+    const [seeMoreDiscountedProd] = useState(10);
+    const [loadingDisProd] = useState(false);
     const [seeMoreProd] = useState(20);
     const [loadingProd] = useState(false);
 
     const getProductsWithDiscount = async () => {
         if (products === null) return;
         const filtered = await products.filter(
-            (product) => product.discount !== undefined
+            (product) => product.sale !== undefined
         );
         setProductsWithDiscount(filtered.shuffle());
     };
@@ -219,16 +219,8 @@ const HomePage = (props) => {
                                 />
                             </ItemContainer>
                             <ItemContainer
-                                length={productsWithDiscount.length}
-                                type={"slider"}
-                                seeMore={() => {
-                                    setSeeMoreDiscountedProd((val) => val + 10);
-                                    setLoadingDisProd(true);
-                                    setTimeout(
-                                        () => setLoadingDisProd(false),
-                                        500
-                                    );
-                                }}
+                                length={10}
+                                type={"slider"}                   
                                 loading={loadingDisProd}
                                 timeInMilliSec={
                                     (Math.floor(Math.random() * 10) + 2) *

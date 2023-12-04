@@ -34,10 +34,11 @@ const DashboardHeader = (props) => {
                 position: "fixed",
                 top: 0,
                 width: "100%",
+                minWidth: "1422px",
                 height: "64px",
                 backgroundColor: "#fff",
                 boxShadow: "0 1px 0 0 rgba(0,0,0,.1)",
-                zIndex: 9999,
+                zIndex: 100,
             }}
         >
             <Grid container style={{ display: "flex", padding: "1em" }}>

@@ -148,7 +148,7 @@ const ShopStats = (props) => {
 
     return (
         <div style={{ width: "100%" }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{padding: "0 0.5em"}}>
                 {shopChart === null && props.noLoading === undefined && (
                     <LoadingSpinner
                         width={"5%"}

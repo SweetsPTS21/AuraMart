@@ -20,13 +20,21 @@ const Select = React.forwardRef(function Select(props, ref) {
 const MuiSelect = (props) => {
     const { items, value, setValue } = props;
     return (
-        <Select value={value} onChange={(_, newValue) => setValue(newValue)}>
-            {items.map((item) => (
-                <Option key={item} value={item}>
-                    {item}
-                </Option>
-            ))}
-        </Select>
+        <>
+            {items && (
+                <Select
+                    value={value}
+                    onChange={(_, newValue) => setValue(newValue)}
+                    defaultValue={items[0]}
+                >
+                    {items.map((item) => (
+                        <Option key={item} value={item}>
+                            {item}
+                        </Option>
+                    ))}
+                </Select>
+            )}
+        </>
     );
 };
 

@@ -6,7 +6,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
 import Button from "@material-ui/core/Button";
-import { Add } from "@material-ui/icons";
+import { Add, Save } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as configActions from "../../../store/actions/configActions";
 import { TextField, Typography } from "@material-ui/core";
@@ -44,6 +44,18 @@ const useStyles = makeStyles(() => ({
         color: "#ff9100",
         borderColor: "#ff9100",
         marginLeft: "1em",
+    },
+    button2: {
+        marginLeft: "1em",
+        color: "#fff",
+        backgroundColor: "#ff424e",
+        textTransform: "none",
+        "&:focus": {
+            outline: "none",
+        },
+        "&:hover": {
+            backgroundColor: "#ff424e",
+        },
     },
     title: {
         fontSize: "1.5em",
@@ -204,7 +216,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop name"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="Shop name"
                                     value={name}
                                     margin="normal"
@@ -221,7 +233,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop description"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="Shop description"
                                     value={description}
                                     margin="normal"
@@ -240,7 +252,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop address"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="Shop address"
                                     value={address}
                                     margin="normal"
@@ -257,7 +269,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop phone"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="Shop phone"
                                     value={phone}
                                     margin="normal"
@@ -274,7 +286,7 @@ const ShopConfig = (props) => {
                                 <TextValidator
                                     size="small"
                                     label="Shop avatar"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="Shop avatar"
                                     value={avatar}
                                     margin="normal"
@@ -288,13 +300,14 @@ const ShopConfig = (props) => {
                                 />
                             </FormControl>
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 type={"submit"}
                                 color="secondary"
-                                className={classes.button}
+                                className={classes.button2}
                                 style={{
-                                    fontSize: "0.7em",
                                     margin: 0,
+                                    fontSize: "1em",
+                                    fontWeight: 500,
                                     marginLeft: "1em",
                                     marginRight: "0.5em",
                                     marginTop: "2em",
@@ -348,7 +361,7 @@ const ShopConfig = (props) => {
                                 key={index}
                                 size="small"
                                 label="image link"
-                                style={{ width: "600px", margin: 8 }}
+                                style={{ width: "100%" }}
                                 placeholder="image url"
                                 value={decor}
                                 margin="normal"
@@ -366,7 +379,7 @@ const ShopConfig = (props) => {
                                 <TextField
                                     size="small"
                                     label="image link"
-                                    style={{ width: "600px", margin: 8 }}
+                                    style={{ width: "100%" }}
                                     placeholder="image url"
                                     value={banner}
                                     margin="normal"
@@ -394,20 +407,20 @@ const ShopConfig = (props) => {
                         }}
                     >
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             onClick={() => handleAddBanner()}
-                            className={classes.button}
+                            className={classes.button2}
                             style={{ width: "80px" }}
                         >
-                            Add
+                            <Add/>
                         </Button>
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             onClick={() => handleSaveConfig()}
-                            className={classes.button}
+                            className={classes.button2}
                             style={{ width: "80px" }}
                         >
-                            Save
+                            <Save/>
                         </Button>
                     </Grid>
                 </div>

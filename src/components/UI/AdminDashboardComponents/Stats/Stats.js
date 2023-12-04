@@ -27,7 +27,7 @@ const Stats = () => {
     return (
         <div style={{ width: "100%" }}>
             <Grid container style={{ paddingLeft: "1em" }}>
-                {allProducts !== null ? (
+                {allProducts && (
                     <>
                         <Grid
                             item
@@ -72,53 +72,51 @@ const Stats = () => {
                             Top Sold Products
                         </Grid>
                     </>
-                ) : (
-                    <LoadingSpinner />
                 )}
-                {topProducts !== null &&
-                allProducts !== null &&
-                topProducts.length > 0
-                    ? topProducts.map((product) => {
-                          let prod = getProductDetails(product._id);
-                          return (
-                              prod && (
-                                  <ProductCard
-                                      style={{
-                                          width: "180px",
-                                          backgroundColor: "#fff",
-                                      }}
-                                      key={prod.id}
-                                      id={prod.id}
-                                      slug={
-                                          prod.name.length > 0
-                                              ? prod.name.replace(
-                                                    new RegExp(" ", "g"),
-                                                    "-"
-                                                )
-                                              : prod.name
-                                      }
-                                      type={"review"}
-                                      price={prod.price}
-                                      discount={
-                                          prod.discount !== undefined
-                                              ? prod.discount
-                                              : 0
-                                      }
-                                      title={prod.name}
-                                      image={
-                                          prod.photo === "no-photo.jpg"
-                                              ? NoPhoto
-                                              : prod.photo
-                                      }
-                                      rating={prod.averageRating}
-                                      link={true}
-                                      count={product.count}
-                                  />
-                              )
-                          );
-                      })
-                    : null}
-                {topProducts === null && <LoadingSpinner />}
+                <div style={{ padding: "1em" }}>
+                    {topProducts !== null &&
+                    allProducts !== null &&
+                    topProducts.length > 0
+                        ? topProducts.map((product) => {
+                              let prod = getProductDetails(product._id);
+                              return (
+                                  prod && (
+                                      <ProductCard
+                                          style={{
+                                              width: "180px",
+                                              backgroundColor: "#fff",
+                                              margin: "0.5em",
+                                          }}
+                                          key={prod.id}
+                                          id={prod.id}
+                                          slug={
+                                              prod.slug !== undefined
+                                                  ? prod.slug
+                                                  : ""
+                                          }
+                                          type={"review"}
+                                          price={prod.price}
+                                          discount={
+                                              prod.discount !== undefined
+                                                  ? prod.discount
+                                                  : 0
+                                          }
+                                          title={prod.name}
+                                          image={
+                                              prod.photo === "no-photo.jpg"
+                                                  ? NoPhoto
+                                                  : prod.photo
+                                          }
+                                          rating={prod.averageRating}
+                                          link={true}
+                                          count={product.count}
+                                      />
+                                  )
+                              );
+                          })
+                        : null}
+                </div> 
+                {topProducts === null && <LoadingSpinner />}              
             </Grid>
         </div>
     );

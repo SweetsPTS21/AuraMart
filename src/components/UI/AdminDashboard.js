@@ -116,7 +116,7 @@ const AdminDashBoard = (props) => {
         }
     };
     return (
-        <div style={{ zIndex: "-1", }}>
+        <div style={{ zIndex: "-1", minWidth: "1422px"}}>
             <DashboardHeader user={user}/>
             <div style={{ height: "64px" }}></div>
             <Grid container>

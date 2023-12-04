@@ -206,6 +206,7 @@ const UpdateOrder = (props) => {
                         </Typography>
                         <MuiInput
                             aria-label="Date"
+                            type="date"
                             placeholder="Eg: 2021-10-10"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}

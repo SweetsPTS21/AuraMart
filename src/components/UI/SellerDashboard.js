@@ -105,6 +105,7 @@ const SellerDashbroad = () => {
             style={{
                 width: "100%",
                 height: "100vh",
+                minWidth: "1422px",
                 marginBottom: "2em",
                 zIndex: "0",
             }}
