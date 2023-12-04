@@ -183,7 +183,7 @@ const VoucherRender = (props) => {
                         className={classes.voucher__header__button}
                     >
                         {type === "user" ? (
-                            <Link to="/vouchers/create">
+                            <Link to="/">
                                 <Typography variant="contained" color="primary">
                                     Find Voucher
                                 </Typography>

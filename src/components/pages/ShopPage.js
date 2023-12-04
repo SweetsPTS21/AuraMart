@@ -28,10 +28,9 @@ import * as configActions from "../../store/actions/configActions";
 import * as voucherActions from "../../store/actions/voucherActions";
 import Banner from "../UI/Banner";
 import { Typography } from "@material-ui/core";
-const defaultBackground =
-    "https://getwallpapers.com/wallpaper/full/7/1/6/464954.jpg";
-const defaultAvatar =
-    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
+
+import defaultAvatar from "../../image/shopAvatar.jpg";
+import defaultBackground from "../../image/shopBack.jpg";
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -160,7 +159,7 @@ const ShopInfo = (props) => {
     const classes = useStyle();
     const shop = props.shop ? props.shop : {};
     const decoration = props.decorationsInShop;
-    const shopBackground = decoration[1] !== "decor2" ? decoration[1] : defaultBackground;
+    const shopBackground = decoration[1] || defaultBackground;
     const shopAvatar =
         shop.avatar !== "no-photo.jpg" ? shop.avatar : defaultAvatar;
 
@@ -219,7 +218,7 @@ const ShopInfo = (props) => {
                 height: "148px",
                 color: "white",
                 borderRadius: "0.5em",
-                backgroundImage: `url(${shopBackground})`,
+                backgroundImage: `url(${shopBackground !== "decor2" ? shopBackground : defaultBackground})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",

@@ -298,12 +298,13 @@ const Card = (props) => {
                             <p
                                 style={{
                                     marginBottom: 0,
+                                    marginTop: "0.5em",
                                     fontWeight: 500,
                                     fontSize: "0.8em",
                                     color: "#26BC4E",
                                 }}
                             >
-                                Amount ordered {props.count}
+                                Đã bán {props.count} sản phẩm
                             </p>
                         )}
                         <Grid container style={{ marginBottom: "0.5em" }}>

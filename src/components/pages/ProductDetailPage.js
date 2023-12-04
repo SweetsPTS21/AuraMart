@@ -59,6 +59,8 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { message } from "antd";
 import FormGroup from "@material-ui/core/FormGroup";
 import RecommendProduct from "../layout/RecommendProduct";
+import TopProducts from "../layout/TopProducts";
+
 const defaultAvatar =
     "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
@@ -1661,6 +1663,13 @@ const ProductDetailPage = (props) => {
                                     itemWidth={"170px"}
                                     type={"slider"}
                                 />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                style={{ padding: "0 0.5em 0.5em 0.5em" }}
+                            >
+                                <TopProducts itemWidth={"170px"} type={"slider"} />
                             </Grid>
                             <Grid item xs={12} style={{ padding: "0.5em" }}>
                                 {product !== null && product !== undefined && (

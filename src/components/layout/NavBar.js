@@ -67,20 +67,6 @@ const NavBar = (props) => {
         setOpen(false);
     };
 
-    // const scrollStep = (scrollStepInPx, intervalId_) => {
-    //     if (window.pageYOffset === 0) {
-    //         clearInterval(intervalId_);
-    //         scrollStepInPx = 0;
-    //     }
-    //     window.scroll(0, window.pageYOffset - scrollStepInPx);
-    // };
-
-    // const scrollToTop = (scrollStepInPx, delayInMs) => {
-    //     let intervalId_ = setInterval(() => {
-    //         scrollStep(scrollStepInPx, intervalId_);
-    //     }, delayInMs);
-    // };
-
     const handleOpenChatPopup = () => {
         setOpenChat(!openChat);
     };
@@ -163,7 +149,7 @@ const NavBar = (props) => {
                         />
                     </IconButton>
                 </Link>
-                <p>Track Order</p>
+                <p>Đơn hàng</p>
             </MenuItem>
             <MenuItem>
                 <IconButton
@@ -180,7 +166,7 @@ const NavBar = (props) => {
                         }}
                     />
                 </IconButton>
-                <p>Notifications</p>
+                <p>Thông báo</p>
             </MenuItem>
             <MenuItem onClick={handleOpenModal}>
                 <IconButton
@@ -193,7 +179,7 @@ const NavBar = (props) => {
                         style={{ paddingTop: "0.05em" }}
                     />
                 </IconButton>
-                <p>Login</p>
+                <p>Đăng nhập</p>
             </MenuItem>
         </Menu>
     );
@@ -221,7 +207,7 @@ const NavBar = (props) => {
                 className={classes.button}
                 onClick={() => dispatch(authActions.logoutUser())}
             >
-                Logout
+                Đăng xuất
             </Button>
             <Link
                 to={"/dashboard/0"}
@@ -229,7 +215,7 @@ const NavBar = (props) => {
                 className={classes.removeDefaultLink}
             >
                 <Button size={"medium"} className={classes.button}>
-                    My account
+                    Tài khoản
                 </Button>
             </Link>
             {user && user.role != "user" ? (
@@ -239,7 +225,7 @@ const NavBar = (props) => {
                     className={classes.removeDefaultLink}
                 >
                     <Button size={"medium"} className={classes.button}>
-                        My Shop {user.role ? `(${user.role})` : "null"}
+                        Cửa hàng của tôi {user.role ? `(${user.role})` : "null"}
                     </Button>
                 </Link>
             ) : (
@@ -249,7 +235,7 @@ const NavBar = (props) => {
                     className={classes.removeDefaultLink}
                 >
                     <Button size={"medium"} className={classes.button}>
-                        Become a seller
+                        Bán hàng cùng Aumart
                     </Button>
                 </Link>
             )}

@@ -4,6 +4,7 @@ import ProductCategoryDeal from "../UI/ProductCategoryDeal";
 import ProductNavigation from "../UI/ProductNavigation";
 import Footer from "../layout/Footer";
 import Card from "../UI/Card";
+import TopProducts from "../layout/TopProducts";
 import TikiInfo from "../UI/TikiInfo";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import InterestedProducts from "../UI/InterestedProducts";
@@ -67,7 +68,6 @@ const HomePage = (props) => {
     useEffect(() => {
         setTimeout(() => getProductsWithDiscount(), 1000);
     }, [products]);
-
 
     // using dispatch to get user address
     // useEffect(() => {
@@ -185,42 +185,10 @@ const HomePage = (props) => {
                         <TikiInfo />
 
                         <div style={{ margin: "0" }}>
-                            <ItemContainer
-                                length={3}
-                                title={"PRODUCTS YOU HAVE LOOKED FOR"}
-                                gridStyle={{ maxWidth: "100%" }}
-                            >
-                                <Card
-                                    type={"default"}
-                                    price={990000}
-                                    discount={62}
-                                    title={
-                                        "Sanity multifunctional bottle warmer"
-                                    }
-                                    image={BottleWarmer}
-                                    link={false}
-                                />
-                                <Card
-                                    type={"default"}
-                                    price={990000}
-                                    title={"Test product"}
-                                    image={BottleWarmer}
-                                    link={false}
-                                />
-                                <Card
-                                    type={"default"}
-                                    price={990000}
-                                    discount={62}
-                                    title={
-                                        "Sanity multifunctional bottle warmer"
-                                    }
-                                    image={BottleWarmer}
-                                    link={false}
-                                />
-                            </ItemContainer>
+                            <TopProducts itemWidth={"170px"} type={"slider"} />
                             <ItemContainer
                                 length={10}
-                                type={"slider"}                   
+                                type={"slider"}
                                 loading={loadingDisProd}
                                 timeInMilliSec={
                                     (Math.floor(Math.random() * 10) + 2) *
@@ -245,7 +213,7 @@ const HomePage = (props) => {
                                     {renderProd()}
                                 </ItemContainer>
                             )}
-                            <RecommendProduct user={user} itemWidth={"170px"}/>
+                            <RecommendProduct user={user} itemWidth={"170px"} />
                         </div>
                         <Footer />
                     </div>

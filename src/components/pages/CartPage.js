@@ -10,10 +10,11 @@ import Paper from "@material-ui/core/Paper";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Button from "@material-ui/core/Button";
-import noProductsLogo from "../../image/no_products_logo.png";
+import noProductsLogo from "../../image/emptycart.png";
 import Card from "../UI/Card";
 import noPhoto from "../../image/nophoto.png";
-import BottleWarmer from "../../image/bottoleWarmer.jpg";
+import RecommendProduct from "../layout/RecommendProduct";
+import TopProducts from "../layout/TopProducts";
 import * as cartActions from "../../store/actions/cartActions";
 
 import Dialog from "@mui/material/Dialog";
@@ -33,6 +34,9 @@ const useStyles = makeStyles(() => ({
         maxWidth: "1300px",
         minWidth: "1200px",
         height: "100%",
+    },
+    paper: {
+        borderRadius: "0.5em",
     },
     removeLink: {
         textDecoration: "none !important",
@@ -56,9 +60,10 @@ const useStyles = makeStyles(() => ({
         backgroundColor: "#f5f5f5",
         borderRadius: "0.5em",
     },
-    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
-        maxWidth: "900px !important"
-    },
+    "@global .MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper":
+        {
+            maxWidth: "900px !important",
+        },
 }));
 
 const formatVND = (x) => {
@@ -140,6 +145,8 @@ const CartPage = (props) => {
     const totalShopDiscount = useSelector(
         (state) => state.cart.totalShopDiscount
     );
+
+    const user = useSelector((state) => state.auth.user);
 
     const handleAddShopVoucherClick = (index) => {
         setCurrentIndex(index);
@@ -263,9 +270,7 @@ const CartPage = (props) => {
                                 }}
                             >
                                 <span>Shop voucher: </span>
-                                <span
-                                    className={classes.shopVoucher}
-                                >
+                                <span className={classes.shopVoucher}>
                                     {totalShopDiscount &&
                                         totalShopDiscount.map((item) => {
                                             if (item.shop === key) {
@@ -284,7 +289,7 @@ const CartPage = (props) => {
                                 </span>
                                 <Button
                                     variant="text"
-                                    style={{color: "red"}}
+                                    style={{ color: "red" }}
                                     onClick={() =>
                                         handleAddShopVoucherClick(index)
                                     }
@@ -359,8 +364,8 @@ const CartPage = (props) => {
             return (
                 <Grid container className={classes.root} alignItems="center">
                     <Grid item xs={12}>
-                        <h5 style={{ marginBottom: "1em" }}>
-                            Your cart ({props.amount} products)
+                        <h5 style={{ margin: "1em 0" }}>
+                            Your cart ({props.amount ? props.amount : 0} products)
                         </h5>
                         <Paper
                             className={classes.paper}
@@ -372,66 +377,22 @@ const CartPage = (props) => {
                                 src={noProductsLogo}
                                 alt={"not product logo"}
                             />
-                            <p>No products in your cart yet!</p>
-                            <Button variant="contained" style={
-                                {backgroundColor: "#ff424e", color: "#fff"}
-                            }>
-                                <Link
-                                    to={"/"}
-                                    onClick={(e) => e.stopPropagation()}
-                                    className={classes.removeLink}
-                                >
-                                    Continue shopping
-                                </Link>{" "}
-                            </Button>
+                            <h5>Giỏ hàng trống!</h5>
+                            <p>Bạn tham khảo thêm các sản phẩm được Aumart gợi ý bên dưới nhé!</p>
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
-                        <h5 className={classes.cartLabel}>Good deals</h5>
-                        <Paper className={classes.paper} elevation={0} square>
-                            {/* <Carousel autoPlay="true" animation="slide" interval={4000}>
-
-						</Carousel> */}
-                            <Card
-                                type={"default"}
-                                price={990000}
-                                discount={62}
-                                title={"Sanity multifunctional bottle warmer"}
-                                image={BottleWarmer}
-                            >
-                                <Button>Buy now</Button>
-                            </Card>
-                            <Card
-                                type={"deal"}
-                                price={990000}
-                                discount={62}
-                                title={"Sanity multifunctional bottle warmer"}
-                                image={BottleWarmer}
-                                sold={90}
-                                hot={true}
-                                timeInMilliSec={5 * 10000} // 50 seconds
-                            />{" "}
-                            <Card
-                                type={"deal"}
-                                price={990000}
-                                discount={62}
-                                title={"Sanity multifunctional bottle warmer"}
-                                image={BottleWarmer}
-                                sold={90}
-                                hot={true}
-                                timeInMilliSec={5 * 10000} // 50 seconds
-                            />{" "}
-                            <Card
-                                type={"deal"}
-                                price={990000}
-                                discount={62}
-                                title={"Sanity multifunctional bottle warmer"}
-                                image={BottleWarmer}
-                                sold={90}
-                                hot={true}
-                                timeInMilliSec={5 * 10000} // 50 seconds
-                            />
-                        </Paper>
+                        <RecommendProduct
+                            user={user}
+                            itemWidth={"170px"}
+                            type={"slider"}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TopProducts
+                            itemWidth={"170px"}
+                            type={"slider"}
+                        />
                     </Grid>
                 </Grid>
             );
