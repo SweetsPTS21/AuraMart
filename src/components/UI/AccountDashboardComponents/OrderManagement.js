@@ -24,7 +24,7 @@ import MuiDialog from "../../layout/MuiDialog";
 const userStyles = makeStyles(() => ({
     button: {
         backgroundColor: "#ff424e",
-        height: "2em",
+        height: "2.5em",
         color: "#fff",
         fontSize: "1em",
         textTransform: "none",
@@ -38,6 +38,25 @@ const userStyles = makeStyles(() => ({
         marginLeft: "1em",
         marginTop: "1em",
         marginBottom: "1em",
+        padding: "0 1em",
+    },
+    button__secondary: {
+        border: "1px solid #ccc",
+        borderRadius: "4px",
+        height: "2.5em",
+        padding: "1em",
+        margin: 0,
+        marginLeft: "1em",
+        marginTop: "1em",
+        marginBottom: "1em",
+        fontSize: "1em",
+        textTransform: "none",
+        "&:focus": {
+            outline: "none",
+        },
+        "&:hover": {
+            border: "1px solid #ccc",
+        },
     },
     input: {
         height: "1em !important",
@@ -128,6 +147,7 @@ const userStyles = makeStyles(() => ({
         justifyContent: "flex-end",
         padding: "1em",
         paddingBottom: "0",
+        backgroundColor: "#fffefb",
     },
     card__actions__button: {
         display: "flex",
@@ -248,6 +268,7 @@ const OrderStep = ({ myOrder }) => {
         completed: PropTypes.bool,
     };
     const getCurrentState = () => {
+        if (myOrder.currentState === "Received") return 6;
         if (myOrder.currentState === "Delivered") return 5;
         if (myOrder.currentState === "Shipping") return 4;
         if (myOrder.currentState === "Packing") return 3;
@@ -264,6 +285,7 @@ const OrderStep = ({ myOrder }) => {
         "Packing",
         "Shipping",
         "Delivered",
+        "Received",
     ];
 
     return (
@@ -295,6 +317,21 @@ const OrderCard = ({ myOrder }) => {
     const handleCancelOrder = () => {
         dispatch(orderActions.cancelOrder(currentOrderId));
     };
+
+    const handleReceivedOrder = () => {
+        dispatch(orderActions.confirmReceivedOrder(currentOrderId));
+    };
+
+    const status = [
+        "Ordered Successfully",
+        "Tiki Received",
+        "Getting Product",
+        "Packing",
+        "Shipping",
+        "Delivered",
+        "Received",
+        "Cancelled",
+    ];
 
     return (
         <div className={classes.grid2}>
@@ -439,29 +476,40 @@ const OrderCard = ({ myOrder }) => {
                                 justifyContent: "flex-end",
                             }}
                         >
-                            {myOrder.currentState === "Ordered Successfully" ||
-                            myOrder.currentState === "Tiki Received" ? (
+                            {status
+                                .slice(0, 4)
+                                .includes(myOrder.currentState) && (
+                                <>
+                                    <Button
+                                        style={{
+                                            height: "2em",
+                                            fontSize: "1em",
+                                            textTransform: "none",
+                                            margin: 0,
+                                            marginLeft: "1em",
+                                            marginTop: "1em",
+                                            marginBottom: "1em",
+                                        }}
+                                        onClick={() => {
+                                            setCurrentOrderId(myOrder._id);
+                                            setOpenDialog(true);
+                                        }}
+                                    >
+                                        Hủy đơn hàng
+                                    </Button>
+                                    <MuiDialog
+                                        openDialog={openDialog}
+                                        setOpenDialog={setOpenDialog}
+                                        handleConfirm={handleCancelOrder}
+                                        cancel={true}
+                                        message={
+                                            "Tại sao bạn muốn hủy đơn hàng?"
+                                        }
+                                    />
+                                </>
+                            )}
+                            {myOrder.currentState === "Shipping" && (
                                 <Button
-                                    variant="contained"
-                                    style={{
-                                        height: "2em",
-                                        fontSize: "1em",
-                                        textTransform: "none",
-                                        margin: 0,
-                                        marginLeft: "1em",
-                                        marginTop: "1em",
-                                        marginBottom: "1em",
-                                    }}
-                                    onClick={() => {
-                                        setCurrentOrderId(myOrder._id);
-                                        setOpenDialog(true);
-                                    }}
-                                >
-                                    Hủy đơn hàng
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="contained"
                                     style={{
                                         height: "2em",
                                         fontSize: "1em",
@@ -476,17 +524,44 @@ const OrderCard = ({ myOrder }) => {
                                     Hủy đơn hàng
                                 </Button>
                             )}
-                            <Button
-                                variant="contained"
-                                className={classes.button}
-                            >
+                            {myOrder.currentState === "Delivered" && (
+                                <>
+                                    <Button
+                                        className={classes.button}
+                                        onClick={() => {
+                                            setCurrentOrderId(myOrder._id);
+                                            setOpenDialog(true);
+                                        }}
+                                    >
+                                        Đã nhận hàng
+                                    </Button>
+                                    <MuiDialog
+                                        openDialog={openDialog}
+                                        setOpenDialog={setOpenDialog}
+                                        handleConfirm={handleReceivedOrder}
+                                        message={`Thanh toán ${total}đ cho shop ${shop.name}?`}
+                                    />
+                                </>
+                            )}
+                            {myOrder.currentState === "Received" && (
+                                <>
+                                    <Button
+                                        className={classes.button}
+                                        onClick={() => {
+                                            setCurrentOrderId(myOrder._id);
+                                            setOpenDialog(true);
+                                        }}
+                                    >
+                                        Đánh giá
+                                    </Button>
+                                </>
+                            )}
+
+                            <Button className={classes.button__secondary}>
                                 Xem chi tiết đơn hàng
                             </Button>
                             <Link to={`/tiki/shops/${shop._id}`}>
-                                <Button
-                                    variant="contained"
-                                    className={classes.button}
-                                >
+                                <Button className={classes.button__secondary}>
                                     Liên hệ shop
                                 </Button>
                             </Link>
@@ -494,11 +569,6 @@ const OrderCard = ({ myOrder }) => {
                     </Grid>
                 </Grid>
             </Grid>
-            <MuiDialog
-                openDialog={openDialog}
-                setOpenDialog={setOpenDialog}
-                handleConfirm={handleCancelOrder}
-            />
         </div>
     );
 };
@@ -528,32 +598,42 @@ const OrderPanel = (props) => {
                         aria-label="basic tabs example"
                         style={{ padding: "0" }}
                     >
-                        <Tab label="Tất cả" {...a11yProps(0)} />
-                        <Tab label="Chờ thanh toán" {...a11yProps(1)} />
+                        <Tab label="Chờ thanh toán" {...a11yProps(0)} />
+                        <Tab label="Đóng gói" {...a11yProps(1)} />
                         <Tab label="Vận chuyển" {...a11yProps(2)} />
-                        <Tab label="Chờ giao hàng" {...a11yProps(3)} />
-                        <Tab label="Hoàn thành" {...a11yProps(4)} />
-                        <Tab label="Đã hủy" {...a11yProps(5)} />
-                        <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} />
+                        <Tab label="Hoàn thành" {...a11yProps(3)} />
+                        <Tab label="Đã hủy" {...a11yProps(4)} />
+                        <Tab label="Trả hàng/hoàn tiền" {...a11yProps(5)} />
+                        <Tab label="Tất cả" {...a11yProps(6)} />
                     </Tabs>
                 </Box>
-                <CustomTabPanel value={value} index={0}>
+                <CustomTabPanel value={value} index={6}>
                     <div>
                         {myOrders.map((order, index) => (
                             <OrderCard myOrder={order} key={index} />
                         ))}
                     </div>
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
+                <CustomTabPanel value={value} index={0}>
                     <div>
                         {myOrders.map(
                             (order, index) =>
                                 (order.currentState ===
                                     "Ordered Successfully" ||
-                                    order.currentState === "Tiki Received" ||
-                                    order.currentState === "Getting Product") &&
+                                    order.currentState === "Tiki Received") &&
                                 order.paymentState === "Pending" &&
                                 order.paymentMethod !== "COD" && (
+                                    <OrderCard myOrder={order} key={index} />
+                                )
+                        )}
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <div>
+                        {myOrders.map(
+                            (order, index) =>
+                                (order.currentState === "Getting Product" ||
+                                    order.currentState === "Packing") && (
                                     <OrderCard myOrder={order} key={index} />
                                 )
                         )}
@@ -573,23 +653,14 @@ const OrderPanel = (props) => {
                     <div>
                         {myOrders.map(
                             (order, index) =>
-                                order.currentState === "Delivered" && (
+                                (order.currentState === "Delivered" ||
+                                    order.currentState === "Received") && (
                                     <OrderCard myOrder={order} key={index} />
                                 )
                         )}
                     </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={4}>
-                    <div>
-                        {myOrders.map(
-                            (order, index) =>
-                                order.currentState === "Delivered" && (
-                                    <OrderCard myOrder={order} key={index} />
-                                )
-                        )}
-                    </div>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={5}>
                     <div>
                         {myOrders.map(
                             (order, index) =>

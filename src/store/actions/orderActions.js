@@ -181,6 +181,23 @@ export const cancelOrder = (orderId) => async (dispatch) => {
         });
 };
 
+export const confirmReceivedOrder = (orderId) => async (dispatch) => {
+    const url = `${api_url}/api/v1/orders/${orderId}/confirm`;
+    await axios
+        .put(url)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error confirming order");
+            }
+            dispatch(getOrderById(orderId));
+            message.success("Confirmed order");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error confirming order");
+        });
+};
+
 // 🔒
 export const updateOrderById = (order, orderId) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/${orderId}`;
