@@ -50,13 +50,12 @@ export const getAllReviews = () => async (dispatch) => {
 };
 
 export const getAllUserReviews = (userId) => async (dispatch) => {
-    const url = `${api_url}/api/v1/reviews`;
+    const url = `${api_url}/api/v1/users/${userId}/reviews`;
     await axios.get(url)
         .then(res => {
-            const myReviews = res.data.data.filter(review => review.user === userId);
             dispatch({
                 type: GET_ALL_USER_REVIEWS,  //this call test dispatch. to dispsatch to our reducer
-                reviews: myReviews
+                reviews: res.data.data
             });
             // message.success("Got reviews");
         })

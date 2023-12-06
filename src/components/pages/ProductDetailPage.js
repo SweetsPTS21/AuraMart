@@ -33,9 +33,6 @@ import StarIcon from "@material-ui/icons/Star";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
 
 // list divider
 import List from "@material-ui/core/List";
@@ -44,7 +41,6 @@ import ListItem from "@material-ui/core/ListItem";
 import { SideBySideMagnifier } from "react-image-magnifiers";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Moment from "moment";
-import Moment2 from "react-moment";
 
 import noPhoto from "../../image/nophoto.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,12 +50,10 @@ import * as reviewActions from "../../store/actions/reviewActions";
 import * as addressActions from "../../store/actions/addressActions";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import TransitionsModal from "../user/UserModal";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { message } from "antd";
-import FormGroup from "@material-ui/core/FormGroup";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
+import ReviewCard from "../layout/ReviewCard";
 
 const defaultAvatar =
     "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
@@ -323,9 +317,10 @@ const ImageList = ({ product, setCurrentImg }) => {
     );
 };
 
-const dealCounter = (props) => {
-    if (props.hot === "true") {
-        return (
+const DealCounter = (props) => {
+    const { product, timeInMilliSec } = props;
+    return (
+        product && product.sale && (
             <div
                 style={{
                     borderBottom: "1px solid lightgrey",
@@ -347,10 +342,10 @@ const dealCounter = (props) => {
                     </span>
                     <span>
                         Deal is finished in:{" "}
-                        {props.timeInMilliSec !== undefined && (
+                        {timeInMilliSec !== undefined && (
                             <span>
                                 <Countdown
-                                    date={Date.now() + props.timeInMilliSec}
+                                    date={Date.now() + timeInMilliSec}
                                     renderer={renderer}
                                 />
                             </span>
@@ -358,13 +353,13 @@ const dealCounter = (props) => {
                     </span>
                 </div>
                 <Progress
-                    value={!isNaN(props.sold) ? props.sold : 50}
+                    value={!isNaN(product.sold) ? product.sold : 50}
                     style={{ backgroundColor: "#FDDCCB", marginTop: "1em" }}
                 >
-                    {!isNaN(props.sold) && (
+                    {!isNaN(product.sold) && (
                         <span>
                             {" "}
-                            {!!props.hot && (
+                            {!!product.sale && (
                                 <WhatshotIcon
                                     style={{
                                         color: "white",
@@ -373,13 +368,13 @@ const dealCounter = (props) => {
                                     }}
                                 />
                             )}
-                            Sold {props.sold}
+                            Sold {product.sold}
                         </span>
                     )}
                 </Progress>
             </div>
-        );
-    }
+        )
+    );
 };
 
 const ProductPriceInfo = ({ product }) => {
@@ -721,14 +716,19 @@ const ShippingInfo = () => {
     );
 };
 
-const ServiceAndPromotion = ({ product }) => {
+const ServiceAndPromotion = ({ saleProduct }) => {
     const classes = useStyles();
     return (
         <div className={classes.block}>
             <Grid container wrap="nowrap">
                 <Grid item className="price-block" xl={7} xs={12}>
                     {/* deal counter for hot products */}
-                    {dealCounter(product)}
+                    <DealCounter
+                        product={saleProduct}
+                        timeInMilliSec={
+                            (Math.floor(Math.random() * 10) + 2) * 100000
+                        }
+                    />
 
                     {/*Report products */}
                     <div
@@ -963,249 +963,6 @@ const theme = createTheme({
     },
 });
 
-const ReviewCard = ({ review, product }) => {
-    const dispatch = useDispatch();
-    const nameShort = review.user.name
-        .split(/\s/)
-        .reduce((response, word) => (response += word.slice(0, 1)), "");
-    const user = useSelector((state) => state.auth.user);
-    const [isEditing, setIsEditing] = useState(false);
-    const [text, setText] = useState(review.text);
-    const [title, setTitle] = useState(review.title);
-    const [rating, setRating] = useState(review.rating);
-    const [isLoading, setIsLoading] = useState(false);
-
-    // fixed bug when user tires to edit review after user deletes a review and adds new review
-    useEffect(() => {
-        setText(review.text);
-        setTitle(review.title);
-        setRating(review.rating);
-    }, [review]);
-
-    const handleUpdateReview = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        const msg = message.loading("Updating review!", 0);
-        const review_ = { text, title, rating };
-        await dispatch(
-            reviewActions.updateReviewById(
-                review_,
-                review._id,
-                product.id,
-                user.id
-            )
-        );
-        setTimeout(msg, 1);
-        setIsEditing(false);
-        setIsLoading(false);
-    };
-
-    const handleDeleteReview = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        const msg = message.loading("Deleting review!", 0);
-        await dispatch(
-            reviewActions.deleteReviewById(review._id, product.id, user.id)
-        );
-        setTimeout(msg, 1);
-        setIsLoading(false);
-    };
-
-    return (
-        <ValidatorForm onSubmit={handleUpdateReview}>
-            <FormGroup>
-                <div>
-                    <Grid container style={{ padding: "1em" }}>
-                        <Grid
-                            item
-                            xs={2}
-                            style={{ margin: "0", textAlign: "center" }}
-                        >
-                            <span
-                                style={{
-                                    borderRadius: "50%",
-                                    backgroundColor: "#d3d2d3",
-                                    color: "#919090",
-                                    fontWeight: 500,
-                                    textAlign: "center",
-                                    width: "65px",
-                                    height: "65px",
-                                    display: "inline-block",
-                                    lineHeight: "65px",
-                                }}
-                            >
-                                {nameShort.toUpperCase()}
-                            </span>
-                            <p>{review.user.name}</p>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={8}
-                            style={{ textAlign: "left", marginLeft: "2em" }}
-                        >
-                            <span>
-                                <div
-                                    style={{
-                                        marginBottom: "0",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "start",
-                                    }}
-                                >
-                                    {user.id === review.user._id &&
-                                    isEditing ? (
-                                        <Rating
-                                            name="hover-feedback"
-                                            size={"large"}
-                                            style={{ display: "inline-flex" }}
-                                            value={rating}
-                                            precision={0.5}
-                                            onChange={(e, newValue) => {
-                                                newValue > 0.5 &&
-                                                    setRating(newValue);
-                                            }}
-                                        />
-                                    ) : (
-                                        <Rating
-                                            name="read-only"
-                                            value={review.rating}
-                                            readOnly
-                                            precision={0.5}
-                                        />
-                                    )}
-                                    {user.id === review.user._id &&
-                                    isEditing ? (
-                                        <FormControl>
-                                            <TextValidator
-                                                size="small"
-                                                label="Title"
-                                                style={{ marginLeft: "2em" }}
-                                                placeholder="Enter you comment title"
-                                                value={title}
-                                                margin="normal"
-                                                fullWidth
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                onChange={(e) => {
-                                                    setTitle(e.target.value);
-                                                }}
-                                                variant="standard"
-                                                validators={["required"]}
-                                                errorMessages={[
-                                                    "Enter your comment title",
-                                                ]}
-                                            />
-                                        </FormControl>
-                                    ) : (
-                                        <span
-                                            style={{
-                                                fontWeight: 600,
-                                                marginLeft: "2em",
-                                            }}
-                                        >
-                                            {review.title}
-                                        </span>
-                                    )}
-                                </div>
-                            </span>
-                            <p style={{ color: "#22B345", fontSize: "0.75em" }}>
-                                Bought from Tiki
-                            </p>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "start",
-                                }}
-                            >
-                                {user.id === review.user._id && isEditing ? (
-                                    <FormControl>
-                                        <TextareaAutosize
-                                            aria-label="empty textarea"
-                                            minRows={3}
-                                            placeholder="Write your comment here..."
-                                            onChange={(e) =>
-                                                setText(e.target.value)
-                                            }
-                                            value={text}
-                                            required
-                                            style={{
-                                                borderColor: "#303F9F",
-                                                width: "400px",
-                                            }}
-                                        />
-                                    </FormControl>
-                                ) : (
-                                    <p>{review.text}</p>
-                                )}
-                                {user.id === review.user._id && (
-                                    <>
-                                        {isEditing ? (
-                                            <FormControl>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    size={"small"}
-                                                    type={"submit"}
-                                                    startIcon={<SaveIcon />}
-                                                    style={{
-                                                        marginLeft: "2.5em",
-                                                    }}
-                                                    disabled={isLoading}
-                                                >
-                                                    Save
-                                                </Button>
-                                            </FormControl>
-                                        ) : (
-                                            <FormControl>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    size={"small"}
-                                                    component={"div"}
-                                                    startIcon={<EditIcon />}
-                                                    style={{
-                                                        marginLeft: "2.5em",
-                                                    }}
-                                                    disabled={isLoading}
-                                                    onClick={() =>
-                                                        setIsEditing(true)
-                                                    }
-                                                >
-                                                    Edit
-                                                </Button>
-                                            </FormControl>
-                                        )}
-                                        <FormControl>
-                                            <Button
-                                                variant="outlined"
-                                                color="secondary"
-                                                component={"div"}
-                                                size={"small"}
-                                                style={{ marginLeft: "2em" }}
-                                                startIcon={<DeleteIcon />}
-                                                disabled={isLoading}
-                                                onClick={handleDeleteReview}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </FormControl>
-                                    </>
-                                )}
-                            </div>
-
-                            <p style={{ fontSize: "0.7em", color: "gray" }}>
-                                Commented{" "}
-                                <Moment2 fromNow>{review.createdAt}</Moment2>
-                            </p>
-                        </Grid>
-                    </Grid>
-                </div>
-            </FormGroup>
-        </ValidatorForm>
-    );
-};
 const ProductReview = ({ product, reviews }) => {
     const classes = useStyles();
     const [filter1, setFilter1] = useState(10);
@@ -1463,9 +1220,9 @@ const ProductReview = ({ product, reviews }) => {
                                     review={review}
                                     key={index}
                                     product={product}
+                                    type={"product"}
                                 />
                             ))}
-                        {/*<ReviewCard nameShort={"QK"} nameFull={'Quynh Khang'} value={5} review={"I really love Tiki"}/>*/}
                     </div>
                 </Grid>
             </Grid>
@@ -1478,12 +1235,10 @@ const ProductDetailPage = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { productId } = useParams();
-    // const product = useSelector(state => state.products.products !== null && state.products.products.find(prod => prod.id === productId));
     const product = useSelector((state) => state.products.currentProduct);
     const user = useSelector((state) => state.auth.user);
     const productReviews = useSelector((state) => state.reviews.reviews);
     const [currentImg, setCurrentImg] = useState(noPhoto);
-    // const [currentImg, setCurrentImg] = useState(typeof(product) !== 'boolean' ? `${process.env.REACT_APP_API}/uploads/${product.photo}` : noPhoto);
 
     useEffect(() => {
         dispatch(productActions.getProductById(productId));
@@ -1522,8 +1277,6 @@ const ProductDetailPage = (props) => {
             }}
         >
             <NavBar {...props} />
-            {/*<h1>{productName}</h1>*/}
-            {/*<h1>{productId}</h1>*/}
             <div
                 className={classes.root}
                 style={{
@@ -1669,7 +1422,10 @@ const ProductDetailPage = (props) => {
                                 xs={12}
                                 style={{ padding: "0 0.5em 0.5em 0.5em" }}
                             >
-                                <TopProducts itemWidth={"170px"} type={"slider"} />
+                                <TopProducts
+                                    itemWidth={"170px"}
+                                    type={"slider"}
+                                />
                             </Grid>
                             <Grid item xs={12} style={{ padding: "0.5em" }}>
                                 {product !== null && product !== undefined && (
@@ -1696,7 +1452,9 @@ const ProductDetailPage = (props) => {
                         </div>
                     </Grid>
                 </Grid>
-                {product === null || productReviews === null ? <LoadingSpinner /> : null}
+                {product === null || productReviews === null ? (
+                    <LoadingSpinner />
+                ) : null}
             </div>
             <Footer />
         </div>

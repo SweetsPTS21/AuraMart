@@ -31,7 +31,7 @@ const TopProducts = (props) => {
                     style={{
                         width: itemWidth,
                         backgroundColor: "#fff",
-                        margin: "0.5em",
+                        marginRight: "0.5em",
                     }}
                     key={prod.id}
                     id={prod.id}

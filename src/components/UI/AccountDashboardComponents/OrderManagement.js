@@ -15,6 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import { StoreRounded } from "@material-ui/icons";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import TransitionsModal from "../../user/UserModal";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
@@ -310,6 +311,7 @@ const OrderCard = ({ myOrder }) => {
     const dispatch = useDispatch();
     const product = myOrder.product;
     const [openDialog, setOpenDialog] = useState(false);
+    const [openReviewModel, setOpenReviewModel] = useState(false);
     const [currentOrderId, setCurrentOrderId] = useState(null);
 
     const { shop, total, quantity } = myOrder;
@@ -320,6 +322,14 @@ const OrderCard = ({ myOrder }) => {
 
     const handleReceivedOrder = () => {
         dispatch(orderActions.confirmReceivedOrder(currentOrderId));
+    };
+
+    const handleOpenReviewModel = () => {
+        setOpenReviewModel(true);
+    };
+
+    const handleCloseReviewModel = () => {
+        setOpenReviewModel(false);
     };
 
     const status = [
@@ -547,13 +557,17 @@ const OrderCard = ({ myOrder }) => {
                                 <>
                                     <Button
                                         className={classes.button}
-                                        onClick={() => {
-                                            setCurrentOrderId(myOrder._id);
-                                            setOpenDialog(true);
-                                        }}
+                                        onClick={handleOpenReviewModel}
                                     >
                                         Đánh giá
                                     </Button>
+                                    <TransitionsModal
+                                        open={openReviewModel}
+                                        onClose={handleCloseReviewModel}
+                                        piority={0}
+                                        productId={product.id}
+                                        type={"commentModal"}
+                                    />
                                 </>
                             )}
 

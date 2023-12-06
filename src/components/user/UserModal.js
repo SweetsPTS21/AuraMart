@@ -80,12 +80,35 @@ const useStyles = makeStyles((theme) => ({
     textDescription: {
         textAlign: "justify",
     },
-    buttonStyle: {
-        marginTop: "16px",
-        marginBottom: "8px",
-        marginRight: "8px",
+    button: {
+        height: "2.5em",
         textTransform: "none",
+        margin: 0,
+        marginLeft: "1em",
+        marginTop: "1em",
+        marginBottom: "1em",
+        padding: "0 1em",
+        "&:focus": {
+            outline: "none",
+        },
+    },
+    buttonStyle: {
+        backgroundColor: "#ff424e",
+        height: "2.5em",
+        color: "#fff",
         fontSize: "1em",
+        textTransform: "none",
+        "&:focus": {
+            outline: "none",
+        },
+        "&:hover": {
+            backgroundColor: "#ff424e",
+        },
+        margin: 0,
+        marginLeft: "1em",
+        marginTop: "1em",
+        marginBottom: "1em",
+        padding: "0 1em",
     },
     "@global .MuiRating-label ": {
         display: "block !important",
@@ -377,14 +400,13 @@ const ModalComment = (props) => {
                         <Button
                             variant="outlined"
                             color="default"
-                            className={classes.buttonStyle}
                             onClick={handleDiscard}
+                            className={classes.button}
                         >
                             Hủy
                         </Button>
                         <Button
                             type={"submit"}
-                            variant="contained"
                             color="secondary"
                             disabled={isLoading}
                             className={classes.buttonStyle}
