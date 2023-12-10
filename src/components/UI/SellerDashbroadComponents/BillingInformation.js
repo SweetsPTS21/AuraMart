@@ -17,6 +17,7 @@ const userStyles = makeStyles(() => ({
         "&:hover": {
             backgroundColor: "#ff424e",
         },
+
         margin: 0,
         marginLeft: "1em",
         marginRight: "0.5em",
@@ -45,8 +46,6 @@ const userStyles = makeStyles(() => ({
         marginBottom: "0.5em",
         backgroundColor: "white",
         borderRadius: "0.5em",
-    },
-    removeLinkStyles: {
         textDecoration: "none !important",
     },
     "@global .MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded":
@@ -60,12 +59,12 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const QuestionAndAnswer = () => {
+const BillingInformation = () => {
     const classes = userStyles();
 
     return (
         <div style={{ width: "80%" }}>
-            <div className={classes.title}>Questions and Answer</div>
+            <div className={classes.title}>Billing Information</div>
             <div className={classes.grid}>
                 <section
                     style={{
@@ -77,7 +76,10 @@ const QuestionAndAnswer = () => {
                 >
                     <img src={tikiNotFound} alt="" />
                     <br />
-                    <p>You do not have any questions or answers yet</p>
+                    <p>
+                        Saving payment information helps you order more quickly
+                        and easily
+                    </p>
                     <Button
                         variant="contained"
                         color="secondary"
@@ -91,4 +93,4 @@ const QuestionAndAnswer = () => {
     );
 };
 
-export default QuestionAndAnswer;
+export default BillingInformation;

@@ -200,7 +200,13 @@ const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
     return (
         <div style={style}>
             <Grid container>
-                <Grid item xs={12} sm={12} md={12} style={{ margin: "0 auto", width: "420px" }}>
+                <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ margin: "0 auto", width: "420px" }}
+                >
                     <Card>
                         <CardHeader color="tiki">
                             <h4 className={classes.cardTitleWhite}>

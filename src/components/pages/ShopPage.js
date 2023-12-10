@@ -29,6 +29,13 @@ import * as voucherActions from "../../store/actions/voucherActions";
 import Banner from "../UI/Banner";
 import { Typography } from "@material-ui/core";
 
+import {
+    CommentRounded,
+    GradeRounded,
+    QuestionAnswerRounded,
+    StorefrontRounded,
+} from "@mui/icons-material";
+
 import defaultAvatar from "../../image/shopAvatar.jpg";
 import defaultBackground from "../../image/shopBack.jpg";
 
@@ -63,10 +70,6 @@ const useStyle = makeStyles(() => ({
         display: "flex",
     },
 
-    header: {
-        height: "148px",
-    },
-
     block: {
         display: "flex",
         marginBottom: "1em",
@@ -97,7 +100,7 @@ const useStyle = makeStyles(() => ({
 
     shopInfo__options: {
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         alignItems: "center",
     },
 
@@ -110,6 +113,11 @@ const useStyle = makeStyles(() => ({
         color: "#FFF",
         border: "1px solid #FFF",
         marginLeft: "0.5em",
+    },
+    info__details: {
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "0.5em 0",
     },
 
     avatar: {
@@ -171,7 +179,6 @@ const ShopInfo = (props) => {
         userPassword: userData._id,
     };
 
-
     const createNewChat = () => {
         newChat(
             chatEngineData,
@@ -215,10 +222,13 @@ const ShopInfo = (props) => {
             xs={12}
             className={classes.block}
             style={{
-                height: "148px",
                 color: "white",
                 borderRadius: "0.5em",
-                backgroundImage: `url(${shopBackground !== "decor2" ? shopBackground : defaultBackground})`,
+                backgroundImage: `url(${
+                    shopBackground !== "decor2"
+                        ? shopBackground
+                        : defaultBackground
+                })`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -245,17 +255,70 @@ const ShopInfo = (props) => {
                         )}
                     </Grid>
                 </Grid>
-                <Grid item xs={8} className={classes.shopInfo__options}>
-                    <Button className={classes.shopInfo__button} size="medium">
-                        Theo dõi
-                    </Button>
-                    <Button
-                        className={classes.shopInfo__button}
-                        size="medium"
-                        onClick={handleChatClick}
+                <Grid
+                    container
+                    item
+                    xs={8}
+                    className={classes.shopInfo__options}
+                >
+                    <Grid item xs={4} style={{ padding: "0 1em" }}>
+                        <span className={classes.info__details}>
+                            <span>
+                                <GradeRounded />
+                                <b style={{ paddingLeft: "0.5em" }}>Đánh giá</b>
+                            </span>
+                            <b>{shop.rating}4.9</b>
+                        </span>
+                        <span className={classes.info__details}>
+                            <span>
+                                <QuestionAnswerRounded />
+                                <b style={{ paddingLeft: "0.5em" }}>Theo dõi</b>
+                            </span>
+                            <b>{shop.followers}250</b>
+                        </span>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={4}
+                        style={{
+                            color: "rgba(255, 255, 255, 0.7)",
+                            padding: "0 1em",
+                        }}
                     >
-                        Chat
-                    </Button>
+                        <span className={classes.info__details}>
+                            <span>
+                                <StorefrontRounded />
+                                <b style={{ paddingLeft: "0.5em" }}>Sản phẩm</b>
+                            </span>
+                            <b>{shop.followers}250</b>
+                        </span>
+                        <span className={classes.info__details}>
+                            <span>
+                                <CommentRounded />
+                                <b style={{ paddingLeft: "0.5em" }}>Phản hồi</b>
+                            </span>
+                            <b>{shop.followers}100%</b>
+                        </span>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={4}
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            style={{
+                                color: "#fff",
+                                backgroundColor: "#0a68ff",
+                                textTransform: "none",
+                                fontSize: "1em",
+                            }}
+                            onClick={handleChatClick}
+                        >
+                            <QuestionAnswerRounded /> Chat ngay
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid item container xs={12} className={classes.shopInfo__navbar}>

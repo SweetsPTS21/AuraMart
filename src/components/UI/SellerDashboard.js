@@ -21,8 +21,8 @@ import OrdersManagement from "./SellerDashbroadComponents/OrdersManagement";
 import ProductsManagement from "./SellerDashbroadComponents/ProductsManagement";
 import ShopManagement from "./SellerDashbroadComponents/ShopManagement";
 import Stocks from "./SellerDashbroadComponents/Stocks";
-import BillingInformation from "./SellerDashbroadComponents/BillingInfomation";
-import CustomerService from "./SellerDashbroadComponents/CustomerService";
+import BillingInformation from "./SellerDashbroadComponents/BillingInformation";
+import Reports from "./SellerDashbroadComponents/Reports";
 import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
 import DashboardHeader from "./DashboardHeader";
 
@@ -31,6 +31,7 @@ import { getAllOrdersOfAShop } from "../../store/actions/orderActions";
 import { getProductsByShopId } from "../../store/actions/productActions";
 import { getConfigsByShopId } from "../../store/actions/configActions";
 import { getAllStocksOfAShop } from "../../store/actions/stockActions";
+import { getShopStats } from "../../store/actions/statsActions";
 
 const SellerDashbroad = () => {
     const index = 0;
@@ -51,18 +52,19 @@ const SellerDashbroad = () => {
             dispatch(getProductsByShopId(shop.id));
             dispatch(getConfigsByShopId(shop.id));
             dispatch(getAllStocksOfAShop(shop.id));
+            dispatch(getShopStats(shop.id));
         }
     }, [shop]);
 
     const options = [
-        "Home page",
-        "Orders Management",
-        "Products Management",
-        "Shop Management",
-        "Stocks",
-        "Billing Information",
-        "Customer Service",
-        "Help Center",
+        "Trang chủ",
+        "Đơn hàng",
+        "Sản phẩm",
+        "Cấu hình",
+        "Kho hàng",
+        "Thông tin thanh toán",
+        "Báo cáo",
+        "Trung tâm trợ giúp",
     ];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
@@ -93,7 +95,7 @@ const SellerDashbroad = () => {
             case 5:
                 return <BillingInformation />;
             case 6:
-                return <CustomerService />;
+                return <Reports />;
             case 7:
                 return <HelpCenter />;
             default:

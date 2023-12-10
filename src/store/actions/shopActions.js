@@ -60,6 +60,7 @@ export const getShopByUserId = (userId) => async (dispatch) => {
         });
 };
 
+// 🔒
 export const registerANewShop = (shop) => async (dispatch) => {
     const url = `${api_url}/api/v1/shops/register`;
     await axios

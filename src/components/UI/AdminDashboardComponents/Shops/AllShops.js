@@ -8,12 +8,13 @@ import CardHeader from "../Card/CardHeader";
 import CardIcon from "../Card/CardIcon";
 
 import { Accessibility, Update } from "@material-ui/icons";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts";
 
 import CardFooter from "../Card/CardFooter";
 import {
     Autocomplete,
     Button,
-    
     Pagination,
     Paper,
     Table,
@@ -240,6 +241,7 @@ const ShopToApprove = (props) => {
 const AllShops = () => {
     const classes = userStyles();
     const allShops = useSelector((state) => state.shops.shops); // shops
+
     const [shops, setShops] = useState(null); // to update users that are rendered
     const [shopsToApprove, setShopsToApprove] = useState(null); // to update users that are rendered
     const [firstLoad, setFirstLoad] = useState(true);
@@ -249,6 +251,8 @@ const AllShops = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [shopsLastUpdated] = useState(Date.now());
+
+
 
     if (firstLoad) {
         // users wouldn't have been set so we use settimeout
@@ -261,6 +265,41 @@ const AllShops = () => {
                 setFirstLoad(false);
             }, 1000);
     }
+
+    const chartSetting = {
+        yAxis: [
+            {
+                label: "products (units)",
+            },
+        ],
+        width: 700,
+        height: 300,
+        sx: {
+            [`.${axisClasses.left} .${axisClasses.label}`]: {
+                transform: "translate(0px, 0)",
+            },
+        },
+    };
+
+    const topShops =
+        allShops &&
+        allShops
+            .sort((a, b) => (a.products.length > b.products.length ? -1 : 1))
+            .slice(0, 5);
+    
+
+    const dataset =
+        topShops &&
+        topShops.map((shop) => ({
+            name: shop.name,
+            products: shop.products.length,
+            sold: shop.products.reduce(
+                (acc, product) => acc + product.soldQuantity,
+                Math.floor(Math.random() * 100)
+            ),
+            reviews: Math.floor(Math.random() * 100),
+            revenue: Math.floor(Math.random() * 100),
+        }));
 
     const handleFilter = (sortDescending, filterOptions) => {
         setIsLoading(true);
@@ -426,6 +465,39 @@ const AllShops = () => {
                     </Grid>
                     <Grid item xs={6} className={classes.card}>
                         <ShopStats />
+                    </Grid>
+                    <Grid item xs={6} className={classes.card}>
+                        <BarChart
+                            dataset={dataset}
+                            xAxis={[{ scaleType: "band", dataKey: "name" }]}
+                            series={[
+                                {
+                                    dataKey: "products",
+                                    xAccessor: "name",
+                                    yAccessor: "products",
+                                    label: "products",
+                                },
+                                {
+                                    dataKey: "sold",
+                                    xAccessor: "name",
+                                    yAccessor: "sold",
+                                    label: "sold",
+                                },
+                                {
+                                    dataKey: "reviews",
+                                    xAccessor: "name",
+                                    yAccessor: "reviews",
+                                    label: "reviews",
+                                },
+                                {
+                                    dataKey: "revenue",
+                                    xAccessor: "name",
+                                    yAccessor: "revenue",
+                                    label: "revenue",
+                                },
+                            ]}
+                            {...chartSetting}
+                        />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

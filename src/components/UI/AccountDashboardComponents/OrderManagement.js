@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +13,7 @@ import clsx from "clsx";
 import Check from "@material-ui/icons/Check";
 import StepConnector from "@material-ui/core/StepConnector";
 import Grid from "@material-ui/core/Grid";
-import { StoreRounded } from "@material-ui/icons";
+import { LocalShippingRounded, StoreRounded } from "@material-ui/icons";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TransitionsModal from "../../user/UserModal";
@@ -21,6 +22,8 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import BottleWarmer from "../../../image/bottoleWarmer.jpg";
 import MuiDialog from "../../layout/MuiDialog";
+
+import * as cartActions from "../../../store/actions/cartActions";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -88,6 +91,10 @@ const userStyles = makeStyles(() => ({
     boldGreen: {
         fontWeight: 600,
         color: "#00A86B",
+    },
+    lightGreen: {
+        fontWeight: 500,
+        color: "#019F7D",
     },
     priceText: {
         color: "#FF2800",
@@ -308,21 +315,38 @@ const OrderStep = ({ myOrder }) => {
 
 const OrderCard = ({ myOrder }) => {
     const classes = userStyles();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const product = myOrder.product;
+    const product = myOrder.product ? myOrder.product : {};
     const [openDialog, setOpenDialog] = useState(false);
     const [openReviewModel, setOpenReviewModel] = useState(false);
     const [currentOrderId, setCurrentOrderId] = useState(null);
+    const [isCancel, setIsCancel] = useState(false);
+    const user = useSelector((state) => state.auth.user);
 
     const { shop, total, quantity } = myOrder;
 
     const handleCancelOrder = () => {
-        dispatch(orderActions.cancelOrder(currentOrderId));
+        dispatch(orderActions.cancelOrder(currentOrderId, user.id));
     };
 
     const handleReceivedOrder = () => {
-        dispatch(orderActions.confirmReceivedOrder(currentOrderId));
+        dispatch(orderActions.confirmReceivedOrder(currentOrderId, user.id));
     };
+
+    const handleBuyAgain = () => {
+        dispatch(
+            cartActions.addToCart({
+                ...product,
+                quantity: quantity,
+                shop: shop,
+            })
+        );
+        // redirect to cart
+        navigate("/cart");
+    };
+
+    const handlePurchaseOrder = () => {};
 
     const handleOpenReviewModel = () => {
         setOpenReviewModel(true);
@@ -366,6 +390,15 @@ const OrderCard = ({ myOrder }) => {
                         <div className={classes.boldGreen}>
                             {myOrder.currentState}
                         </div>
+                        {myOrder.currentState === "Shipping" && (
+                            <Typography
+                                className={classes.lightGreen}
+                                style={{ marginLeft: "0.5em" }}
+                            >
+                                <LocalShippingRounded /> Vận chuyển bởi{" "}
+                                {myOrder.shippingMethod}
+                            </Typography>
+                        )}
                     </Grid>
                 </Grid>
                 <Grid item container xs={12} className={classes.card__product}>
@@ -503,19 +536,22 @@ const OrderCard = ({ myOrder }) => {
                                         onClick={() => {
                                             setCurrentOrderId(myOrder._id);
                                             setOpenDialog(true);
+                                            setIsCancel(true);
                                         }}
                                     >
                                         Hủy đơn hàng
                                     </Button>
-                                    <MuiDialog
-                                        openDialog={openDialog}
-                                        setOpenDialog={setOpenDialog}
-                                        handleConfirm={handleCancelOrder}
-                                        cancel={true}
-                                        message={
-                                            "Tại sao bạn muốn hủy đơn hàng?"
-                                        }
-                                    />
+                                    {isCancel && (
+                                        <MuiDialog
+                                            openDialog={openDialog}
+                                            setOpenDialog={setOpenDialog}
+                                            handleConfirm={handleCancelOrder}
+                                            cancel={isCancel}
+                                            message={
+                                                "Tại sao bạn muốn hủy đơn hàng?"
+                                            }
+                                        />
+                                    )}
                                 </>
                             )}
                             {myOrder.currentState === "Shipping" && (
@@ -570,10 +606,53 @@ const OrderCard = ({ myOrder }) => {
                                     />
                                 </>
                             )}
+                            {myOrder.currentState === "Cancelled" && (
+                                <>
+                                    <Button
+                                        className={classes.button}
+                                        onClick={() => {
+                                            setCurrentOrderId(myOrder._id);
+                                            setOpenDialog(true);
+                                        }}
+                                    >
+                                        Mua lại
+                                    </Button>
+                                    <MuiDialog
+                                        openDialog={openDialog}
+                                        setOpenDialog={setOpenDialog}
+                                        handleConfirm={handleBuyAgain}
+                                        message={`Bạn muốn mua lại sản phẩm này?`}
+                                    />
+                                </>
+                            )}
+                            {myOrder.paymentState === "Pending" &&
+                            myOrder.paymentMethod !== "COD" ? (
+                                <>
+                                    <Button
+                                        className={classes.button}
+                                        onClick={() => {
+                                            setCurrentOrderId(myOrder._id);
+                                            setOpenDialog(true);
+                                            setIsCancel(false);
+                                        }}
+                                    >
+                                        Thanh toán ngay
+                                    </Button>
+                                    {!isCancel && (
+                                        <MuiDialog
+                                            openDialog={openDialog}
+                                            setOpenDialog={setOpenDialog}
+                                            handleConfirm={handlePurchaseOrder}
+                                            message={`Bạn sẽ được chuyển hướng tới trang thanh toán của ${myOrder.paymentMethod}?`}
+                                        />
+                                    )}
+                                </>
+                            ) : (
+                                <Button className={classes.button__secondary}>
+                                    Xem chi tiết đơn hàng
+                                </Button>
+                            )}
 
-                            <Button className={classes.button__secondary}>
-                                Xem chi tiết đơn hàng
-                            </Button>
                             <Link to={`/tiki/shops/${shop._id}`}>
                                 <Button className={classes.button__secondary}>
                                     Liên hệ shop
@@ -635,8 +714,7 @@ const OrderPanel = (props) => {
                                 (order.currentState ===
                                     "Ordered Successfully" ||
                                     order.currentState === "Tiki Received") &&
-                                order.paymentState === "Pending" &&
-                                order.paymentMethod !== "COD" && (
+                                order.paymentState === "Pending" && (
                                     <OrderCard myOrder={order} key={index} />
                                 )
                         )}
@@ -692,17 +770,13 @@ const OrderPanel = (props) => {
 const OrderManagement = () => {
     const classes = userStyles();
     const myOrders = useSelector((state) => state.orders.myOrders);
-    const allProduct = useSelector((state) => state.products.products);
 
     return (
         <div style={{ width: "100%" }}>
             <div className={classes.title}>My Order</div>
 
-            {myOrders !== null &&
-            myOrders.length > 0 &&
-            allProduct !== null &&
-            allProduct.length > 0 ? (
-                <OrderPanel myOrders={myOrders} allProduct={allProduct} />
+            {myOrders && myOrders.length > 0 ? (
+                <OrderPanel myOrders={myOrders} />
             ) : (
                 <div style={{ width: "80%" }}>
                     <div className={classes.grid}>

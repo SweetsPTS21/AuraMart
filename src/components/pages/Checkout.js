@@ -146,7 +146,7 @@ function TabPanel(props) {
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
-            style={{width: "450px"}}
+            style={{ width: "450px" }}
         >
             {value === index && <Box p={3}>{children}</Box>}
         </Typography>
@@ -332,7 +332,7 @@ const LoginUI = () => {
                             className={classes.tabsContainer}
                             style={{
                                 borderRadius: "0.5em",
-                                height: "100%"
+                                height: "100%",
                             }}
                         >
                             <Tabs
@@ -395,9 +395,7 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
     const [address, setAddress] = useState(
         shipAddress ? shipAddress.address : ""
     );
-    const [radio] = useState(
-        shipAddress ? shipAddress.radio : "home"
-    );
+    const [radio] = useState(shipAddress ? shipAddress.radio : "home");
     const listAddress = useSelector((state) => state.address.userAddress);
     const city_ = [
         "Ho Chi Minh",
@@ -576,8 +574,14 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                         shrink: true,
                                     }}
                                     variant="standard"
-                                    validators={["required"]}
-                                    errorMessages={["Enter your phone number"]}
+                                    validators={
+                                        (["required"],
+                                        ["isNumber"],
+                                        ["minStringLength:10"],
+                                        ["maxStringLength:11"],
+                                        ["matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b"])
+                                    }
+                                    errorMessages={["Phone number is invalid"]}
                                 />
                             </FormControl>
                             <FormControl>
@@ -757,7 +761,9 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                 </div>
                             ))
                         ) : (
-                            <span style={{ color: "#a1a1a1", marginTop: "1.5em" }}>
+                            <span
+                                style={{ color: "#a1a1a1", marginTop: "1.5em" }}
+                            >
                                 Bạn chưa có địa chỉ nào.
                                 <Link
                                     to={"/dashboard/3"}
@@ -821,7 +827,9 @@ const ShippingAddr = ({ setActiveStep, shipAddress, currentAddress }) => {
                             {shipAddress.address}, {shipAddress.ward},{" "}
                             {shipAddress.district},{shipAddress.city}
                         </p>
-                        <p style={{ margin: 0 }}>Số điện thoại: {shipAddress.phone}</p>
+                        <p style={{ margin: 0 }}>
+                            Số điện thoại: {shipAddress.phone}
+                        </p>
                     </div>
                 ) : currentAddress ? (
                     <div>
@@ -858,7 +866,6 @@ const PaymentMethodUI = ({
     const handleShipping = (event) => {
         setShipping(event.target.value);
     };
-
 
     const handlePayment = (event) => {
         setPayment(event.target.value);
@@ -959,7 +966,9 @@ const PaymentMethodUI = ({
                     </div>
 
                     <div className="payment-method" style={{ marginTop: "4%" }}>
-                        <p style={{ fontWeight: 600 }}>2. Phương thức thanh toán</p>
+                        <p style={{ fontWeight: 600 }}>
+                            2. Phương thức thanh toán
+                        </p>
                         <FormControl component="fieldset" fullWidth>
                             <div
                                 style={{
@@ -989,9 +998,7 @@ const PaymentMethodUI = ({
                                         />
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
-                                        <p>
-                                            Thanh toán khi nhận hàng
-                                        </p>
+                                        <p>Thanh toán khi nhận hàng</p>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1010,7 +1017,8 @@ const PaymentMethodUI = ({
                                     </Grid>
                                     <Grid item style={{ marginTop: "1em" }}>
                                         <p>
-                                            Thanh toán bằng thẻ quốc tế Visa, Master, JCB
+                                            Thanh toán bằng thẻ quốc tế Visa,
+                                            Master, JCB
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1082,10 +1090,11 @@ const PaymentMethodUI = ({
                                             Sale
                                         </span>
                                         <span style={{ color: "lightgrey" }}>
-                                            Giảm 200k cho đơn từ 1 triệu khi thanh toán bằng sacombank
+                                            Giảm 200k cho đơn từ 1 triệu khi
+                                            thanh toán bằng sacombank
                                         </span>
                                         <p style={{ color: "#FFAE00" }}>
-                                           Chương trình khuyến mãi đã kết thúc
+                                            Chương trình khuyến mãi đã kết thúc
                                         </p>
                                     </Grid>
                                 </Grid>
@@ -1228,7 +1237,6 @@ const Checkout = () => {
         }
     }, []);
 
-
     if (defaultAddress !== currentAddress) {
         setCurrentAddress(defaultAddress);
     }
@@ -1263,6 +1271,7 @@ const Checkout = () => {
                     ", " +
                     shipAddress.city,
                 total,
+                shippingMethod: "GHN",
             };
             dispatch(await orderActions.addNewOrder(order_, payment));
         }
