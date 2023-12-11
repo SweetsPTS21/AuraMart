@@ -17,7 +17,7 @@ const initialState = {
     finalTotal: 0,
 };
 
-export default function cartReducer (state = initialState, action) {
+export default function cartReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_TO_CART:
             const addedProduct = action.product;
@@ -150,22 +150,25 @@ export default function cartReducer (state = initialState, action) {
             const shopTotal = action.shopTotal;
             const voucher = action.voucher;
             const shopId = action.shopId;
-
-            let discountPrice = shopTotal * (voucher.discount / 100);
-            if (discountPrice > voucher.maximumDiscount) {
-                discountPrice = voucher.maximumDiscount;
-            }
-            if (state.totalAmount_discounted < voucher.minimumSpend) {
-                discountPrice = 0;
+            let discountPrice = 0;
+            
+            if (voucher) {
+                discountPrice = shopTotal * (voucher.discount / 100);
+                if (discountPrice > voucher.maximumDiscount) {
+                    discountPrice = voucher.maximumDiscount;
+                }
+                if (state.totalAmount_discounted < voucher.minimumSpend) {
+                    discountPrice = 0;
+                }
+                const index = state.totalShopDiscount.findIndex(
+                    (v) => v.shop === voucher.shop
+                );
+    
+                if (index !== -1) {
+                    state.totalShopDiscount.splice(index, 1);
+                }
             }
             const final = state.totalAmount_discounted - discountPrice;
-            const index = state.totalShopDiscount.findIndex(
-                (v) => v.shop === voucher.shop
-            );
-
-            if (index !== -1) {
-                state.totalShopDiscount.splice(index, 1);
-            }
 
             return {
                 ...state,

@@ -75,7 +75,6 @@ const formatVND = (x) => {
     return formatter.format(x);
 };
 
-
 const paperStyle = createTheme({
     overrides: {
         MuiPaper: {
@@ -237,21 +236,24 @@ const CartPage = (props) => {
                                             dispatch(
                                                 cartActions.addToCart(
                                                     item.product
-                                                )
+                                                ),
+                                                cartActions.updateFinalTotal()
                                             );
                                         }}
                                         removeItem={() => {
                                             dispatch(
                                                 cartActions.removeFromCart(
                                                     item.productId
-                                                )
+                                                ),
+                                                cartActions.updateFinalTotal()
                                             );
                                         }}
                                         deleteItem={() => {
                                             dispatch(
                                                 cartActions.deleteFromCart(
                                                     item.productId
-                                                )
+                                                ),
+                                                cartActions.updateFinalTotal()
                                             );
                                         }}
                                     />
@@ -360,7 +362,8 @@ const CartPage = (props) => {
                 <Grid container className={classes.root} alignItems="center">
                     <Grid item xs={12}>
                         <h5 style={{ margin: "1em 0" }}>
-                            Your cart ({props.amount ? props.amount : 0} products)
+                            Your cart ({props.amount ? props.amount : 0}{" "}
+                            products)
                         </h5>
                         <Paper
                             className={classes.paper}
@@ -373,7 +376,10 @@ const CartPage = (props) => {
                                 alt={"not product logo"}
                             />
                             <h5>Giỏ hàng trống!</h5>
-                            <p>Bạn tham khảo thêm các sản phẩm được Aumart gợi ý bên dưới nhé!</p>
+                            <p>
+                                Bạn tham khảo thêm các sản phẩm được Aumart gợi
+                                ý bên dưới nhé!
+                            </p>
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
@@ -384,10 +390,7 @@ const CartPage = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TopProducts
-                            itemWidth={"170px"}
-                            type={"slider"}
-                        />
+                        <TopProducts itemWidth={"170px"} type={"slider"} />
                     </Grid>
                 </Grid>
             );

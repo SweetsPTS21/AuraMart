@@ -555,6 +555,7 @@ const ProductOptions = ({ product }) => {
     const handleAddToCart = () => {
         for (let i = 0; i < amount; i++) {
             dispatch(cartActions.addToCart(product));
+            dispatch(cartActions.updateFinalTotal());
         }
     };
 
