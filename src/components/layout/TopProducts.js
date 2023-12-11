@@ -33,13 +33,13 @@ const TopProducts = (props) => {
                             backgroundColor: "#fff",
                             marginRight: "0.5em",
                         }}
-                        key={prod.id !== undefined ? prod.id : ""}
-                        id={prod.id !== undefined ? prod.id : ""}
-                        slug={prod.slug !== undefined ? prod.slug : ""}
+                        key={prod ? prod.id : ""}
+                        id={prod ? prod.id : ""}
+                        slug={prod ? prod.slug : ""}
                         type={"review"}
                         price={prod.price}
                         discount={
-                            prod.discount !== undefined ? prod.discount : 0
+                            prod ? prod.discount : 0
                         }
                         title={prod.name}
                         image={

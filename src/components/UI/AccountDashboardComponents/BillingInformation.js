@@ -82,7 +82,6 @@ const BillingInformation = () => {
                     </p>
                     <Button
                         variant="contained"
-                        color="secondary"
                         className={classes.button}
                     >
                         Continue shopping

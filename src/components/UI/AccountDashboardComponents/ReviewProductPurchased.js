@@ -78,11 +78,7 @@ const ReviewProductPurchased = () => {
                     <img src={tikiNotFound} alt="" />
                     <br />
                     <p>You have not purchased any products</p>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                    >
+                    <Button variant="contained" className={classes.button}>
                         Continue shopping
                     </Button>
                 </section>

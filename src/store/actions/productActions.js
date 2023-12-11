@@ -57,7 +57,6 @@ export const getProductById = (id) => async (dispatch) => {
         });
 };
 
-
 // 🔓
 export const getProductsByShopId = (shopId) => async (dispatch) => {
     const url = `${api_url}/api/v1/shops/${shopId}/products`;
@@ -116,24 +115,23 @@ export const createProduct = (product, shopId, photo) => async (dispatch) => {
 };
 
 // 🔒
-export const updateProductById =
-    (product, productId) => async (dispatch) => {
-        const url = `${api_url}/api/v1/products/${productId}`;
-        await axios
-            .put(url, product)
-            .then(async (res) => {
-                if (!res.data.success) {
-                    return message.error("Error updating product");
-                }
-                await dispatch(getAllProducts());
+export const updateProductById = (product, productId) => async (dispatch) => {
+    const url = `${api_url}/api/v1/products/${productId}`;
+    await axios
+        .put(url, product)
+        .then(async (res) => {
+            if (!res.data.success) {
+                return message.error("Error updating product");
+            }
+            await dispatch(getAllProducts());
 
-                message.success("Updated product");
-            })
-            .catch((err) => {
-                console.log("Error" + err);
-                message.error("Error updating product");
-            });
-    };
+            message.success("Updated product");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error updating product");
+        });
+};
 
 // 🔒
 export const deleteProductById = (productId) => async (dispatch) => {
@@ -185,11 +183,11 @@ export const setSaleProduct = (shopId, id, saleProduct) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error setting sale product");
             }
-            dispatch(getAllProducts());
+            dispatch(getProductsByShopId(shopId));
             message.success("Set sale product");
         })
         .catch((err) => {
             console.log("Error" + err);
             message.error("Error setting sale product");
         });
-}
+};

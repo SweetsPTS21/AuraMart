@@ -15,6 +15,17 @@ const fterStyles = makeStyles((theme) => ({
     },
     about: {
         paddingTop: "2em",
+        borderBottom: "1px solid #ccc",
+    },
+    lisence: {
+        fontSize: "0.85em",
+        color: "rgb(128, 128, 137)",
+        lineHeight: 2,
+    },
+    lisenceTitle: {
+        fontSize: "1em",
+        fontWeight: "bold",
+        color: "rgb(128, 128, 137)",
     },
     paper: {
         padding: theme.spacing(2),

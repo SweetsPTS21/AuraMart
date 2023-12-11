@@ -1,13 +1,10 @@
 import React from "react";
-import fterStyle from "../../styles/FooterStyles";
+import footerStyle from "../../styles/FooterStyles";
 
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 
-import newsLogo from "../../image/newsletter.png";
 import visaIcon from "../../image/visa.svg";
 import jcbIcon from "../../image/jcb.svg";
 import cashIcon from "../../image/cash.svg";
@@ -21,94 +18,9 @@ import playstore from "../../image/playstore.png";
 import zalo from "../../image/Logo_Zalo.png";
 import { Link } from "react-router-dom";
 
-function Footer() {
-    const classes = fterStyle();
-    const newsletter = (
-        <Grid className={classes.news} container spacing={0}>
-            <Grid item xs={2} sm={2}>
-                <img
-                    alt="newslogo"
-                    src={newsLogo}
-                    className={classes.imageNews}
-                    style={{}}
-                />
-            </Grid>
-            <section
-                style={{
-                    paddingTop: "2em",
-                    paddingBottom: "3em",
-                    width: "82%",
-                }}
-            >
-                <Grid container spacing={4}>
-                    <Grid item xs={3} sm={5}>
-                        <p
-                            style={{
-                                fontWeight: "bold",
-                                margin: 0,
-                                fontSize: "1.1em",
-                                color: "black",
-                            }}
-                        >
-                            <strong>
-                                {" "}
-                                Subscribe to receive letter from Tiki
-                            </strong>
-                        </p>
-                        <p
-                            style={{
-                                fontWeight: "bold",
-                                margin: 0,
-                                fontSize: "0.9em",
-                                color: "black",
-                            }}
-                        >
-                            <strong>
-                                Don't slip your chance to collect thousand of
-                                deals everyday
-                            </strong>
-                        </p>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={5}
-                        sm={7}
-                        style={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignItems: "flex-start",
-                        }}
-                    >
-                        <form
-                            className={classes.form}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField
-                                id="email"
-                                label="Your email address"
-                                size={"small"}
-                                className={classes.subscribeText}
-                            />
-                            <Button
-                                id={"subscribe"}
-                                variant="contained"
-                                color="primary"
-                                style={{
-                                    marginLeft: "0.5em",
-                                    marginTop: "0.6em",
-                                }}
-                            >
-                                Subscribe
-                            </Button>
-                        </form>
-                    </Grid>
-                </Grid>
-            </section>
-        </Grid>
-    );
-
-    const about = (
+const About = () => {
+    const classes = footerStyle();
+    return (
         <Grid container spacing={0} className={classes.aboutRoot}>
             <Grid
                 container
@@ -158,18 +70,20 @@ function Footer() {
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://hotro.tiki.vn/hc/vi"}
+                        href={"https://hotro.Aumart.vn/hc/vi"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Question&Answer
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"/https://hotro.tiki.vn/hc/vi/requests/new"}
+                        href={"/https://hotro.Aumart.vn/hc/vi/requests/new"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Ask for Support
                     </a>
@@ -177,10 +91,11 @@ function Footer() {
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
                         href={
-                            "/https://hotro.tiki.vn/hc/vi/categories/200126644"
+                            "/https://hotro.Aumart.vn/hc/vi/categories/200126644"
                         }
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Ordering Instruction
                     </a>
@@ -188,30 +103,33 @@ function Footer() {
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
                         href={
-                            "https://hotro.tiki.vn/hc/vi/categories/200123960"
+                            "https://hotro.Aumart.vn/hc/vi/categories/200123960"
                         }
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Transport Method
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tiki.vn/doi-tra-de-dang"}
+                        href={"https://Aumart.vn/doi-tra-de-dang"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Refund Policy
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"mailto:hotro@tiki.vn"}
+                        href={"mailto:hotro@Aumart.vn"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
-                        Customer Support:support@tiki.vn
+                        Customer Support:support@Aumart.vn
                     </a>
                 </Grid>
             </Grid>
@@ -224,61 +142,67 @@ function Footer() {
             >
                 <Grid item xs={6} sm={12}>
                     <Typography className={classes.headers}>
-                        About Tiki
+                        About Aumart
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tiki.vn/gioi-thieu-ve-tiki"}
+                        href={"https://Aumart.vn/gioi-thieu-ve-Aumart"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
-                        Tiki Introduction
+                        Aumart Introduction
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tuyendung.tiki.vn/"}
+                        href={"https://tuyendung.Aumart.vn/"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Recruitment
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tiki.vn/bao-mat-thanh-toan"}
+                        href={"https://Aumart.vn/bao-mat-thanh-toan"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Payment Security
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tiki.vn/bao-mat-thong-tin-ca-nhan"}
+                        href={"https://Aumart.vn/bao-mat-thong-tin-ca-nhan"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Information Security
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://hotro.tiki.vn/hc/vi/articles/201971214"}
+                        href={"https://hotro.Aumart.vn/hc/vi/articles/201971214"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
                         Term&Agreement
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://tiki.vn/tu-van/"}
+                        href={"https://Aumart.vn/tu-van/"}
                         target="_blank"
-                        className={classes.removeLinkStyles} rel="noreferrer"
+                        className={classes.removeLinkStyles}
+                        rel="noreferrer"
                     >
-                        Tiki Advice
+                        Aumart Advice
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12}></Grid>
@@ -306,7 +230,7 @@ function Footer() {
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <Link to={"#"} className={classes.removeLinkStyles}>
-                        Sell with Tiki
+                        Sell with Aumart
                     </Link>
                 </Grid>
                 <Grid item xs={6} sm={12} />
@@ -462,17 +386,103 @@ function Footer() {
             </Grid>
         </Grid>
     );
+};
+
+const Lisence = () => {
+    const classes = footerStyle();
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5em",
+            }}
+        >
+            <Typography className={classes.lisence}>
+                Trụ sở chính: Tòa nhà Viettel, Số 285, đường Cách Mạng Tháng 8,
+                phường 12, quận 10, Thành phố Hồ Chí Minh
+            </Typography>
+            <Typography className={classes.lisence}>
+                Aumart nhận đặt hàng trực tuyến và giao hàng tận nơi, chưa hỗ trợ
+                mua và nhận hàng trực tiếp tại văn phòng hoặc trung tâm xử lý
+                đơn hàng
+            </Typography>
+            <Typography className={classes.lisence}>
+                Giấy chứng nhận Đăng ký Kinh doanh số 0309532909 do Sở Kế hoạch
+                và Đầu tư Thành phố Hồ Chí Minh cấp lần đầu ngày 06/01/2010 và
+                sửa đổi lần thứ 23 ngày 14/02/2022
+            </Typography>
+            <Typography className={classes.lisence}>
+                © 2022 - Bản quyền của Công ty TNHH Ti Ki
+            </Typography>
+        </div>
+    );
+};
+
+const About2 = () => {
+    const classes = footerStyle();
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5em",
+            }}
+        >
+            <Typography
+                className={classes.lisenceTitle}
+                style={{ color: "rgb(56, 56, 61)" }}
+            >
+                Aumart - Thật nhanh, thật chất lượng, thật rẻ
+            </Typography>
+            <Typography className={classes.lisenceTitle}>
+                Aumart có tất cả
+            </Typography>
+
+            <Typography className={classes.lisence}>
+                Với hàng triệu sản phẩm từ các thương hiệu, cửa hàng uy tín,
+                hàng nghìn loại mặt hàng từ Điện thoại smartphone tới Rau củ quả
+                tươi, kèm theo dịch vụ giao hàng siêu tốc AumartNOW, Aumart mang đến
+                cho bạn một trải nghiệm mua sắm online bắt đầu bằng chữ tín.
+                Thêm vào đó, ở Aumart bạn có thể dễ dàng sử dụng vô vàn các tiện
+                ích khác như mua thẻ cào, thanh toán hoá đơn điện nước, các dịch
+                vụ bảo hiểm.
+            </Typography>
+            <Typography className={classes.lisenceTitle}>
+                Khuyến mãi, ưu đãi tràn ngập
+            </Typography>
+            <Typography className={classes.lisence}>
+                Bạn muốn săn giá sốc, Aumart có giá sốc mỗi ngày cho bạn! Bạn là
+                tín đồ của các thương hiệu, các cửa hàng Official chính hãng
+                đang chờ đón bạn. Không cần săn mã freeship, vì Aumart đã có hàng
+                triệu sản phẩm trong chương trình Freeship+, không giới hạn lượt
+                đặt, tiết kiệm thời gian vàng bạc của bạn. Mua thêm gói AumartNOW
+                tiết kiệm để nhận 100% free ship 2h & trong ngày, hoặc mua gói
+                AumartNOW cao cấp để nhận được 100% freeship, áp dụng cho 100% sản
+                phẩm, 100% tỉnh thành Việt Nam. Bạn muốn tiết kiệm hơn nữa? Đã
+                có AumartCARD, thẻ tín dụng Aumart hoàn tiền 15% trên mọi giao dịch
+                (tối đa hoàn 600k/tháng)
+            </Typography>
+        </div>
+    );
+};
+
+function Footer() {
+    const classes = footerStyle();
 
     return (
         <div
             className={classes.root}
             style={{ margin: "0 0%", background: "white" }}
         >
-            <div className={classes.news} style={{ padding: "0 6%" }}>
-                {newsletter}
+            <div className={classes.about} style={{ padding: "1em" }}>
+                <About />
             </div>
-            <div className={classes.about} style={{ padding: "0 6%" }}>
-                {about}
+            <div className={classes.about} style={{ padding: "1em" }}>
+                <Lisence />
+            </div>
+            <div className={classes.about} style={{ padding: "1em" }}>
+                <About2 />
             </div>
         </div>
     );

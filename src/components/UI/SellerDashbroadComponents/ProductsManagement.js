@@ -397,6 +397,7 @@ const ProductsManagement = () => {
                     </ProductTableHead>
                     <TableBody>
                         {filteredProducts
+                            .sort((a, b) => b.sale - a.sale)
                             .slice(
                                 (page - 1) * itemsPerPage,
                                 page * itemsPerPage

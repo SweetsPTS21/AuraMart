@@ -82,11 +82,7 @@ const FavoriteProducts = () => {
                         products you love when shopping for the most convenient
                         review
                     </p>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                    >
+                    <Button variant="contained" className={classes.button}>
                         Continue shopping
                     </Button>
                 </section>

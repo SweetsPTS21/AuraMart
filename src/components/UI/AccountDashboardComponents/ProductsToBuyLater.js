@@ -81,11 +81,7 @@ const ProductsToBuyLater = () => {
                         Select "Buy later" in the cart for the product you want
                         to buy another time
                     </p>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                    >
+                    <Button variant="contained" className={classes.button}>
                         Continue shopping
                     </Button>
                 </section>

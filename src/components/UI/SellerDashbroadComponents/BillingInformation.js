@@ -80,11 +80,7 @@ const BillingInformation = () => {
                         Saving payment information helps you order more quickly
                         and easily
                     </p>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                    >
+                    <Button variant="contained" className={classes.button}>
                         Continue shopping
                     </Button>
                 </section>

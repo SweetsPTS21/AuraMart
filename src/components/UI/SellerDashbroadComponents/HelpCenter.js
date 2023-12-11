@@ -42,7 +42,6 @@ const userStyles = makeStyles(() => ({
         height: "3em",
         color: "#fff",
         fontSize: "1.2em",
-        textTransform: "none",
         "&:focus": {
             outline: "none",
         },
@@ -58,7 +57,6 @@ const userStyles = makeStyles(() => ({
     button2: {
         margin: "0.5em 0",
         fontFamily: "inherit",
-        textTransform: "none",
         backgroundColor: "#0a68ff",
         color: "#fff",
         textAlign: "center",
@@ -73,7 +71,6 @@ const userStyles = makeStyles(() => ({
     button3: {
         margin: "0.5em",
         fontFamily: "inherit",
-        textTransform: "none",
         backgroundColor: "#0a68ff",
         color: "#fff",
         textAlign: "center",
@@ -149,6 +146,13 @@ const userStyles = makeStyles(() => ({
     "@global .MuiButton-containedSecondary:hover": {
         border: "1px solid #ff9100",
         backgroundColor: "rgba(255, 145, 0, 0)",
+    },
+    "@global .MuiButton-root": {
+        textTransform: "none",
+    },
+    "@global .MuiTab-root": {
+        textTransform: "none",
+        fontSize: "1em",
     },
 }));
 

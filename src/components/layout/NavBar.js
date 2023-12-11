@@ -14,14 +14,10 @@ import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
 import Icon from "@material-ui/core/Icon";
 import { Grid } from "@material-ui/core";
 
 import tikiLogo from "../../image/logo.png";
-import tikiAssistant from "../../image/tiki_assistant.png";
-import sprite from "../../image/sprite.png";
-import ticketBox from "../../image/ticketBox.png";
 import userStyles from "../../styles/NavbarStyles";
 import { loadCSS } from "fg-loadcss";
 import ProductNavigation from "../UI/ProductNavigation";
@@ -267,18 +263,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <img
-                            src={ticketBox}
-                            alt="ticketBox"
-                            style={{ height: "50%", width: "50%" }}
-                        />
-                    </IconButton>
-                    ticketBox
+                    Hot deal giảm đến 90%
                 </Link>
             </Typography>
             <Typography
@@ -291,18 +276,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <img
-                            src={tikiAssistant}
-                            alt="tikiAssistant"
-                            style={{ height: "50%", width: "50%" }}
-                        />
-                    </IconButton>
-                    Assistant Tiki
+                    Túi Đeo Chéo Nam
                 </Link>
             </Typography>
             <Typography
@@ -315,22 +289,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <i
-                            style={{
-                                backgroundImage: `url(${sprite}?v=100000000)`,
-                                backgroundPosition: "-219px -317px",
-                                width: "18px",
-                                height: "18px",
-                                marginRight: "0.1em",
-                            }}
-                        />
-                    </IconButton>
-                    partner Incentives
+                    IPhone 14 Pro Max
                 </Link>
             </Typography>
             <Typography
@@ -343,22 +302,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <i
-                            style={{
-                                backgroundImage: `url(${sprite}?v=100000000)`,
-                                backgroundPosition: "-40px -365px",
-                                width: "16px",
-                                height: "20px",
-                                marginRight: "0.1em",
-                            }}
-                        />
-                    </IconButton>
-                    Hotel reservations
+                    Bitis Hunter
                 </Link>
             </Typography>
             <Typography
@@ -371,22 +315,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <i
-                            style={{
-                                backgroundImage: `url(${sprite}?v=100000000)`,
-                                backgroundPosition: "-35px -317px",
-                                width: "20px",
-                                height: "20px",
-                                marginRight: "0.1em",
-                            }}
-                        />
-                    </IconButton>
-                    Ticket Booking
+                    Túi Xách Nam
                 </Link>
             </Typography>
             <Typography
@@ -399,13 +328,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        style={{ padding: 0 }}
-                    >
-                        <WhatshotIcon style={{ color: "F2D33B" }} />
-                    </IconButton>
-                    Hot Promotion
+                    Mì Ăn Liền
                 </Link>
             </Typography>
             <Typography
@@ -418,22 +341,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <i
-                            style={{
-                                backgroundImage: `url(${sprite}?v=100000000)`,
-                                backgroundPosition: "-304px -261px",
-                                width: "20px",
-                                height: "20px",
-                                marginRight: "0.1em",
-                            }}
-                        />
-                    </IconButton>
-                    International goods
+                    Loa Philips
                 </Link>
             </Typography>
             <Typography
@@ -446,22 +354,7 @@ const NavBar = (props) => {
                     to={"/underDevelopment"}
                     className={classes.removeDefaultLink}
                 >
-                    <IconButton
-                        aria-label="where do you want to shop to?"
-                        color="inherit"
-                        style={{ padding: 0 }}
-                    >
-                        <i
-                            style={{
-                                backgroundImage: `url(${sprite}?v=100000000)`,
-                                backgroundPosition: "-333px -228px",
-                                width: "18px",
-                                height: "19px",
-                                marginRight: "0.1em",
-                            }}
-                        />
-                    </IconButton>
-                    Sales with Tiki
+                    Túi Đeo Chéo Xiaomi
                 </Link>
                 <IconButton
                     aria-label="where do you want to shop to?"
@@ -514,8 +407,7 @@ const NavBar = (props) => {
                 <div
                     className={classes.searchIcon}
                     onClick={() =>
-                        search.length > 0 &&
-                        navigate(`/product/${search}`)
+                        search.length > 0 && navigate(`/product/${search}`)
                     }
                 >
                     <SearchIcon />
@@ -557,9 +449,7 @@ const NavBar = (props) => {
                                         color: "#000",
                                     }}
                                     onClick={() =>
-                                        navigate(
-                                            `/product/${option.name}`
-                                        )
+                                        navigate(`/product/${option.name}`)
                                     }
                                 >
                                     {option.name}

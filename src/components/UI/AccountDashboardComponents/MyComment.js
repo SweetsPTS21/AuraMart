@@ -87,11 +87,7 @@ const NoReviews = () => {
                         Write a review on the product you have used to provide
                         information useful to everyone
                     </p>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                    >
+                    <Button variant="contained" className={classes.button}>
                         Continue shopping
                     </Button>
                 </section>
@@ -99,7 +95,6 @@ const NoReviews = () => {
         </>
     );
 };
-
 
 const Reviews = ({ reviews }) => {
     const classes = userStyles();
@@ -110,7 +105,11 @@ const Reviews = ({ reviews }) => {
                 {reviews !== null &&
                     reviews.length > 0 &&
                     reviews.map((review, index) => (
-                        <ReviewCard review={review} key={index} type={"order"}/>
+                        <ReviewCard
+                            review={review}
+                            key={index}
+                            type={"order"}
+                        />
                     ))}
             </div>
         </>
