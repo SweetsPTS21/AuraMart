@@ -75,13 +75,6 @@ const formatVND = (x) => {
     return formatter.format(x);
 };
 
-const updateTotalAmount = (item) => {
-    let totalAmount = 0;
-    item.forEach((element) => {
-        totalAmount += parseInt(element.total);
-    });
-    return totalAmount;
-};
 
 const paperStyle = createTheme({
     overrides: {
@@ -238,6 +231,8 @@ const CartPage = (props) => {
                                         discount={item.product.discount}
                                         // discountedPrice={40003}
                                         quantity={item.quantity}
+                                        stock={item.product.quantity}
+                                        soldQuantity={item.product.soldQuantity}
                                         addItem={() => {
                                             dispatch(
                                                 cartActions.addToCart(
@@ -402,8 +397,6 @@ const CartPage = (props) => {
                 <Grid item xs={9}>
                     <h5 style={{ marginBottom: "1em" }}>Your cart</h5>
                     {itemList}
-                    {"Total: " + updateTotalAmount(TotalShopAmount())}
-                    {"item: " + JSON.stringify(totalShopDiscount)}
                 </Grid>
                 <Grid item xs={3}>
                     <Paper

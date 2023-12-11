@@ -574,8 +574,14 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                         shrink: true,
                                     }}
                                     variant="standard"
-                                    validators={["required"]}
-                                    errorMessages={["Enter your phone number"]}
+                                    validators={
+                                        (["required"],
+                                        ["isNumber"],
+                                        ["minStringLength:10"],
+                                        ["maxStringLength:11"],
+                                        ["matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b"])
+                                    }
+                                    errorMessages={["Phone number is invalid"]}
                                 />
                             </FormControl>
                             <FormControl>

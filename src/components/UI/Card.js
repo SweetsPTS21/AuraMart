@@ -29,6 +29,8 @@ const Card = (props) => {
     const [amount, setAmount] = useState(
         props.quantity !== undefined ? props.quantity : null
     );
+    const stock = props.stock ? props.stock : 0;
+    const soldQuantity = props.soldQuantity ? props.soldQuantity : 0;
 
     const discounted_price = () => {
         let discounted_price =
@@ -490,7 +492,12 @@ const Card = (props) => {
                         </Grid>
                         <Grid
                             item
-                            style={{ display: "flex", alignItems: "center" }}
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
                         >
                             {discounted_price() !== "NaN" ? (
                                 <>
@@ -514,6 +521,16 @@ const Card = (props) => {
                                     }}
                                 >
                                     <strong>{formatVND(props.price)}</strong>
+                                </Typography>
+                            )}
+                            {props.quantity && (
+                                <Typography
+                                    style={{
+                                        textAlign: "right",
+                                        marginTop: "1em",
+                                    }}
+                                >
+                                    Còn <strong>{stock - soldQuantity}</strong> sản phẩm
                                 </Typography>
                             )}
                         </Grid>
@@ -552,6 +569,7 @@ const Card = (props) => {
                             }}
                             style={{ fontSize: "2em", marginLeft: "0.3em" }}
                             color="primary"
+                            disabled={amount >= stock - soldQuantity}
                         >
                             +
                         </Button>

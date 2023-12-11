@@ -42,6 +42,7 @@ import { SideBySideMagnifier } from "react-image-magnifiers";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Moment from "moment";
 
+import { QuestionAnswerRounded, StoreRounded } from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
@@ -104,9 +105,10 @@ const useStyles = makeStyles((theme) => ({
     title: { fontSize: "1.5em", color: "#858585" },
 
     shopInfo__avatar: {
-        width: "64px",
-        height: "64px",
+        width: "80px",
+        height: "80px",
         borderRadius: "50%",
+        boxShadow: "0 0 0 1px #e5e5e5",
         overflow: "hidden",
         "& img": {
             width: "100%",
@@ -120,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "flex-start",
+        paddingLeft: "1em",
         "& p": {
             fontSize: "1.5em",
             fontWeight: "bold",
@@ -127,10 +130,16 @@ const useStyles = makeStyles((theme) => ({
         },
         "& span": {
             fontSize: "0.8em",
-            color: "#9E9E9E",
         },
     },
-
+    shop__info__rating: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    info__details: {
+        display: "flex",
+        justifyContent: "space-between",
+    },
     figure: {
         width: "100%",
         backgroundRepeat: "no-repeat",
@@ -320,7 +329,8 @@ const ImageList = ({ product, setCurrentImg }) => {
 const DealCounter = (props) => {
     const { product, timeInMilliSec } = props;
     return (
-        product && product.sale && (
+        product &&
+        product.sale && (
             <div
                 style={{
                     borderBottom: "1px solid lightgrey",
@@ -851,23 +861,85 @@ const ShopInfo = (props) => {
             : defaultAvatar;
     return (
         <div className={classes.block}>
-            <div>SHOP INFO</div>
             <Grid container className="">
-                <Grid item xs={2}>
+                <Grid
+                    item
+                    xs={2}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
                     <Link to={`/tiki/shops/${shop.id}`}>
                         <div className={classes.shopInfo__avatar}>
                             <img src={shopAvatar} alt="" />
                         </div>
                     </Link>
                 </Grid>
-                <Grid item xs={8} className={classes.shopInfo__name}>
+                <Grid item xs={6} className={classes.shopInfo__name}>
                     <p>{shop.name}</p>
                     <span>{shop.description}</span>
+                    <div style={{ display: "flex", paddingTop: "0.5em" }}>
+                        <Button
+                            size="medium"
+                            variant="contained"
+                            style={{
+                                color: "#fff",
+                                backgroundColor: "#0a68ff",
+                                textTransform: "none",
+                                fontSize: "1em",
+                            }}
+                        >
+                            <QuestionAnswerRounded /> Chat
+                        </Button>
+                        <Link to={`/tiki/shops/${shop.id}`}>
+                            <Button
+                                size="medium"
+                                style={{
+                                    color: "#9E9E9E",
+                                    backgroundColor: "#fff",
+                                    textTransform: "none",
+                                    fontSize: "1em",
+                                    marginLeft: "1em",
+                                    border: "1px solid #ccc",
+                                }}
+                            >
+                                <StoreRounded />
+                                Shop
+                            </Button>
+                        </Link>
+                    </div>
                 </Grid>
-                <Grid item xs={2}>
-                    <Button color="primary" size="medium" variant="outlined">
-                        Folow
-                    </Button>
+                <Grid
+                    item
+                    xs={4}
+                    style={{ paddingLeft: "1em", borderLeft: "1px solid #ccc" }}
+                >
+                    <div className={classes.shop__info__rating}>
+                        <span className={classes.info__details}>
+                            <b style={{ color: "#bbb" }}>Đánh giá</b>
+                            <b style={{ color: "#0a68ff" }}>{shop.rating}4.9</b>
+                        </span>
+                        <span className={classes.info__details}>
+                            <b style={{ color: "#bbb" }}>Theo dõi</b>
+                            <b style={{ color: "#0a68ff" }}>
+                                {shop.followers}250
+                            </b>
+                        </span>
+                        <span className={classes.info__details}>
+                            <b style={{ color: "#bbb" }}>Sản phẩm</b>
+                            <b style={{ color: "#0a68ff" }}>
+                                {shop.followers}250
+                            </b>
+                        </span>
+                        <span className={classes.info__details}>
+                            <b style={{ color: "#bbb" }}>Phản hồi</b>
+                            <b style={{ color: "#0a68ff" }}>
+                                {shop.followers}100%
+                            </b>
+                        </span>
+                    </div>
                 </Grid>
             </Grid>
         </div>

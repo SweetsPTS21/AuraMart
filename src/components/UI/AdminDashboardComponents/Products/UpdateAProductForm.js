@@ -446,6 +446,7 @@ const UpdateAProductForm = (props) => {
     const [branch, setBranch] = useState(product.branch);
     const [origin, setOrigin] = useState(product.origin); // get country list
     const [discount, setDiscount] = useState(product.discount);
+    const [quantity, setQuantity] = useState(product.quantity);
     const [colors, setColors] = useState(
         product.colors.length > 0
             ? product.colors
@@ -514,6 +515,7 @@ const UpdateAProductForm = (props) => {
             branch,
             origin,
             discount: parseInt(discount),
+            quantity: parseInt(quantity),
             colors,
             photo,
         };
@@ -562,30 +564,6 @@ const UpdateAProductForm = (props) => {
             setTimeout(msg, 1);
         }
     };
-
-    // const handleChangeImage = () => {
-    //     // Select image from computer
-    //     // image max size 3MB
-    //     const input = document.createElement("input");
-    //     input.type = "file";
-    //     input.accept = "image/*";
-    //     input.onchange = (e) => {
-    //         const file = e.target.files[0];
-    //         if (!file) return;
-    //         if (file.size > 3 * 1024 * 1024) {
-    //             message.error("File size cannot exceed more than 3MB");
-    //             return;
-    //         }
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onload = (e) => {
-    //             // set avatar
-    //             setPhotoFile(file);
-    //             setPhoto(e.target.result);
-    //         };
-    //     };
-    //     input.click();
-    // };
 
     return (
         <div style={style}>
@@ -934,7 +912,37 @@ const UpdateAProductForm = (props) => {
                                             ]}
                                         />
                                     </FormControl>
-
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
+                                        <TextValidator
+                                            size="small"
+                                            label="Quantity"
+                                            style={{ margin: 8, width: "40%" }}
+                                            placeholder="Number of products"
+                                            type={"text"}
+                                            value={quantity}
+                                            onChange={(e) =>
+                                                setQuantity(e.target.value)
+                                            }
+                                            margin="normal"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            variant="standard"
+                                            validators={[
+                                                "isNumber",
+                                                "isDiscountNotLowerThanZero",
+                                                "maxNumber: 1000000",
+                                            ]}
+                                            errorMessages={[
+                                                "Enter a number",
+                                                "Quantity can't be lower than zero",
+                                                "Discount can't be higher than 1000000",
+                                            ]}
+                                        />
+                                    </FormControl>
                                     <FormControl
                                         className={classes.formControl}
                                         style={{ marginTop: "1.5em" }}

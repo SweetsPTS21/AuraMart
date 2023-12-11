@@ -320,6 +320,21 @@ const ProductsManagement = () => {
     const handleConfirmDelete = () => {
         console.log("Delete product");
     };
+
+    const productStatus = (stock, sold) => {
+        const status = parseInt(stock) - parseInt(sold ? sold : 0);
+        return (
+            <Typography
+                className={classes.sale__status}
+                style={{
+                    backgroundColor: status > 0 ? "green" : "red",
+                }}
+            >
+                {status > 0 ? status : "Out of stock"}
+            </Typography>
+        )
+    };
+
     return (
         <div style={{ width: "100%", padding: "0.5em" }}>
             <div
@@ -411,7 +426,7 @@ const ProductsManagement = () => {
                                             {product.price}
                                         </ProductTableCell>
                                         <ProductTableCell>
-                                            {product.status}
+                                            {productStatus(product.quantity, product.soldQuantity)}
                                         </ProductTableCell>
                                         <ProductTableCell>
                                             <div

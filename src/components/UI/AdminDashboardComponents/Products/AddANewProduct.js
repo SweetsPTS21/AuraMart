@@ -439,6 +439,7 @@ const AddANewProduct = (props) => {
         "Black&Green",
         "Black&Blue",
     ]);
+    const [quantity, setQuantity] = useState(0);
     const [shop, setShop] = useState("");
     const [photo, setPhoto] = useState(null);
     const [photoFile] = useState(null);
@@ -500,6 +501,7 @@ const AddANewProduct = (props) => {
             branch,
             origin,
             discount: parseInt(discount),
+            quantity: parseInt(quantity),
             colors,
         };
 
@@ -882,6 +884,37 @@ const AddANewProduct = (props) => {
                                                 "Enter a number",
                                                 "Discount can't be lower than zero",
                                                 "Discount can't be higher than 100",
+                                            ]}
+                                        />
+                                    </FormControl>
+                                    <FormControl
+                                        className={classes.formControl}
+                                        style={{ marginTop: "1.5em" }}
+                                    >
+                                        <TextValidator
+                                            size="small"
+                                            label="Quantity"
+                                            style={{ margin: 8, width: "40%" }}
+                                            placeholder="Number of products"
+                                            type={"text"}
+                                            value={quantity}
+                                            onChange={(e) =>
+                                                setQuantity(e.target.value)
+                                            }
+                                            margin="normal"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            variant="standard"
+                                            validators={[
+                                                "isNumber",
+                                                "isDiscountNotLowerThanZero",
+                                                "maxNumber: 1000000",
+                                            ]}
+                                            errorMessages={[
+                                                "Enter a number",
+                                                "Quantity can't be lower than zero",
+                                                "Discount can't be higher than 1000000",
                                             ]}
                                         />
                                     </FormControl>

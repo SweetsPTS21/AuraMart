@@ -24,9 +24,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { styled, useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    updateOrderById,
-} from "../../../store/actions/orderActions";
+import { updateOrderById } from "../../../store/actions/orderActions";
 import MuiSelect from "../../layout/MuiSelect";
 import MuiInput from "../../layout/MuiInput";
 import { message } from "antd";
@@ -60,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: "600px !important",
         },
     "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
-        backgroundColor: "rgba(0, 0, 0, 0.5) !important",
+        backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
 }));
 
@@ -259,7 +257,6 @@ const OrdersManagement = () => {
     const [currentItem, setCurrentItem] = useState({});
 
     const orders = useSelector((state) => state.orders.allShopOrders);
-
 
     const filteredOrders = orders
         ? orders.filter((order) =>

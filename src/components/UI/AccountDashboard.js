@@ -33,14 +33,14 @@ import ProductsViewed from "./AccountDashboardComponents/ProductsViewed";
 import FavoriteProducts from "./AccountDashboardComponents/FavoriteProducts";
 import ProductsToBuyLater from "./AccountDashboardComponents/ProductsToBuyLater";
 import MyComment from "./AccountDashboardComponents/MyComment";
-import QuestionAndAnswer from "./AccountDashboardComponents/QuestionAndAnswer";
+import HelpCenter from "./AccountDashboardComponents/HelpCenter";
 import InformationTikiNow from "./AccountDashboardComponents/InformationTikiNow";
 import MyTikiXuManager from "./AccountDashboardComponents/MyTikiXuManager";
 import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 import { getUserAddress } from "../../store/actions/addressActions";
-import { getOrdersByUserId} from "../../store/actions/orderActions";
+import { getOrdersByUserId } from "../../store/actions/orderActions";
 
 const AccountDashBoard = (props) => {
     const classes = userStyles();
@@ -62,21 +62,21 @@ const AccountDashBoard = (props) => {
     }, [dispatch, user.id]);
 
     const options = [
-        "Account Information",
-        "My notice",
-        "Order Management",
-        "Address",
-        "My vouchers",
-        "Billing Information",
-        "Review Products purchased",
-        "Products you have viewed",
-        "Favorite products",
-        "Product to buy later",
-        "My comment",
-        "Question an answer",
-        "Information TikiNOW",
-        "My Tiki Xu manager",
-        "My book care",
+        "Thông tin tài khoản",
+        "Thông báo của tôi",
+        "Đơn mua",
+        "Địa chỉ của tôi",
+        "Voucher của tôi",
+        "Thông tin thanh toán",
+        "Đánh giá sản phẩm đã mua",
+        "Sản phẩm đã xem",
+        "Sản phẩm yêu thích",
+        "Sản phẩm mua sau",
+        "Đánh giá của tôi",
+        "Trung tâm hỗ trợ",
+        "TikiNOW",
+        "Tiki Xu của tôi",
+        "My BookCare",
     ];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
@@ -124,7 +124,7 @@ const AccountDashBoard = (props) => {
             case 10:
                 return <MyComment />;
             case 11:
-                return <QuestionAndAnswer />;
+                return <HelpCenter />;
             case 12:
                 return <InformationTikiNow />;
             case 13:
@@ -177,7 +177,7 @@ const AccountDashBoard = (props) => {
                                 paddingTop: "1em",
                             }}
                         >
-                            <span>Account of</span> <br />{" "}
+                            <span>Tài khoản của</span> <br />{" "}
                             <span
                                 style={{ fontWeight: 600, fontSize: "1.2em" }}
                             >

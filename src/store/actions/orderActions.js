@@ -164,7 +164,7 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
     }
 };
 
-export const cancelOrder = (orderId) => async (dispatch) => {
+export const cancelOrder = (orderId, userId) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/${orderId}/cancel`;
     await axios
         .put(url)
@@ -172,7 +172,7 @@ export const cancelOrder = (orderId) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error cancelling order");
             }
-            dispatch(getOrderById(orderId));
+            dispatch(getOrdersByUserId(userId));
             message.success("Cancelled order");
         })
         .catch((err) => {
@@ -181,7 +181,7 @@ export const cancelOrder = (orderId) => async (dispatch) => {
         });
 };
 
-export const confirmReceivedOrder = (orderId) => async (dispatch) => {
+export const confirmReceivedOrder = (orderId, userId) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/${orderId}/confirm`;
     await axios
         .put(url)
@@ -189,7 +189,7 @@ export const confirmReceivedOrder = (orderId) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error confirming order");
             }
-            dispatch(getOrderById(orderId));
+            dispatch(getOrdersByUserId(userId));
             message.success("Confirmed order");
         })
         .catch((err) => {

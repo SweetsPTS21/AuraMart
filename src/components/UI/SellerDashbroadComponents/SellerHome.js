@@ -18,6 +18,13 @@ import {
     Store,
     Update,
 } from "@material-ui/icons";
+import {
+    CommentRounded,
+    DataThresholdingRounded,
+    GradeRounded,
+    QuestionAnswerRounded,
+} from "@mui/icons-material";
+
 import ReviewStats from "../AdminDashboardComponents/Stats/ReviewStats";
 const useStyles = makeStyles(() => ({
     root: {
@@ -73,6 +80,15 @@ const HomeConfig = (props) => {
     const classes = useStyles();
     const [ordersLastUpdated] = useState(Date.now());
     const products = props.products ? props.products : [];
+    const statistic = useSelector((state) => state.stats.statistics);
+
+    const formatVND = (price) => {
+        return price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+        });
+    };
+
     return (
         <>
             <Grid item xs={3}>
@@ -81,8 +97,12 @@ const HomeConfig = (props) => {
                         <CardIcon color="tiki">
                             <Report />
                         </CardIcon>
-                        <p className={classes.cardCategory}>Total Orders</p>
-                        <h3 className={classes.cardTitle}>{12}</h3>
+                        <p className={classes.cardCategory}>Tổng đơn hàng</p>
+                        <h3 className={classes.cardTitle}>
+                            {statistic
+                                ? statistic.orders
+                                : Math.floor(Math.random() * 50)}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -103,7 +123,7 @@ const HomeConfig = (props) => {
                         <CardIcon color="success">
                             <Store />
                         </CardIcon>
-                        <p className={classes.cardCategory}>Total Products</p>
+                        <p className={classes.cardCategory}>Sản phẩm</p>
                         <h3 className={classes.cardTitle}>{products.length}</h3>
                     </CardHeader>
                     <CardFooter stats>
@@ -125,8 +145,12 @@ const HomeConfig = (props) => {
                         <CardIcon color="warning">
                             <Money />
                         </CardIcon>
-                        <p className={classes.cardCategory}>Today Revenue</p>
-                        <h3 className={classes.cardTitle}>{"+250000"}</h3>
+                        <p className={classes.cardCategory}>Thu nhập</p>
+                        <h3 className={classes.cardTitle}>
+                            {statistic
+                                ? formatVND(statistic.revenue)
+                                : Math.floor(Math.random() * 1000)}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -147,8 +171,101 @@ const HomeConfig = (props) => {
                         <CardIcon color="primary">
                             <Accessibility />
                         </CardIcon>
-                        <p className={classes.cardCategory}>Follower</p>
-                        <h3 className={classes.cardTitle}>{"+25"}</h3>
+                        <p className={classes.cardCategory}>Chờ xử lý</p>
+                        <h3 className={classes.cardTitle}>{"+11"}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            {/* Shop status */}
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="tiki" stats icon>
+                        <CardIcon color="tiki">
+                            <GradeRounded />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Đánh giá</p>
+                        <h3 className={classes.cardTitle}>{67}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="success" stats icon>
+                        <CardIcon color="success">
+                            <CommentRounded />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Phản hồi</p>
+                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="warning" stats icon>
+                        <CardIcon color="warning">
+                            <DataThresholdingRounded />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Đã bán</p>
+                        <h3 className={classes.cardTitle}>{"70"}</h3>
+                    </CardHeader>
+                    <CardFooter stats>
+                        <div className={classes.stats}>
+                            <Update />
+                            <Moment
+                                fromNow
+                                style={{ textTransform: "capitalize" }}
+                            >
+                                {ordersLastUpdated}
+                            </Moment>
+                        </div>
+                    </CardFooter>
+                </Card>
+            </Grid>
+            <Grid item xs={3}>
+                <Card>
+                    <CardHeader color="primary" stats icon>
+                        <CardIcon color="primary">
+                            <QuestionAnswerRounded />
+                        </CardIcon>
+                        <p className={classes.cardCategory}>Theo dõi</p>
+                        <h3 className={classes.cardTitle}>
+                            {statistic
+                                ? statistic.followers
+                                : Math.floor(Math.random() * 10000)}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>

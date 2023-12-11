@@ -1,4 +1,5 @@
 import {
+    GET_SHOP_STATISTIC,
     GET_TOP_SOLD_PRODUCTS,
     GET_TOP_SOLD_PRODUCTS_OF_A_SHOP,
 } from "../actions/statsActions";
@@ -20,7 +21,11 @@ export default function (state = initialState, action) {
                 ...state,
                 topProductsOfShop: action.productsOfShop,
             };
-
+        case GET_SHOP_STATISTIC:
+            return {
+                ...state,
+                statistics: action.statistics,
+            };
         default:
             return state;
     }

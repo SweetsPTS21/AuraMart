@@ -16,7 +16,7 @@ const TopProducts = (props) => {
     useEffect(() => {
         dispatch(statsActions.getTopSoldProducts());
     }, []);
-    
+
     const getProductDetails = (id) =>
         allProducts.find((prod) => prod._id === id);
 
@@ -28,54 +28,45 @@ const TopProducts = (props) => {
                 let prod = getProductDetails(product._id);
                 return (
                     <Card
-                    style={{
-                        width: itemWidth,
-                        backgroundColor: "#fff",
-                        marginRight: "0.5em",
-                    }}
-                    key={prod.id}
-                    id={prod.id}
-                    slug={
-                        prod.slug !== undefined
-                            ? prod.slug
-                            : ""
-                    }
-                    type={"review"}
-                    price={prod.price}
-                    discount={
-                        prod.discount !== undefined
-                            ? prod.discount
-                            : 0
-                    }
-                    title={prod.name}
-                    image={
-                        prod.photo === "no-photo.jpg"
-                            ? NoPhoto
-                            : prod.photo
-                    }
-                    rating={prod.averageRating}
-                    link={true}
-                    count={product.count}
-                />
-            )}
-        ));
-    }
-    return (
-        topProducts ? (
-            <div style={{marginTop: "1.5em", marginBottom: "0.6em"}}>
-                <ItemContainer
-                    length={topProducts.length}
-                    type={type}
-                    title={"Sản phẩm bán chạy nhất"}
-                    itemWidth={itemWidth}
-                >
-                    {renderTopProducts()}
-                </ItemContainer>
-            </div>
-        ) : (
-            <p>No items</p>
-        )
-    )
-}
+                        style={{
+                            width: itemWidth,
+                            backgroundColor: "#fff",
+                            marginRight: "0.5em",
+                        }}
+                        key={prod.id !== undefined ? prod.id : ""}
+                        id={prod.id !== undefined ? prod.id : ""}
+                        slug={prod.slug !== undefined ? prod.slug : ""}
+                        type={"review"}
+                        price={prod.price}
+                        discount={
+                            prod.discount !== undefined ? prod.discount : 0
+                        }
+                        title={prod.name}
+                        image={
+                            prod.photo === "no-photo.jpg" ? NoPhoto : prod.photo
+                        }
+                        rating={prod.averageRating}
+                        link={true}
+                        count={product.count}
+                    />
+                );
+            })
+        );
+    };
+    return topProducts ? (
+        <div style={{ marginTop: "1.5em", marginBottom: "0.6em" }}>
+            <ItemContainer
+                length={topProducts.length}
+                type={type}
+                title={"Sản phẩm bán chạy nhất"}
+                itemWidth={itemWidth}
+            >
+                {renderTopProducts()}
+            </ItemContainer>
+        </div>
+    ) : (
+        <p>No items</p>
+    );
+};
 
-export default TopProducts
+export default TopProducts;
