@@ -5,14 +5,14 @@ export const GET_CART = 'GET_CART';
 export const CLEAR_CART = 'CLEAR_CART';
 export const UPDATE_FINAL_TOTAL = 'UPDATE_FINAL_TOTAL';
 
-export const addToCart = product => {
+export const addToCart = (product) => {
     return {
         type: ADD_TO_CART,
         product: product
     }
 };
 
-export const removeFromCart = productId => {
+export const removeFromCart = (productId) => {
     return {
         type: REMOVE_FROM_CART,
         pid: productId
@@ -20,6 +20,7 @@ export const removeFromCart = productId => {
 };
 
 export const deleteFromCart = productId => {
+
     return {
         type: DELETE_FROM_CART,
         pid: productId

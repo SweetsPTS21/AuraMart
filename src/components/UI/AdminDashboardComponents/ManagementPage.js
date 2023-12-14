@@ -91,7 +91,6 @@ const DialogDelete = (props) => {
 
 const UpdateData = (props) => {
     const { open, setOpen, item, type, dataType } = props;
-    const [ setShowDialog] = useState(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -110,7 +109,7 @@ const UpdateData = (props) => {
                     ) : (
                         <UpdateAProductForm
                             product={item}
-                            setShowProductCard={setShowDialog}
+                            setShowProductCard={setOpen}
                             style={{ padding: 0, margin: 0 }}
                         />
                     ))}
@@ -122,7 +121,7 @@ const UpdateData = (props) => {
                     ) : (
                         <UpdateUserForm
                             user={item}
-                            setShowUserCard={setShowDialog}
+                            setShowUserCard={setOpen}
                             style={{ padding: 0, margin: 0 }}
                         />
                     ))}
@@ -134,7 +133,7 @@ const UpdateData = (props) => {
                     ) : (
                         <UpdateOrderForm
                             order={item}
-                            setShowUpdateForm={setShowDialog}
+                            setShowUpdateForm={setOpen}
                             style={{ padding: 0, margin: 0 }}
                         />
                     ))}
@@ -146,7 +145,7 @@ const UpdateData = (props) => {
                     ) : (
                         <UpdateReviewForm
                             review={item}
-                            setShowUpdateForm={setShowDialog}
+                            setShowUpdateForm={setOpen}
                             style={{ padding: 0, margin: 0 }}
                         />
                     ))}
@@ -172,11 +171,10 @@ const ManagementPage = (props) => {
     const usersCol = ["_id", "name", "age", "gender", "email", "role"];
     const productsCol = [
         "_id",
+        "photo",
         "name",
         "price",
         "quantity",
-        "category",
-        "brand",
     ];
     const ordersCol = [
         "_id",
@@ -306,9 +304,22 @@ const ManagementPage = (props) => {
                                             ))}
                                         {dataType === "products" &&
                                             productsCol.map((col) => (
-                                                <ProductTableCell key={col}>
-                                                    {item[col]}
-                                                </ProductTableCell>
+                                                col === "photo" ? (
+                                                    <ProductTableCell key={col}>
+                                                        <img
+                                                            src={item[col]}
+                                                            alt={item.name}
+                                                            style={{
+                                                                width: "80px",
+                                                                height: "80px",
+                                                            }}
+                                                        />
+                                                    </ProductTableCell>
+                                                ) : (
+                                                    <ProductTableCell key={col}>
+                                                        {item[col]}
+                                                    </ProductTableCell>
+                                                )  
                                             ))}
                                         {dataType === "orders" &&
                                             ordersCol.map((col) => (

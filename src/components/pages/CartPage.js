@@ -239,12 +239,17 @@ const CartPage = (props) => {
                                                 ),
                                                 cartActions.updateFinalTotal()
                                             );
+                                            dispatch(
+                                                cartActions.updateFinalTotal()
+                                            );
                                         }}
                                         removeItem={() => {
                                             dispatch(
                                                 cartActions.removeFromCart(
                                                     item.productId
-                                                ),
+                                                )
+                                            );
+                                            dispatch(
                                                 cartActions.updateFinalTotal()
                                             );
                                         }}

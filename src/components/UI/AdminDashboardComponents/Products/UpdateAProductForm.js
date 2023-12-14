@@ -452,7 +452,7 @@ const UpdateAProductForm = (props) => {
             ? product.colors
             : ["Black&Red", "Black&Green", "Black&Blue"]
     );
-    const [shop, setShop] = useState(product.shop.id);
+    const [shop, setShop] = useState(product.shop);
 
     const [photo, setPhoto] = useState(product.photo); // photo object that upload component uses
 
@@ -518,6 +518,7 @@ const UpdateAProductForm = (props) => {
             quantity: parseInt(quantity),
             colors,
             photo,
+            shop,
         };
         dispatch(await productActions.updateProductById(product_, product.id));
 

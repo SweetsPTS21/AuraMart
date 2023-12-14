@@ -293,7 +293,7 @@ const ProductsManagement = () => {
     const products = useSelector((state) => state.products.productsInShop);
     const shop = useSelector((state) => state.shops.userShop);
 
-    const filteredProducts = products.filter((product) =>
+    const filteredProducts =  products && products.filter((product) =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
@@ -352,7 +352,7 @@ const ProductsManagement = () => {
                 <Typography variant="h5">Search</Typography>
                 <Autocomplete
                     id="search-product"
-                    options={products.map((product) => product.name)}
+                    options={products && products.map((product) => product.name)}
                     renderInput={(params) => (
                         <TextField
                             {...params}

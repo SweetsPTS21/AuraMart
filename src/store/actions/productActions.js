@@ -123,7 +123,7 @@ export const updateProductById = (product, productId) => async (dispatch) => {
             if (!res.data.success) {
                 return message.error("Error updating product");
             }
-            await dispatch(getAllProducts());
+            await dispatch(getProductsByShopId(product.shop));
 
             message.success("Updated product");
         })
