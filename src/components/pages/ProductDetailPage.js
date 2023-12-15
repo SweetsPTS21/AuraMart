@@ -102,6 +102,10 @@ const useStyles = makeStyles((theme) => ({
     image: {
         borderRadius: "0.5em",
     },
+    zoomImage: {
+        zIndex: "100",
+    },
+
     title: { fontSize: "1.5em", color: "#858585" },
 
     shopInfo__avatar: {
@@ -1394,17 +1398,38 @@ const ProductDetailPage = (props) => {
                                     <Grid item>
                                         {product !== null &&
                                             product !== undefined && (
-                                                <>
+                                                <div>
                                                     <SideBySideMagnifier
                                                         imageSrc={currentImg}
-                                                        largeImageSrc={
-                                                            currentImg
-                                                        }
                                                         imageAlt="Example"
                                                         style={{
-                                                            marginTop: "3em",
+                                                            width: "100%",
+                                                            height: "auto",
                                                         }}
-                                                    />
+                                                        alwaysInPlace={true}
+                                                        overlayOpacity={0.5}
+                                                        switchSides={false}
+                                                        fillAvailableSpace={
+                                                            true
+                                                        }
+                                                        zoomPosition={"left"}
+                                                        zoomContainerBorder={
+                                                            "1px solid #ccc"
+                                                        }
+                                                        zoomContainerBoxShadow={
+                                                            "0 4px 8px rgba(0,0,0,.5)"
+                                                        }
+                                                        cursorStyle={
+                                                            "crosshair"
+                                                        }
+                                                        cursorStyleActive={
+                                                            "crosshair"
+                                                        }
+                                                        dragToMove={false}
+                                                        dragToMoveEnabled={
+                                                            false
+                                                        }
+                                                    ></SideBySideMagnifier>
                                                     <div
                                                         className="image-description"
                                                         style={{
@@ -1427,7 +1452,7 @@ const ProductDetailPage = (props) => {
                                                             zoom out
                                                         </span>
                                                     </div>
-                                                </>
+                                                </div>
                                             )}
                                     </Grid>
                                     <Grid item>

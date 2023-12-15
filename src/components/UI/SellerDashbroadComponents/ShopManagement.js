@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import { Add, Save } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import * as configActions from "../../../store/actions/configActions";
+import { updateShopById } from "../../../store/actions/shopActions";
 import { TextField, Typography } from "@material-ui/core";
 import { message } from "antd";
 import MyVoucher from "../AccountDashboardComponents/MyVoucher";
@@ -203,6 +204,20 @@ const ShopConfig = (props) => {
         setConfigs(configs);
     };
 
+    const handleUpdateInfo = async () => {
+        const msg = message.loading("Updating shop info!", 0);
+        const data = {
+            name: name,
+            description: description,
+            address: address,
+            phone: phone,
+            avatar: avatar,
+            user: shop.user,
+        };
+        await dispatch(updateShopById(shop.id, data));
+        setTimeout(msg, 1);
+    }
+
     return (
         <>
             <Grid item xs={6} style={{ paddingRight: "1em" }}>
@@ -312,6 +327,7 @@ const ShopConfig = (props) => {
                                     marginRight: "0.5em",
                                     marginTop: "2em",
                                 }}
+                                onClick={handleUpdateInfo}
                             >
                                 Update
                             </Button>

@@ -111,12 +111,13 @@ export const createNewShop = (shop) => async (dispatch) => {
 };
 
 // 🔒
-export const updateShopById = (shop, shopId) => async (dispatch) => {
+export const updateShopById = (shopId, data) => async (dispatch) => {
     const url = `${api_url}/api/v1/shops/${shopId}`;
     await axios
-        .put(url, shop)
+        .put(url, data)
         .then(() => {
             dispatch(getAllShops());
+            dispatch(getShopByUserId(data.user));
             message.success("shop updated successfully");
         })
         .catch((err) => {
