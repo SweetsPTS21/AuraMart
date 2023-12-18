@@ -518,7 +518,7 @@ const ProductOptions = ({ product }) => {
 
     const classes = useStyles();
     const [amount, setAmount] = useState(1);
-    const [setColor] = useState(product.colors[0]);
+    const [color, setColor] = useState(product.colors[0]);
 
     const handleDecrease = () => {
         if (amount - 1 >= 0) {
@@ -549,6 +549,7 @@ const ProductOptions = ({ product }) => {
                     onClick={() => {
                         setColor(item);
                     }}
+                    disabled={item === color}
                 >
                     {item}
                 </ToggleButton>
@@ -558,7 +559,7 @@ const ProductOptions = ({ product }) => {
 
     const handleAddToCart = () => {
         for (let i = 0; i < amount; i++) {
-            dispatch(cartActions.addToCart(product));
+            dispatch(cartActions.addToCart({ ...product, color: color }));
             dispatch(cartActions.updateFinalTotal());
         }
     };

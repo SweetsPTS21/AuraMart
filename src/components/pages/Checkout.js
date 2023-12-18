@@ -579,7 +579,9 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                         ["isNumber"],
                                         ["minStringLength:10"],
                                         ["maxStringLength:11"],
-                                        ["matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b"])
+                                        [
+                                            "matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b",
+                                        ])
                                     }
                                     errorMessages={["Phone number is invalid"]}
                                 />
@@ -1213,7 +1215,7 @@ const Checkout = () => {
             a.productId > b.productId ? 1 : -1
         );
     });
-    const total = useSelector((state) => state.cart.finalTotal);
+    //const total = useSelector((state) => state.cart.finalTotal);
 
     const [activeStep, setActiveStep] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -1255,26 +1257,64 @@ const Checkout = () => {
     const handleOrder = async () => {
         setLoading(true);
         const msg = message.loading("Ordering!", 0);
+
+        //let products = [];
+        let order = {
+            receiver: shipAddress.fullName,
+            phone: shipAddress.phone,
+            address:
+                shipAddress.address +
+                ", " +
+                shipAddress.ward +
+                ", " +
+                shipAddress.district +
+
+                ", " +
+                shipAddress.city,
+            shippingMethod: "GHN",
+        };
+        // get unique shops in cart
+        const shops = {};
+        let shopOrder = [];
         for (let i = 0; i < cartItems.length; i++) {
-            let order_ = {
-                shop: cartItems[i].product.shop.id,
-                product: cartItems[i].productId,
+            let shop = cartItems[i].product.shop._id;
+            let product_ = {
+                product: cartItems[i].product._id,
                 quantity: parseInt(cartItems[i].quantity),
-                receiver: shipAddress.fullName,
-                phone: shipAddress.phone,
-                address:
-                    shipAddress.address +
-                    ", " +
-                    shipAddress.ward +
-                    ", " +
-                    shipAddress.district +
-                    ", " +
-                    shipAddress.city,
-                total,
-                shippingMethod: "GHN",
+                color: cartItems[i].color,
+                note: "This is note",
+                shop: shop,
+                price: cartItems[i].productPrice,
             };
-            dispatch(await orderActions.addNewOrder(order_, payment));
+            if (shops[shop] === undefined) {
+                shops[shop] = []
+            }
+            shops[shop].push(product_);
         }
+
+        // shop total amount
+        for (let shop in shops) {
+            let total = 0;
+            for (let i = 0; i < shops[shop].length; i++) {
+                total += shops[shop][i].price * shops[shop][i].quantity;
+            }
+            shops[shop].total = total;
+        }
+
+        // get order for each shop
+        for (let shop in shops) {
+            let order_ = {
+                ...order,
+                total: shops[shop].total,
+                shop: shop,
+                products: shops[shop],
+                paymentMethod: payment,
+                paymentStatus: "Pending",
+            }
+            shopOrder.push(order_);
+        }
+        dispatch(await orderActions.addNewOrder(shopOrder));
+
         dispatch(await cartActions.clearCart());
         setTimeout(msg, 1);
         navigate("/");
