@@ -26,7 +26,7 @@ const TopProducts = (props) => {
             topProducts.length > 0 &&
             topProducts.map((product) => {
                 let prod = getProductDetails(product._id);
-                return (
+                return prod ? (
                     <Card
                         style={{
                             width: itemWidth,
@@ -38,9 +38,7 @@ const TopProducts = (props) => {
                         slug={prod ? prod.slug : ""}
                         type={"review"}
                         price={prod.price}
-                        discount={
-                            prod ? prod.discount : 0
-                        }
+                        discount={prod ? prod.discount : 0}
                         title={prod.name}
                         image={
                             prod.photo === "no-photo.jpg" ? NoPhoto : prod.photo
@@ -49,7 +47,7 @@ const TopProducts = (props) => {
                         link={true}
                         count={product.count}
                     />
-                );
+                ) : null;
             })
         );
     };

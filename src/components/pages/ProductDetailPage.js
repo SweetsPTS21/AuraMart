@@ -18,7 +18,6 @@ import TikiTimerIcon from "../../image/tiki_timer.png";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import CartIcon from "../../image/ic-cart@2x.png";
 import ZoomIcon from "../../image/zoom-in.png";
 // table
 import Table from "@material-ui/core/Table";
@@ -42,7 +41,7 @@ import { SideBySideMagnifier } from "react-image-magnifiers";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Moment from "moment";
 
-import { QuestionAnswerRounded, StoreRounded } from "@mui/icons-material";
+import { QuestionAnswerRounded, ShoppingCartRounded, StoreRounded,  } from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
@@ -612,24 +611,16 @@ const ProductOptions = ({ product }) => {
                     <Grid item style={{ width: "100%" }}>
                         <Button
                             onClick={handleAddToCart}
-                            variant="contained"
-                            color="secondary"
                             style={{
                                 fontSize: "1em",
                                 width: "100%",
+                                backgroundColor: "#FF424E",
+                                color: "white",
+                                textTransform: "none",
                             }}
                         >
-                            <img
-                                src={CartIcon}
-                                style={{
-                                    width: "15px",
-                                    height: "15px",
-                                    marginRight: "10px",
-                                    fontSize: "0.85em",
-                                }}
-                                alt={"a cart icon"}
-                            />
-                            Add to cart
+                            <ShoppingCartRounded/>
+                            Thêm vào giỏ hàng
                         </Button>
                     </Grid>
                 </Grid>

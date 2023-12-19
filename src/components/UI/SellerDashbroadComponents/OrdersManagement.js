@@ -28,6 +28,8 @@ import { updateOrderById } from "../../../store/actions/orderActions";
 import MuiSelect from "../../layout/MuiSelect";
 import MuiInput from "../../layout/MuiInput";
 import { message } from "antd";
+import { Visibility } from "@mui/icons-material";
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,7 +122,7 @@ const UpdateOrder = (props) => {
     const dispatch = useDispatch();
     const { open, setOpen, order } = props;
 
-    const [name, setName] = useState(order.name);
+    const [name, setName] = useState(order.receiver);
     const [phone, setPhone] = useState(order.phone);
     const [address, setAddress] = useState(order.address);
     const [date, setDate] = useState(order.createdAt);
@@ -160,14 +162,14 @@ const UpdateOrder = (props) => {
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Edit Order</DialogTitle>
+            <DialogTitle>Cập nhật thông tin đơn hàng</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Add/Update stock for your shop here
+                    Cập nhật thông tin đơn hàng của bạn tại đây
                 </DialogContentText>
                 <Grid container className={classes.order__dialog}>
                     <Grid item xs={6} className={classes.order__dialog__part}>
-                        <Typography>Name</Typography>
+                        <Typography>Người nhận</Typography>
                         <MuiInput
                             aria-label="Name"
                             placeholder="Eg: Kho 1"
@@ -178,7 +180,7 @@ const UpdateOrder = (props) => {
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
-                        <Typography>Phone</Typography>
+                        <Typography>Số điện thoại</Typography>
                         <MuiInput
                             aria-label="Phone"
                             placeholder="Eg: 0981234567"
@@ -189,7 +191,7 @@ const UpdateOrder = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
                         <Typography style={{ marginBottom: "0.5em" }}>
-                            Address
+                            Địa chỉ
                         </Typography>
                         <MuiInput
                             aria-label="Address"
@@ -200,7 +202,7 @@ const UpdateOrder = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
                         <Typography style={{ marginBottom: "0.5em" }}>
-                            Date
+                            Ngày đặt hàng
                         </Typography>
                         <MuiInput
                             aria-label="Date"
@@ -212,7 +214,7 @@ const UpdateOrder = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
                         <Typography style={{ marginBottom: "0.5em" }}>
-                            Status
+                            Trạng thái
                         </Typography>
                         <MuiSelect
                             aria-label="Status"
@@ -224,7 +226,7 @@ const UpdateOrder = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
                         <Typography style={{ marginBottom: "0.5em" }}>
-                            Total
+                            Tổng tiền
                         </Typography>
                         <MuiInput
                             aria-label="Total"
@@ -236,10 +238,99 @@ const UpdateOrder = (props) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleClose}>Hủy</Button>
                 <Button onClick={handleSubmit} autoFocus>
-                    Submit
+                    Lưu
                 </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+const OrderDetail = (props) => {
+    const classes = useStyles();
+    const { products, open, setOpen } = props;
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const formatVND = (price) => {
+        return price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+        });
+    };
+
+    return (
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Chi tiết đơn hàng</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Chi tiết sản phẩm trong đơn hàng
+                </DialogContentText>
+                <Grid container className={classes.order__dialog}>
+                    {products &&
+                        products.map((product) => (
+                            <Grid
+                                item
+                                xs={12}
+                                style={{
+                                    display: "flex",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "0.5em",
+                                    padding: "0.5em 1em",
+                                    marginBottom: "0.5em",
+                                }}
+                            >
+                                <img
+                                    src={product.product.photo}
+                                    alt=""
+                                    style={{ width: "90px", height: "90px" }}
+                                />
+                                <div style={{paddingLeft: "1em"}}>
+                                    <Typography>
+                                        {product.product.name}
+                                    </Typography>
+                                    <div style={{ display: "flex", gap: "5px", paddingTop: "0.5em" }}>
+                                        <Typography
+                                            style={{
+                                                padding: "2px 4px",
+                                                borderRadius: "4px",
+                                                color: "#fff",
+                                                backgroundColor: "#12B76A",
+                                            }}
+                                        >
+                                            x{product.quantity}
+                                        </Typography>
+                                        <Typography
+                                            style={{
+                                                padding: "2px 4px",
+                                                borderRadius: "4px",
+                                                color: "#fff",
+                                                backgroundColor: "#4C5768",
+                                            }}
+                                        >
+                                            {product.color}
+                                        </Typography>
+                                        <Typography
+                                            style={{
+                                                padding: "2px 4px",
+                                                borderRadius: "4px",
+                                                color: "#fff",
+                                                backgroundColor: "#13C2C2",
+                                            }}
+                                        >
+                                            {formatVND(product.product.price)}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </Grid>
+                        ))}
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
             </DialogActions>
         </Dialog>
     );
@@ -250,6 +341,7 @@ const OrdersManagement = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openDetail, setOpenDetail] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [page, setPage] = useState(1);
     const [type, setType] = useState(0);
@@ -260,13 +352,18 @@ const OrdersManagement = () => {
 
     const filteredOrders = orders
         ? orders.filter((order) =>
-              order.id.toLowerCase().includes(searchText.toLowerCase())
+              order._id.toLowerCase().includes(searchText.toLowerCase())
           )
         : [];
 
     const handleSearch = () => {
         // Implement your search logic here
         // Update the 'filteredOrders' based on the search result
+    };
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return format(d, "dd/MM/yyyy HH:mm:ss");
     };
 
     const handlePageChange = (event, value) => {
@@ -276,6 +373,11 @@ const OrdersManagement = () => {
     const handleOpenDialog = (type, order) => {
         setOpen(true);
         setType(type);
+        setCurrentItem(order);
+    };
+
+    const handleOpenDetail = (order) => {
+        setOpenDetail(true);
         setCurrentItem(order);
     };
 
@@ -300,7 +402,7 @@ const OrdersManagement = () => {
                 <Typography variant="h5">Search</Typography>
                 <Autocomplete
                     id="search-order"
-                    options={orders ? orders.map((order) => order.id) : []}
+                    options={orders ? orders.map((order) => order._id) : []}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -343,9 +445,9 @@ const OrdersManagement = () => {
                             )
                             .map((order) => (
                                 <>
-                                    <TableRow key={order.id}>
+                                    <TableRow key={order._id}>
                                         <OrderTableCell>
-                                            {order.id}
+                                            {order._id}
                                         </OrderTableCell>
                                         <OrderTableCell
                                             style={{ maxWidth: "548px" }}
@@ -359,7 +461,7 @@ const OrdersManagement = () => {
                                             {order.address}
                                         </OrderTableCell>
                                         <OrderTableCell>
-                                            {order.createdAt}
+                                            {formatDate(order.createdAt)}
                                         </OrderTableCell>
                                         <OrderTableCell
                                             className={classes.orderSuccess}
@@ -379,6 +481,14 @@ const OrdersManagement = () => {
                                                 color="primary"
                                             >
                                                 <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() =>
+                                                    handleOpenDetail(order)
+                                                }
+                                                color="secondary"
+                                            >
+                                                <Visibility />
                                             </IconButton>
                                             <IconButton
                                                 onClick={() =>
@@ -405,6 +515,13 @@ const OrdersManagement = () => {
                                             handleConfirmDelete={
                                                 handleConfirmDelete
                                             }
+                                        />
+                                    )}
+                                    {openDetail && (
+                                        <OrderDetail
+                                            open={openDetail}
+                                            setOpen={setOpenDetail}
+                                            products={currentItem.orderDetails}
                                         />
                                     )}
                                 </>

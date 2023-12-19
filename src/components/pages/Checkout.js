@@ -1190,6 +1190,7 @@ const Checkout = () => {
     const navigate = useNavigate();
     const curUser = useSelector((state) => state.auth.user);
     const defaultAddress = useSelector((state) => state.address.defaultAddress);
+    // const finalTotal = useSelector((state) => state.cart.finalTotal);
 
     useEffect(() => {
         dispatch(addressActions.getUserAddress(curUser.id));
@@ -1281,10 +1282,10 @@ const Checkout = () => {
             let product_ = {
                 product: cartItems[i].product._id,
                 quantity: parseInt(cartItems[i].quantity),
-                color: cartItems[i].color,
+                color: cartItems[i].product.color,
                 note: "This is note",
                 shop: shop,
-                price: cartItems[i].productPrice,
+                total: cartItems[i].productPrice,
             };
             if (shops[shop] === undefined) {
                 shops[shop] = []
