@@ -29,7 +29,7 @@ import MuiSelect from "../../layout/MuiSelect";
 import MuiInput from "../../layout/MuiInput";
 import { message } from "antd";
 import { Visibility } from "@mui/icons-material";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -138,6 +138,11 @@ const UpdateOrder = (props) => {
         "Delivered",
     ];
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        return format(d, "yyyy-MM-dd");
+    };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -146,7 +151,7 @@ const UpdateOrder = (props) => {
         const msg = message.loading("Updating order...", 0);
 
         const newOrder = {
-            name: name,
+            receiver: name,
             phone: phone,
             address: address,
             createdAt: date,
@@ -155,7 +160,7 @@ const UpdateOrder = (props) => {
             shop: order.shop,
         };
 
-        dispatch(updateOrderById(newOrder, order.id));
+        dispatch(updateOrderById(newOrder, order._id));
         setTimeout(msg, 1);
         setOpen(false);
     };
@@ -208,7 +213,7 @@ const UpdateOrder = (props) => {
                             aria-label="Date"
                             type="date"
                             placeholder="Eg: 2021-10-10"
-                            value={date}
+                            value={formatDate(date)}
                             onChange={(e) => setDate(e.target.value)}
                         />
                     </Grid>
@@ -270,7 +275,7 @@ const OrderDetail = (props) => {
                     Chi tiết sản phẩm trong đơn hàng
                 </DialogContentText>
                 <Grid container className={classes.order__dialog}>
-                    {products &&
+                    {products && products.length > 0 ? (
                         products.map((product) => (
                             <Grid
                                 item
@@ -288,11 +293,17 @@ const OrderDetail = (props) => {
                                     alt=""
                                     style={{ width: "90px", height: "90px" }}
                                 />
-                                <div style={{paddingLeft: "1em"}}>
+                                <div style={{ paddingLeft: "1em" }}>
                                     <Typography>
                                         {product.product.name}
                                     </Typography>
-                                    <div style={{ display: "flex", gap: "5px", paddingTop: "0.5em" }}>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            gap: "5px",
+                                            paddingTop: "0.5em",
+                                        }}
+                                    >
                                         <Typography
                                             style={{
                                                 padding: "2px 4px",
@@ -326,7 +337,19 @@ const OrderDetail = (props) => {
                                     </div>
                                 </div>
                             </Grid>
-                        ))}
+                        ))
+                    ) : (
+                        <Typography
+                            style={{
+                                padding: "1em",
+                                backgroundColor: "#FF3838",
+                                color: "#fff",
+                                borderRadius: "0.5em",
+                            }}
+                        >
+                            Không thể hiện thị danh sách sản phẩm
+                        </Typography>
+                    )}
                 </Grid>
             </DialogContent>
             <DialogActions>

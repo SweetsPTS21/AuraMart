@@ -108,6 +108,11 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none !important",
         color: "inherit !important",
     },
+    "@global .MuiInputBase-input.Mui-disabled": {
+        textAlign: "center",
+        color: "black",
+        fontSize: "1em",
+    },
 }));
 
 export default useStyles;

@@ -279,6 +279,7 @@ const SaleConfig = (props) => {
         </Dialog>
     );
 };
+
 const ProductsManagement = () => {
     const theme = useTheme();
     const classes = userStyles();
@@ -443,8 +444,8 @@ const ProductsManagement = () => {
                                                     style={{
                                                         backgroundColor:
                                                             product.sale
-                                                                ? "green"
-                                                                : "red",
+                                                                ? "#13C2C2"
+                                                                : "#FF3838",
                                                     }}
                                                 >
                                                     {product.sale

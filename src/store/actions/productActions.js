@@ -2,6 +2,7 @@ import axios from "axios";
 import { message } from "antd";
 
 export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
+export const GET_SALE_PRODUCTS = "GET_SALE_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const GET_PRODUCTS_BY_SHOP_ID = "GET_PRODUCTS_BY_SHOP_ID";
 export const GET_RECOMMEND_PRODUCTS_BY_USER_ID =
@@ -23,6 +24,22 @@ export const getAllProducts = (query) => async (dispatch) => {
                 products: res.data.data,
             });
             // message.success("Got products");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error getting products");
+        });
+};
+
+export const getSaleProducts = (query) => async (dispatch) => {
+    const url = `${api_url}/api/v1/products/sale${query ? query : ""}`;
+    await axios
+        .get(url)
+        .then((res) => {
+            dispatch({
+                type: GET_SALE_PRODUCTS,
+                products: res.data.data,
+            });
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -189,5 +206,21 @@ export const setSaleProduct = (shopId, id, saleProduct) => async (dispatch) => {
         .catch((err) => {
             console.log("Error" + err);
             message.error("Error setting sale product");
+        });
+};
+
+export const reportProduct = (productId, report) => async () => {
+    const url = `${api_url}/api/v1/products/${productId}/report`;
+    await axios
+        .post(url, report)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error(res.data.error);
+            }
+            message.success("Reported product");
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error reporting product");
         });
 };

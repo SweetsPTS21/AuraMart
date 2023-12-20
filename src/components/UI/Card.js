@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { message } from "antd";
+import { FormControl, MenuItem, Select } from "@material-ui/core";
 
 const Card = (props) => {
     const classes = userStyles();
@@ -31,6 +32,7 @@ const Card = (props) => {
     );
     const stock = props.stock ? props.stock : 0;
     const soldQuantity = props.soldQuantity ? props.soldQuantity : 0;
+    const [color, setColor] = useState(props.color ? props.color : null);
 
     const discounted_price = () => {
         let discounted_price =
@@ -467,12 +469,28 @@ const Card = (props) => {
                                     />{" "}
                                     Ship in 2h
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                >
-                                    Sold by {props.soldBy}
-                                </Typography>
+                                {props.colors && (
+                                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                                        <Select
+                                            label="Color"
+                                            variant="standard"                                            
+                                            value={color}
+                                            onChange={(e) =>
+                                                setColor(e.target.value)
+                                            }
+                                            autoWidth
+                                        >
+                                            {props.colors.map((color) => (
+                                                <MenuItem
+                                                    key={color}
+                                                    value={color}
+                                                >
+                                                    {color}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                )}
                             </Grid>
                             <Grid item>
                                 <Button
@@ -530,7 +548,8 @@ const Card = (props) => {
                                         marginTop: "1em",
                                     }}
                                 >
-                                    Còn <strong>{stock - soldQuantity}</strong> sản phẩm
+                                    Còn <strong>{stock - soldQuantity}</strong>{" "}
+                                    sản phẩm
                                 </Typography>
                             )}
                         </Grid>

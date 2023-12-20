@@ -15,7 +15,7 @@ import { Progress } from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import TikiTimerIcon from "../../image/tiki_timer.png";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+// import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ZoomIcon from "../../image/zoom-in.png";
@@ -25,8 +25,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import WarningIcon from "../../image/icon-warning.svg";
-import ResIcon from "../../image/response-icon.png";
 import StarIcon from "@material-ui/icons/Star";
 // select
 import MenuItem from "@material-ui/core/MenuItem";
@@ -39,9 +37,14 @@ import ListItem from "@material-ui/core/ListItem";
 
 import { SideBySideMagnifier } from "react-image-magnifiers";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Moment from "moment";
 
-import { QuestionAnswerRounded, ShoppingCartRounded, StoreRounded,  } from "@mui/icons-material";
+import {
+    ChangeCircleOutlined,
+    CurrencyExchangeRounded,
+    QuestionAnswerRounded,
+    ShoppingCartRounded,
+    StoreRounded,
+} from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
@@ -54,9 +57,21 @@ import { message } from "antd";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
 import ReviewCard from "../layout/ReviewCard";
-
-const defaultAvatar =
-    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
+import {
+    ArchiveRounded,
+    ArrowForwardIosRounded,
+    LocalShippingOutlined,
+    RefreshRounded,
+} from "@material-ui/icons";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Typography,
+} from "@material-ui/core";
+import defaultAvatar from "../../image/shopAvatar.jpg";
+import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -104,8 +119,18 @@ const useStyles = makeStyles((theme) => ({
     zoomImage: {
         zIndex: "100",
     },
-
+    icon: {
+        color: "#0a68ff",
+        marginRight: "0.3em",
+    },
     title: { fontSize: "1.5em", color: "#858585" },
+
+    button__color__enabled: {
+        borderColor: "#FF424E",
+    },
+    button__color__disabled: {
+        borderColor: "#ccc",
+    },
 
     shopInfo__avatar: {
         width: "80px",
@@ -216,55 +241,85 @@ const useStyles = makeStyles((theme) => ({
     "@global span span .progress .progress-bar": {
         backgroundColor: "#007BFF !important",
     },
-    "@global .MuiOutlinedInput-inputMarginDense": {
-        // padding: 0,
-        padding: "0.3em 0",
-        borderRadius: 0,
-        textAlign: "center",
-        width: "2em",
-    },
-    "@global .MuiOutlinedInput-input": {
-        textAlign: "center",
-    },
-    "@global .MuiOutlinedInput-root": {
-        borderRadius: "0 !important",
-    },
     "@global .MuiRating-label ": {
         display: "block !important",
         color: "inherit",
         fontSize: "inherit",
     },
-    "@global .MuiOutlinedInput-notchedOutline": {
-        marginTop: "0.025em !important",
-        height: "2.005em !important",
-        borderColor: "#3F51B5 !important",
+    "@global .MuiInput-underline.Mui-disabled:before": {
+        borderBottom: "none !important",
+    },
+    "@global .MuiDialog-paperWidthSm": {
+        maxWidth: "420px !important",
     },
 }));
 
 const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
         // Render a completed state
-        return (
-            <span>
-                <b>Offer is over!</b>
-            </span>
-        );
+        return <span>Offer is over!</span>;
     } else {
         if (days !== 0) {
             return (
                 <span>
-                    <b>
-                        {days} days {hours}:{minutes}:{seconds}
-                    </b>
+                    {days} days {hours}:{minutes}:{seconds}
                 </span>
             );
         }
         // Render a countdown
         return (
             <span>
-                <b>
-                    {hours}:{minutes}:{seconds}
-                </b>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {hours}
+                </span>
+                <span
+                    style={{
+                        fontSize: "1.2em",
+                        fontWeight: "600",
+                        margin: "0 0.2em",
+                    }}
+                >
+                    :
+                </span>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {minutes}
+                </span>
+                <span
+                    style={{
+                        fontSize: "1.2em",
+                        fontWeight: "600",
+                        margin: "0 0.2em",
+                    }}
+                >
+                    :
+                </span>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {seconds}
+                </span>
             </span>
         );
     }
@@ -341,7 +396,10 @@ const DealCounter = (props) => {
                     paddingBottom: "16px",
                 }}
             >
-                <div>
+                <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <FlashSale />
                     <span>
                         <img
                             src={TikiTimerIcon}
@@ -352,9 +410,7 @@ const DealCounter = (props) => {
                             }}
                             alt={"timer"}
                         />
-                    </span>
-                    <span>
-                        Deal is finished in:{" "}
+                        Kết thúc trong:{" "}
                         {timeInMilliSec !== undefined && (
                             <span>
                                 <Countdown
@@ -381,7 +437,7 @@ const DealCounter = (props) => {
                                     }}
                                 />
                             )}
-                            Sold {product.sold}
+                            Đã bán {product.sold}
                         </span>
                     )}
                 </Progress>
@@ -390,8 +446,92 @@ const DealCounter = (props) => {
     );
 };
 
+const ReportModal = (props) => {
+    const dispatch = useDispatch();
+    const reasons = [
+        "Sản phẩm giả",
+        "Sản phẩm bị cấm buôn bán",
+        "Sản phẩm không rõ nguồn gốc xuất xứ",
+        "Hình ảnh sản phẩm không rõ ràng",
+        "Sản phẩm có nội dung, hình ảnh phản cảm",
+        "Sản phẩm có dấu hiệu lừa đảo",
+        "Tên với mô tả sản phẩm không phù hợp",
+    ];
+    const [value, setValue] = useState(reasons[0]);
+    const [description, setDescription] = useState("");
+    const { productId, openReport, setOpenReport } = props;
+
+    const handleReport = async () => {
+        const msg = message.loading("Đang gửi tố cáo", 0);
+        let report_ = {
+            reason: value,
+            description: description,
+        };
+
+        await dispatch(productActions.reportProduct(productId, report_));
+        setTimeout(msg, 1);
+        setOpenReport(false);
+    };
+
+    const handleClose = () => {
+        setOpenReport(false);
+    };
+
+    return (
+        <Dialog open={openReport} setOpen={setOpenReport}>
+            <DialogTitle>Chọn lý do</DialogTitle>
+            <DialogContent>
+                <div>
+                    <FormControl
+                        variant="outlined"
+                        style={{ width: "100%", marginBottom: "1em" }}
+                    >
+                        <Select
+                            id="demo-simple-select-outlined"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            label="Lý do"
+                        >
+                            {reasons.map((item, index) => {
+                                return (
+                                    <MenuItem key={index} value={item}>
+                                        {item}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        label="Nội dung"
+                        multiline
+                        minRows={4}
+                        variant="outlined"
+                        style={{ width: "100%", marginTop: "1em" }}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button
+                    variant="contained"
+                    style={{
+                        backgroundColor: "#FF424E",
+                        color: "white",
+                        textTransform: "none",
+                    }}
+                    onClick={handleReport}
+                >
+                    Gửi
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 const ProductPriceInfo = ({ product }) => {
     const classes = useStyles();
+    const [openReport, setOpenReport] = useState(false);
 
     const discount_price = () => {
         let price =
@@ -412,6 +552,10 @@ const ProductPriceInfo = ({ product }) => {
         });
 
         return formatter.format(x);
+    };
+
+    const handleOpenReport = () => {
+        setOpenReport(true);
     };
 
     return (
@@ -467,10 +611,10 @@ const ProductPriceInfo = ({ product }) => {
                         </Box>
                     )}
                     <span style={{ fontSize: "1em" }}>
-                        Branch: <Link to="#">{product.branch}</Link>
-                        <span style={{ marginLeft: "1em", color: "#9B9B9B" }}>
+                        <Typography>Thương hiệu: {product.branch}</Typography>
+                        <Typography style={{ color: "#9B9B9B" }}>
                             ID: {product.id}
-                        </span>
+                        </Typography>
                     </span>
                 </div>
                 <div
@@ -478,29 +622,57 @@ const ProductPriceInfo = ({ product }) => {
                         display: "flex",
                         paddingTop: "12px",
                         alignItems: "center",
+                        justifyContent: "space-between",
                     }}
                 >
-                    {discount_price !== "NaN" ? (
-                        <>
-                            <span style={{ fontSize: "2em", fontWeight: 500 }}>
-                                {discounted_price()}
-                            </span>
+                    <div>
+                        {discount_price !== "NaN" ? (
+                            <>
+                                <span
+                                    style={{ fontSize: "2em", fontWeight: 500 }}
+                                >
+                                    {discounted_price()}
+                                </span>
+                                <span
+                                    className={classes.discount}
+                                    style={{
+                                        color: "#FF3425",
+                                        fontSize: "0.75em",
+                                    }}
+                                >
+                                    -{product.discount}%
+                                </span>
+                            </>
+                        ) : (
                             <span
-                                className={classes.discount}
-                                style={{ color: "#FF3425", fontSize: "0.75em" }}
+                                style={{
+                                    fontSize: "1.5em",
+                                    fontWeight: 600,
+                                }}
                             >
-                                -{product.discount}%
+                                {product.price}
                             </span>
-                        </>
-                    ) : (
-                        <span
+                        )}
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <Button
+                            to={"#"}
                             style={{
-                                fontSize: "1.5em",
-                                fontWeight: 600,
+                                fontSize: "0.9em",
+                                color: "#757575",
+                                textTransform: "none",
                             }}
+                            onClick={handleOpenReport}
                         >
-                            {product.price}
-                        </span>
+                            Tố cáo{" "}
+                        </Button>
+                    </div>
+                    {openReport && (
+                        <ReportModal
+                            productId={product.id}
+                            openReport={openReport}
+                            setOpenReport={setOpenReport}
+                        />
                     )}
                 </div>
             </div>
@@ -517,10 +689,10 @@ const ProductOptions = ({ product }) => {
 
     const classes = useStyles();
     const [amount, setAmount] = useState(1);
-    const [color, setColor] = useState(product.colors[0]);
+    const [color, setColor] = useState(null);
 
     const handleDecrease = () => {
-        if (amount - 1 >= 0) {
+        if (amount > 1) {
             setAmount(amount - 1);
         }
     };
@@ -534,21 +706,26 @@ const ProductOptions = ({ product }) => {
     // product color options
     const colorOption = product.colors.map((item, index) => {
         return (
-            <div key={index} style={{ marginLeft: "1em", marginTop: "0.8em" }}>
-                {/* <Button variant="contained" color="primary">{item}</Button> */}
+            <div key={index} style={{ marginTop: "0.8em", display: "flex" }}>
                 <ToggleButton
                     size={"small"}
                     style={{
                         fontSize: "0.75em",
                         padding: "0 0.5em",
                         height: "3em",
+                        backgroundColor: "#FFFFFF",
                     }}
+                    className={
+                        color === item
+                            ? classes.button__color__enabled
+                            : classes.button__color__disabled
+                    }
                     selected
                     value={item}
                     onClick={() => {
                         setColor(item);
                     }}
-                    disabled={item === color}
+                    // disabled={item !== color}
                 >
                     {item}
                 </ToggleButton>
@@ -557,6 +734,10 @@ const ProductOptions = ({ product }) => {
     });
 
     const handleAddToCart = () => {
+        if (color === null) {
+            message.error("Vui lòng chọn loại sản phẩm");
+            return;
+        }
         for (let i = 0; i < amount; i++) {
             dispatch(cartActions.addToCart({ ...product, color: color }));
             dispatch(cartActions.updateFinalTotal());
@@ -566,8 +747,8 @@ const ProductOptions = ({ product }) => {
     return (
         <div className={classes.block}>
             <div className="color-options" style={{ width: "100%" }}>
-                <div style={{ fontWeight: 600 }}>Color options</div>
-                <Grid container spacing={2} style={{ width: "fit-content" }}>
+                <div style={{ fontWeight: 600 }}>Phân loại</div>
+                <Grid container style={{ display: "flex", gap: "0.5em" }}>
                     {colorOption}
                 </Grid>
             </div>
@@ -580,11 +761,11 @@ const ProductOptions = ({ product }) => {
                         fontWeight: 600,
                     }}
                 >
-                    Amount:
+                    Số lượng:
                 </p>
                 <Grid container xl spacing={2}>
                     <Grid item>
-                        <ButtonGroup
+                        <div
                             size="small"
                             style={{
                                 height: "2em",
@@ -593,19 +774,45 @@ const ProductOptions = ({ product }) => {
                             }}
                             color={"primary"}
                         >
-                            <Button onClick={handleDecrease}>-</Button>
+                            <Button
+                                onClick={handleDecrease}
+                                style={{
+                                    width: "2em",
+                                    borderRadius: 0,
+                                    border: "1px solid #ccc",
+                                }}
+                            >
+                                -
+                            </Button>
+
                             <TextField
-                                variant="outlined"
                                 style={{
                                     borderRadius: 0,
-                                    padding: 0,
-                                    margin: 0,
+                                    borderTop: "1px solid #ccc",
+                                    borderBottom: "1px solid #ccc",
+                                    width: "4em",
+                                    margin: "0.3",
+                                    textAlign: "center",
                                 }}
                                 value={amount}
                                 onChange={handleChange}
+                                disabled
                             />
-                            <Button onClick={handleIncrease}>+</Button>
-                        </ButtonGroup>
+                            <Button
+                                style={{
+                                    borderRadius: 0,
+                                    border: "1px solid #ccc",
+                                }}
+                                onClick={handleIncrease}
+                            >
+                                +
+                            </Button>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <Typography style={{ color: "#757575" }}>
+                            {product.quantity} sản phẩm sẵn có
+                        </Typography>
                     </Grid>
 
                     <Grid item style={{ width: "100%" }}>
@@ -619,35 +826,16 @@ const ProductOptions = ({ product }) => {
                                 textTransform: "none",
                             }}
                         >
-                            <ShoppingCartRounded/>
+                            <ShoppingCartRounded />
                             Thêm vào giỏ hàng
                         </Button>
                     </Grid>
                 </Grid>
             </div>
-            {/* <Grid item container className="product-add-to-cart">
-                {discount_price !== "NaN" && (
-                    <>
-                        {groupButton(discounted_price)}
-                        <IconButton
-                            aria-label="delete"
-                            size="small"
-                            style={{
-                                padding: 0,
-                                margin: 0,
-                                marginLeft: "0.5em",
-                                marginTop: "0.6em",
-                                height: "1.5em",
-                            }}
-                        >
-                            <FavoriteBorderIcon fontSize="inherit" />
-                        </IconButton>
-                    </>
-                )}
-            </Grid> */}
         </div>
     );
 };
+
 const InfoTable = (props) => {
     const classes = useStyles();
     const specsArray =
@@ -690,25 +878,40 @@ const ShippingInfo = () => {
                 background: "#FFFFFF",
             }}
         >
-            <Grid container>
+            <Grid container style={{ display: "flex", alignItems: "center" }}>
                 <Grid item xs={1} xl={1} md={1}>
-                    <img src={WarningIcon} alt={"a warning icon"} />
+                    <LocalShippingOutlined />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={11}>
                     {currentAddress ? (
                         <div
                             style={{
-                                fontSize: "1em",
-                                fontWeight: 600,
-                                marginBottom: "0.5em",
+                                display: "flex",
+                                alignItems: "center",
                             }}
                         >
-                            Giao đến{" "}
-                            {currentAddress.ward +
-                                ", " +
-                                currentAddress.district +
-                                ", " +
-                                currentAddress.city}
+                            <Typography
+                                style={{
+                                    fontSize: "1em",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {" "}
+                                Tới{" "}
+                                {currentAddress.ward +
+                                    ", " +
+                                    currentAddress.district +
+                                    ", " +
+                                    currentAddress.city}{" "}
+                            </Typography>
+                            <Link to="/dashboard/3">
+                                <ChangeCircleOutlined
+                                    style={{
+                                        color: "#0a68ff",
+                                        cursor: "pointer",
+                                    }}
+                                />
+                            </Link>
                         </div>
                     ) : (
                         <span>
@@ -723,7 +926,7 @@ const ShippingInfo = () => {
     );
 };
 
-const ServiceAndPromotion = ({ saleProduct }) => {
+const ServiceAndPromotion = ({ product }) => {
     const classes = useStyles();
     return (
         <div className={classes.block}>
@@ -731,7 +934,7 @@ const ServiceAndPromotion = ({ saleProduct }) => {
                 <Grid item className="price-block" xl={7} xs={12}>
                     {/* deal counter for hot products */}
                     <DealCounter
-                        product={saleProduct}
+                        product={product}
                         timeInMilliSec={
                             (Math.floor(Math.random() * 10) + 2) * 100000
                         }
@@ -739,36 +942,19 @@ const ServiceAndPromotion = ({ saleProduct }) => {
 
                     {/*Report products */}
                     <div
-                        className={classes.block}
-                        style={{ fontSize: "0.75em", marginTop: "1em" }}
-                    >
-                        <div>
-                            <img
-                                className={classes.responseIcon}
-                                src={ResIcon}
-                                alt={"a response icon"}
-                            />
-                            <span>
-                                <Link to="#">
-                                    Report the product incorrect information.
-                                </Link>
-                            </span>
-                        </div>
-                    </div>
-                    <div
                         className="promotion-section"
                         style={{ fontSize: "0.75em" }}
                     >
                         <div style={{ fontWeight: 600, fontSize: "1em" }}>
-                            RELATED SERVICES AND PROMOTIONS
+                            Dịch vụ và khuyến mãi
                         </div>
                         <ul>
                             <li>
                                 <p style={{ padding: 0, margin: 0 }}>
-                                    Refunds to TikiNow members (maximum:
-                                    100k/month),{" "}
+                                    Tiết kiệm hơn với Aumart Member (tối đa
+                                    1tr/tháng),{" "}
                                     <span style={{ color: "red" }}>0.25%</span>{" "}
-                                    (10.375$) - <Link to="#">Detail</Link>
+                                    <Link to="#">Chi tiết</Link>
                                 </p>
                             </li>
                             <li>
@@ -778,9 +964,11 @@ const ServiceAndPromotion = ({ saleProduct }) => {
                                         backgroundColor: "yellow",
                                     }}
                                 >
-                                    SHB card
+                                    SHB bank
                                 </span>{" "}
-                                - 10% off for orders from 500k
+                                Giảm thêm{" "}
+                                <span style={{ color: "red" }}>10%</span> tối đa{" "}
+                                <span style={{ color: "red" }}>100.000đ</span>{" "}
                             </li>
                         </ul>
                     </div>
@@ -815,27 +1003,29 @@ const TikiTranding = () => {
             }}
         >
             <div className="name">
-                <i className={classes.tikiStoreIcon} />
-                <div className={classes.text}>
-                    <span style={{ color: "#189EFF" }}>Tiki trading</span>
-                    <p>Genuine commitment</p>
-                </div>
-            </div>
-            <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
-                <div className={classes.text}>
-                    <span style={{ fontWeight: 600 }}>Tiki refunds 111%</span>
-                    <p>if fake products are detected</p>
-                </div>
-            </div>
-            <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
-                <div className={classes.text}>
-                    <span style={{ fontWeight: 600 }}>
-                        Warranty information
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <span style={{ color: "#189EFF", fontSize: "16px" }}>
+                        An tâm mua sắm
                     </span>
-                    <p style={{ padding: 0, margin: 0 }}>36 months</p>
-                    <Link to="#">Detail</Link>
+                    <Button>
+                        <ArrowForwardIosRounded style={{ fontSize: "1em" }} />
+                    </Button>
+                </div>
+            </div>
+            <div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <ArchiveRounded className={classes.icon} />
+                    <Typography>Được mở hộp kiểm tra khi nhận hàng</Typography>
+                </div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <CurrencyExchangeRounded className={classes.icon} />
+                    <Typography>Được hoàn tiền 111% nếu là hàng giả</Typography>
+                </div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <RefreshRounded className={classes.icon} />
+                    <Typography>
+                        Đổi trả miễn phí tại nhà trong 30 ngày nếu sản phẩm lỗi
+                    </Typography>
                 </div>
             </div>
         </div>
@@ -942,6 +1132,7 @@ const ShopInfo = (props) => {
         </div>
     );
 };
+
 const ProductDetailInfo = ({ product }) => {
     const classes = useStyles();
     return (
@@ -955,7 +1146,7 @@ const ProductDetailInfo = ({ product }) => {
                         marginBottom: "0.3em",
                     }}
                 >
-                    PRODUCT DETAIL INFO
+                    Chi tiết
                 </div>
                 {InfoTable(product)}
             </div>
@@ -967,7 +1158,7 @@ const ProductDetailInfo = ({ product }) => {
                         marginBottom: "0.3em",
                     }}
                 >
-                    PRODUCT DESCRIPTION
+                    Mô tả
                 </div>
                 <div
                     className={classes.grid}
@@ -980,47 +1171,47 @@ const ProductDetailInfo = ({ product }) => {
     );
 };
 
-const ProductQA = () => {
-    const classes = useStyles();
-    return (
-        <div className={classes.block} style={{ margin: 0 }}>
-            <div
-                style={{
-                    fontSize: "1.1em",
-                    fontWeight: 400,
-                    marginBottom: "0.3em",
-                }}
-            >
-                QUESTION AND ANSWER
-            </div>
-            <div className={classes.grid} style={{ padding: "2em" }}>
-                <div
-                    style={{
-                        display: "inline-block",
-                        marginRight: "3em",
-                        marginLeft: "2em",
-                        textAlign: "center",
-                    }}
-                >
-                    <div style={{ fontSize: "1.2em" }}>
-                        <b>0</b>
-                    </div>
-                    <div>likes</div>
-                </div>
-                <div style={{ display: "inline-block" }}>
-                    <div className={classes.question}>
-                        Can I change the product when it is broken?
-                    </div>
-                    <div className={classes.answer}>No, you cant</div>
-                    <div className={classes.answer}>
-                        Tiki answered at:{" "}
-                        {Moment(Date.now()).format("MMMM DD,YYYY")}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+// const ProductQA = () => {
+//     const classes = useStyles();
+//     return (
+//         <div className={classes.block} style={{ margin: 0 }}>
+//             <div
+//                 style={{
+//                     fontSize: "1.1em",
+//                     fontWeight: 400,
+//                     marginBottom: "0.3em",
+//                 }}
+//             >
+//                 Câu hỏi liên quan
+//             </div>
+//             <div className={classes.grid} style={{ padding: "2em" }}>
+//                 <div
+//                     style={{
+//                         display: "inline-block",
+//                         marginRight: "3em",
+//                         marginLeft: "2em",
+//                         textAlign: "center",
+//                     }}
+//                 >
+//                     <div style={{ fontSize: "1.2em" }}>
+//                         <b>0</b>
+//                     </div>
+//                     <div>likes</div>
+//                 </div>
+//                 <div style={{ display: "inline-block" }}>
+//                     <div className={classes.question}>
+//                         Can I change the product when it is broken?
+//                     </div>
+//                     <div className={classes.answer}>No, you cant</div>
+//                     <div className={classes.answer}>
+//                         Tiki answered at:{" "}
+//                         {Moment(Date.now()).format("MMMM DD,YYYY")}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
 
 const theme = createTheme({
     overrides: {
@@ -1489,13 +1680,13 @@ const ProductDetailPage = (props) => {
                             xs={12}
                             style={{ padding: "0.5em" }}
                         >
-                            <Grid
+                            {/* <Grid
                                 item
                                 xs={12}
                                 style={{ padding: "0 0.5em 0.5em 0.5em" }}
                             >
                                 {ProductQA()}
-                            </Grid>
+                            </Grid> */}
                             <Grid
                                 item
                                 xs={12}

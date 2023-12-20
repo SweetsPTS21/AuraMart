@@ -18,7 +18,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./store/actions/authActions";
-import { getAllProducts } from "./store/actions/productActions";
+import {
+    getAllProducts,
+    getSaleProducts,
+} from "./store/actions/productActions";
 import { getCart } from "./store/actions/cartActions";
 import { getAllShops } from "./store/actions/shopActions";
 import { getAllReviews } from "./store/actions/reviewActions";
@@ -32,6 +35,7 @@ import SellerPage from "./components/pages/SellerPage";
 
 const actionsOnPageLoad = () => {
     store.dispatch(getAllProducts("?limit=100"));
+    store.dispatch(getSaleProducts());
     store.dispatch(getCart());
     store.dispatch(getAllShops());
     store.dispatch(getAllOrders());
@@ -111,7 +115,7 @@ function App() {
                         <Route
                             exact
                             path={"/seller/register"}
-                            element={<SellerPage/>}
+                            element={<SellerPage />}
                         />
                         {/*<Route*/}
                         {/*    exact*/}
