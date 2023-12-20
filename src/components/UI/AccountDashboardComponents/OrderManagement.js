@@ -372,7 +372,7 @@ const OrderCard = ({ myOrder }) => {
             style: "currency",
             currency: "VND",
         });
-    }
+    };
 
     return (
         <div className={classes.grid2}>
@@ -408,7 +408,7 @@ const OrderCard = ({ myOrder }) => {
                         )}
                     </Grid>
                 </Grid>
-                {myOrder.orderDetails.map((orderDetail, index) => (
+                {myOrder.orderDetails.map((orderDetail) => (
                     <Grid
                         item
                         container
@@ -429,16 +429,15 @@ const OrderCard = ({ myOrder }) => {
                                 />
                             </Grid>
                             <Grid item xs={10}>
-                                
-                                    <Typography
-                                        style={{
-                                            fontSize: "1em",
-                                            fontWeight: 500,
-                                            color: "rgba(0,0,0,0.8)",
-                                        }}
-                                    >
-                                        {orderDetail.product.name}
-                                    </Typography>
+                                <Typography
+                                    style={{
+                                        fontSize: "1em",
+                                        fontWeight: 500,
+                                        color: "rgba(0,0,0,0.8)",
+                                    }}
+                                >
+                                    {orderDetail.product.name}
+                                </Typography>
                                 <Typography
                                     style={{
                                         fontSize: "0.9em",
@@ -506,7 +505,8 @@ const OrderCard = ({ myOrder }) => {
                                 color: "#FF2800",
                             }}
                         >
-                            Thành tiền: {myOrder.total ? formatVND(myOrder.total) : 0}
+                            Thành tiền:{" "}
+                            {myOrder.total ? formatVND(myOrder.total) : 0}
                         </Typography>
                     </Grid>
 
