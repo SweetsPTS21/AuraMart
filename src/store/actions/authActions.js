@@ -160,10 +160,26 @@ export const logoutUser = () => async (dispatch) => {
             // Set current user to {} which will set isAuthenticated to false
             dispatch(setCurrentUser({}));
 
-            // clear redux store
+            // clear shop info
             dispatch({
                 type: "CLEAR_SHOP",
             });
+
+            // clear shop products
+            dispatch({
+                type: "CLEAR_SHOP_PRODUCTS",
+            });
+
+            // clear shop orders
+            dispatch({
+                type: "CLEAR_SHOP_ORDERS",
+            });
+
+            // clear shop configs
+            dispatch({
+                type: "CLEAR_SHOP_CONFIGS",
+            });
+
 
         })
         .catch(() => {

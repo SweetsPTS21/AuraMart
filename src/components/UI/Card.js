@@ -228,7 +228,7 @@ const Card = (props) => {
                                         />
                                     )}
                                     <span style={{ fontSize: "0.8em" }}>
-                                        Sold {props.sold}
+                                        Đã bán {props.sold}
                                     </span>
                                 </span>
                             )}
@@ -597,6 +597,7 @@ const Card = (props) => {
             </Paper>
         </div>
     );
+    
     const handleCardType = (type) => {
         switch (type) {
             case "default":

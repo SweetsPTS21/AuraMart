@@ -14,7 +14,6 @@ import RecommendProduct from "../layout/RecommendProduct";
 import { useDispatch, useSelector } from "react-redux";
 import * as errorActions from "../../store/actions/errorActions";
 import { message } from "antd";
-// import "antd/dist/antd.css";
 
 Array.prototype.shuffle = function () {
     let input = this;
@@ -34,21 +33,11 @@ const HomePage = (props) => {
     const user = useSelector((state) => state.auth.user);
     const products = useSelector((state) => state.products.products);
     const saleProducts = useSelector((state) => state.products.saleProducts);
-    // const [productsWithDiscount, setProductsWithDiscount] = useState([]);
     const [seeMoreDiscountedProd] = useState(10);
     const [loadingDisProd] = useState(false);
     const [seeMoreProd] = useState(20);
     const [loadingProd] = useState(false);
 
-    // const getProductsWithDiscount = async () => {
-    //     if (products === null) return;
-    //     const filtered = await products.filter(
-    //         (product) => product.sale === true
-    //     );
-    //     setProductsWithDiscount(filtered.shuffle());
-    // };
-    // const errors = useSelector(state => state.errors);
-    // const [errors_, setErrors_] = useState([]);
     const errors = useSelector((state) => {
         // transform the object of object to array of object
         const transformedErrors = [];
@@ -65,15 +54,6 @@ const HomePage = (props) => {
         });
         dispatch(errorActions.clearErrors());
     }
-
-    // useEffect(() => {
-    //     setTimeout(() => getProductsWithDiscount(), 1000);
-    // }, [products]);
-
-    // using dispatch to get user address
-    // useEffect(() => {
-    //     dispatch(addressActions.getUserAddress(user.id));
-    // }, [user.id]);
 
     const renderDiscountedProd = () => {
         return ( saleProducts &&
@@ -187,7 +167,7 @@ const HomePage = (props) => {
                         <div style={{ margin: "0" }}>
                             <TopProducts itemWidth={"170px"} type={"slider"} />
                             <ItemContainer
-                                length={10}
+                                length={saleProducts.length}
                                 type={"slider"}
                                 loading={loadingDisProd}
                                 timeInMilliSec={

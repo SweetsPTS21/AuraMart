@@ -260,7 +260,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Hot deal giảm đến 90%
@@ -273,7 +273,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Túi Đeo Chéo Nam
@@ -286,7 +286,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     IPhone 14 Pro Max
@@ -299,7 +299,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Bitis Hunter
@@ -312,7 +312,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Túi Xách Nam
@@ -325,7 +325,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Mì Ăn Liền
@@ -338,7 +338,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Loa Philips
@@ -351,7 +351,7 @@ const NavBar = (props) => {
                 component={"p"}
             >
                 <Link
-                    to={"/underDevelopment"}
+                    to={"#"}
                     className={classes.removeDefaultLink}
                 >
                     Túi Đeo Chéo Xiaomi

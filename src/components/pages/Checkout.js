@@ -23,7 +23,6 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 
 import Radio from "@material-ui/core/Radio";
-import VNPAY from "../../image/icon-zalopay.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -33,6 +32,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { loadCSS } from "fg-loadcss";
 import * as cartActions from "../../store/actions/cartActions";
 import * as addressActions from "../../store/actions/addressActions";
+
+import * as Resource from "../common/Resource";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -397,119 +398,9 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
     );
     const [radio] = useState(shipAddress ? shipAddress.radio : "home");
     const listAddress = useSelector((state) => state.address.userAddress);
-    const city_ = [
-        "Ho Chi Minh",
-        "Hanoi",
-        "Danang",
-        "An Giang",
-        "BA Ria Vung Tau",
-        "Bac Giang",
-        "Bac Kan",
-        "Bac Lieu",
-        "Bac Ninh",
-        "Ben tre",
-        "Binh Duong",
-        "Binh Phuoc",
-        "Binh Thuan",
-        "Pacify",
-        "Ca Mau",
-        "Can Tho",
-        "As tall as",
-        "Gia Lai",
-        "Ha Giang",
-        "Henan",
-        "Ha Tinh",
-        "Hai Duong",
-        "Hai Phong",
-        "Hau Giang",
-        "Hòa Bình",
-        "hung Yen",
-        "Khánh Hòa",
-        "Kien Giang",
-        "Kon Tum",
-        "Lai Chau",
-        "Lam Dong",
-        "Lang Son",
-        "Lao Cai",
-        "Long An",
-        "Nam Dinh",
-        "Nghe An",
-        "Ninh Binh",
-        "Ninh Thuận",
-        "Phu-Tho",
-        "Phu Yen",
-        "Quang Binh",
-        "Quang Nam",
-        "Quang Ngai",
-        "Quang Ninh",
-        "Quang Tri",
-        "Soc Trang",
-        "Son La",
-        "Xining",
-        "peaceful",
-        "Thai Nguyen",
-        "Thanh Hoa",
-        "Hue",
-        "Tien Giang",
-        "Tra Vinh",
-        "Tuyen Quang",
-        "Vinh Long",
-        "Vinh Phuc",
-        "Yen Bai",
-        "Dak Lak",
-        "Dak Nong",
-        "Dien Bien",
-        "Dong Nai",
-        "Dong Thap",
-    ];
-    const district_ = [
-        "Quận Ba Đình",
-        "Quận Hoàn Kiếm",
-        "Quận Hai Bà Trưng",
-        "Quận Đống Đa",
-        "Quận Cầu Giấy",
-        "Quận Long Biên",
-        "Quận Hoàng Mai",
-        "Huyện Sóc Sơn",
-        "Quận Bắc Từ Liêm",
-        "Huyện Thanh Trì",
-        "Huyện Gia Lâm",
-        "Huyện Ba Vì",
-        "Huyện Chương Mỹ",
-        "Huyện Đan Phượng",
-        "Huyện Hoài Đức",
-        "Huyện Mỹ Đức",
-        "Huyện Phú Xuyên",
-        "Huyện Phúc Thọ",
-        "Huyện Quốc Oai",
-        "Huyện Thạch Thất",
-        "Huyện Thanh Oai",
-        "Huyện Thường Tín",
-        "Huyện Ứng Hòa",
-        "Huyện Mê Linh",
-        "Quận Hà Đông",
-        "Thị xã Sơn Tây",
-        "Huyện Đông Anh",
-        "Quận Nam Từ Liêm",
-        "Quận Thanh Xuân",
-        "Quận Tây Hồ",
-    ];
-    const ward_ = [
-        "Phường Cống Vị",
-        "Phường Điện Biên",
-        "Phường Đội Cấn",
-        "Phường Giảng Võ",
-        "Phường Kim Mã",
-        "Phường Liễu Giai",
-        "Phường Ngọc Hà",
-        "Phường Ngọc Khánh",
-        "Phường Nguyễn Trung Trực",
-        "Phường Phúc Xá",
-        "Phường Quán Thánh",
-        "Phường Thành Công",
-        "Phường Trúc Bạch",
-        "Phường Vĩnh Phúc",
-    ];
+    const city_ = Resource.city;
+    const district_ = Resource.district;
+    const ward_ = Resource.ward;
 
     const handleSubmit = (e) => {
         setShipAddress({
@@ -540,12 +431,11 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                 <Grid item xs={6} style={{ borderRight: "1px solid #ccc" }}>
                     <ValidatorForm onSubmit={handleSubmit}>
                         <FormGroup>
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
-                                    label="Full Name"
-                                    style={{ width: "350px", margin: 8 }}
-                                    placeholder="Your full name"
+                                    label="Họ và tên"
+                                    style={{ width: "80%", margin: 8 }}
                                     value={fullName}
                                     margin="normal"
                                     InputLabelProps={{
@@ -554,18 +444,17 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     onChange={(e) =>
                                         setFullName(e.target.value)
                                     }
-                                    variant="standard"
+                                    variant="outlined"
                                     validators={["required"]}
                                     errorMessages={["Enter Your Full Name"]}
                                 />
                             </FormControl>
 
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
-                                    label="Phone Number"
-                                    style={{ width: "350px", margin: 8 }}
-                                    placeholder="Phone No."
+                                    label="Số điện thoại"
+                                    style={{ width: "80%", margin: 8 }}
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     margin="normal"
@@ -573,7 +462,7 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    variant="standard"
+                                    variant="outlined"
                                     validators={
                                         (["required"],
                                         ["isNumber"],
@@ -586,16 +475,15 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     errorMessages={["Phone number is invalid"]}
                                 />
                             </FormControl>
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
                                     select
-                                    label="City/Province"
+                                    label="Tỉnh/Thành phố"
                                     value={city}
-                                    style={{ width: "350px", margin: 8 }}
+                                    style={{ width: "80%", margin: 8 }}
                                     onChange={(e) => setCity(e.target.value)}
-                                    // helperText="Please select your city/province"
-                                    variant="standard"
+                                    variant="outlined"
                                     validators={["required"]}
                                     errorMessages={["Select a city"]}
                                 >
@@ -606,18 +494,17 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     ))}
                                 </TextValidator>
                             </FormControl>
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
                                     select
-                                    label="District"
+                                    label="Quận/Huyện"
                                     value={district}
-                                    style={{ width: "350px", margin: 8 }}
+                                    style={{ width: "80%", margin: 8 }}
                                     onChange={(e) =>
                                         setDistrict(e.target.value)
                                     }
-                                    // helperText="Please select your city/province"
-                                    variant="standard"
+                                    variant="outlined"
                                     validators={["required"]}
                                     errorMessages={["Select a district"]}
                                 >
@@ -628,16 +515,15 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     ))}
                                 </TextValidator>
                             </FormControl>
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
                                     select
-                                    label="Ward"
+                                    label="Phường/Xã"
                                     value={ward}
-                                    style={{ width: "350px", margin: 8 }}
+                                    style={{ width: "80%", margin: 8 }}
                                     onChange={(e) => setWard(e.target.value)}
-                                    // helperText="Please select your city/province"
-                                    variant="standard"
+                                    variant="outlined"
                                 >
                                     {ward_.map((option, index) => (
                                         <MenuItem key={index} value={option}>
@@ -646,35 +532,35 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     ))}
                                 </TextValidator>
                             </FormControl>
-                            <FormControl>
+                            <FormControl fullWidth>
                                 <TextValidator
                                     size="small"
-                                    label="Address"
+                                    label="Địa chỉ cụ thể"
                                     value={address}
-                                    style={{ width: "350px", margin: 8 }}
+                                    style={{ width: "80%", margin: 8 }}
                                     onChange={(e) => setAddress(e.target.value)}
-                                    // helperText="Please select your city/province"
-                                    variant="standard"
+                                    variant="outlined"
                                     validators={["required"]}
                                     errorMessages={["Enter your address"]}
                                 />
                             </FormControl>
-
-                            <Button
-                                variant="outlined"
-                                type={"submit"}
-                                color="secondary"
-                                className={classes.button}
-                                style={{
-                                    fontSize: "0.7em",
-                                    margin: 0,
-                                    width: "350px",
-                                    marginTop: "2em",
-                                    marginLeft: "0.7em",
-                                }}
-                            >
-                                Tiếp tục
-                            </Button>
+                            <FormControl fullWidth>
+                                <Button
+                                    variant="outlined"
+                                    type={"submit"}
+                                    color="secondary"
+                                    className={classes.button}
+                                    style={{
+                                        fontSize: "0.7em",
+                                        margin: 0,
+                                        marginTop: "2em",
+                                        marginLeft: "0.7em",
+                                        width: "80%",
+                                    }}
+                                >
+                                    Tiếp tục
+                                </Button>
+                            </FormControl>
                         </FormGroup>
                     </ValidatorForm>
                 </Grid>
@@ -693,7 +579,6 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     <div
                                         style={{
                                             width: "100%",
-                                            // height: "108px",
                                             display: "flex",
                                             justifyContent: "space-between",
                                             padding: "1em",
@@ -701,16 +586,20 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                     >
                                         <div>
                                             {address.fullName}{" "}
-                                            <span
-                                                style={{
-                                                    fontSize: "0.8em",
-                                                    color: "#26bc4e",
-                                                }}
-                                            >
-                                                {address.default
-                                                    ? "Địa chỉ mặc định"
-                                                    : ""}
-                                            </span>{" "}
+                                            {address.default && (
+                                                <span
+                                                    style={{
+                                                        fontSize: "0.8em",
+                                                        padding: "4px 6px",
+                                                        backgroundColor:
+                                                            "#26bc4e",
+                                                        color: "white",
+                                                        borderRadius: "4px",
+                                                    }}
+                                                >
+                                                    Địa chỉ mặc định
+                                                </span>
+                                            )}
                                             <br />
                                             <span style={{ color: "#a1a1a1" }}>
                                                 Địa chỉ:{" "}
@@ -878,13 +767,14 @@ const PaymentMethodUI = ({
             <Grid container spacing={2}>
                 <Grid item xs={8}>
                     <div className="shipping-method-section">
-                        <p style={{ fontWeight: 600 }}>
+                        <Typography
+                            style={{ fontWeight: 600, marginBottom: "0.5em" }}
+                        >
                             1. Phương thức vận chuyển
-                        </p>
+                        </Typography>
                         <FormControl component="fieldset" fullWidth>
                             <div
                                 style={{
-                                    marginTop: "2%",
                                     borderRadius: "0.5em",
                                     backgroundColor: "white",
                                     width: "100%",
@@ -910,23 +800,25 @@ const PaymentMethodUI = ({
                                         />
                                     </Grid>
                                     <Grid item>
-                                        <p
+                                        <Typography
                                             style={{
                                                 color: "#26bc4e",
                                                 margin: 0,
                                             }}
                                         >
                                             Giao hàng vào Thursday, 26/03
-                                        </p>
-                                        <span
+                                        </Typography>
+                                        <Typography
                                             style={{
                                                 color: "lightgrey",
                                                 marginRight: "2em",
                                             }}
                                         >
-                                            19.000d
-                                        </span>
-                                        <span>Giao hàng tiêu chuẩn</span>
+                                            19.000đ
+                                        </Typography>
+                                        <Typography>
+                                            Giao hàng tiêu chuẩn
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -944,23 +836,23 @@ const PaymentMethodUI = ({
                                         />
                                     </Grid>
                                     <Grid item>
-                                        <p
+                                        <Typography
                                             style={{
                                                 color: "#26bc4e",
                                                 margin: 0,
                                             }}
                                         >
                                             Giao hàng vào Thursday, 23/03
-                                        </p>
-                                        <span
+                                        </Typography>
+                                        <Typography
                                             style={{
                                                 color: "lightgrey",
                                                 marginRight: "2em",
                                             }}
                                         >
-                                            25.000d
-                                        </span>
-                                        <span>Giao hàng nhanh</span>
+                                            25.000đ
+                                        </Typography>
+                                        <Typography>Giao hàng nhanh</Typography>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -968,13 +860,14 @@ const PaymentMethodUI = ({
                     </div>
 
                     <div className="payment-method" style={{ marginTop: "4%" }}>
-                        <p style={{ fontWeight: 600 }}>
+                        <Typography
+                            style={{ fontWeight: 600, marginBottom: "0.5em" }}
+                        >
                             2. Phương thức thanh toán
-                        </p>
+                        </Typography>
                         <FormControl component="fieldset" fullWidth>
                             <div
                                 style={{
-                                    marginTop: "2%",
                                     borderRadius: "0.5em",
                                     backgroundColor: "white",
                                     width: "100%",
@@ -999,8 +892,16 @@ const PaymentMethodUI = ({
                                             name="radio-button-demo"
                                         />
                                     </Grid>
-                                    <Grid item style={{ marginTop: "1em" }}>
-                                        <p>Thanh toán khi nhận hàng</p>
+                                    <Grid
+                                        item
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography>
+                                            Thanh toán khi nhận hàng
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1017,11 +918,17 @@ const PaymentMethodUI = ({
                                             name="radio-button-demo"
                                         />
                                     </Grid>
-                                    <Grid item style={{ marginTop: "1em" }}>
-                                        <p>
+                                    <Grid
+                                        item
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography>
                                             Thanh toán bằng thẻ quốc tế Visa,
                                             Master, JCB
-                                        </p>
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1038,8 +945,16 @@ const PaymentMethodUI = ({
                                             name="radio-button-demo"
                                         />
                                     </Grid>
-                                    <Grid item style={{ marginTop: "1em" }}>
-                                        <p>Thanh toán bằng MOMO</p>
+                                    <Grid
+                                        item
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography>
+                                            Thanh toán bằng MOMO
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1056,12 +971,17 @@ const PaymentMethodUI = ({
                                             name="radio-button-demo"
                                         />
                                     </Grid>
-                                    <Grid item xl={10}>
-                                        <img
-                                            src={VNPAY}
-                                            style={{ marginRight: "2%" }}
-                                        />
-                                        <span>Thanh toán bằng VNPay</span>
+                                    <Grid
+                                        item
+                                        xl={10}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Typography>
+                                            Thanh toán bằng VNPay
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid
@@ -1105,7 +1025,7 @@ const PaymentMethodUI = ({
                     </div>
                 </Grid>
                 <Grid item xs={4}>
-                    <div style={{ marginTop: "11%", marginBottom: "2%" }}>
+                    <div style={{ marginTop: "2em" }}>
                         <ShippingAddr
                             setActiveStep={setActiveStep}
                             shipAddress={shipAddress}
@@ -1269,7 +1189,6 @@ const Checkout = () => {
                 shipAddress.ward +
                 ", " +
                 shipAddress.district +
-
                 ", " +
                 shipAddress.city,
             shippingMethod: "GHN",
@@ -1288,7 +1207,7 @@ const Checkout = () => {
                 total: cartItems[i].productPrice,
             };
             if (shops[shop] === undefined) {
-                shops[shop] = []
+                shops[shop] = [];
             }
             shops[shop].push(product_);
         }
@@ -1311,7 +1230,7 @@ const Checkout = () => {
                 products: shops[shop],
                 paymentMethod: payment,
                 paymentStatus: "Pending",
-            }
+            };
             shopOrder.push(order_);
         }
         dispatch(await orderActions.addNewOrder(shopOrder));

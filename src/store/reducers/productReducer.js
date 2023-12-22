@@ -6,6 +6,8 @@ import {
     GET_SALE_PRODUCTS,
 } from "../actions/productActions";
 
+const CLEAR_SHOP_PRODUCTS = "CLEAR_SHOP_PRODUCTS";
+
 const initialState = {
     products: null,
     currentProduct: null,
@@ -40,6 +42,11 @@ export default function productReducer(state = initialState, action) {
             return {
                 ...state,
                 recommendProds: action.recommendProds,
+            };
+        case CLEAR_SHOP_PRODUCTS:
+            return {
+                ...state,
+                productsInShop: [],
             };
         default:
             return state;

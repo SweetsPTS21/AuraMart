@@ -27,11 +27,8 @@ import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
 import DashboardHeader from "./DashboardHeader";
 
 import * as shopActions from "../../store/actions/shopActions";
-import { getAllOrdersOfAShop } from "../../store/actions/orderActions";
-import { getProductsByShopId } from "../../store/actions/productActions";
 import { getConfigsByShopId } from "../../store/actions/configActions";
 import { getAllStocksOfAShop } from "../../store/actions/stockActions";
-import { getShopStats } from "../../store/actions/statsActions";
 
 const SellerDashbroad = () => {
     const index = 0;
@@ -44,17 +41,14 @@ const SellerDashbroad = () => {
     useEffect(() => {
         if (user && (user.role === "seller" || user.role === "admin"))
             dispatch(shopActions.getShopByUserId(user._id));
-    }, [user, dispatch]);
+    }, []);
 
     useEffect(() => {
         if (shop) {
-            dispatch(getAllOrdersOfAShop(shop.id));
-            dispatch(getProductsByShopId(shop.id));
             dispatch(getConfigsByShopId(shop.id));
             dispatch(getAllStocksOfAShop(shop.id));
-            dispatch(getShopStats(shop.id));
         }
-    }, [shop]);
+    }, []);
 
     const options = [
         "Trang chủ",
@@ -122,64 +116,75 @@ const SellerDashbroad = () => {
                     margin: 0,
                     minWidth: "1200px",
                 }}
-                spacing={5}
+                spacing={3}
             >
                 <Grid
                     item
                     xs={2}
                     style={{ margin: 0, backgroundColor: "#fff" }}
                 >
-                    <section style={{ position: "fixed" }}>
-                        <List
-                            component="nav"
-                            aria-label="main mailbox folders"
-                            style={{ margin: 0 }}
-                        >
-                            {options.map((option, index) => (
-                                <ListItem
-                                    style={{
-                                        marginTop: 0,
-                                        marginBottom: 0,
-                                        paddingTop: "1.51%",
-                                        paddingBottom: "1.51%",
-                                        alignItems: "center",
-                                    }}
-                                    key={option}
-                                    button
-                                    selected={index === selectedIndex}
-                                    onClick={
-                                        (event) =>
-                                            handleMenuItemClick(event, index)
-                                        // onMouseEnter={event => handleMenuItemClick(event, index)
-                                    }
-                                >
-                                    <ListItemIcon
+                    <div
+                        style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
+                        <section style={{ position: "sticky", top: "76px" }}>
+                            <List
+                                component="nav"
+                                aria-label="main mailbox folders"
+                                style={{ margin: 0 }}
+                            >
+                                {options.map((option, index) => (
+                                    <ListItem
                                         style={{
                                             marginTop: 0,
                                             marginBottom: 0,
-                                            paddingTop: 0,
-                                            paddingBottom: 0,
+                                            paddingTop: "1.51%",
+                                            paddingBottom: "1.51%",
+                                            alignItems: "center",
                                         }}
+                                        key={option}
+                                        button
+                                        selected={index === selectedIndex}
+                                        onClick={
+                                            (event) =>
+                                                handleMenuItemClick(
+                                                    event,
+                                                    index
+                                                )
+                                            // onMouseEnter={event => handleMenuItemClick(event, index)
+                                        }
                                     >
-                                        {optionsIcon[index]}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={option}
-                                        primaryTypographyProps={{
-                                            variant: "inherit",
-                                        }}
-                                        style={{
-                                            marginTop: 0,
-                                            marginBottom: 0,
-                                            paddingTop: 0,
-                                            paddingBottom: 0,
-                                        }}
-                                        className={classes.item2}
-                                    />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </section>
+                                        <ListItemIcon
+                                            style={{
+                                                marginTop: 0,
+                                                marginBottom: 0,
+                                                paddingTop: 0,
+                                                paddingBottom: 0,
+                                            }}
+                                        >
+                                            {optionsIcon[index]}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={option}
+                                            primaryTypographyProps={{
+                                                variant: "inherit",
+                                            }}
+                                            style={{
+                                                marginTop: 0,
+                                                marginBottom: 0,
+                                                paddingTop: 0,
+                                                paddingBottom: 0,
+                                            }}
+                                            className={classes.item2}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </section>
+                    </div>
                 </Grid>
                 <Grid item xs={10}>
                     <Grid container>{renderMenuItemComponent()}</Grid>

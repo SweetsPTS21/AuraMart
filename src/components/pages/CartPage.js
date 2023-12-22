@@ -217,7 +217,8 @@ const CartPage = (props) => {
                                         type={"cart"}
                                         link={true}
                                         name={item.product.name}
-                                        id={item.product.id}
+                                        id={item.product._id}
+                                        slug={item.product.slug}
                                         title={item.product.name}
                                         image={
                                             item.product.photo ===

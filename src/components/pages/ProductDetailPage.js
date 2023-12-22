@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
-import {
-    ThemeProvider,
-    createTheme,
-    makeStyles,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
 import TikiNow from "../../image/tiki-now.png";
 import Rating from "@material-ui/lab/Rating";
@@ -25,7 +21,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import StarIcon from "@material-ui/icons/Star";
+// import StarIcon from "@material-ui/icons/Star";
 // select
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -52,7 +48,7 @@ import * as productActions from "../../store/actions/productActions";
 import * as reviewActions from "../../store/actions/reviewActions";
 import * as addressActions from "../../store/actions/addressActions";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import TransitionsModal from "../user/UserModal";
+// import TransitionsModal from "../user/UserModal";
 import { message } from "antd";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
@@ -132,6 +128,17 @@ const useStyles = makeStyles((theme) => ({
         borderColor: "#ccc",
     },
 
+    button__filter: {
+        border: "1px solid #ccc",
+        backgroundColor: "#fff",
+        margin: "0.4em",
+    },
+
+    button__filter__enabled: {
+        margin: "0.4em",
+        border: "1px solid #FF424E",
+    },
+
     shopInfo__avatar: {
         width: "80px",
         height: "80px",
@@ -163,6 +170,8 @@ const useStyles = makeStyles((theme) => ({
     shop__info__rating: {
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        justifyContent: "space-around",
     },
     info__details: {
         display: "flex",
@@ -386,6 +395,9 @@ const ImageList = ({ product, setCurrentImg }) => {
 
 const DealCounter = (props) => {
     const { product, timeInMilliSec } = props;
+    const soldPercent = Math.floor(
+        (product.sale.soldQuantity / product.sale.quantity) * 100
+    );
     return (
         product &&
         product.sale && (
@@ -422,24 +434,22 @@ const DealCounter = (props) => {
                     </span>
                 </div>
                 <Progress
-                    value={!isNaN(product.sold) ? product.sold : 50}
+                    value={soldPercent || 50}
                     style={{ backgroundColor: "#FDDCCB", marginTop: "1em" }}
                 >
-                    {!isNaN(product.sold) && (
-                        <span>
-                            {" "}
-                            {!!product.sale && (
-                                <WhatshotIcon
-                                    style={{
-                                        color: "white",
-                                        fontSize: "1.3em",
-                                        paddingBottom: "0.2em",
-                                    }}
-                                />
-                            )}
-                            Đã bán {product.sold}
-                        </span>
-                    )}
+                    <span style={{ zIndex: 9999 }}>
+                        {" "}
+                        {!!product.sale && (
+                            <WhatshotIcon
+                                style={{
+                                    color: "white",
+                                    fontSize: "1.3em",
+                                    paddingBottom: "0.2em",
+                                }}
+                            />
+                        )}
+                        Đã bán {product.sale.soldQuantity}
+                    </span>
                 </Progress>
             </div>
         )
@@ -613,7 +623,7 @@ const ProductPriceInfo = ({ product }) => {
                     <span style={{ fontSize: "1em" }}>
                         <Typography>Thương hiệu: {product.branch}</Typography>
                         <Typography style={{ color: "#9B9B9B" }}>
-                            ID: {product.id}
+                            ID: {product._id}
                         </Typography>
                     </span>
                 </div>
@@ -690,6 +700,9 @@ const ProductOptions = ({ product }) => {
     const classes = useStyles();
     const [amount, setAmount] = useState(1);
     const [color, setColor] = useState(null);
+    const availableSaleQuantity =
+        product.sale && product.sale.quantity - product.sale.soldQuantity;
+    const availableQuantity = product.quantity - product.soldQuantity;
 
     const handleDecrease = () => {
         if (amount > 1) {
@@ -704,34 +717,39 @@ const ProductOptions = ({ product }) => {
     };
 
     // product color options
-    const colorOption = product.colors.map((item, index) => {
-        return (
-            <div key={index} style={{ marginTop: "0.8em", display: "flex" }}>
-                <ToggleButton
-                    size={"small"}
-                    style={{
-                        fontSize: "0.75em",
-                        padding: "0 0.5em",
-                        height: "3em",
-                        backgroundColor: "#FFFFFF",
-                    }}
-                    className={
-                        color === item
-                            ? classes.button__color__enabled
-                            : classes.button__color__disabled
-                    }
-                    selected
-                    value={item}
-                    onClick={() => {
-                        setColor(item);
-                    }}
-                    // disabled={item !== color}
+    const colorOption =
+        product.colors &&
+        product.colors.map((item, index) => {
+            return (
+                <div
+                    key={index}
+                    style={{ marginTop: "0.8em", display: "flex" }}
                 >
-                    {item}
-                </ToggleButton>
-            </div>
-        );
-    });
+                    <ToggleButton
+                        size={"small"}
+                        style={{
+                            fontSize: "0.75em",
+                            padding: "0 0.5em",
+                            height: "3em",
+                            backgroundColor: "#FFFFFF",
+                        }}
+                        className={
+                            color === item
+                                ? classes.button__color__enabled
+                                : classes.button__color__disabled
+                        }
+                        selected
+                        value={item}
+                        onClick={() => {
+                            setColor(item);
+                        }}
+                        // disabled={item !== color}
+                    >
+                        {item}
+                    </ToggleButton>
+                </div>
+            );
+        });
 
     const handleAddToCart = () => {
         if (color === null) {
@@ -804,6 +822,11 @@ const ProductOptions = ({ product }) => {
                                     border: "1px solid #ccc",
                                 }}
                                 onClick={handleIncrease}
+                                disabled={
+                                    (product.sale &&
+                                        amount >= availableSaleQuantity) ||
+                                    amount >= availableQuantity
+                                }
                             >
                                 +
                             </Button>
@@ -811,7 +834,10 @@ const ProductOptions = ({ product }) => {
                     </Grid>
                     <Grid item>
                         <Typography style={{ color: "#757575" }}>
-                            {product.quantity} sản phẩm sẵn có
+                            {product.sale
+                                ? availableSaleQuantity
+                                : availableQuantity}{" "}
+                            sản phẩm sẵn có
                         </Typography>
                     </Grid>
 
@@ -1043,7 +1069,7 @@ const ShopInfo = (props) => {
     const classes = useStyles();
     const shop = props.shop;
     const shopAvatar =
-        props.shop.avatar !== "no-photo.jpg"
+        props.shop && props.shop.avatar !== "no-photo.jpg"
             ? props.shop.avatar
             : defaultAvatar;
     return (
@@ -1171,7 +1197,6 @@ const ProductDetailInfo = ({ product }) => {
     );
 };
 
-// const ProductQA = () => {
 //     const classes = useStyles();
 //     return (
 //         <div className={classes.block} style={{ margin: 0 }}>
@@ -1213,69 +1238,55 @@ const ProductDetailInfo = ({ product }) => {
 //     );
 // };
 
-const theme = createTheme({
-    overrides: {
-        MuiButton: {
-            contained: {
-                backgroundColor: "#FDD22F",
-            },
-        },
-    },
-});
+// const theme = createTheme({
+//     overrides: {
+//         MuiButton: {
+//             contained: {
+//                 backgroundColor: "#FDD22F",
+//             },
+//         },
+//     },
+// });
 
 const ProductReview = ({ product, reviews }) => {
     const classes = useStyles();
-    const [filter1, setFilter1] = useState(10);
-    const [filter2, setFilter2] = useState(10);
-    const [filter3, setFilter3] = useState(10);
-    const [open, setOpen] = useState(false);
-    const user = useSelector((state) => state.auth.user);
-    const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+    const [stars, setStars] = useState([0, 0, 0, 0, 0]);
 
-    const calculateStarPercent = (star) => {
-        let ratings = [];
-        reviews !== null &&
-            reviews.length > 0 &&
+    useEffect(() => {
+        if (reviews !== null) {
+            let temp = [0, 0, 0, 0, 0];
             reviews.map((review) => {
-                ratings.push(Math.round(review.rating));
-                return null;
+                temp[review.rating - 1] += 1;
             });
-        let starList =
-            ratings.length > 0 && ratings.filter((rating) => rating === star);
-        return (starList.length / ratings.length) * 100;
-    };
+            setStars(temp);
+        }
+    }, [reviews]);
 
-    const userHasCommentBefore = () => {
-        return (
-            reviews !== null &&
-            reviews.length > 0 &&
-            reviews.find((review) => {
-                return review.user._id === user.id;
-            })
-        );
-    };
+    const NumberFormat = (value) => {
+        const numberValue = parseFloat(value);
 
-    const handleOpenModal = () => {
-        isLoggedIn
-            ? setOpen(true)
-            : message.error("You need to be logged in to comment");
-    };
-    const handleCloseModal = () => {
-        setOpen(false);
-    };
+        if (isNaN(numberValue)) {
+            return 0;
+        }
+        // Format the number to one decimal place
+        const formattedNumber = numberValue.toLocaleString(undefined, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+        });
 
-    const rateStar = [5, 4, 3, 2, 1];
+        return formattedNumber;
+    };
 
     return (
         <div className={classes.block}>
             <div
                 style={{
                     fontSize: "1.1em",
-                    fontWeight: 400,
+                    fontWeight: 600,
                     marginBottom: "0.3em",
                 }}
             >
-                CUSTOMER REVIEW
+                Khách hàng đánh giá
             </div>
             <Grid container>
                 <Grid
@@ -1283,37 +1294,52 @@ const ProductReview = ({ product, reviews }) => {
                     container
                     xs={12}
                     style={{
-                        paddingBottom: "1em",
-                        marginBottom: "1em",
-                        borderBottom: "1px solid #f4f4f4",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "2em",
+                        borderRadius: "0.5em",
+                        border: "1px solid #f4f4f4",
+                        backgroundColor: "#f6f8fc",
                     }}
                 >
-                    <Grid item container xs={3}>
+                    <Grid item container xs={2}>
                         <Grid item xs={12}>
-                            <div style={{ fontSize: "1em" }}>
-                                Average rating
-                            </div>
                             <div
-                                style={{ display: "flex", padding: "0.8em 0" }}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
                             >
-                                <span
-                                    className="average-number"
-                                    style={{
-                                        fontSize: "2em",
-                                        fontWeight: 600,
-                                        color: "red",
-                                    }}
-                                >
-                                    {product.averageRating !== undefined
-                                        ? product.averageRating
-                                        : 0}
-                                    /5
-                                </span>
+                                <div style={{ textAlign: "center" }}>
+                                    <span
+                                        style={{
+                                            fontSize: "1.8em",
+                                            fontWeight: 600,
+                                            color: "red",
+                                        }}
+                                    >
+                                        {product.averageRating
+                                            ? NumberFormat(
+                                                  product.averageRating
+                                              )
+                                            : 0}{" "}
+                                        {""}
+                                    </span>
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            fontWeight: 600,
+                                            fontSize: "1.1em",
+                                        }}
+                                    >
+                                        trên 5
+                                    </span>
+                                </div>
                                 <Box
                                     component="fieldset"
-                                    mb={3}
                                     borderColor="transparent"
-                                    style={{ margin: "0 0.5em" }}
+                                    style={{ marginTop: "0.5em" }}
                                 >
                                     <Rating
                                         name="read-only"
@@ -1323,155 +1349,37 @@ const ProductReview = ({ product, reviews }) => {
                                 </Box>
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
-                            {rateStar.map((star) => (
-                                <span
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    {star}
-                                    <StarIcon fontSize="small" />
-                                    <Progress
-                                        value={calculateStarPercent(star)}
-                                        color={"#23B445"}
-                                        style={{
-                                            width: "80%",
-                                            height: "0.5em",
-                                            marginLeft: "1em",
-                                        }}
-                                    />
-                                </span>
-                            ))}
-                        </Grid>
                     </Grid>
-                    <Grid item container xs={9}>
-                        <Grid
-                            item
-                            xs={12}
-                            style={{
-                                marginLeft: "3.5em",
-                                paddingLeft: "1em",
-                                borderLeft: "1px solid #f4f4f4",
-                            }}
-                        >
-                            {userHasCommentBefore() ? (
-                                <>
-                                    <span>
-                                        View you comment about the product
-                                    </span>{" "}
-                                    <br />
-                                    <ThemeProvider theme={theme}>
-                                        <Link to={"/dashboard/9"}>
-                                            <Button
-                                                size="small"
-                                                variant="contained"
-                                                style={{ marginTop: "0.5em" }}
-                                                onClick={handleOpenModal}
-                                            >
-                                                View your comments
-                                            </Button>
-                                        </Link>
-                                    </ThemeProvider>
-                                </>
-                            ) : (
-                                <>
-                                    <span>
-                                        Share your comment about the product
-                                    </span>{" "}
-                                    <br />
-                                    <ThemeProvider theme={theme}>
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            style={{ marginTop: "0.5em" }}
-                                            onClick={handleOpenModal}
-                                        >
-                                            Write your comment
-                                        </Button>
-                                    </ThemeProvider>
-                                    <TransitionsModal
-                                        open={open}
-                                        onClose={handleCloseModal}
-                                        piority={0}
-                                        productId={product.id}
-                                        type={"commentModal"}
-                                    />
-                                </>
-                            )}
-                        </Grid>
+                    <Grid item container xs={10}>
+                        <div>
+                            <Button className={classes.button__filter__enabled}>
+                                Tất cả
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                5 Sao ({stars[4]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                4 Sao ({stars[3]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                3 Sao ({stars[2]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                2 Sao ({stars[1]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                1 Sao ({stars[0]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                Có bình luận
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                Có hình ảnh
+                            </Button>
+                        </div>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} style={{ paddingTop: "1em" }}>
-                    <div
-                        className="sort-options"
-                        style={{
-                            paddingBottom: "0.5em",
-                            borderBottom: "1px solid #f4f4f4",
-                        }}
-                    >
-                        <span style={{ lineHeight: "3em" }}>
-                            Filter the comments
-                        </span>
-                        <span>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter1}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter1(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>Useful</MenuItem>
-                                    <MenuItem value={20}>Newest</MenuItem>
-                                    <MenuItem value={30}>
-                                        Having images
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter2}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter2(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>
-                                        All customers
-                                    </MenuItem>
-                                    <MenuItem value={20}>
-                                        All customers made a purchase
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                {/* <InputLabel id="demo-simple-select-label">All stars</InputLabel> */}
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter3}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter3(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>All stars</MenuItem>
-                                    <MenuItem value={20}>5</MenuItem>
-                                    <MenuItem value={30}>4</MenuItem>
-                                    <MenuItem value={30}>3</MenuItem>
-                                    <MenuItem value={30}>2</MenuItem>
-                                    <MenuItem value={30}>1</MenuItem>
-                                    <MenuItem value={30}>Satisfied</MenuItem>
-                                    <MenuItem value={30}>
-                                        Not satisfied
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                        </span>
-                    </div>
                     <div className="review">
                         {reviews !== null &&
                             reviews.length > 0 &&
@@ -1667,7 +1575,11 @@ const ProductDetailPage = (props) => {
                                             product={product}
                                         />
 
-                                        <ShopInfo shop={product.shop} />
+                                        <ShopInfo
+                                            shop={
+                                                product.shop ? product.shop : {}
+                                            }
+                                        />
                                         <TikiTranding />
                                         <ProductDetailInfo product={product} />
                                     </div>
@@ -1680,13 +1592,6 @@ const ProductDetailPage = (props) => {
                             xs={12}
                             style={{ padding: "0.5em" }}
                         >
-                            {/* <Grid
-                                item
-                                xs={12}
-                                style={{ padding: "0 0.5em 0.5em 0.5em" }}
-                            >
-                                {ProductQA()}
-                            </Grid> */}
                             <Grid
                                 item
                                 xs={12}

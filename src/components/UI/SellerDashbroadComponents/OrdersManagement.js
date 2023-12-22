@@ -177,7 +177,7 @@ const UpdateOrder = (props) => {
                         <Typography>Người nhận</Typography>
                         <MuiInput
                             aria-label="Name"
-                            placeholder="Eg: Kho 1"
+                            placeholder="VD: Nguyễn Văn A"
                             value={name}
                             className={classes.order__input}
                             autoFocus
@@ -188,7 +188,7 @@ const UpdateOrder = (props) => {
                         <Typography>Số điện thoại</Typography>
                         <MuiInput
                             aria-label="Phone"
-                            placeholder="Eg: 0981234567"
+                            placeholder="VD: 0981234567"
                             value={phone}
                             className={classes.order__input}
                             onChange={(e) => setPhone(e.target.value)}
@@ -200,7 +200,7 @@ const UpdateOrder = (props) => {
                         </Typography>
                         <MuiInput
                             aria-label="Address"
-                            placeholder="Eg: Ha Dong, Ha Noi"
+                            placeholder="VD: Ha Dong, Ha Noi"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                         />
@@ -212,7 +212,7 @@ const UpdateOrder = (props) => {
                         <MuiInput
                             aria-label="Date"
                             type="date"
-                            placeholder="Eg: 2021-10-10"
+                            placeholder="VD: 2021-10-10"
                             value={formatDate(date)}
                             onChange={(e) => setDate(e.target.value)}
                         />
@@ -235,7 +235,7 @@ const UpdateOrder = (props) => {
                         </Typography>
                         <MuiInput
                             aria-label="Total"
-                            placeholder="Eg: 100000"
+                            placeholder="VD: 100000"
                             value={total}
                             onChange={(e) => setTotal(e.target.value)}
                         />
@@ -450,14 +450,14 @@ const OrdersManagement = () => {
                 <Table>
                     <OrderTableHead>
                         <TableRow>
-                            <OrderTableCell>ID Order</OrderTableCell>
-                            <OrderTableCell>Name</OrderTableCell>
-                            <OrderTableCell>Phone</OrderTableCell>
-                            <OrderTableCell>Address</OrderTableCell>
-                            <OrderTableCell>Order Date</OrderTableCell>
-                            <OrderTableCell>Status</OrderTableCell>
-                            <OrderTableCell>Total</OrderTableCell>
-                            <OrderTableCell>Actions</OrderTableCell>
+                            <OrderTableCell>ID</OrderTableCell>
+                            <OrderTableCell>Người nhận</OrderTableCell>
+                            <OrderTableCell>Số điện thoại</OrderTableCell>
+                            <OrderTableCell>Địa chỉ</OrderTableCell>
+                            <OrderTableCell>Ngày đặt</OrderTableCell>
+                            <OrderTableCell>Tình trạng</OrderTableCell>
+                            <OrderTableCell>Tổng tiền</OrderTableCell>
+                            <OrderTableCell>Thao tác</OrderTableCell>
                         </TableRow>
                     </OrderTableHead>
                     <TableBody>

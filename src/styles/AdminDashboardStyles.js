@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
         margin: 0,
         paddingTop: "1em !important",
         backgroundSize: "auto 80vh",
-        // height: "100%",
+        height: "100vh",
         backgroundColor: "#fff",
         backgroundBlendMode: "multiply",
     },
