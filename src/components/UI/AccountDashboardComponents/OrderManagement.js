@@ -20,7 +20,7 @@ import TransitionsModal from "../../user/UserModal";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
-import BottleWarmer from "../../../image/bottoleWarmer.jpg";
+// import BottleWarmer from "../../../image/bottoleWarmer.jpg";
 import MuiDialog from "../../layout/MuiDialog";
 
 import * as cartActions from "../../../store/actions/cartActions";
@@ -367,6 +367,13 @@ const OrderCard = ({ myOrder }) => {
         "Cancelled",
     ];
 
+    const formatVND = (price) => {
+        return price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+        });
+    };
+
     return (
         <div className={classes.grid2}>
             <OrderStep myOrder={myOrder} />
@@ -401,25 +408,27 @@ const OrderCard = ({ myOrder }) => {
                         )}
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} className={classes.card__product}>
+                {myOrder.orderDetails.map((orderDetail) => (
                     <Grid
                         item
                         container
-                        xs={8}
-                        className={classes.card__product__info}
+                        xs={12}
+                        className={classes.card__product}
                     >
-                        <Grid item xs={2}>
-                            <img
-                                src={BottleWarmer}
-                                alt=""
-                                style={{ width: "82px", height: "82px" }}
-                            />
-                        </Grid>
-                        <Grid item xs={10}>
-                            <Link
-                                to={`/${product.slug}/${product._id}`}
-                                className={classes.removeLinkStyles}
-                            >
+                        <Grid
+                            item
+                            container
+                            xs={8}
+                            className={classes.card__product__info}
+                        >
+                            <Grid item xs={2}>
+                                <img
+                                    src={orderDetail.product.photo}
+                                    alt=""
+                                    style={{ width: "82px", height: "82px" }}
+                                />
+                            </Grid>
+                            <Grid item xs={10}>
                                 <Typography
                                     style={{
                                         fontSize: "1em",
@@ -427,54 +436,58 @@ const OrderCard = ({ myOrder }) => {
                                         color: "rgba(0,0,0,0.8)",
                                     }}
                                 >
-                                    {product.name}
+                                    {orderDetail.product.name}
                                 </Typography>
-                            </Link>
+                                <Typography
+                                    style={{
+                                        fontSize: "0.9em",
+                                        fontWeight: 500,
+                                        color: "#AAA",
+                                    }}
+                                >
+                                    Phân loại hàng: {orderDetail.color}
+                                </Typography>
+                                <Typography
+                                    style={{
+                                        fontSize: "0.9em",
+                                        fontWeight: 500,
+                                        color: "rgba(0,0,0,0.8)",
+                                    }}
+                                >
+                                    Số lượng: {orderDetail.quantity}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={4}
+                            className={classes.card__product__price}
+                        >
                             <Typography
                                 style={{
-                                    fontSize: "0.9em",
-                                    fontWeight: 500,
-                                    color: "#AAA",
+                                    color: "rgba(36, 36, 36, 0.6)",
+                                    fontSize: "0.75em",
+                                    marginLeft: "1.5em",
+                                    border: "1px solid #FFFFFF",
+                                    borderRadius: "0.5em",
+                                    backgroundColor: "#f5f5fa",
+                                    padding: "3px 6px",
                                 }}
                             >
-                                Phân loại hàng: {product.category}
+                                -{orderDetail.product.discount}%{" "}
                             </Typography>
+
                             <Typography
                                 style={{
-                                    fontSize: "0.9em",
-                                    fontWeight: 500,
-                                    color: "rgba(0,0,0,0.8)",
+                                    fontSize: "1em",
+                                    color: "#FF2800",
                                 }}
                             >
-                                Số lượng: {quantity}
+                                {formatVND(orderDetail.product.price)}
                             </Typography>
                         </Grid>
                     </Grid>
-                    <Grid item xs={4} className={classes.card__product__price}>
-                        <Typography
-                            style={{
-                                color: "rgba(36, 36, 36, 0.6)",
-                                fontSize: "0.75em",
-                                marginLeft: "1.5em",
-                                border: "1px solid #FFFFFF",
-                                borderRadius: "0.5em",
-                                backgroundColor: "#f5f5fa",
-                                padding: "3px 6px",
-                            }}
-                        >
-                            -{product.discount}%{" "}
-                        </Typography>
-
-                        <Typography
-                            style={{
-                                fontSize: "1em",
-                                color: "#FF2800",
-                            }}
-                        >
-                            {product.price}đ
-                        </Typography>
-                    </Grid>
-                </Grid>
+                ))}
                 <Grid item container xs={12} className={classes.card__actions}>
                     <Grid
                         item
@@ -492,7 +505,8 @@ const OrderCard = ({ myOrder }) => {
                                 color: "#FF2800",
                             }}
                         >
-                            Thành tiền: {total}đ
+                            Thành tiền:{" "}
+                            {myOrder.total ? formatVND(myOrder.total) : 0}
                         </Typography>
                     </Grid>
 

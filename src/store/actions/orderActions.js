@@ -86,17 +86,8 @@ export const getOrdersByUserId = (userId) => async (dispatch) => {
 // 🔒
 export const addNewOrder = (order, payment) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/checkout`;
-    const orderData = {
-        ...order,
-        // products: order.products.map((product) => ({
-        //     product: product._id,
-        //     quantity: product.quantity,
-        // })),
-        paymentMethod: payment,
-        paymentState: "Pending",
-    };
 
-    await axios.post(url, orderData)
+    await axios.post(url, order)
         .then(res => {
             if(!res.data.success) {
                 return  message.error("Error making order");
@@ -113,7 +104,7 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
 
     // Redirect to payment gateway
     if (payment === "COD") {
-        console.log("COD");
+        console.log(order);
     }
     if (payment === "MOMO") {
         const url = `${api_url}/api/v1/payment/momo/create`;

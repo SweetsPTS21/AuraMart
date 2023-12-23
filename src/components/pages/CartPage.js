@@ -217,7 +217,8 @@ const CartPage = (props) => {
                                         type={"cart"}
                                         link={true}
                                         name={item.product.name}
-                                        id={item.product.id}
+                                        id={item.product._id}
+                                        slug={item.product.slug}
                                         title={item.product.name}
                                         image={
                                             item.product.photo ===
@@ -228,7 +229,8 @@ const CartPage = (props) => {
                                         soldBy={item.product.shop.name}
                                         price={item.product.price}
                                         discount={item.product.discount}
-                                        // discountedPrice={40003}
+                                        colors={item.product.colors}
+                                        color={item.product.color}
                                         quantity={item.quantity}
                                         stock={item.product.quantity}
                                         soldQuantity={item.product.soldQuantity}

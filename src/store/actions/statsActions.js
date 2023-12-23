@@ -11,7 +11,7 @@ const api_url = process.env.REACT_APP_API;
 
 // 🔓
 export const getTopSoldProducts =
-    (limit = "5", sort = "order") =>
+    (limit = "10", sort = "order") =>
     async (dispatch) => {
         const url = `${api_url}/api/v1/stats/products?limit=${limit}&sort=${sort}`;
         await axios

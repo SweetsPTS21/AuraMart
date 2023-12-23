@@ -1,5 +1,7 @@
 import {GET_ALL_ORDERS, GET_ALL_ORDERS_OF_A_SHOP, GET_MY_ORDERS, GET_SINGLE_ORDER_BY_ID} from "../actions/orderActions";
 
+const CLEAR_SHOP_ORDERS = "CLEAR_SHOP_ORDERS";
+
 const initialState = {
     allOrders: null,
     allShopOrders: null,
@@ -29,7 +31,11 @@ export default function orderReducer (state = initialState, action) {
                 ...state,
                 myOrders: action.orders
             };
-
+        case CLEAR_SHOP_ORDERS:
+            return {
+                ...state,
+                allShopOrders: null
+            };
         default:
             return state;
     }

@@ -26,6 +26,8 @@ import {
 } from "@mui/icons-material";
 
 import ReviewStats from "../AdminDashboardComponents/Stats/ReviewStats";
+import { getShopStats } from "../../../store/actions/statsActions";
+
 const useStyles = makeStyles(() => ({
     root: {
         width: "100%",
@@ -76,10 +78,9 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const HomeConfig = (props) => {
+const HomeConfig = () => {
     const classes = useStyles();
     const [ordersLastUpdated] = useState(Date.now());
-    const products = props.products ? props.products : [];
     const statistic = useSelector((state) => state.stats.statistics);
 
     const formatVND = (price) => {
@@ -124,7 +125,7 @@ const HomeConfig = (props) => {
                             <Store />
                         </CardIcon>
                         <p className={classes.cardCategory}>Sản phẩm</p>
-                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                        <h3 className={classes.cardTitle}>{ statistic && statistic.products}</h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -217,7 +218,7 @@ const HomeConfig = (props) => {
                             <CommentRounded />
                         </CardIcon>
                         <p className={classes.cardCategory}>Phản hồi</p>
-                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                        <h3 className={classes.cardTitle}>{statistic && statistic.reviews}</h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -323,13 +324,14 @@ const SellerHome = () => {
         if (shop) {
             dispatch(getAllOrdersOfAShop(shop.id));
             dispatch(getProductsByShopId(shop.id));
+            dispatch(getShopStats(shop.id));
         }
     }, [shop, dispatch]);
 
     return (
         <div className={classes.root}>
             <Grid container className={classes.container} spacing={3}>
-                <HomeConfig products={products} />
+                <HomeConfig/>
                 <ShopStatistic
                     products={products}
                     orders={orders}

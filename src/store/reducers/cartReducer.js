@@ -164,7 +164,7 @@ export default function cartReducer(state = initialState, action) {
                     (v) => v.shop === voucher.shop
                 );
     
-                if (index !== -1) {
+                if (index !== -1 && state.totalShopDiscount) {
                     state.totalShopDiscount.splice(index, 1);
                 }
             }

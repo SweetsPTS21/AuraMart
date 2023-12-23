@@ -256,6 +256,7 @@ const ItemContainer = (props) => {
             );
         }
     };
+    
     return (
         <div className={classes.root} style={{ ...props.style }}>
             {props.title !== undefined ? (
@@ -292,12 +293,13 @@ const ItemContainer = (props) => {
                             }}
                         >
                             <span style={{ color: "#FF4C57", fontWeight: 700 }}>
-                                Tiki Deal
+                                Deal hot nhất
                             </span>{" "}
                             <br />
-                            Hourly updates of all special deals on Tiki.
-                            Bookmark this page and come back often so you don't
-                            miss it!
+                            <span style={{ fontSize: "1em" }}>
+                                Cập nhật liên tục hàng giờ. Nhanh tay thêm vào giỏ hàng để có được mức giá tốt nhất
+                            </span>
+
                         </p>
                     </div>
                 </section>

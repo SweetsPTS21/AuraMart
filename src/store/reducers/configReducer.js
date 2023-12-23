@@ -4,6 +4,8 @@ import {
     GET_CONFIG_BY_ID,
 } from "../actions/configActions";
 
+const CLEAR_SHOP_CONFIGS = "CLEAR_SHOP_CONFIGS";
+
 const initialState = {
     configs: null,
     currentConfig: null,
@@ -26,6 +28,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 configsInShop: action.configs,
+            };
+        case CLEAR_SHOP_CONFIGS:
+            return {
+                ...state,
+                configsInShop: null,
             };
 
         default:

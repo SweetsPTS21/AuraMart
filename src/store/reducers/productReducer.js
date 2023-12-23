@@ -3,13 +3,17 @@ import {
     GET_PRODUCTS_BY_SHOP_ID,
     GET_PRODUCT_BY_ID,
     GET_RECOMMEND_PRODUCTS_BY_USER_ID,
+    GET_SALE_PRODUCTS,
 } from "../actions/productActions";
+
+const CLEAR_SHOP_PRODUCTS = "CLEAR_SHOP_PRODUCTS";
 
 const initialState = {
     products: null,
     currentProduct: null,
     productsInShop: [],
     recommendProds: null,
+    saleProducts: null,
 };
 
 export default function productReducer(state = initialState, action) {
@@ -18,6 +22,11 @@ export default function productReducer(state = initialState, action) {
             return {
                 ...state,
                 products: action.products,
+            };
+        case GET_SALE_PRODUCTS:
+            return {
+                ...state,
+                saleProducts: action.products,
             };
         case GET_PRODUCT_BY_ID:
             return {
@@ -33,6 +42,11 @@ export default function productReducer(state = initialState, action) {
             return {
                 ...state,
                 recommendProds: action.recommendProds,
+            };
+        case CLEAR_SHOP_PRODUCTS:
+            return {
+                ...state,
+                productsInShop: [],
             };
         default:
             return state;

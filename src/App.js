@@ -18,12 +18,15 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./store/actions/authActions";
-import { getAllProducts } from "./store/actions/productActions";
+import {
+    getAllProducts,
+    getSaleProducts,
+} from "./store/actions/productActions";
 import { getCart } from "./store/actions/cartActions";
 import { getAllShops } from "./store/actions/shopActions";
 import { getAllReviews } from "./store/actions/reviewActions";
-import { getAllAddress } from "./store/actions/addressActions";
-import { getAllConfigs } from "./store/actions/configActions";
+// import { getAllAddress } from "./store/actions/addressActions";
+// import { getAllConfigs } from "./store/actions/configActions";
 import AdminPage from "./components/pages/AdminPage";
 import { getAllOrders } from "./store/actions/orderActions";
 import UnderDevelopmentPage from "./components/pages/UnderDevelopmentPage";
@@ -32,12 +35,13 @@ import SellerPage from "./components/pages/SellerPage";
 
 const actionsOnPageLoad = () => {
     store.dispatch(getAllProducts("?limit=100"));
+    store.dispatch(getSaleProducts());
     store.dispatch(getCart());
     store.dispatch(getAllShops());
     store.dispatch(getAllOrders());
     store.dispatch(getAllReviews());
-    store.dispatch(getAllAddress());
-    store.dispatch(getAllConfigs());
+    // store.dispatch(getAllAddress());
+    // store.dispatch(getAllConfigs());
     // Check for token
     if (localStorage.jwtToken) {
         // Set auth token header auth
