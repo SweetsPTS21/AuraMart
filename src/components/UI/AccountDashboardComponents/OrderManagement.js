@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
+import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as orderActions from "../../../store/actions/orderActions";
 import Stepper from "@material-ui/core/Stepper";
@@ -377,7 +377,7 @@ const OrderCard = ({ myOrder }) => {
                         <Typography style={{ marginLeft: "0.5em" }}>
                             {shop.name}
                         </Typography>
-                        <Link to={`/tiki/shops/${shop._id}`}>
+                        <Link to={`/aumart/shops/${shop._id}`}>
                             <Button
                                 variant="contained"
                                 className={classes.card__shop__view__button}
@@ -653,7 +653,7 @@ const OrderCard = ({ myOrder }) => {
                                 </Button>
                             )}
 
-                            <Link to={`/tiki/shops/${shop._id}`}>
+                            <Link to={`/aumart/shops/${shop._id}`}>
                                 <Button className={classes.button__secondary}>
                                     Liên hệ shop
                                 </Button>
@@ -788,7 +788,7 @@ const OrderManagement = () => {
                                 flexDirection: "column",
                             }}
                         >
-                            <img src={tikiNotFound} alt="" />
+                            <img src={aumartNotFound} alt="" />
                             <br />
                             <p>You have no orders</p>
                             <Button

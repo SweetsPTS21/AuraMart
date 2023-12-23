@@ -8,13 +8,13 @@ import {
     makeStyles,
 } from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
-import TikiNow from "../../image/tiki-now.png";
+import TikiNow from "../../image/aumart-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import { Progress } from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import TikiTimerIcon from "../../image/tiki_timer.png";
+import TikiTimerIcon from "../../image/aumart_timer.png";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -57,7 +57,7 @@ import TopProducts from "../layout/TopProducts";
 import ReviewCard from "../layout/ReviewCard";
 
 const defaultAvatar =
-    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
+    "https://vcdn.aumartcdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -151,13 +151,13 @@ const useStyles = makeStyles((theme) => ({
             opacity: 0,
         },
     },
-    tikiStoreIcon: {
+    aumartStoreIcon: {
         backgroundImage: "url(../../image/sprite.png)",
         backgroundPosition: "0 -409px",
         width: "24px",
         height: " 24px",
     },
-    tikiRefund2: {
+    aumartRefund2: {
         backgroundImage: "url(../../image/sprite.png)",
         backgroundPosition: "-362px -281px",
         width: "24px",
@@ -431,7 +431,7 @@ const ProductPriceInfo = ({ product }) => {
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <img src={TikiNow} alt="tiki now logo" />{" "}
+                    <img src={TikiNow} alt="aumart now logo" />{" "}
                     <span style={{ margin: "0 0.5em" }}>|</span>
                     <span className={classes.title}>{product.name}</span>
                 </div>
@@ -823,21 +823,21 @@ const TikiTranding = () => {
             }}
         >
             <div className="name">
-                <i className={classes.tikiStoreIcon} />
+                <i className={classes.aumartStoreIcon} />
                 <div className={classes.text}>
                     <span style={{ color: "#189EFF" }}>Tiki trading</span>
                     <p>Genuine commitment</p>
                 </div>
             </div>
             <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
+                <i className={classes.aumartRefund2} />
                 <div className={classes.text}>
                     <span style={{ fontWeight: 600 }}>Tiki refunds 111%</span>
                     <p>if fake products are detected</p>
                 </div>
             </div>
             <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
+                <i className={classes.aumartRefund2} />
                 <div className={classes.text}>
                     <span style={{ fontWeight: 600 }}>
                         Warranty information
@@ -876,7 +876,7 @@ const ShopInfo = (props) => {
                         justifyContent: "center",
                     }}
                 >
-                    <Link to={`/tiki/shops/${shop.id}`}>
+                    <Link to={`/aumart/shops/${shop.id}`}>
                         <div className={classes.shopInfo__avatar}>
                             <img src={shopAvatar} alt="" />
                         </div>
@@ -898,7 +898,7 @@ const ShopInfo = (props) => {
                         >
                             <QuestionAnswerRounded /> Chat
                         </Button>
-                        <Link to={`/tiki/shops/${shop.id}`}>
+                        <Link to={`/aumart/shops/${shop.id}`}>
                             <Button
                                 size="medium"
                                 style={{

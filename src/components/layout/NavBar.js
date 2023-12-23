@@ -17,7 +17,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Icon from "@material-ui/core/Icon";
 import { Grid } from "@material-ui/core";
 
-import tikiLogo from "../../image/logo.png";
+import aumartLogo from "../../image/logo.png";
 import userStyles from "../../styles/NavbarStyles";
 import { loadCSS } from "fg-loadcss";
 import ProductNavigation from "../UI/ProductNavigation";
@@ -401,7 +401,11 @@ const NavBar = (props) => {
                 </Typography>
             </Link> */}
             <Link to={"/"} className={classes.removeDefaultLink}>
-                <img src={tikiLogo} alt={"logo"} className={classes.tikiLogo} />
+                <img
+                    src={aumartLogo}
+                    alt={"logo"}
+                    className={classes.aumartLogo}
+                />
             </Link>
             <div className={classes.search} id={"autocomContainer"}>
                 <div
@@ -653,7 +657,7 @@ const NavBar = (props) => {
                     <br />
                     <br />
                     You have not viewed any products. <br /> keep exploring
-                    tiki, the product you viewed will show up here!
+                    aumart, the product you viewed will show up here!
                 </div>
             </div>
             {/*Fav Nav*/}

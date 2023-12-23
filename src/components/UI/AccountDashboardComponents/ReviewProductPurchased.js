@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
+import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -75,7 +75,7 @@ const ReviewProductPurchased = () => {
                         flexDirection: "column",
                     }}
                 >
-                    <img src={tikiNotFound} alt="" />
+                    <img src={aumartNotFound} alt="" />
                     <br />
                     <p>You have not purchased any products</p>
                     <Button variant="contained" className={classes.button}>

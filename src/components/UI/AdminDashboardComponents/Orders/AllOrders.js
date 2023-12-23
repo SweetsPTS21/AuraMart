@@ -210,8 +210,8 @@ const AllOrders = () => {
             >
                 <Grid item xs={3} md={3} lg={3} className={classes.card}>
                     <Card onClick={() => handleFilter(false)}>
-                        <CardHeader color="tiki" stats icon>
-                            <CardIcon color="tiki">
+                        <CardHeader color="aumart" stats icon>
+                            <CardIcon color="aumart">
                                 <Accessibility />
                             </CardIcon>
                             <p className={classes.cardCategory}>Total Orders</p>

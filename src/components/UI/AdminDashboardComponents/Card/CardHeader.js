@@ -39,7 +39,7 @@ CardHeader.propTypes = {
         "info",
         "primary",
         "rose",
-        "tiki",
+        "aumart",
     ]),
     plain: PropTypes.bool,
     stats: PropTypes.bool,

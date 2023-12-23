@@ -71,7 +71,7 @@ const userStyles = makeStyles(() => ({
     "@global .MuiCheckbox-colorSecondary.Mui-checked": {
         color: "#189EFF !important",
     },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
         backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
 }));
@@ -144,7 +144,7 @@ const UpdateUserForm = (props) => {
                     style={{ margin: "0 auto", width: "420px" }}
                 >
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>
                                 Update User
                             </h4>
@@ -478,7 +478,7 @@ const UpdateUserForm = (props) => {
                                     )}
 
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

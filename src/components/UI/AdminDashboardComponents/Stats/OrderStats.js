@@ -317,7 +317,7 @@ const OrderStats = (props) => {
                 <Grid item xs={7} className={classes.card}>
                     {orderChartStatus !== null && (
                         <Card chart onClick={calculateCurrentStatusData}>
-                            <CardHeader color="tiki">
+                            <CardHeader color="aumart">
                                 <PieChart
                                     series={[
                                         {

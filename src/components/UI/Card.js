@@ -4,7 +4,7 @@ import Rating from "@material-ui/lab/Rating";
 import Ripples from "react-ripples";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import TikiNow from "../../image/tiki-now.png";
+import TikiNow from "../../image/aumart-now.png";
 import DealTag from "../../image/dealTag.png";
 import userStyles from "../../styles/CardStyles";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -15,7 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import TikiArrow from "../../image/tikiArrow.png";
+import TikiArrow from "../../image/aumartArrow.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
@@ -231,7 +231,7 @@ const Card = (props) => {
                                 </span>
                             )}
                         </Progress>
-                        <Grid container className={classes.tikiNowBorder}>
+                        <Grid container className={classes.aumartNowBorder}>
                             <Grid
                                 item
                                 xs={2}
@@ -242,7 +242,7 @@ const Card = (props) => {
                                 <div>
                                     <img
                                         src={TikiNow}
-                                        alt="tikinow"
+                                        alt="aumartnow"
                                         width={"70%"}
                                     />{" "}
                                 </div>
@@ -254,7 +254,7 @@ const Card = (props) => {
                                 lg={9}
                                 style={{ margin: 0 }}
                             >
-                                <span className={classes.tikiNowTitle}>
+                                <span className={classes.aumartNowTitle}>
                                     {"Giao siêu tốc 2h"}
                                 </span>
                             </Grid>
@@ -455,15 +455,15 @@ const Card = (props) => {
                                         }
                                         className={classes.removeLinkStyle}
                                     >
-                                        <img src={TikiNow} alt={"tikinow"} /> |{" "}
-                                        {props.name}
+                                        <img src={TikiNow} alt={"aumartnow"} />{" "}
+                                        | {props.name}
                                     </Link>
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
                                     <img
                                         src={TikiArrow}
-                                        className={classes.tikiArrow}
-                                        alt={"tiki arrow "}
+                                        className={classes.aumartArrow}
+                                        alt={"aumart arrow "}
                                     />{" "}
                                     Ship in 2h
                                 </Typography>
@@ -530,7 +530,8 @@ const Card = (props) => {
                                         marginTop: "1em",
                                     }}
                                 >
-                                    Còn <strong>{stock - soldQuantity}</strong> sản phẩm
+                                    Còn <strong>{stock - soldQuantity}</strong>{" "}
+                                    sản phẩm
                                 </Typography>
                             )}
                         </Grid>

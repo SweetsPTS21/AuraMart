@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
+import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -74,7 +74,7 @@ const BillingInformation = () => {
                         flexDirection: "column",
                     }}
                 >
-                    <img src={tikiNotFound} alt="" />
+                    <img src={aumartNotFound} alt="" />
                     <br />
                     <p>
                         Saving payment information helps you order more quickly

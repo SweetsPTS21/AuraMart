@@ -16,8 +16,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CommentIcon from "@material-ui/icons/Comment";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import tikiNow from "../../image/tiki-now2.png";
-import tikixu from "../../image/tikixu.svg";
+import aumartNow from "../../image/aumart-now2.png";
+import aumartxu from "../../image/aumartxu.svg";
 import bookcare from "../../image/bookcare.svg";
 import DefaultAvatar from "../../image/avatar.png";
 
@@ -91,8 +91,8 @@ const AccountDashBoard = (props) => {
         <ShoppingCartIcon className={classes.item} />,
         <CommentIcon className={classes.item} />,
         <QuestionAnswerIcon className={classes.item} />,
-        <img src={tikiNow} style={{ width: "1.5em" }} alt={"oven"} />,
-        <img src={tikixu} style={{ width: "1.5em" }} alt={"tiki xu"} />,
+        <img src={aumartNow} style={{ width: "1.5em" }} alt={"oven"} />,
+        <img src={aumartxu} style={{ width: "1.5em" }} alt={"aumart xu"} />,
         <img src={bookcare} style={{ width: "1.5em" }} alt={"bookcare"} />,
     ];
     const handleMenuItemClick = (event, index) => {

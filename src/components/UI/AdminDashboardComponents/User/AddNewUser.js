@@ -127,7 +127,7 @@ const AddNewUser = () => {
             <Grid container>
                 <Grid item xs={12} style={{ margin: "0 auto", width: "420px" }}>
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>Add User</h4>
                             <p className={classes.cardCategoryWhite}>
                                 Create a new user
@@ -371,7 +371,7 @@ const AddNewUser = () => {
                                     </FormControl>
 
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

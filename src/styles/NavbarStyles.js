@@ -89,9 +89,9 @@ const useStyles = makeStyles((theme) => ({
             display: "none",
         },
     },
-    tikiLogo: {
-        width: 80,
-        height: 80,
+    aumartLogo: {
+        width: 120,
+        height: 120,
         marginLeft: "0.5em",
         marginTop: "0.5em",
         marginRight: "0.5em",
@@ -285,7 +285,6 @@ const useStyles = makeStyles((theme) => ({
     "@global .ql-toolbar.ql-snow": {
         border: "none !important",
     },
-
 }));
 
 export default useStyles;

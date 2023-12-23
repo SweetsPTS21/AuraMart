@@ -93,8 +93,8 @@ const HomeConfig = (props) => {
         <>
             <Grid item xs={3}>
                 <Card>
-                    <CardHeader color="tiki" stats icon>
-                        <CardIcon color="tiki">
+                    <CardHeader color="aumart" stats icon>
+                        <CardIcon color="aumart">
                             <Report />
                         </CardIcon>
                         <p className={classes.cardCategory}>Tổng đơn hàng</p>
@@ -190,8 +190,8 @@ const HomeConfig = (props) => {
             {/* Shop status */}
             <Grid item xs={3}>
                 <Card>
-                    <CardHeader color="tiki" stats icon>
-                        <CardIcon color="tiki">
+                    <CardHeader color="aumart" stats icon>
+                        <CardIcon color="aumart">
                             <GradeRounded />
                         </CardIcon>
                         <p className={classes.cardCategory}>Đánh giá</p>

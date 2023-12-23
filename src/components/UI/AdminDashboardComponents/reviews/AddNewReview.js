@@ -104,7 +104,7 @@ const AddANewReview = () => {
             <Grid container>
                 <Grid item xs={12} style={{ margin: "0 auto", width: "420px" }}>
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>
                                 Add Review
                             </h4>
@@ -263,7 +263,7 @@ const AddANewReview = () => {
                                     </FormControl>
 
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

@@ -5,9 +5,8 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import TikiLogo from "../../image/sprite.png";
+import TikiLogo from "../../image/logo.png";
 import Grid from "@material-ui/core/Grid";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -47,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
     },
     iconLogoBlue: {
-        backgroundImage: `url(${TikiLogo}?v=100000000)`,
         backgroundPosition: "0px 0px",
         width: "90px",
         height: "60px",
@@ -579,7 +577,9 @@ const AddressUI = ({ handleNext, shipAddress, setShipAddress }) => {
                                         ["isNumber"],
                                         ["minStringLength:10"],
                                         ["maxStringLength:11"],
-                                        ["matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b"])
+                                        [
+                                            "matchRegexp:(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b",
+                                        ])
                                     }
                                     errorMessages={["Phone number is invalid"]}
                                 />
@@ -1289,22 +1289,19 @@ const Checkout = () => {
                     backgroundColor: "white",
                     boxShadow:
                         "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                    padding: "0 20%",
+                    padding: "0 15%",
                 }}
             >
                 <Grid container>
                     <Grid item xs={1}>
                         <Link to={"/"}>
-                            <IconButton
-                                aria-label="where do you want to shop to?"
-                                color="inherit"
+                            <img
+                                src={TikiLogo}
                                 style={{
-                                    padding: "auto 0px",
-                                    paddingLeft: "0",
+                                    width: "95px",
+                                    height: "95px",
                                 }}
-                            >
-                                <i className={classes.iconLogoBlue} />
-                            </IconButton>
+                            />
                         </Link>
                     </Grid>
                     <Grid item xs={9}>

@@ -111,7 +111,7 @@ function App() {
                         <Route
                             exact
                             path={"/seller/register"}
-                            element={<SellerPage/>}
+                            element={<SellerPage />}
                         />
                         {/*<Route*/}
                         {/*    exact*/}
@@ -126,7 +126,7 @@ function App() {
                         />
                         <Route
                             exact
-                            path={"/tiki/shops/:shopId"}
+                            path={"/aumart/shops/:shopId"}
                             element={<ShopPage />}
                         />
                         <Route

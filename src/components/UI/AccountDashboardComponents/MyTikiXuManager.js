@@ -7,10 +7,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-import tikiXu from "../../../image/tiki-xu.svg";
+import aumartXu from "../../../image/aumart-xu.svg";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import tikiLogo from "../../../image/tiki_v3.svg";
+import aumartLogo from "../../../image/aumart_v3.svg";
 import gotItLogo from "../../../image/gotit_v3.svg";
 import urBoxLogo from "../../../image/urbox_v3.svg";
 
@@ -93,7 +93,7 @@ const MyTikiXuManager = () => {
                         justifyContent: "center",
                     }}
                 >
-                    <img src={tikiXu} alt="" />
+                    <img src={aumartXu} alt="" />
                     <p
                         style={{
                             color: "#41D67E",
@@ -155,14 +155,14 @@ const MyTikiXuManager = () => {
                                 "Select the supplier of the gift code",
                             ]}
                         >
-                            <MenuItem value={"tiki"}>
+                            <MenuItem value={"aumart"}>
                                 <section
                                     style={{
                                         display: "flex",
                                         alignItems: "center",
                                     }}
                                 >
-                                    <img src={tikiLogo} alt="" />
+                                    <img src={aumartLogo} alt="" />
                                     <p
                                         style={{
                                             marginLeft: "0.3em",

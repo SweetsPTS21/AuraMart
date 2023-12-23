@@ -57,7 +57,7 @@ RegularButton.propTypes = {
         "rose",
         "white",
         "transparent",
-        "tiki",
+        "aumart",
     ]),
     size: PropTypes.oneOf(["sm", "lg"]),
     simple: PropTypes.bool,

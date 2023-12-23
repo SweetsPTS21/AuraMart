@@ -36,7 +36,7 @@ CardIcon.propTypes = {
         "info",
         "primary",
         "rose",
-        "tiki",
+        "aumart",
     ]),
     children: PropTypes.node,
 };
