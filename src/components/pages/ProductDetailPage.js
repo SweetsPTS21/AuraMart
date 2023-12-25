@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
 import TikiNow from "../../image/aumart-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
-import { Progress } from "reactstrap";
+import {Progress} from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import TikiTimerIcon from "../../image/tiki_timer.png";
+import TikiTimerIcon from "../../image/aumart_timer.png";
 // import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -31,8 +31,8 @@ import Select from "@material-ui/core/Select";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
-import { SideBySideMagnifier } from "react-image-magnifiers";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {SideBySideMagnifier} from "react-image-magnifiers";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 import {
     ChangeCircleOutlined,
@@ -42,32 +42,21 @@ import {
     StoreRounded,
 } from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
 import * as productActions from "../../store/actions/productActions";
 import * as reviewActions from "../../store/actions/reviewActions";
 import * as addressActions from "../../store/actions/addressActions";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // import TransitionsModal from "../user/UserModal";
-import { message } from "antd";
+import {message} from "antd";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
 import ReviewCard from "../layout/ReviewCard";
-import {
-    ArchiveRounded,
-    ArrowForwardIosRounded,
-    LocalShippingOutlined,
-    RefreshRounded,
-} from "@material-ui/icons";
-import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Typography,
-} from "@material-ui/core";
+import {ArchiveRounded, ArrowForwardIosRounded, LocalShippingOutlined, RefreshRounded,} from "@material-ui/icons";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography,} from "@material-ui/core";
 import defaultAvatar from "../../image/shopAvatar.jpg";
-import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
+import {ReactComponent as FlashSale} from "../../image/flashsale.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -784,7 +773,6 @@ const ProductOptions = ({ product }) => {
                 <Grid container xl spacing={2}>
                     <Grid item>
                         <div
-                            size="small"
                             style={{
                                 height: "2em",
                                 marginTop: "0.4em",
@@ -1269,12 +1257,10 @@ const ProductReview = ({ product, reviews }) => {
             return 0;
         }
         // Format the number to one decimal place
-        const formattedNumber = numberValue.toLocaleString(undefined, {
+        return numberValue.toLocaleString(undefined, {
             minimumFractionDigits: 1,
             maximumFractionDigits: 1,
         });
-
-        return formattedNumber;
     };
 
     return (

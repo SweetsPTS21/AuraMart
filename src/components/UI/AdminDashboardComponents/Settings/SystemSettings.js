@@ -1,6 +1,15 @@
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { message } from "antd";
+import MuiDialog from "../../../layout/MuiDialog";
+import LoadingSpinner from "../../../layout/LoadingSpinner";
+import { useEffect } from "react";
+import {
+    getRecommenderLogs,
+    updateRecommenderSystem,
+} from "../../../../store/actions/settingActions";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -20,16 +29,71 @@ const useStyles = makeStyles(() => ({
         flexDirection: "column",
     },
     text: {
+        fontWeight: "500",
+        fontSize: "1em",
         marginBottom: "0.5em",
     },
+    button: {
+        color: "#fff",
+        backgroundColor: "#ff424e",
+        textTransform: "none",
+        "&:focus": {
+            outline: "none",
+        },
+        "&:hover": {
+            backgroundColor: "#fa676e",
+        },
+    },
+    loading: {},
 }));
 
 const RecommendedSystem = (props) => {
+    const dispatch = useDispatch();
     const { data, logs } = props;
     const classes = useStyles();
 
+    const [openDialog, setOpenDialog] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const handleUpdate = async () => {
+        const msg = message.loading("Đang cập nhật hệ thống", 0);
+        setIsUpdating(true);
+        await dispatch(updateRecommenderSystem());
+
+        setTimeout(() => {
+            setIsUpdating(false);
+            msg();
+            message.success("Cập nhật thành công");
+            setOpenDialog(false);
+        }, 5000);
+    };
+
     return (
-        <div className={classes.block}>
+        <div className={classes.block} style={{ position: "relative" }}>
+            {isUpdating && (
+                // Loading animation with absolute positioning
+                <div
+                    className="loading-animation"
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "rgb(0 0 0 / 32%)", // Transparent white background
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: "0.5em",
+                        zIndex: 50,
+                    }}
+                >
+                    <LoadingSpinner />
+                    <Typography style={{ fontSize: "1.2em", fontWeight: 600 }}>
+                        Đang cập nhật...
+                    </Typography>
+                </div>
+            )}
             <div
                 style={{
                     display: "flex",
@@ -37,7 +101,13 @@ const RecommendedSystem = (props) => {
                 }}
             >
                 <Typography>Hệ thống đề xuất</Typography>
-                <Button>Cập nhật</Button>
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={() => setOpenDialog(true)}
+                >
+                    Cập nhật
+                </Button>
             </div>
 
             <Grid container style={{ marginBottom: "1em" }}>
@@ -142,9 +212,14 @@ const RecommendedSystem = (props) => {
                             borderRadius: "0.5em",
                             backgroundColor: "#f7f8fb",
                             padding: "1em",
+                            overflowY: "scroll",
                         }}
                     >
-                        <Typography>{logs}</Typography>
+                        {logs &&
+                            logs.length > 0 &&
+                            logs.map((log) => (
+                                <Typography key={log.id}>{log}</Typography>
+                            ))}
                     </div>
                     <div>
                         <Button>Download</Button>
@@ -152,12 +227,23 @@ const RecommendedSystem = (props) => {
                     </div>
                 </Grid>
             </Grid>
+            {openDialog && (
+                <MuiDialog
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    message="Hệ thống đề xuất sẽ không khả dụng trong quá trình cập nhật. Bạn có chắc chắn không ?"
+                    handleConfirm={handleUpdate}
+                />
+            )}
         </div>
     );
 };
 
 const SystemSettings = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const logs = useSelector((state) => state.settings.logs);
+
     const data = {
         server: "https://recommendation-system-server.herokuapp.com",
         lastUpdate: "2021-05-05 12:00:00",
@@ -167,7 +253,9 @@ const SystemSettings = () => {
         updatedBy: "admin",
     };
 
-    const logs = "This is logs";
+    useEffect(() => {
+        dispatch(getRecommenderLogs());
+    }, [dispatch]);
 
     return (
         <div style={{ width: "100%" }}>
