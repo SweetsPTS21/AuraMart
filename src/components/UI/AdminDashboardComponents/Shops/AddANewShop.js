@@ -18,7 +18,7 @@ import {
     blackColor,
     hexToRgb,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import "@progress/kendo-theme-default/dist/all.css";
 
 const userStyles = makeStyles(() => ({

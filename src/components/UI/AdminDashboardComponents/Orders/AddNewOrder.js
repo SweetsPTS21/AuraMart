@@ -19,7 +19,7 @@ import {
     blackColor,
     hexToRgb,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import TextField from "@material-ui/core/TextField";
 import "@progress/kendo-theme-default/dist/all.css";
 

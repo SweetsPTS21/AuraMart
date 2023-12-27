@@ -3,7 +3,7 @@ import {
     hexToRgb,
     successColor,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import { makeStyles } from "@material-ui/core/styles";
 import { defaultFont } from "../Card/styles/material-dashboard-react";
 
@@ -142,7 +142,7 @@ const useStyles = makeStyles(() => ({
     "@global .MuiFab-secondary:hover": {
         backgroundColor: "#189EFF",
     },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
         backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
     fabGreen: {

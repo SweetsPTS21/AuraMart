@@ -9,7 +9,7 @@ import {
     successColor,
     warningColor,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import { makeStyles } from "@material-ui/core/styles";
 import { hexToRgb } from "../Card/styles/material-dashboard-react";
 

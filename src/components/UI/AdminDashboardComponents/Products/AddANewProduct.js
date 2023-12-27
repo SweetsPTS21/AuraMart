@@ -20,7 +20,7 @@ import {
     blackColor,
     hexToRgb,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import "@progress/kendo-theme-default/dist/all.css";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../utils/firebaseConfig";
