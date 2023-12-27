@@ -250,7 +250,7 @@ const ReviewCard = (props) => {
                                         fontSize: "0.75em",
                                     }}
                                 >
-                                    Bought from Tiki
+                                    Bought from Aumart
                                 </p>
                                 <div
                                     style={{

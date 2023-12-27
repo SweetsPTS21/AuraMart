@@ -4,7 +4,7 @@ import Rating from "@material-ui/lab/Rating";
 import Ripples from "react-ripples";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import TikiNow from "../../image/aumart-now.png";
+import AumartNow from "../../image/aumart-now.png";
 import DealTag from "../../image/dealTag.png";
 import userStyles from "../../styles/CardStyles";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -15,7 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import TikiArrow from "../../image/aumartArrow.png";
+import AumartArrow from "../../image/aumartArrow.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
@@ -243,7 +243,7 @@ const Card = (props) => {
                             >
                                 <div>
                                     <img
-                                        src={TikiNow}
+                                        src={AumartNow}
                                         alt="aumartnow"
                                         width={"70%"}
                                     />{" "}
@@ -457,13 +457,13 @@ const Card = (props) => {
                                         }
                                         className={classes.removeLinkStyle}
                                     >
-                                        <img src={TikiNow} alt={"aumartnow"} />{" "}
+                                        <img src={AumartNow} alt={"aumartnow"} />{" "}
                                         | {props.name}
                                     </Link>
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
                                     <img
-                                        src={TikiArrow}
+                                        src={AumartArrow}
                                         className={classes.aumartArrow}
                                         alt={"aumart arrow "}
                                     />{" "}

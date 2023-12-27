@@ -33,7 +33,7 @@ const HomePage = (props) => {
     const user = useSelector((state) => state.auth.user);
     const products = useSelector((state) => state.products.products);
     const saleProducts = useSelector((state) => state.products.saleProducts);
-    const [seeMoreDiscountedProd] = useState(10);
+    const [seeMoreDiscountedProd] = useState(20);
     const [loadingDisProd] = useState(false);
     const [seeMoreProd] = useState(20);
     const [loadingProd] = useState(false);

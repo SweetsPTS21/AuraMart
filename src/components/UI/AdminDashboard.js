@@ -124,8 +124,7 @@ const AdminDashBoard = (props) => {
     return (
         <div style={{ zIndex: "-1", minWidth: "1422px" }}>
             <DashboardHeader user={user} />
-            <div style={{ height: "64px" }}></div>
-            <Grid container>
+            <Grid container style={{marginTop: "64px"}}>
                 <Grid item xs={2} className={classes.sideBar}>
                     <List
                         component="nav"
@@ -135,8 +134,8 @@ const AdminDashBoard = (props) => {
                         {renderMenuItems()}
                     </List>
                 </Grid>
-                <Grid item xs={10} style={{ padding: 0 }}>
-                    <Grid container style={{ marginBottom: "1em" }}>
+                <Grid item xs={10} style={{ padding: 0, height: "calc(100vh - 64px)", overflowY: "scroll"}}>
+                    <Grid container  style={{ marginBottom: "1em"}}>
                         {renderMenuItemComponent()}
                     </Grid>
                 </Grid>

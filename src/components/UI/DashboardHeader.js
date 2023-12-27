@@ -75,7 +75,7 @@ const DashboardHeader = (props) => {
                                 ? "Kênh quản lý"
                                 : "Kênh người bán"}
                         </Typography>
-                        {shop && (
+                        {shop && shop.status === "active" && (
                             <Link to={`/aumart/shops/${shop.id}`}>
                                 <Button
                                     style={{

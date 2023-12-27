@@ -73,7 +73,7 @@ const userStyles = makeStyles(() => ({
     },
 }));
 
-const MyTikiXuManager = () => {
+const MyAumartXuManager = () => {
     const classes = userStyles();
     const [supplier, setSupplier] = useState("");
     const [giftCode, setGiftCode] = useState("");
@@ -81,7 +81,7 @@ const MyTikiXuManager = () => {
 
     return (
         <div style={{ width: "80%" }}>
-            <div className={classes.title}>My Tiki Xu manager</div>
+            <div className={classes.title}>My Aumart Xu manager</div>
             <div
                 className={classes.grid}
                 style={{ textAlign: "center", padding: "0.5em" }}
@@ -111,12 +111,12 @@ const MyTikiXuManager = () => {
                     <span style={{ color: "#41D67E", fontWeight: "bold" }}>
                         0
                     </span>{" "}
-                    Tiki Xu in your account
+                    Aumart Xu in your account
                 </p>
             </div>
 
             <div className={classes.title} style={{ marginTop: "1em" }}>
-                CHANGE GIFT CODE TO TIKI XU
+                CHANGE GIFT CODE TO Aumart XU
             </div>
             <ValidatorForm
                 onSubmit={handleSubmit}
@@ -169,7 +169,7 @@ const MyTikiXuManager = () => {
                                             marginBottom: 0,
                                         }}
                                     >
-                                        Tiki
+                                        Aumart
                                     </p>
                                 </section>
                             </MenuItem>
@@ -225,34 +225,34 @@ const MyTikiXuManager = () => {
                             marginTop: "2em",
                         }}
                     >
-                        Change to Tiki Xu
+                        Change to Aumart Xu
                     </Button>
                 </FormGroup>
             </ValidatorForm>
             <div className={classes.title} style={{ marginTop: "1em" }}>
-                ABOUT TIKI XU
+                ABOUT Aumart XU
             </div>
             <div className={classes.grid} style={{ padding: "1.5em" }}>
                 <p>
                     <span style={{ color: "#FF9100", marginRight: "0.2em" }}>
                         &#9673;
                     </span>
-                    Tiki Xu is a reward system for customers <br />
-                    <span style={{ marginLeft: "1em" }}>of Tiki.vn</span>
+                    Aumart Xu is a reward system for customers <br />
+                    <span style={{ marginLeft: "1em" }}>of Aumart.vn</span>
                 </p>
                 <p>
                     <span style={{ color: "#FF9100", marginRight: "0.2em" }}>
                         &#9673;
                     </span>
-                    1,000 Tiki Xu = 1,000 VND
+                    1,000 Aumart Xu = 1,000 VND
                 </p>
                 <p>
                     <span style={{ color: "#FF9100", marginRight: "0.2em" }}>
                         &#9673;
                     </span>
-                    Customers receive Tiki Xu when making purchases or <br />
+                    Customers receive Aumart Xu when making purchases or <br />
                     <span style={{ marginLeft: "1em" }}>
-                        interacting with the Tiki.vn mobile app and website
+                        interacting with the Aumart.vn mobile app and website
                     </span>
                 </p>
             </div>
@@ -260,4 +260,4 @@ const MyTikiXuManager = () => {
     );
 };
 
-export default MyTikiXuManager;
+export default MyAumartXuManager;

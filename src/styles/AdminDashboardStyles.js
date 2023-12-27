@@ -13,9 +13,8 @@ const useStyles = makeStyles(() => ({
     },
     sideBar: {
         margin: 0,
-        paddingTop: "1em !important",
         backgroundSize: "auto 80vh",
-        height: "100vh",
+        height: "calc(100vh - 64px)",
         backgroundColor: "#fff",
         backgroundBlendMode: "multiply",
     },

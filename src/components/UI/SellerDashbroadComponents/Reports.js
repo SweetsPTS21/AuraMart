@@ -296,7 +296,7 @@ const Reports = () => {
                             style={{ marginLeft: 0 }}
                         >
                             Ban đang tìm kiếm cách để tăng doanh số? Hãy thử
-                            dùng Quảng cáo Shopee!
+                            dùng Quảng cáo Aumart!
                         </div>
                         <Typography
                             style={{
@@ -305,7 +305,7 @@ const Reports = () => {
                                 color: "#666",
                             }}
                         >
-                            Trung bình, Quảng cáo Shopee đang giúp những người
+                            Trung bình, Quảng cáo Aumart đang giúp những người
                             bán sử dụng quảng cáo thu về 65% về số đơn đặt hàng.
                             Bắt đầu ngay hôm nay để tăng mức độ tiếp xúc và bán
                             hàng, và giúp Shop của bạn phát triển hơn nữa!

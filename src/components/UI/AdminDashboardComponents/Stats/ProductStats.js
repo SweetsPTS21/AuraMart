@@ -4,10 +4,10 @@ import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
 import Grid from "@material-ui/core/Grid";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardBody from "../Card/CardBody";
-import CardFooter from "../Card/CardFooter";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardBody from "../../../layout/Card/CardBody";
+import CardFooter from "../../../layout/Card/CardFooter";
 import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";

@@ -4,13 +4,13 @@ import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
-import TikiNow from "../../image/aumart-now.png";
+import AumartNow from "../../image/aumart-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import {Progress} from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import TikiTimerIcon from "../../image/aumart_timer.png";
+import AumartTimerIcon from "../../image/aumart_timer.png";
 // import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -403,7 +403,7 @@ const DealCounter = (props) => {
                     <FlashSale />
                     <span>
                         <img
-                            src={TikiTimerIcon}
+                            src={AumartTimerIcon}
                             style={{
                                 height: "24px",
                                 width: "24px",
@@ -573,7 +573,7 @@ const ProductPriceInfo = ({ product }) => {
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <img src={TikiNow} alt="aumart now logo" />{" "}
+                    <img src={AumartNow} alt="aumart now logo" />{" "}
                     <span style={{ margin: "0 0.5em" }}>|</span>
                     <span className={classes.title}>{product.name}</span>
                 </div>
@@ -1002,7 +1002,7 @@ const RecommendProd = (props) => {
     );
 };
 
-const TikiTranding = () => {
+const AumartTranding = () => {
     const classes = useStyles();
     return (
         <div
@@ -1217,7 +1217,7 @@ const ProductDetailInfo = ({ product }) => {
 //                     </div>
 //                     <div className={classes.answer}>No, you cant</div>
 //                     <div className={classes.answer}>
-//                         Tiki answered at:{" "}
+//                         Aumart answered at:{" "}
 //                         {Moment(Date.now()).format("MMMM DD,YYYY")}
 //                     </div>
 //                 </div>
@@ -1566,7 +1566,7 @@ const ProductDetailPage = (props) => {
                                                 product.shop ? product.shop : {}
                                             }
                                         />
-                                        <TikiTranding />
+                                        <AumartTranding />
                                         <ProductDetailInfo product={product} />
                                     </div>
                                 )}

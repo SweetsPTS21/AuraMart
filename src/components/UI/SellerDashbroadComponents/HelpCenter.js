@@ -232,7 +232,7 @@ const SellerForm = () => {
                 }}
             >
                 Bạn đang cần hỗ trợ? Sử dụng công cụ này để gửi yêu cầu đến
-                Shopee nhé. Chúng tôi sẽ hỗ trợ bạn trong thời gian sớm nhất có
+                Aumart nhé. Chúng tôi sẽ hỗ trợ bạn trong thời gian sớm nhất có
                 thể.
             </Typography>
             <Box sx={{ width: "100%" }}>
@@ -503,9 +503,9 @@ const SellerRequest = () => {
                 }}
             >
                 Quản lý và theo dõi tất cả các yêu cầu/ hỗ trợ từ Người Bán liên
-                hệ đến Shopee. Bạn có thể xem chi tiết của từng yêu cầu, bao gồm
+                hệ đến Aumart. Bạn có thể xem chi tiết của từng yêu cầu, bao gồm
                 lịch sử trò chuyện của bạn với Nhân Viên Chăm Sóc Khách Hàng của
-                Shopee.
+                Aumart.
             </Typography>
             <Box sx={{ width: "100%" }}>
                 <Box
@@ -640,7 +640,7 @@ const Question = () => {
                             fontWeight: "400",
                         }}
                     >
-                        Cách đăng ký tài khoản tại Tiki, chỉnh sửa thông tin cá
+                        Cách đăng ký tài khoản tại Aumart, chỉnh sửa thông tin cá
                         nhân, theo dõi đơn hàng...
                     </Typography>
                     <Link to="#">
@@ -773,7 +773,7 @@ const Question = () => {
                         }}
                     >
                         Chính sách của các dịch vụ và chương trình dành cho
-                        khách hàng Tiki
+                        khách hàng Aumart
                     </Typography>
                     <Link to="#">
                         <Typography variant="body1" className={classes.link}>
@@ -805,7 +805,7 @@ const Question = () => {
                             fontWeight: "600",
                         }}
                     >
-                        Thông tin về Tiki
+                        Thông tin về Aumart
                     </Typography>
                     <Typography
                         variant="body1"
@@ -817,7 +817,7 @@ const Question = () => {
                         }}
                     >
                         Quy chế hoạt động và chính sách của sàn thương mại điện
-                        tử Tiki
+                        tử Aumart
                     </Typography>
                     <Link to="#">
                         <Typography variant="body1" className={classes.link}>

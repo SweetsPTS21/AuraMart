@@ -129,7 +129,7 @@ function TabPanel(props) {
                     >
                         <img src={exclusive2} alt="ex" />
                         <br />
-                        <p>You are not registered with TikiNOW</p>
+                        <p>You are not registered with AumartNOW</p>
                     </section>
                 </Typography>
             ) : (
@@ -155,7 +155,7 @@ function a11yProps(index) {
     };
 }
 
-const InformationTikiNow = () => {
+const InformationAumartNow = () => {
     const classes = userStyles();
     const [tabValue, setTabValue] = useState("one");
 
@@ -178,19 +178,19 @@ const InformationTikiNow = () => {
                     aria-label="disabled tabs example"
                 >
                     <Tab
-                        label={"My TikiNow"}
+                        label={"My AumartNow"}
                         className={classes.tab}
                         value="one"
                         {...a11yProps("one")}
                     />
                     <Tab
-                        label={"TikiNow package purchase history"}
+                        label={"AumartNow package purchase history"}
                         className={classes.tab}
                         value="two"
                         {...a11yProps("two")}
                     />
                     <Tab
-                        label={"Orders using TikiNow"}
+                        label={"Orders using AumartNow"}
                         className={classes.tab}
                         value="three"
                         {...a11yProps("three")}
@@ -220,7 +220,7 @@ const InformationTikiNow = () => {
                             Register only 499,000 VND / 1 year
                         </Button>
                     </div>
-                    <div className={classes.title}>Exclusive TikiNOW deals</div>
+                    <div className={classes.title}>Exclusive AumartNOW deals</div>
                     <div
                         className={classes.grid}
                         style={{
@@ -267,9 +267,9 @@ const InformationTikiNow = () => {
                             <p style={{ fontSize: "0.8em" }}>
                                 {" "}
                                 <b>30 days exchange free return</b> <br />
-                                As a TikiNOW member, you will receive <br />{" "}
+                                As a AumartNOW member, you will receive <br />{" "}
                                 special policies of up to 30 days free <br />{" "}
-                                exchange for Tiki Trading products.
+                                exchange for Aumart Trading products.
                             </p>
                         </section>
                     </div>
@@ -285,4 +285,4 @@ const InformationTikiNow = () => {
     );
 };
 
-export default InformationTikiNow;
+export default InformationAumartNow;

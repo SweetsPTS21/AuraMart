@@ -117,11 +117,6 @@ function App() {
                             path={"/seller/register"}
                             element={<SellerPage />}
                         />
-                        {/*<Route*/}
-                        {/*    exact*/}
-                        {/*    path={"/admin/register"}*/}
-                        {/*    render={(routeProps) => <HomePage {...routeProps} showForm={true} adminForm={true} mustBeLoggedOut={true}/>}*/}
-                        {/*/>*/}
 
                         <Route
                             exact

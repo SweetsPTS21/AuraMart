@@ -3,15 +3,15 @@ import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardIcon from "../Card/CardIcon";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardIcon from "../../../layout/Card/CardIcon";
 
 import { Accessibility, Update } from "@material-ui/icons";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts";
 
-import CardFooter from "../Card/CardFooter";
+import CardFooter from "../../../layout/Card/CardFooter";
 import {
     Autocomplete,
     Button,

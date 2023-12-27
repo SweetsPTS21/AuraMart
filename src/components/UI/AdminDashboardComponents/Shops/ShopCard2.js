@@ -1,12 +1,12 @@
 import userStyles from "../styles/FindAUserStyles";
 import React, { useState } from "react";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
 import TodayIcon from "@material-ui/icons/Today";
 import Moment2 from "moment";
-import CardBody from "../Card/CardBody";
+import CardBody from "../../../layout/Card/CardBody";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
-import CardFooter from "../Card/CardFooter";
+import CardFooter from "../../../layout/Card/CardFooter";
 import Moment from "react-moment";
 
 export const ShopCard = ({ shop, setCurrentShop, toggleShop }) => {

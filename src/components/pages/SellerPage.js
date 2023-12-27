@@ -11,14 +11,15 @@ const SellerPage = (props) => {
 
     return (
         <div style={{ backgroundColor: "#EEEEEE" }}>
-            <NavBar {...props} />
             {user && user.role !== "user" ? (
                 <SellerDashbroad index={index} />
             ) : (
-                <SellerRegister />
+                <>
+                    <NavBar {...props} />
+                    <SellerRegister />
+                    <Footer />
+                </>
             )}
-
-            <Footer />
         </div>
     );
 };

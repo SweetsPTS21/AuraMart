@@ -215,7 +215,7 @@ const Question = () => {
                             fontWeight: "400",
                         }}
                     >
-                        Cách đăng ký tài khoản tại Tiki, chỉnh sửa thông tin cá
+                        Cách đăng ký tài khoản tại Aumart, chỉnh sửa thông tin cá
                         nhân, theo dõi đơn hàng...
                     </Typography>
                     <Link to="#">
@@ -348,7 +348,7 @@ const Question = () => {
                         }}
                     >
                         Chính sách của các dịch vụ và chương trình dành cho
-                        khách hàng Tiki
+                        khách hàng Aumart
                     </Typography>
                     <Link to="#">
                         <Typography variant="body1" className={classes.link}>
@@ -380,7 +380,7 @@ const Question = () => {
                             fontWeight: "600",
                         }}
                     >
-                        Thông tin về Tiki
+                        Thông tin về Aumart
                     </Typography>
                     <Typography
                         variant="body1"
@@ -392,7 +392,7 @@ const Question = () => {
                         }}
                     >
                         Quy chế hoạt động và chính sách của sàn thương mại điện
-                        tử Tiki
+                        tử Aumart
                     </Typography>
                     <Link to="#">
                         <Typography variant="body1" className={classes.link}>

@@ -6,10 +6,10 @@ import OrderStats from "../AdminDashboardComponents/Stats/OrderStats";
 import { getAllOrdersOfAShop } from "../../../store/actions/orderActions";
 import { getProductsByShopId } from "../../../store/actions/productActions";
 import ProductStats from "../AdminDashboardComponents/Stats/ProductStats";
-import Card from "../AdminDashboardComponents/Card/Card";
-import CardHeader from "../AdminDashboardComponents/Card/CardHeader";
-import CardIcon from "../AdminDashboardComponents/Card/CardIcon";
-import CardFooter from "../AdminDashboardComponents/Card/CardFooter";
+import Card from "../../layout/Card/Card";
+import CardHeader from "../../layout/Card/CardHeader";
+import CardIcon from "../../layout/Card/CardIcon";
+import CardFooter from "../../layout/Card/CardFooter";
 import Moment from "react-moment";
 import {
     Accessibility,

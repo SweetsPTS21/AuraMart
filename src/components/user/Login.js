@@ -211,7 +211,7 @@ const Login = (props) => {
                         color: "#bbb",
                     }}
                 >
-                    Bằng việc tiếp tục, bạn đã đọc và đồng ý với điều khoản sử dụng và Chính sách bảo mật thông tin cá nhân của Tiki
+                    Bằng việc tiếp tục, bạn đã đọc và đồng ý với điều khoản sử dụng và Chính sách bảo mật thông tin cá nhân của Aumart
                 </Typography>
             </Grid>
         </Grid>

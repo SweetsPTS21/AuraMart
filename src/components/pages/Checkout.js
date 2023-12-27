@@ -6,7 +6,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import TikiLogo from "../../image/logo.png";
+import AumartLogo from "../../image/logo.png";
 import Grid from "@material-ui/core/Grid";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -1254,7 +1254,7 @@ const Checkout = () => {
                     <Grid item xs={1}>
                         <Link to={"/"}>
                             <img
-                                src={TikiLogo}
+                                src={AumartLogo}
                                 style={{
                                     width: "95px",
                                     height: "95px",
