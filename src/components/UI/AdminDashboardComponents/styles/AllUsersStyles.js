@@ -5,7 +5,7 @@ import {
     whiteColor,
 } from "../../../layout/Card/styles/material-dashboard-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { defaultFont } from "../Card/styles/material-dashboard-react";
+import { defaultFont } from "../../../layout/Card/styles/material-dashboard-react";
 
 const useStyles = makeStyles(() => ({
     successText: {
