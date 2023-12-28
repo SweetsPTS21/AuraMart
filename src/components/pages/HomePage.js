@@ -167,7 +167,7 @@ const HomePage = (props) => {
                         <div style={{ margin: "0" }}>
                             <TopProducts itemWidth={"170px"} type={"slider"} />
                             <ItemContainer
-                                length={saleProducts.length}
+                                length={saleProducts && saleProducts.length}
                                 type={"slider"}
                                 loading={loadingDisProd}
                                 timeInMilliSec={
