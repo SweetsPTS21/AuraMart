@@ -405,7 +405,7 @@ const CartPage = (props) => {
         return (
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={9}>
-                    <h5 style={{ marginBottom: "1em" }}>Your cart</h5>
+                    <h5 style={{ marginBottom: "1em" }}>Giỏ hàng</h5>
                     {itemList}
                 </Grid>
                 <Grid item xs={3}>
@@ -460,7 +460,7 @@ const CartPage = (props) => {
                             color="secondary"
                             style={{ marginTop: 10 }}
                         >
-                            Order
+                            Đặt hàng
                         </Button>
                     </Link>
                 </Grid>

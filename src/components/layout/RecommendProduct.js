@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../UI/Card";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ItemContainer from "../UI/ItemContainer";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
 import { getRecommendedProducts } from "../../store/actions/productActions";
 
-
-
 const RecommendProduct = (props) => {
-    const { user, itemWidth, type } = props;
+    const { user, itemWidth, type, rerender } = props;
     const dispatch = useDispatch();
 
     const recommendProds = useSelector(
@@ -32,7 +30,7 @@ const RecommendProduct = (props) => {
                         <Card
                             key={prod.id}
                             id={prod.id}
-                            type={"review"}
+                            type="review"
                             slug={prod.slug}
                             price={prod.price}
                             discount={
@@ -47,29 +45,28 @@ const RecommendProduct = (props) => {
                             rating={prod.averageRating}
                             link={true}
                             style={{ height: "330px", width: "170px" }}
+                            rerender={rerender}
                         />
                     )
             )
         );
     };
 
-    return (
-        recommendProds ? (
-            <div style={{marginTop: "1.5em", marginBottom: "0.6em"}}>
-                <ItemContainer
-                    length={recommendProds.length}
-                    type={type}
-                    title={"Gợi ý cho bạn"}
-                    loading={loadingProd}
-                    itemWidth={itemWidth}
-                >
-                    {renderRecommendProd()}
-                </ItemContainer>
-            </div>
-        ) : (
-            <p>no recommend product</p>
-        )
-    )
-}
+    return recommendProds ? (
+        <div style={{ marginTop: "1.5em", marginBottom: "0.6em" }}>
+            <ItemContainer
+                length={recommendProds.length}
+                type={type}
+                title={"Gợi ý cho bạn"}
+                loading={loadingProd}
+                itemWidth={itemWidth}
+            >
+                {renderRecommendProd()}
+            </ItemContainer>
+        </div>
+    ) : (
+        <h6>Không có sản phẩm đề xuất nào</h6>
+    );
+};
 
 export default RecommendProduct;

@@ -56,7 +56,8 @@ const HomePage = (props) => {
     }
 
     const renderDiscountedProd = () => {
-        return ( saleProducts &&
+        return (
+            saleProducts &&
             saleProducts.length > 0 &&
             saleProducts.map(
                 (prod, index) =>
@@ -166,20 +167,21 @@ const HomePage = (props) => {
 
                         <div style={{ margin: "0" }}>
                             <TopProducts itemWidth={"170px"} type={"slider"} />
-                            <ItemContainer
-                                length={saleProducts && saleProducts.length}
-                                type={"slider"}
-                                loading={loadingDisProd}
-                                timeInMilliSec={
-                                    (Math.floor(Math.random() * 10) + 2) *
-                                    100000
-                                } // 50 seconds
-                                todayOnly={true}
-                                itemWidth={"170px"}
-                            >
-                                {renderDiscountedProd()}
-                            </ItemContainer>
-
+                            {saleProducts && saleProducts.length > 0 && (
+                                <ItemContainer
+                                    length={saleProducts.length}
+                                    type={"slider"}
+                                    loading={loadingDisProd}
+                                    timeInMilliSec={
+                                        (Math.floor(Math.random() * 10) + 2) *
+                                        100000
+                                    } // 50 seconds
+                                    todayOnly={true}
+                                    itemWidth={"170px"}
+                                >
+                                    {renderDiscountedProd()}
+                                </ItemContainer>
+                            )}
                             <InterestedProducts />
                             <HotKeyword />
                             {products !== null && (
@@ -193,7 +195,7 @@ const HomePage = (props) => {
                                     {renderProd()}
                                 </ItemContainer>
                             )}
-                            <RecommendProduct user={user} itemWidth={"170px"} />
+                            <RecommendProduct user={user} itemWidth={"170px"}/>
                         </div>
                         <Footer />
                     </div>

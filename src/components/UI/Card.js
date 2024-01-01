@@ -18,14 +18,159 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import AumartArrow from "../../image/aumartArrow.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { message } from "antd";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 
+const RecommendProduct = (props) => {
+    const classes = userStyles();
+    const { reviews, discounted_price } = props;
+
+    const formatVND = (x) => {
+        let formatter = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
+
+        return formatter.format(x);
+    };
+
+    return (
+        <div
+            className={classes.container}
+            onClick={props.onClick !== undefined ? props.onClick : undefined}
+            style={{ ...props.style }}
+        >
+            <div>
+                <img
+                    src={props.image}
+                    alt="product"
+                    width={"100%"}
+                    style={{
+                        borderRadius: "3px",
+                        maxHeight: "180px",
+                        minHeight: "160px",
+                    }}
+                />{" "}
+                <br />
+            </div>
+            <div>
+                {props.count !== undefined && (
+                    <p
+                        style={{
+                            marginBottom: 0,
+                            marginTop: "0.5em",
+                            fontWeight: 500,
+                            fontSize: "0.8em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        Đã bán {props.count} sản phẩm
+                    </p>
+                )}
+                <Grid container style={{ marginBottom: "0.5em" }}>
+                    <Grid item className={classes.title__container}>
+                        <span className={classes.title}>{props.title}</span>
+                    </Grid>
+                </Grid>
+
+                {props.discount !== undefined && props.discount > 0 ? (
+                    <>
+                        <p style={{ marginBottom: 0 }}>
+                            <span style={{ fontWeight: 500 }}>
+                                {discounted_price()}
+                            </span>
+                            <span className={classes.discount}>
+                                {" "}
+                                -{props.discount}%
+                            </span>
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <p style={{ marginBottom: 0 }}>
+                            <span style={{ fontWeight: 500 }}>
+                                {formatVND(props.price)}
+                            </span>
+                        </p>
+                    </>
+                )}
+
+                <p style={{ margin: 0 }}>
+                    <IconButton
+                        aria-label=""
+                        color="inherit"
+                        style={{
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                            paddingTop: "0.1em",
+                            paddingBottom: "0.1em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        <Icon
+                            className={"fas fa-angle-double-right"}
+                            style={{
+                                paddingLeft: 0,
+                                paddingRight: 0,
+                                fontSize: "1.25vw",
+                            }}
+                        />
+                    </IconButton>
+                    <span
+                        style={{
+                            fontWeight: 500,
+                            fontSize: "0.8em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        Giao hàng 2h
+                    </span>
+                </p>
+                <div
+                    style={{
+                        marginBottom: "0.2rem",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Rating
+                        name="half-rating-read"
+                        defaultValue={
+                            props.rating !== undefined ? props.rating : 3
+                        }
+                        precision={0.5}
+                        readOnly
+                        size="small"
+                        style={{
+                            width: "50%",
+                            margin: 0,
+                            fontSize: "0.9rem",
+                            alignItems: "center",
+                        }}
+                    />
+                    <p
+                        className={classes.title}
+                        style={{
+                            width: "50%",
+                            marginBottom: 0,
+                            alignItems: "center",
+                        }}
+                    >
+                        {" "}
+                        ({reviews} đánh giá)
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Card = (props) => {
     const classes = userStyles();
+    const navigate = useNavigate();
     const reviews = useSelector((state) => state.reviews.allReviews);
     const [amount, setAmount] = useState(
         props.quantity !== undefined ? props.quantity : null
@@ -40,6 +185,7 @@ const Card = (props) => {
             parseInt(props.price) * (parseInt(props.discount) / 100);
         return formatVND(discounted_price);
     };
+
     const formatVND = (x) => {
         let formatter = new Intl.NumberFormat("vi-VN", {
             style: "currency",
@@ -60,6 +206,12 @@ const Card = (props) => {
                 return null;
             });
         return reviewsLength;
+    };
+
+    const navigateToProduct = () => {
+        // navigate(`/${props.slug}/${props.id}`, { replace: true });
+        navigate(`/${props.slug}/${props.id}`, { replace: true });
+        window.location.reload();
     };
 
     useEffect(() => {
@@ -133,6 +285,7 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
+
     // Card section for deal of the day
     const type2 = (
         <Ripples>
@@ -266,151 +419,34 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
+
     // Recommened for you section/review section
     const type3 = (
         <Ripples>
-            <Link
-                to={
-                    props.link !== undefined && props.link !== false
-                        ? `/${props.slug}/${props.id}`
-                        : "#"
-                }
-                className={classes.removeLinkStyle}
-            >
-                <div
-                    className={classes.container}
-                    onClick={
-                        props.onClick !== undefined ? props.onClick : undefined
-                    }
-                    style={{ ...props.style }}
-                >
-                    <div>
-                        <img
-                            src={props.image}
-                            alt="product"
-                            width={"100%"}
-                            style={{
-                                borderRadius: "3px",
-                                maxHeight: "180px",
-                                minHeight: "160px",
-                            }}
-                        />{" "}
-                        <br />
-                    </div>
-                    <div>
-                        {props.count !== undefined && (
-                            <p
-                                style={{
-                                    marginBottom: 0,
-                                    marginTop: "0.5em",
-                                    fontWeight: 500,
-                                    fontSize: "0.8em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                Đã bán {props.count} sản phẩm
-                            </p>
-                        )}
-                        <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid item className={classes.title__container}>
-                                <span className={classes.title}>
-                                    {props.title}
-                                </span>
-                            </Grid>
-                        </Grid>
-
-                        {props.discount !== undefined && props.discount > 0 ? (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
-                                        {discounted_price()}
-                                    </span>
-                                    <span className={classes.discount}>
-                                        {" "}
-                                        -{props.discount}%
-                                    </span>
-                                </p>
-                            </>
-                        ) : (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
-                                        {formatVND(props.price)}
-                                    </span>
-                                </p>
-                            </>
-                        )}
-
-                        <p style={{ margin: 0 }}>
-                            <IconButton
-                                aria-label=""
-                                color="inherit"
-                                style={{
-                                    paddingLeft: 0,
-                                    paddingRight: 0,
-                                    paddingTop: "0.1em",
-                                    paddingBottom: "0.1em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                <Icon
-                                    className={"fas fa-angle-double-right"}
-                                    style={{
-                                        paddingLeft: 0,
-                                        paddingRight: 0,
-                                        fontSize: "1.25vw",
-                                    }}
-                                />
-                            </IconButton>
-                            <span
-                                style={{
-                                    fontWeight: 500,
-                                    fontSize: "0.8em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                Fast delivery 2h
-                            </span>
-                        </p>
-                        <div
-                            style={{
-                                marginBottom: "0.2rem",
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Rating
-                                name="half-rating-read"
-                                defaultValue={
-                                    props.rating !== undefined
-                                        ? props.rating
-                                        : 3
-                                }
-                                precision={0.5}
-                                readOnly
-                                size="small"
-                                style={{
-                                    width: "50%",
-                                    margin: 0,
-                                    fontSize: "0.9rem",
-                                    alignItems: "center",
-                                }}
-                            />
-                            <p
-                                className={classes.title}
-                                style={{
-                                    width: "50%",
-                                    marginBottom: 0,
-                                    alignItems: "center",
-                                }}
-                            >
-                                {" "}
-                                ({getProductReviewLength()} reviews)
-                            </p>
-                        </div>
-                    </div>
+            {props.rerender ? (
+                <div onClick={navigateToProduct}>
+                    <RecommendProduct
+                        {...props}
+                        reviews={getProductReviewLength()}
+                        discounted_price={discounted_price}
+                    />
                 </div>
-            </Link>
+            ) : (
+                <Link
+                    to={
+                        props.link !== undefined && props.link !== false
+                            ? `/${props.slug}/${props.id}`
+                            : "#"
+                    }
+                    className={classes.removeLinkStyle}
+                >
+                    <RecommendProduct
+                        {...props}
+                        reviews={getProductReviewLength()}
+                        discounted_price={discounted_price}
+                    />
+                </Link>
+            )}
         </Ripples>
     );
 
@@ -457,7 +493,10 @@ const Card = (props) => {
                                         }
                                         className={classes.removeLinkStyle}
                                     >
-                                        <img src={AumartNow} alt={"aumartnow"} />{" "}
+                                        <img
+                                            src={AumartNow}
+                                            alt={"aumartnow"}
+                                        />{" "}
                                         | {props.name}
                                     </Link>
                                 </Typography>
@@ -467,13 +506,16 @@ const Card = (props) => {
                                         className={classes.aumartArrow}
                                         alt={"aumart arrow "}
                                     />{" "}
-                                    Ship in 2h
+                                    Giao hàng 2h
                                 </Typography>
                                 {props.colors && (
-                                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                                    <FormControl
+                                        sx={{ m: 1, minWidth: 120 }}
+                                        size="small"
+                                    >
                                         <Select
                                             label="Color"
-                                            variant="standard"                                            
+                                            variant="standard"
                                             value={color}
                                             onChange={(e) =>
                                                 setColor(e.target.value)
@@ -501,10 +543,10 @@ const Card = (props) => {
                                         props.deleteItem
                                     }
                                 >
-                                    Remove
+                                    Xóa
                                 </Button>
                                 <Button size="small" color="primary">
-                                    Buy later
+                                    Mua sau
                                 </Button>
                             </Grid>
                         </Grid>
@@ -597,7 +639,7 @@ const Card = (props) => {
             </Paper>
         </div>
     );
-    
+
     const handleCardType = (type) => {
         switch (type) {
             case "default":

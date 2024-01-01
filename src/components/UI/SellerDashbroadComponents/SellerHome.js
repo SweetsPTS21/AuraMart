@@ -27,13 +27,14 @@ import {
 
 import ReviewStats from "../AdminDashboardComponents/Stats/ReviewStats";
 import { getShopStats } from "../../../store/actions/statsActions";
+import { getConfigsByShopId } from "../../../store/actions/configActions";
+import { getAllStocksOfAShop } from "../../../store/actions/stockActions";
 
 const useStyles = makeStyles(() => ({
     root: {
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        // marginTop: "20px",
     },
 
     container: {
@@ -125,7 +126,9 @@ const HomeConfig = () => {
                             <Store />
                         </CardIcon>
                         <p className={classes.cardCategory}>Sản phẩm</p>
-                        <h3 className={classes.cardTitle}>{ statistic && statistic.products}</h3>
+                        <h3 className={classes.cardTitle}>
+                            {statistic && statistic.products}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -218,7 +221,9 @@ const HomeConfig = () => {
                             <CommentRounded />
                         </CardIcon>
                         <p className={classes.cardCategory}>Phản hồi</p>
-                        <h3 className={classes.cardTitle}>{statistic && statistic.reviews}</h3>
+                        <h3 className={classes.cardTitle}>
+                            {statistic && statistic.reviews}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -323,6 +328,8 @@ const SellerHome = () => {
     useEffect(() => {
         if (shop) {
             dispatch(getAllOrdersOfAShop(shop.id));
+            dispatch(getConfigsByShopId(shop.id));
+            dispatch(getAllStocksOfAShop(shop.id));
             dispatch(getProductsByShopId(shop.id));
             dispatch(getShopStats(shop.id));
         }
@@ -331,7 +338,7 @@ const SellerHome = () => {
     return (
         <div className={classes.root}>
             <Grid container className={classes.container} spacing={3}>
-                <HomeConfig/>
+                <HomeConfig />
                 <ShopStatistic
                     products={products}
                     orders={orders}

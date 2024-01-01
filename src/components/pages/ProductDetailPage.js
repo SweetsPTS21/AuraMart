@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
 import AumartNow from "../../image/aumart-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
-import {Progress} from "reactstrap";
+import { Progress } from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import AumartTimerIcon from "../../image/aumart_timer.png";
@@ -31,8 +31,8 @@ import Select from "@material-ui/core/Select";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
-import {SideBySideMagnifier} from "react-image-magnifiers";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { SideBySideMagnifier } from "react-image-magnifiers";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
     ChangeCircleOutlined,
@@ -42,21 +42,34 @@ import {
     StoreRounded,
 } from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
 import * as productActions from "../../store/actions/productActions";
 import * as reviewActions from "../../store/actions/reviewActions";
 import * as addressActions from "../../store/actions/addressActions";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // import TransitionsModal from "../user/UserModal";
-import {message} from "antd";
+import { message } from "antd";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
 import ReviewCard from "../layout/ReviewCard";
-import {ArchiveRounded, ArrowForwardIosRounded, LocalShippingOutlined, RefreshRounded,} from "@material-ui/icons";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Typography,} from "@material-ui/core";
+import {
+    ArchiveRounded,
+    ArrowForwardIosRounded,
+    LocalShippingOutlined,
+    RefreshRounded,
+} from "@material-ui/icons";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Typography,
+} from "@material-ui/core";
 import defaultAvatar from "../../image/shopAvatar.jpg";
-import {ReactComponent as FlashSale} from "../../image/flashsale.svg";
+import Sample1 from "../../image/sample1.png";
+import Sample2 from "../../image/sample2.png";
+import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -326,9 +339,6 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
 const ImageList = ({ product, setCurrentImg }) => {
     const classes = useStyles();
 
-    const src = "https://images.unsplash.com/photo-1444065381814-865dc9da92c0";
-    const src2 =
-        "https://images.unsplash.com/photo-1518843025960-d60217f226f5?ixlib=rb-1.2.1&dpr=1&auto=format&fit=crop&w=416&h=312&q=60";
     return (
         <div className={classes.image}>
             <List
@@ -357,23 +367,23 @@ const ImageList = ({ product, setCurrentImg }) => {
                 </ListItem>
                 <ListItem
                     button
-                    onClick={() => setCurrentImg(src)}
+                    onClick={() => setCurrentImg(Sample1)}
                     style={{ padding: "0, 2em", justifyContent: "center" }}
                 >
                     <img
                         style={{ maxWidth: "5.5em", borderRadius: "0.5em" }}
-                        src={src}
+                        src={Sample1}
                         alt={"listItemImage"}
                     />
                 </ListItem>
                 <ListItem
                     button
-                    onClick={() => setCurrentImg(src2)}
+                    onClick={() => setCurrentImg(Sample2)}
                     style={{ padding: "0, 2em", justifyContent: "center" }}
                 >
                     <img
                         style={{ maxWidth: "5.5em", borderRadius: "0.5em" }}
-                        src={src2}
+                        src={Sample2}
                         alt={"listItemImage"}
                     />
                 </ListItem>
@@ -384,9 +394,9 @@ const ImageList = ({ product, setCurrentImg }) => {
 
 const DealCounter = (props) => {
     const { product, timeInMilliSec } = props;
-    const soldPercent = Math.floor(
-        (product.sale.soldQuantity / product.sale.quantity) * 100
-    );
+    const soldPercent =
+        product.sale &&
+        Math.floor((product.sale.soldQuantity / product.sale.quantity) * 100);
     return (
         product &&
         product.sale && (
@@ -1185,57 +1195,6 @@ const ProductDetailInfo = ({ product }) => {
     );
 };
 
-//     const classes = useStyles();
-//     return (
-//         <div className={classes.block} style={{ margin: 0 }}>
-//             <div
-//                 style={{
-//                     fontSize: "1.1em",
-//                     fontWeight: 400,
-//                     marginBottom: "0.3em",
-//                 }}
-//             >
-//                 Câu hỏi liên quan
-//             </div>
-//             <div className={classes.grid} style={{ padding: "2em" }}>
-//                 <div
-//                     style={{
-//                         display: "inline-block",
-//                         marginRight: "3em",
-//                         marginLeft: "2em",
-//                         textAlign: "center",
-//                     }}
-//                 >
-//                     <div style={{ fontSize: "1.2em" }}>
-//                         <b>0</b>
-//                     </div>
-//                     <div>likes</div>
-//                 </div>
-//                 <div style={{ display: "inline-block" }}>
-//                     <div className={classes.question}>
-//                         Can I change the product when it is broken?
-//                     </div>
-//                     <div className={classes.answer}>No, you cant</div>
-//                     <div className={classes.answer}>
-//                         Aumart answered at:{" "}
-//                         {Moment(Date.now()).format("MMMM DD,YYYY")}
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// const theme = createTheme({
-//     overrides: {
-//         MuiButton: {
-//             contained: {
-//                 backgroundColor: "#FDD22F",
-//             },
-//         },
-//     },
-// });
-
 const ProductReview = ({ product, reviews }) => {
     const classes = useStyles();
     const [stars, setStars] = useState([0, 0, 0, 0, 0]);
@@ -1367,8 +1326,7 @@ const ProductReview = ({ product, reviews }) => {
                 </Grid>
                 <Grid item xs={12} style={{ paddingTop: "1em" }}>
                     <div className="review">
-                        {reviews !== null &&
-                            reviews.length > 0 &&
+                        {reviews !== null && reviews.length > 0 ? (
                             reviews.map((review, index) => (
                                 <ReviewCard
                                     review={review}
@@ -1376,7 +1334,25 @@ const ProductReview = ({ product, reviews }) => {
                                     product={product}
                                     type={"product"}
                                 />
-                            ))}
+                            ))
+                        ) : (
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    padding: "2em",
+                                    backgroundColor: "#f6f8fc",
+                                }}
+                            >
+                                <Typography
+                                    style={{
+                                        fontSize: "1.2em",
+                                        color: "#0a68ff",
+                                    }}
+                                >
+                                    {"Không có đánh giá nào :(("}
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </Grid>
             </Grid>
@@ -1587,6 +1563,7 @@ const ProductDetailPage = (props) => {
                                     user={user}
                                     itemWidth={"170px"}
                                     type={"slider"}
+                                    rerender={true}
                                 />
                             </Grid>
                             <Grid
@@ -1597,6 +1574,7 @@ const ProductDetailPage = (props) => {
                                 <TopProducts
                                     itemWidth={"170px"}
                                     type={"slider"}
+                                    rerender={true}
                                 />
                             </Grid>
                             <Grid item xs={12} style={{ padding: "0.5em" }}>

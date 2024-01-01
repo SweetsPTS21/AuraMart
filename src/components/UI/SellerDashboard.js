@@ -27,8 +27,6 @@ import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
 import DashboardHeader from "./DashboardHeader";
 
 import * as shopActions from "../../store/actions/shopActions";
-import { getConfigsByShopId } from "../../store/actions/configActions";
-import { getAllStocksOfAShop } from "../../store/actions/stockActions";
 import { Typography } from "antd";
 
 const SellerDashbroad = () => {
@@ -42,13 +40,6 @@ const SellerDashbroad = () => {
     useEffect(() => {
         if (user && (user.role === "seller" || user.role === "admin"))
             dispatch(shopActions.getShopByUserId(user._id));
-    }, []);
-
-    useEffect(() => {
-        if (shop) {
-            dispatch(getConfigsByShopId(shop.id));
-            dispatch(getAllStocksOfAShop(shop.id));
-        }
     }, []);
 
     const options = [

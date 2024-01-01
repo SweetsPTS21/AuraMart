@@ -8,7 +8,7 @@ import NoPhoto from "../../image/nophoto.png";
 import * as statsActions from "../../store/actions/statsActions";
 
 const TopProducts = (props) => {
-    const { itemWidth, type } = props;
+    const { itemWidth, type, rerender } = props;
     const dispatch = useDispatch();
     const allProducts = useSelector((state) => state.products.products);
     const topProducts = useSelector((state) => state.stats.topProducts);
@@ -28,17 +28,12 @@ const TopProducts = (props) => {
                 let prod = getProductDetails(product._id);
                 return prod ? (
                     <Card
-                        style={{
-                            width: itemWidth,
-                            backgroundColor: "#fff",
-                            marginRight: "0.5em",
-                        }}
-                        key={prod ? prod.id : ""}
-                        id={prod ? prod.id : ""}
-                        slug={prod ? prod.slug : ""}
+                        key={prod.id}
+                        id={prod.id}
+                        slug={prod.slug}
                         type={"review"}
                         price={prod.price}
-                        discount={prod ? prod.discount : 0}
+                        discount={prod.discount}
                         title={prod.name}
                         image={
                             prod.photo === "no-photo.jpg" ? NoPhoto : prod.photo
@@ -46,13 +41,15 @@ const TopProducts = (props) => {
                         rating={prod.averageRating}
                         link={true}
                         count={product.count}
+                        rerender={rerender}
+                        style={{ width: "170px" }}
                     />
                 ) : null;
             })
         );
     };
     return topProducts ? (
-        <div style={{ marginTop: "1.5em", marginBottom: "0.6em" }}>
+        <div style={{ marginBottom: "0.6em" }}>
             <ItemContainer
                 length={topProducts.length}
                 type={type}
