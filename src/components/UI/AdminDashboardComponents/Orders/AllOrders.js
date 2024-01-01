@@ -4,15 +4,15 @@ import Moment from "react-moment";
 // import 'rsuite/dist/styles/rsuite-default.css';
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardIcon from "../Card/CardIcon";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardIcon from "../../../layout/Card/CardIcon";
 
 import { Accessibility, Update } from "@material-ui/icons";
 
 import Fab from "@material-ui/core/Fab";
-import CardFooter from "../Card/CardFooter";
-import Button from "../CustomButtons/Button";
+import CardFooter from "../../../layout/Card/CardFooter";
+import Button from "../../../layout/CustomButtons/Button";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import List from "@material-ui/core/List";
@@ -210,8 +210,8 @@ const AllOrders = () => {
             >
                 <Grid item xs={3} md={3} lg={3} className={classes.card}>
                     <Card onClick={() => handleFilter(false)}>
-                        <CardHeader color="tiki" stats icon>
-                            <CardIcon color="tiki">
+                        <CardHeader color="aumart" stats icon>
+                            <CardIcon color="aumart">
                                 <Accessibility />
                             </CardIcon>
                             <p className={classes.cardCategory}>Total Orders</p>

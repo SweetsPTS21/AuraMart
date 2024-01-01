@@ -16,7 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
+import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const userStyles = makeStyles(() => ({
@@ -138,7 +138,7 @@ function TabPanel(props) {
                             flexDirection: "column",
                         }}
                     >
-                        <img src={tikiNotFound} alt="" />
+                        <img src={aumartNotFound} alt="" />
                         <br />
                         <p>You have no notifications</p>
                         <Button

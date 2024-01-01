@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import tikiNotFound from "../../../image/tiki-not-found-pgae.png";
+import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as reviewActions from "../../../store/actions/reviewActions";
 import ReviewCard from "../../layout/ReviewCard";
@@ -81,7 +81,7 @@ const NoReviews = () => {
                         flexDirection: "column",
                     }}
                 >
-                    <img src={tikiNotFound} alt="" />
+                    <img src={aumartNotFound} alt="" />
                     <br />
                     <p>
                         Write a review on the product you have used to provide

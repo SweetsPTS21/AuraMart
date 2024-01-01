@@ -13,6 +13,7 @@ import statsReducer from "./statsReducer";
 import voucherReducer from "./voucherReducer";
 import stockReducer from "./stockReducer";
 import paymentReducer from "./paymentReducer";
+import settingReducer from "./settingReducer"
 
 export default combineReducers({
     auth: authReducer, // to call is from our component we use this.props.auth
@@ -29,4 +30,5 @@ export default combineReducers({
     vouchers: voucherReducer,
     stocks: stockReducer,
     payments: paymentReducer,
+    settings: settingReducer,
 });

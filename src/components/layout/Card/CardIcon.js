@@ -8,29 +8,26 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 // core components
-import styles from "./styles/cardHeaderStyle.js";
+import styles from "./styles/cardIconStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function CardHeader(props) {
+export default function CardIcon(props) {
     const classes = useStyles();
-    const { className, children, color, plain, stats, icon, ...rest } = props;
-    const cardHeaderClasses = classNames({
-        [classes.cardHeader]: true,
+    const { className, children, color, ...rest } = props;
+    const cardIconClasses = classNames({
+        [classes.cardIcon]: true,
         [classes[color + "CardHeader"]]: color,
-        [classes.cardHeaderPlain]: plain,
-        [classes.cardHeaderStats]: stats,
-        [classes.cardHeaderIcon]: icon,
         [className]: className !== undefined,
     });
     return (
-        <div className={cardHeaderClasses} {...rest}>
+        <div className={cardIconClasses} {...rest}>
             {children}
         </div>
     );
 }
 
-CardHeader.propTypes = {
+CardIcon.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf([
         "warning",
@@ -39,10 +36,7 @@ CardHeader.propTypes = {
         "info",
         "primary",
         "rose",
-        "tiki",
+        "aumart",
     ]),
-    plain: PropTypes.bool,
-    stats: PropTypes.bool,
-    icon: PropTypes.bool,
     children: PropTypes.node,
 };

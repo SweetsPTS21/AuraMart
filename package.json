@@ -36,6 +36,7 @@
         "eslint-config-react-app": "^7.0.1",
         "fg-loadcss": "^3.1.0",
         "firebase": "^10.6.0",
+        "fs": "^0.0.1-security",
         "jwt-decode": "^3.1.2",
         "moment": "latest",
         "prop-types": "latest",
@@ -89,6 +90,7 @@
         "eslint": "^8.54.0",
         "eslint-plugin-import": "^2.29.0",
         "eslint-plugin-react": "^7.33.2",
-        "eslint-plugin-unused-imports": "^3.0.0"
+        "eslint-plugin-unused-imports": "^3.0.0",
+        "prettier": "^3.1.1"
     }
 }

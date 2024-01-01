@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardBody from "../Card/CardBody";
-import Button from "../CustomButtons/Button";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardBody from "../../../layout/Card/CardBody";
+import Button from "../../../layout/CustomButtons/Button";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -14,12 +14,12 @@ import * as orderActions from "../../../../store/actions/orderActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import {
+    aumartCardHeader,
+    aumartColor,
     blackColor,
     hexToRgb,
-    tikiCardHeader,
-    tikiColor,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import TextField from "@material-ui/core/TextField";
 import "@progress/kendo-theme-default/dist/all.css";
 
@@ -46,7 +46,7 @@ const userStyles = makeStyles(() => ({
             borderColor: "transparent",
             marginBottom: "1em",
             marginTop: "1em",
-            ...tikiCardHeader,
+            ...aumartCardHeader,
         },
     "@global button:focus": {
         outline: "none !important",
@@ -89,38 +89,38 @@ const userStyles = makeStyles(() => ({
         textTransform: "uppercase",
         padding: "0.5em",
         color: whiteColor,
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         backgroundImage: "none",
         border: "none",
         boxShadow:
             "0 2px 2px 0 rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.14), 0 3px 1px -2px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2), 0 1px 5px 0 rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.12)",
     },
     "@global .k-button.k-upload-button:hover": {
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         boxShadow:
             "0 14px 26px -12px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.42), 0 4px 23px 0px rgba(" +
             hexToRgb(blackColor) +
             ", 0.12), 0 8px 10px -5px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2)",
     },
     "@global .k-button.k-upload-button&:focus": {
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         boxShadow:
             "0 14px 26px -12px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.42), 0 4px 23px 0px rgba(" +
             hexToRgb(blackColor) +
             ", 0.12), 0 8px 10px -5px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2)",
     },
     "@global .k-widget.k-upload.k-header": {
@@ -129,7 +129,7 @@ const userStyles = makeStyles(() => ({
         color: "white !important",
         borderColor: "transparent",
         minHeight: "6em",
-        ...tikiCardHeader,
+        ...aumartCardHeader,
     },
     "@global .k-upload-files.k-reset": {
         backgroundColor: "white !important",
@@ -208,7 +208,7 @@ const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
                     style={{ margin: "0 auto", width: "420px" }}
                 >
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>
                                 Update An Order
                             </h4>
@@ -376,7 +376,7 @@ const UpdateOrderForm = ({ order, setShowUpdateForm, style }) => {
                                         />
                                     </FormControl>
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

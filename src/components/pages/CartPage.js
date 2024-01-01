@@ -217,7 +217,8 @@ const CartPage = (props) => {
                                         type={"cart"}
                                         link={true}
                                         name={item.product.name}
-                                        id={item.product.id}
+                                        id={item.product._id}
+                                        slug={item.product.slug}
                                         title={item.product.name}
                                         image={
                                             item.product.photo ===
@@ -228,7 +229,8 @@ const CartPage = (props) => {
                                         soldBy={item.product.shop.name}
                                         price={item.product.price}
                                         discount={item.product.discount}
-                                        // discountedPrice={40003}
+                                        colors={item.product.colors}
+                                        color={item.product.color}
                                         quantity={item.quantity}
                                         stock={item.product.quantity}
                                         soldQuantity={item.product.soldQuantity}
@@ -403,7 +405,7 @@ const CartPage = (props) => {
         return (
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={9}>
-                    <h5 style={{ marginBottom: "1em" }}>Your cart</h5>
+                    <h5 style={{ marginBottom: "1em" }}>Giỏ hàng</h5>
                     {itemList}
                 </Grid>
                 <Grid item xs={3}>
@@ -458,7 +460,7 @@ const CartPage = (props) => {
                             color="secondary"
                             style={{ marginTop: 10 }}
                         >
-                            Order
+                            Đặt hàng
                         </Button>
                     </Link>
                 </Grid>

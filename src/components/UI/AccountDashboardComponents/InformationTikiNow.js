@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import tikiNow from "../../../image/tiki-now.png";
+import aumartNow from "../../../image/aumart-now.png";
 import exclusive1 from "../../../image/exclusiveDeal1.png";
 import exclusive2 from "../../../image/exclusiveDeal2.png";
 
@@ -129,7 +129,7 @@ function TabPanel(props) {
                     >
                         <img src={exclusive2} alt="ex" />
                         <br />
-                        <p>You are not registered with TikiNOW</p>
+                        <p>You are not registered with AumartNOW</p>
                     </section>
                 </Typography>
             ) : (
@@ -155,7 +155,7 @@ function a11yProps(index) {
     };
 }
 
-const InformationTikiNow = () => {
+const InformationAumartNow = () => {
     const classes = userStyles();
     const [tabValue, setTabValue] = useState("one");
 
@@ -178,19 +178,19 @@ const InformationTikiNow = () => {
                     aria-label="disabled tabs example"
                 >
                     <Tab
-                        label={"My TikiNow"}
+                        label={"My AumartNow"}
                         className={classes.tab}
                         value="one"
                         {...a11yProps("one")}
                     />
                     <Tab
-                        label={"TikiNow package purchase history"}
+                        label={"AumartNow package purchase history"}
                         className={classes.tab}
                         value="two"
                         {...a11yProps("two")}
                     />
                     <Tab
-                        label={"Orders using TikiNow"}
+                        label={"Orders using AumartNow"}
                         className={classes.tab}
                         value="three"
                         {...a11yProps("three")}
@@ -207,7 +207,7 @@ const InformationTikiNow = () => {
                             padding: "1em",
                         }}
                     >
-                        <img src={tikiNow} alt="" />
+                        <img src={aumartNow} alt="" />
                         <p style={{ marginTop: "1em" }}>
                             Your account has not been activated
                         </p>
@@ -220,7 +220,7 @@ const InformationTikiNow = () => {
                             Register only 499,000 VND / 1 year
                         </Button>
                     </div>
-                    <div className={classes.title}>Exclusive TikiNOW deals</div>
+                    <div className={classes.title}>Exclusive AumartNOW deals</div>
                     <div
                         className={classes.grid}
                         style={{
@@ -252,7 +252,7 @@ const InformationTikiNow = () => {
                                 with hundreds of thousands of symbols products
                                 <br />
                                 <img
-                                    src={tikiNow}
+                                    src={aumartNow}
                                     alt=""
                                     style={{ display: "inline-block" }}
                                 />
@@ -267,9 +267,9 @@ const InformationTikiNow = () => {
                             <p style={{ fontSize: "0.8em" }}>
                                 {" "}
                                 <b>30 days exchange free return</b> <br />
-                                As a TikiNOW member, you will receive <br />{" "}
+                                As a AumartNOW member, you will receive <br />{" "}
                                 special policies of up to 30 days free <br />{" "}
-                                exchange for Tiki Trading products.
+                                exchange for Aumart Trading products.
                             </p>
                         </section>
                     </div>
@@ -285,4 +285,4 @@ const InformationTikiNow = () => {
     );
 };
 
-export default InformationTikiNow;
+export default InformationAumartNow;

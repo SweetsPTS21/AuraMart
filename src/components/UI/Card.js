@@ -4,7 +4,7 @@ import Rating from "@material-ui/lab/Rating";
 import Ripples from "react-ripples";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import TikiNow from "../../image/tiki-now.png";
+import AumartNow from "../../image/aumart-now.png";
 import DealTag from "../../image/dealTag.png";
 import userStyles from "../../styles/CardStyles";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -15,22 +15,169 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import TikiArrow from "../../image/tikiArrow.png";
+import AumartArrow from "../../image/aumartArrow.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import { message } from "antd";
+import { FormControl, MenuItem, Select } from "@material-ui/core";
+
+const RecommendProduct = (props) => {
+    const classes = userStyles();
+    const { reviews, discounted_price } = props;
+
+    const formatVND = (x) => {
+        let formatter = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        });
+
+        return formatter.format(x);
+    };
+
+    return (
+        <div
+            className={classes.container}
+            onClick={props.onClick !== undefined ? props.onClick : undefined}
+            style={{ ...props.style }}
+        >
+            <div>
+                <img
+                    src={props.image}
+                    alt="product"
+                    width={"100%"}
+                    style={{
+                        borderRadius: "3px",
+                        maxHeight: "180px",
+                        minHeight: "160px",
+                    }}
+                />{" "}
+                <br />
+            </div>
+            <div>
+                {props.count !== undefined && (
+                    <p
+                        style={{
+                            marginBottom: 0,
+                            marginTop: "0.5em",
+                            fontWeight: 500,
+                            fontSize: "0.8em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        Đã bán {props.count} sản phẩm
+                    </p>
+                )}
+                <Grid container style={{ marginBottom: "0.5em" }}>
+                    <Grid item className={classes.title__container}>
+                        <span className={classes.title}>{props.title}</span>
+                    </Grid>
+                </Grid>
+
+                {props.discount !== undefined && props.discount > 0 ? (
+                    <>
+                        <p style={{ marginBottom: 0 }}>
+                            <span style={{ fontWeight: 500 }}>
+                                {discounted_price()}
+                            </span>
+                            <span className={classes.discount}>
+                                {" "}
+                                -{props.discount}%
+                            </span>
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <p style={{ marginBottom: 0 }}>
+                            <span style={{ fontWeight: 500 }}>
+                                {formatVND(props.price)}
+                            </span>
+                        </p>
+                    </>
+                )}
+
+                <p style={{ margin: 0 }}>
+                    <IconButton
+                        aria-label=""
+                        color="inherit"
+                        style={{
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                            paddingTop: "0.1em",
+                            paddingBottom: "0.1em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        <Icon
+                            className={"fas fa-angle-double-right"}
+                            style={{
+                                paddingLeft: 0,
+                                paddingRight: 0,
+                                fontSize: "1.25vw",
+                            }}
+                        />
+                    </IconButton>
+                    <span
+                        style={{
+                            fontWeight: 500,
+                            fontSize: "0.8em",
+                            color: "#26BC4E",
+                        }}
+                    >
+                        Giao hàng 2h
+                    </span>
+                </p>
+                <div
+                    style={{
+                        marginBottom: "0.2rem",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Rating
+                        name="half-rating-read"
+                        defaultValue={
+                            props.rating !== undefined ? props.rating : 3
+                        }
+                        precision={0.5}
+                        readOnly
+                        size="small"
+                        style={{
+                            width: "50%",
+                            margin: 0,
+                            fontSize: "0.9rem",
+                            alignItems: "center",
+                        }}
+                    />
+                    <p
+                        className={classes.title}
+                        style={{
+                            width: "50%",
+                            marginBottom: 0,
+                            alignItems: "center",
+                        }}
+                    >
+                        {" "}
+                        ({reviews} đánh giá)
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const Card = (props) => {
     const classes = userStyles();
+    const navigate = useNavigate();
     const reviews = useSelector((state) => state.reviews.allReviews);
     const [amount, setAmount] = useState(
         props.quantity !== undefined ? props.quantity : null
     );
     const stock = props.stock ? props.stock : 0;
     const soldQuantity = props.soldQuantity ? props.soldQuantity : 0;
+    const [color, setColor] = useState(props.color ? props.color : null);
 
     const discounted_price = () => {
         let discounted_price =
@@ -38,6 +185,7 @@ const Card = (props) => {
             parseInt(props.price) * (parseInt(props.discount) / 100);
         return formatVND(discounted_price);
     };
+
     const formatVND = (x) => {
         let formatter = new Intl.NumberFormat("vi-VN", {
             style: "currency",
@@ -58,6 +206,12 @@ const Card = (props) => {
                 return null;
             });
         return reviewsLength;
+    };
+
+    const navigateToProduct = () => {
+        // navigate(`/${props.slug}/${props.id}`, { replace: true });
+        navigate(`/${props.slug}/${props.id}`, { replace: true });
+        window.location.reload();
     };
 
     useEffect(() => {
@@ -131,6 +285,7 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
+
     // Card section for deal of the day
     const type2 = (
         <Ripples>
@@ -226,12 +381,12 @@ const Card = (props) => {
                                         />
                                     )}
                                     <span style={{ fontSize: "0.8em" }}>
-                                        Sold {props.sold}
+                                        Đã bán {props.sold}
                                     </span>
                                 </span>
                             )}
                         </Progress>
-                        <Grid container className={classes.tikiNowBorder}>
+                        <Grid container className={classes.aumartNowBorder}>
                             <Grid
                                 item
                                 xs={2}
@@ -241,8 +396,8 @@ const Card = (props) => {
                             >
                                 <div>
                                     <img
-                                        src={TikiNow}
-                                        alt="tikinow"
+                                        src={AumartNow}
+                                        alt="aumartnow"
                                         width={"70%"}
                                     />{" "}
                                 </div>
@@ -254,7 +409,7 @@ const Card = (props) => {
                                 lg={9}
                                 style={{ margin: 0 }}
                             >
-                                <span className={classes.tikiNowTitle}>
+                                <span className={classes.aumartNowTitle}>
                                     {"Giao siêu tốc 2h"}
                                 </span>
                             </Grid>
@@ -264,151 +419,34 @@ const Card = (props) => {
             </Link>
         </Ripples>
     );
+
     // Recommened for you section/review section
     const type3 = (
         <Ripples>
-            <Link
-                to={
-                    props.link !== undefined && props.link !== false
-                        ? `/${props.slug}/${props.id}`
-                        : "#"
-                }
-                className={classes.removeLinkStyle}
-            >
-                <div
-                    className={classes.container}
-                    onClick={
-                        props.onClick !== undefined ? props.onClick : undefined
-                    }
-                    style={{ ...props.style }}
-                >
-                    <div>
-                        <img
-                            src={props.image}
-                            alt="product"
-                            width={"100%"}
-                            style={{
-                                borderRadius: "3px",
-                                maxHeight: "180px",
-                                minHeight: "160px",
-                            }}
-                        />{" "}
-                        <br />
-                    </div>
-                    <div>
-                        {props.count !== undefined && (
-                            <p
-                                style={{
-                                    marginBottom: 0,
-                                    marginTop: "0.5em",
-                                    fontWeight: 500,
-                                    fontSize: "0.8em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                Đã bán {props.count} sản phẩm
-                            </p>
-                        )}
-                        <Grid container style={{ marginBottom: "0.5em" }}>
-                            <Grid item className={classes.title__container}>
-                                <span className={classes.title}>
-                                    {props.title}
-                                </span>
-                            </Grid>
-                        </Grid>
-
-                        {props.discount !== undefined && props.discount > 0 ? (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
-                                        {discounted_price()}
-                                    </span>
-                                    <span className={classes.discount}>
-                                        {" "}
-                                        -{props.discount}%
-                                    </span>
-                                </p>
-                            </>
-                        ) : (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
-                                        {formatVND(props.price)}
-                                    </span>
-                                </p>
-                            </>
-                        )}
-
-                        <p style={{ margin: 0 }}>
-                            <IconButton
-                                aria-label=""
-                                color="inherit"
-                                style={{
-                                    paddingLeft: 0,
-                                    paddingRight: 0,
-                                    paddingTop: "0.1em",
-                                    paddingBottom: "0.1em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                <Icon
-                                    className={"fas fa-angle-double-right"}
-                                    style={{
-                                        paddingLeft: 0,
-                                        paddingRight: 0,
-                                        fontSize: "1.25vw",
-                                    }}
-                                />
-                            </IconButton>
-                            <span
-                                style={{
-                                    fontWeight: 500,
-                                    fontSize: "0.8em",
-                                    color: "#26BC4E",
-                                }}
-                            >
-                                Fast delivery 2h
-                            </span>
-                        </p>
-                        <div
-                            style={{
-                                marginBottom: "0.2rem",
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Rating
-                                name="half-rating-read"
-                                defaultValue={
-                                    props.rating !== undefined
-                                        ? props.rating
-                                        : 3
-                                }
-                                precision={0.5}
-                                readOnly
-                                size="small"
-                                style={{
-                                    width: "50%",
-                                    margin: 0,
-                                    fontSize: "0.9rem",
-                                    alignItems: "center",
-                                }}
-                            />
-                            <p
-                                className={classes.title}
-                                style={{
-                                    width: "50%",
-                                    marginBottom: 0,
-                                    alignItems: "center",
-                                }}
-                            >
-                                {" "}
-                                ({getProductReviewLength()} reviews)
-                            </p>
-                        </div>
-                    </div>
+            {props.rerender ? (
+                <div onClick={navigateToProduct}>
+                    <RecommendProduct
+                        {...props}
+                        reviews={getProductReviewLength()}
+                        discounted_price={discounted_price}
+                    />
                 </div>
-            </Link>
+            ) : (
+                <Link
+                    to={
+                        props.link !== undefined && props.link !== false
+                            ? `/${props.slug}/${props.id}`
+                            : "#"
+                    }
+                    className={classes.removeLinkStyle}
+                >
+                    <RecommendProduct
+                        {...props}
+                        reviews={getProductReviewLength()}
+                        discounted_price={discounted_price}
+                    />
+                </Link>
+            )}
         </Ripples>
     );
 
@@ -455,24 +493,46 @@ const Card = (props) => {
                                         }
                                         className={classes.removeLinkStyle}
                                     >
-                                        <img src={TikiNow} alt={"tikinow"} /> |{" "}
-                                        {props.name}
+                                        <img
+                                            src={AumartNow}
+                                            alt={"aumartnow"}
+                                        />{" "}
+                                        | {props.name}
                                     </Link>
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
                                     <img
-                                        src={TikiArrow}
-                                        className={classes.tikiArrow}
-                                        alt={"tiki arrow "}
+                                        src={AumartArrow}
+                                        className={classes.aumartArrow}
+                                        alt={"aumart arrow "}
                                     />{" "}
-                                    Ship in 2h
+                                    Giao hàng 2h
                                 </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                >
-                                    Sold by {props.soldBy}
-                                </Typography>
+                                {props.colors && (
+                                    <FormControl
+                                        sx={{ m: 1, minWidth: 120 }}
+                                        size="small"
+                                    >
+                                        <Select
+                                            label="Color"
+                                            variant="standard"
+                                            value={color}
+                                            onChange={(e) =>
+                                                setColor(e.target.value)
+                                            }
+                                            autoWidth
+                                        >
+                                            {props.colors.map((color) => (
+                                                <MenuItem
+                                                    key={color}
+                                                    value={color}
+                                                >
+                                                    {color}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                )}
                             </Grid>
                             <Grid item>
                                 <Button
@@ -483,10 +543,10 @@ const Card = (props) => {
                                         props.deleteItem
                                     }
                                 >
-                                    Remove
+                                    Xóa
                                 </Button>
                                 <Button size="small" color="primary">
-                                    Buy later
+                                    Mua sau
                                 </Button>
                             </Grid>
                         </Grid>
@@ -530,7 +590,8 @@ const Card = (props) => {
                                         marginTop: "1em",
                                     }}
                                 >
-                                    Còn <strong>{stock - soldQuantity}</strong> sản phẩm
+                                    Còn <strong>{stock - soldQuantity}</strong>{" "}
+                                    sản phẩm
                                 </Typography>
                             )}
                         </Grid>
@@ -578,6 +639,7 @@ const Card = (props) => {
             </Paper>
         </div>
     );
+
     const handleCardType = (type) => {
         switch (type) {
             case "default":

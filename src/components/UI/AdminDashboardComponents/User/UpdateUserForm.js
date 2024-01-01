@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardBody from "../Card/CardBody";
-import Button from "../CustomButtons/Button";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardBody from "../../../layout/Card/CardBody";
+import Button from "../../../layout/CustomButtons/Button";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -71,7 +71,7 @@ const userStyles = makeStyles(() => ({
     "@global .MuiCheckbox-colorSecondary.Mui-checked": {
         color: "#189EFF !important",
     },
-    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop" : {
+    "@global .css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop": {
         backgroundColor: "rgb(0 0 0 / 32%) !important",
     },
 }));
@@ -144,7 +144,7 @@ const UpdateUserForm = (props) => {
                     style={{ margin: "0 auto", width: "420px" }}
                 >
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>
                                 Update User
                             </h4>
@@ -478,7 +478,7 @@ const UpdateUserForm = (props) => {
                                     )}
 
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

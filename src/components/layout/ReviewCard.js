@@ -6,7 +6,7 @@ import { message } from "antd";
 import Rating from "@material-ui/lab/Rating";
 
 import { Delete, Edit, Save } from "@material-ui/icons";
-import {  TextValidator, ValidatorForm, } from "react-material-ui-form-validator";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import {
     Button,
     FormControl,
@@ -103,7 +103,11 @@ const ReviewCard = (props) => {
         setIsLoading(true);
         const msg = message.loading("Deleting review!", 0);
         await dispatch(
-            reviewActions.deleteReviewById(review._id, product.id, review.user._id)
+            reviewActions.deleteReviewById(
+                review._id,
+                product.id,
+                review.user._id
+            )
         );
         setTimeout(msg, 1);
         setIsLoading(false);
@@ -111,7 +115,7 @@ const ReviewCard = (props) => {
 
     return (
         <ValidatorForm onSubmit={handleUpdateReview}>
-            <FormGroup>
+            <FormGroup style={{flexWrap: "nowrap"}}>
                 <div style={{ borderBottom: "1px solid #ccc" }}>
                     <Grid container style={{ padding: "1em" }}>
                         <Grid
@@ -186,9 +190,9 @@ const ReviewCard = (props) => {
                                                     display: "inline-flex",
                                                 }}
                                                 value={rating}
-                                                precision={0.5}
-                                                onChange={(e, newValue) => {
-                                                    newValue > 0.5 &&
+                                                precision={1}
+                                                onChange={(newValue) => {
+                                                    newValue >= 1 &&
                                                         setRating(newValue);
                                                 }}
                                             />
@@ -197,7 +201,7 @@ const ReviewCard = (props) => {
                                                 name="read-only"
                                                 value={review.rating}
                                                 readOnly
-                                                precision={0.5}
+                                                precision={1}
                                             />
                                         )}
                                         {user.id === review.user._id &&
@@ -246,7 +250,7 @@ const ReviewCard = (props) => {
                                         fontSize: "0.75em",
                                     }}
                                 >
-                                    Bought from Tiki
+                                    Bought from Aumart
                                 </p>
                                 <div
                                     style={{
@@ -289,7 +293,14 @@ const ReviewCard = (props) => {
                                     <Moment fromNow>{review.createdAt}</Moment>
                                 </p>
                             </Grid>
-                            <Grid item xs={4} style={{display: "flex", flexDirection: "column"}}>
+                            <Grid
+                                item
+                                xs={4}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
                                 {user.id === review.user._id && (
                                     <>
                                         {isEditing ? (
@@ -298,7 +309,9 @@ const ReviewCard = (props) => {
                                                     size={"small"}
                                                     type={"submit"}
                                                     startIcon={<Save />}
-                                                    className={classes.button__secondary}
+                                                    className={
+                                                        classes.button__secondary
+                                                    }
                                                     disabled={isLoading}
                                                 >
                                                     Save
@@ -310,7 +323,9 @@ const ReviewCard = (props) => {
                                                     size={"small"}
                                                     component={"div"}
                                                     startIcon={<Edit />}
-                                                    className={classes.button__secondary}
+                                                    className={
+                                                        classes.button__secondary
+                                                    }
                                                     disabled={isLoading}
                                                     onClick={() =>
                                                         setIsEditing(true)

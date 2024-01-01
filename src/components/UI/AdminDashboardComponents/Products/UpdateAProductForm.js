@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardBody from "../Card/CardBody";
-import Button from "../CustomButtons/Button";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardBody from "../../../layout/Card/CardBody";
+import Button from "../../../layout/CustomButtons/Button";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,12 +15,12 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Chip from "@material-ui/core/Chip";
 import { styled } from "@mui/material/styles";
 import {
+    aumartCardHeader,
+    aumartColor,
     blackColor,
     hexToRgb,
-    tikiCardHeader,
-    tikiColor,
     whiteColor,
-} from "../Card/styles/material-dashboard-react.js";
+} from "../../../layout/Card/styles/material-dashboard-react";
 import "@progress/kendo-theme-default/dist/all.css";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../../utils/firebaseConfig";
@@ -314,7 +314,7 @@ const userStyles = makeStyles(() => ({
             borderColor: "transparent",
             marginBottom: "1em",
             marginTop: "1em",
-            ...tikiCardHeader,
+            ...aumartCardHeader,
         },
     "@global button:focus": {
         outline: "none !important",
@@ -357,38 +357,38 @@ const userStyles = makeStyles(() => ({
         textTransform: "uppercase",
         padding: "0.5em",
         color: whiteColor,
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         backgroundImage: "none",
         border: "none",
         boxShadow:
             "0 2px 2px 0 rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.14), 0 3px 1px -2px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2), 0 1px 5px 0 rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.12)",
     },
     "@global .k-button.k-upload-button:hover": {
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         boxShadow:
             "0 14px 26px -12px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.42), 0 4px 23px 0px rgba(" +
             hexToRgb(blackColor) +
             ", 0.12), 0 8px 10px -5px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2)",
     },
     "@global .k-button.k-upload-button&:focus": {
-        backgroundColor: tikiColor[0],
+        backgroundColor: aumartColor[0],
         boxShadow:
             "0 14px 26px -12px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.42), 0 4px 23px 0px rgba(" +
             hexToRgb(blackColor) +
             ", 0.12), 0 8px 10px -5px rgba(" +
-            hexToRgb(tikiColor[0]) +
+            hexToRgb(aumartColor[0]) +
             ", 0.2)",
     },
     "@global .k-widget.k-upload.k-header": {
@@ -397,7 +397,7 @@ const userStyles = makeStyles(() => ({
         color: "white !important",
         borderColor: "transparent",
         minHeight: "6em",
-        ...tikiCardHeader,
+        ...aumartCardHeader,
     },
     "@global .k-upload-files.k-reset": {
         backgroundColor: "white !important",
@@ -478,10 +478,7 @@ const UpdateAProductForm = (props) => {
             "isCategoryEmpty",
             () => category.length > 0
         );
-        ValidatorForm.addValidationRule(
-            "isSpecsEmpty",
-            () => specs.length > 0
-        );
+        ValidatorForm.addValidationRule("isSpecsEmpty", () => specs.length > 0);
         ValidatorForm.addValidationRule(
             "isDescriptionEmpty",
             () => description.length > 0
@@ -539,7 +536,7 @@ const UpdateAProductForm = (props) => {
             message.error("File type must be jpg/jpeg or png");
             return;
         }
-        
+
         // check file size
         if (fileUpload.size > 3 * 1024 * 1024) {
             message.error("File size cannot exceed more than 3MB");
@@ -575,7 +572,7 @@ const UpdateAProductForm = (props) => {
             >
                 <Grid item xs={12} sm={12} md={12}>
                     <Card>
-                        <CardHeader color="tiki">
+                        <CardHeader color="aumart">
                             <h4 className={classes.cardTitleWhite}>
                                 Update A Product
                             </h4>
@@ -624,7 +621,7 @@ const UpdateAProductForm = (props) => {
                                             defaultValue={category}
                                             options={categoryOptions}
                                             getOptionLabel={(option) => option}
-                                            renderOption={(option, ) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -843,7 +840,7 @@ const UpdateAProductForm = (props) => {
                                             onChange={(e, value) => {
                                                 setOrigin(value.label);
                                             }}
-                                            renderOption={(option, ) => (
+                                            renderOption={(option) => (
                                                 <p
                                                     style={{
                                                         padding: "0.1em",
@@ -1014,10 +1011,7 @@ const UpdateAProductForm = (props) => {
                                                         option._id
                                                     }
                                                     autoHighlight
-                                                    renderOption={(
-                                                        option,
-                                                        
-                                                    ) => (
+                                                    renderOption={(option) => (
                                                         <p
                                                             style={{
                                                                 padding:
@@ -1151,7 +1145,7 @@ const UpdateAProductForm = (props) => {
                                                 />
                                                 <Button
                                                     component="label"
-                                                    variant="contained"                                                  
+                                                    variant="contained"
                                                     style={{ marginTop: "1em" }}
                                                 >
                                                     Upload file
@@ -1179,7 +1173,7 @@ const UpdateAProductForm = (props) => {
                                     </p>
 
                                     <Button
-                                        color="tiki"
+                                        color="aumart"
                                         type={"submit"}
                                         style={{ marginTop: "1em" }}
                                         disabled={isLoading}

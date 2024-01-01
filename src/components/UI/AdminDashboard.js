@@ -20,8 +20,10 @@ import AllShops from "./AdminDashboardComponents/Shops/AllShops";
 import AllOrders from "./AdminDashboardComponents/Orders/AllOrders";
 import AllReviews from "./AdminDashboardComponents/reviews/AllReviews";
 import Stats from "./AdminDashboardComponents/Stats/Stats";
+import SystemSettings from "./AdminDashboardComponents/Settings/SystemSettings";
 import DashboardHeader from "./DashboardHeader";
 import { useSelector } from "react-redux";
+import { SettingsRounded } from "@material-ui/icons";
 
 const AdminDashBoard = (props) => {
     const classes = userStyles();
@@ -34,12 +36,13 @@ const AdminDashBoard = (props) => {
         setSelectedIndex(props.index);
     }, [props.index]);
     const options = [
-        "Statistics",
-        "Users",
-        "Products",
-        "Shops",
-        "Orders",
-        "Review",
+        "Thống kê",
+        "Tài khoản",
+        "Sản phẩm",
+        "Cửa hàng",
+        "Đơn hàng",
+        "Đánh giá",
+        "Cấu hình chung",
     ];
     const optionsIcon = [
         <EqualizerIcon className={classes.item} />,
@@ -48,6 +51,7 @@ const AdminDashBoard = (props) => {
         <StorefrontIcon className={classes.item} />,
         <LocalShippingIcon className={classes.item} />,
         <ChatIcon className={classes.item} />,
+        <SettingsRounded className={classes.item} />,
     ];
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -56,45 +60,45 @@ const AdminDashBoard = (props) => {
     const renderMenuItems = () => {
         let counter = 0;
         return options.map((option, index) => {
-                counter++;
-                let temp = counter;
-                return (
-                    <ListItem
+            counter++;
+            let temp = counter;
+            return (
+                <ListItem
+                    style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        paddingTop: "1.51%",
+                        paddingBottom: "1.51%",
+                        alignItems: "center",
+                    }}
+                    key={uuid()}
+                    button
+                    selected={temp === selectedIndex}
+                    onClick={(event) => handleMenuItemClick(event, temp)}
+                >
+                    <ListItemIcon
                         style={{
                             marginTop: 0,
                             marginBottom: 0,
-                            paddingTop: "1.51%",
-                            paddingBottom: "1.51%",
-                            alignItems: "center",
+                            paddingTop: 0,
+                            paddingBottom: 0,
                         }}
-                        key={uuid()}
-                        button
-                        selected={temp === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, temp)}
                     >
-                        <ListItemIcon
-                            style={{
-                                marginTop: 0,
-                                marginBottom: 0,
-                                paddingTop: 0,
-                                paddingBottom: 0,
-                            }}
-                        >
-                            {optionsIcon[index]}
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={option}
-                            primaryTypographyProps={{ variant: "inherit" }}
-                            style={{
-                                marginTop: 0,
-                                marginBottom: 0,
-                                paddingTop: "0.5em",
-                                paddingBottom: "0.5em",
-                            }}
-                            className={classes.item2}
-                        />
-                    </ListItem>
-                );
+                        {optionsIcon[index]}
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={option}
+                        primaryTypographyProps={{ variant: "inherit" }}
+                        style={{
+                            marginTop: 0,
+                            marginBottom: 0,
+                            paddingTop: "0.5em",
+                            paddingBottom: "0.5em",
+                        }}
+                        className={classes.item2}
+                    />
+                </ListItem>
+            );
         });
     };
     const renderMenuItemComponent = () => {
@@ -106,20 +110,21 @@ const AdminDashBoard = (props) => {
             case 3:
                 return <AllProducts />;
             case 4:
-                return <AllShops role={"admin"}/>;
+                return <AllShops role={"admin"} />;
             case 5:
                 return <AllOrders />;
             case 6:
                 return <AllReviews />;
+            case 7:
+                return <SystemSettings/>;
             default:
                 return <p>default</p>;
         }
     };
     return (
-        <div style={{ zIndex: "-1", minWidth: "1422px"}}>
-            <DashboardHeader user={user}/>
-            <div style={{ height: "64px" }}></div>
-            <Grid container>
+        <div style={{ zIndex: "-1", minWidth: "1422px" }}>
+            <DashboardHeader user={user} />
+            <Grid container style={{marginTop: "64px"}}>
                 <Grid item xs={2} className={classes.sideBar}>
                     <List
                         component="nav"
@@ -129,8 +134,8 @@ const AdminDashBoard = (props) => {
                         {renderMenuItems()}
                     </List>
                 </Grid>
-                <Grid item xs={10} style={{ padding: 0 }}>
-                    <Grid container style={{ marginBottom: "1em" }}>
+                <Grid item xs={10} style={{ padding: 0, height: "calc(100vh - 64px)", overflowY: "scroll"}}>
+                    <Grid container  style={{ marginBottom: "1em"}}>
                         {renderMenuItemComponent()}
                     </Grid>
                 </Grid>

@@ -2,23 +2,18 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import Grid from "@material-ui/core/Grid";
-import {
-    ThemeProvider,
-    createTheme,
-    makeStyles,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import LoadingSpinner from "../layout/LoadingSpinner";
-import TikiNow from "../../image/tiki-now.png";
+import AumartNow from "../../image/aumart-now.png";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import { Progress } from "reactstrap";
 import Countdown from "react-countdown-now";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import TikiTimerIcon from "../../image/tiki_timer.png";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+import AumartTimerIcon from "../../image/aumart_timer.png";
+// import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import CartIcon from "../../image/ic-cart@2x.png";
 import ZoomIcon from "../../image/zoom-in.png";
 // table
 import Table from "@material-ui/core/Table";
@@ -26,9 +21,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import WarningIcon from "../../image/icon-warning.svg";
-import ResIcon from "../../image/response-icon.png";
-import StarIcon from "@material-ui/icons/Star";
+// import StarIcon from "@material-ui/icons/Star";
 // select
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -40,9 +33,14 @@ import ListItem from "@material-ui/core/ListItem";
 
 import { SideBySideMagnifier } from "react-image-magnifiers";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Moment from "moment";
 
-import { QuestionAnswerRounded, StoreRounded } from "@mui/icons-material";
+import {
+    ChangeCircleOutlined,
+    CurrencyExchangeRounded,
+    QuestionAnswerRounded,
+    ShoppingCartRounded,
+    StoreRounded,
+} from "@mui/icons-material";
 import noPhoto from "../../image/nophoto.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../store/actions/cartActions";
@@ -50,14 +48,28 @@ import * as productActions from "../../store/actions/productActions";
 import * as reviewActions from "../../store/actions/reviewActions";
 import * as addressActions from "../../store/actions/addressActions";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import TransitionsModal from "../user/UserModal";
+// import TransitionsModal from "../user/UserModal";
 import { message } from "antd";
 import RecommendProduct from "../layout/RecommendProduct";
 import TopProducts from "../layout/TopProducts";
 import ReviewCard from "../layout/ReviewCard";
-
-const defaultAvatar =
-    "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg.webp";
+import {
+    ArchiveRounded,
+    ArrowForwardIosRounded,
+    LocalShippingOutlined,
+    RefreshRounded,
+} from "@material-ui/icons";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Typography,
+} from "@material-ui/core";
+import defaultAvatar from "../../image/shopAvatar.jpg";
+import Sample1 from "../../image/sample1.png";
+import Sample2 from "../../image/sample2.png";
+import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,8 +117,29 @@ const useStyles = makeStyles((theme) => ({
     zoomImage: {
         zIndex: "100",
     },
-
+    icon: {
+        color: "#0a68ff",
+        marginRight: "0.3em",
+    },
     title: { fontSize: "1.5em", color: "#858585" },
+
+    button__color__enabled: {
+        borderColor: "#FF424E",
+    },
+    button__color__disabled: {
+        borderColor: "#ccc",
+    },
+
+    button__filter: {
+        border: "1px solid #ccc",
+        backgroundColor: "#fff",
+        margin: "0.4em",
+    },
+
+    button__filter__enabled: {
+        margin: "0.4em",
+        border: "1px solid #FF424E",
+    },
 
     shopInfo__avatar: {
         width: "80px",
@@ -139,6 +172,8 @@ const useStyles = makeStyles((theme) => ({
     shop__info__rating: {
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        justifyContent: "space-around",
     },
     info__details: {
         display: "flex",
@@ -151,13 +186,13 @@ const useStyles = makeStyles((theme) => ({
             opacity: 0,
         },
     },
-    tikiStoreIcon: {
+    aumartStoreIcon: {
         backgroundImage: "url(../../image/sprite.png)",
         backgroundPosition: "0 -409px",
         width: "24px",
         height: " 24px",
     },
-    tikiRefund2: {
+    aumartRefund2: {
         backgroundImage: "url(../../image/sprite.png)",
         backgroundPosition: "-362px -281px",
         width: "24px",
@@ -217,55 +252,85 @@ const useStyles = makeStyles((theme) => ({
     "@global span span .progress .progress-bar": {
         backgroundColor: "#007BFF !important",
     },
-    "@global .MuiOutlinedInput-inputMarginDense": {
-        // padding: 0,
-        padding: "0.3em 0",
-        borderRadius: 0,
-        textAlign: "center",
-        width: "2em",
-    },
-    "@global .MuiOutlinedInput-input": {
-        textAlign: "center",
-    },
-    "@global .MuiOutlinedInput-root": {
-        borderRadius: "0 !important",
-    },
     "@global .MuiRating-label ": {
         display: "block !important",
         color: "inherit",
         fontSize: "inherit",
     },
-    "@global .MuiOutlinedInput-notchedOutline": {
-        marginTop: "0.025em !important",
-        height: "2.005em !important",
-        borderColor: "#3F51B5 !important",
+    "@global .MuiInput-underline.Mui-disabled:before": {
+        borderBottom: "none !important",
+    },
+    "@global .MuiDialog-paperWidthSm": {
+        maxWidth: "420px !important",
     },
 }));
 
 const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
         // Render a completed state
-        return (
-            <span>
-                <b>Offer is over!</b>
-            </span>
-        );
+        return <span>Offer is over!</span>;
     } else {
         if (days !== 0) {
             return (
                 <span>
-                    <b>
-                        {days} days {hours}:{minutes}:{seconds}
-                    </b>
+                    {days} days {hours}:{minutes}:{seconds}
                 </span>
             );
         }
         // Render a countdown
         return (
             <span>
-                <b>
-                    {hours}:{minutes}:{seconds}
-                </b>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {hours}
+                </span>
+                <span
+                    style={{
+                        fontSize: "1.2em",
+                        fontWeight: "600",
+                        margin: "0 0.2em",
+                    }}
+                >
+                    :
+                </span>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {minutes}
+                </span>
+                <span
+                    style={{
+                        fontSize: "1.2em",
+                        fontWeight: "600",
+                        margin: "0 0.2em",
+                    }}
+                >
+                    :
+                </span>
+                <span
+                    style={{
+                        backgroundColor: "#FF4C57",
+                        color: "#fff",
+                        padding: "4px 6px",
+                        borderRadius: "5px",
+                        fontWeight: 700,
+                    }}
+                >
+                    {seconds}
+                </span>
             </span>
         );
     }
@@ -274,9 +339,6 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
 const ImageList = ({ product, setCurrentImg }) => {
     const classes = useStyles();
 
-    const src = "https://images.unsplash.com/photo-1444065381814-865dc9da92c0";
-    const src2 =
-        "https://images.unsplash.com/photo-1518843025960-d60217f226f5?ixlib=rb-1.2.1&dpr=1&auto=format&fit=crop&w=416&h=312&q=60";
     return (
         <div className={classes.image}>
             <List
@@ -305,23 +367,23 @@ const ImageList = ({ product, setCurrentImg }) => {
                 </ListItem>
                 <ListItem
                     button
-                    onClick={() => setCurrentImg(src)}
+                    onClick={() => setCurrentImg(Sample1)}
                     style={{ padding: "0, 2em", justifyContent: "center" }}
                 >
                     <img
                         style={{ maxWidth: "5.5em", borderRadius: "0.5em" }}
-                        src={src}
+                        src={Sample1}
                         alt={"listItemImage"}
                     />
                 </ListItem>
                 <ListItem
                     button
-                    onClick={() => setCurrentImg(src2)}
+                    onClick={() => setCurrentImg(Sample2)}
                     style={{ padding: "0, 2em", justifyContent: "center" }}
                 >
                     <img
                         style={{ maxWidth: "5.5em", borderRadius: "0.5em" }}
-                        src={src2}
+                        src={Sample2}
                         alt={"listItemImage"}
                     />
                 </ListItem>
@@ -332,6 +394,9 @@ const ImageList = ({ product, setCurrentImg }) => {
 
 const DealCounter = (props) => {
     const { product, timeInMilliSec } = props;
+    const soldPercent =
+        product.sale &&
+        Math.floor((product.sale.soldQuantity / product.sale.quantity) * 100);
     return (
         product &&
         product.sale && (
@@ -342,10 +407,13 @@ const DealCounter = (props) => {
                     paddingBottom: "16px",
                 }}
             >
-                <div>
+                <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <FlashSale />
                     <span>
                         <img
-                            src={TikiTimerIcon}
+                            src={AumartTimerIcon}
                             style={{
                                 height: "24px",
                                 width: "24px",
@@ -353,9 +421,7 @@ const DealCounter = (props) => {
                             }}
                             alt={"timer"}
                         />
-                    </span>
-                    <span>
-                        Deal is finished in:{" "}
+                        Kết thúc trong:{" "}
                         {timeInMilliSec !== undefined && (
                             <span>
                                 <Countdown
@@ -367,32 +433,114 @@ const DealCounter = (props) => {
                     </span>
                 </div>
                 <Progress
-                    value={!isNaN(product.sold) ? product.sold : 50}
+                    value={soldPercent || 50}
                     style={{ backgroundColor: "#FDDCCB", marginTop: "1em" }}
                 >
-                    {!isNaN(product.sold) && (
-                        <span>
-                            {" "}
-                            {!!product.sale && (
-                                <WhatshotIcon
-                                    style={{
-                                        color: "white",
-                                        fontSize: "1.3em",
-                                        paddingBottom: "0.2em",
-                                    }}
-                                />
-                            )}
-                            Sold {product.sold}
-                        </span>
-                    )}
+                    <span style={{ zIndex: 9999 }}>
+                        {" "}
+                        {!!product.sale && (
+                            <WhatshotIcon
+                                style={{
+                                    color: "white",
+                                    fontSize: "1.3em",
+                                    paddingBottom: "0.2em",
+                                }}
+                            />
+                        )}
+                        Đã bán {product.sale.soldQuantity}
+                    </span>
                 </Progress>
             </div>
         )
     );
 };
 
+const ReportModal = (props) => {
+    const dispatch = useDispatch();
+    const reasons = [
+        "Sản phẩm giả",
+        "Sản phẩm bị cấm buôn bán",
+        "Sản phẩm không rõ nguồn gốc xuất xứ",
+        "Hình ảnh sản phẩm không rõ ràng",
+        "Sản phẩm có nội dung, hình ảnh phản cảm",
+        "Sản phẩm có dấu hiệu lừa đảo",
+        "Tên với mô tả sản phẩm không phù hợp",
+    ];
+    const [value, setValue] = useState(reasons[0]);
+    const [description, setDescription] = useState("");
+    const { productId, openReport, setOpenReport } = props;
+
+    const handleReport = async () => {
+        const msg = message.loading("Đang gửi tố cáo", 0);
+        let report_ = {
+            reason: value,
+            description: description,
+        };
+
+        await dispatch(productActions.reportProduct(productId, report_));
+        setTimeout(msg, 1);
+        setOpenReport(false);
+    };
+
+    const handleClose = () => {
+        setOpenReport(false);
+    };
+
+    return (
+        <Dialog open={openReport} setOpen={setOpenReport}>
+            <DialogTitle>Chọn lý do</DialogTitle>
+            <DialogContent>
+                <div>
+                    <FormControl
+                        variant="outlined"
+                        style={{ width: "100%", marginBottom: "1em" }}
+                    >
+                        <Select
+                            id="demo-simple-select-outlined"
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            label="Lý do"
+                        >
+                            {reasons.map((item, index) => {
+                                return (
+                                    <MenuItem key={index} value={item}>
+                                        {item}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        label="Nội dung"
+                        multiline
+                        minRows={4}
+                        variant="outlined"
+                        style={{ width: "100%", marginTop: "1em" }}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button
+                    variant="contained"
+                    style={{
+                        backgroundColor: "#FF424E",
+                        color: "white",
+                        textTransform: "none",
+                    }}
+                    onClick={handleReport}
+                >
+                    Gửi
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 const ProductPriceInfo = ({ product }) => {
     const classes = useStyles();
+    const [openReport, setOpenReport] = useState(false);
 
     const discount_price = () => {
         let price =
@@ -415,6 +563,10 @@ const ProductPriceInfo = ({ product }) => {
         return formatter.format(x);
     };
 
+    const handleOpenReport = () => {
+        setOpenReport(true);
+    };
+
     return (
         <div
             // className={classes.block}
@@ -431,7 +583,7 @@ const ProductPriceInfo = ({ product }) => {
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <img src={TikiNow} alt="tiki now logo" />{" "}
+                    <img src={AumartNow} alt="aumart now logo" />{" "}
                     <span style={{ margin: "0 0.5em" }}>|</span>
                     <span className={classes.title}>{product.name}</span>
                 </div>
@@ -468,10 +620,10 @@ const ProductPriceInfo = ({ product }) => {
                         </Box>
                     )}
                     <span style={{ fontSize: "1em" }}>
-                        Branch: <Link to="#">{product.branch}</Link>
-                        <span style={{ marginLeft: "1em", color: "#9B9B9B" }}>
-                            ID: {product.id}
-                        </span>
+                        <Typography>Thương hiệu: {product.branch}</Typography>
+                        <Typography style={{ color: "#9B9B9B" }}>
+                            ID: {product._id}
+                        </Typography>
                     </span>
                 </div>
                 <div
@@ -479,29 +631,57 @@ const ProductPriceInfo = ({ product }) => {
                         display: "flex",
                         paddingTop: "12px",
                         alignItems: "center",
+                        justifyContent: "space-between",
                     }}
                 >
-                    {discount_price !== "NaN" ? (
-                        <>
-                            <span style={{ fontSize: "2em", fontWeight: 500 }}>
-                                {discounted_price()}
-                            </span>
+                    <div>
+                        {discount_price !== "NaN" ? (
+                            <>
+                                <span
+                                    style={{ fontSize: "2em", fontWeight: 500 }}
+                                >
+                                    {discounted_price()}
+                                </span>
+                                <span
+                                    className={classes.discount}
+                                    style={{
+                                        color: "#FF3425",
+                                        fontSize: "0.75em",
+                                    }}
+                                >
+                                    -{product.discount}%
+                                </span>
+                            </>
+                        ) : (
                             <span
-                                className={classes.discount}
-                                style={{ color: "#FF3425", fontSize: "0.75em" }}
+                                style={{
+                                    fontSize: "1.5em",
+                                    fontWeight: 600,
+                                }}
                             >
-                                -{product.discount}%
+                                {product.price}
                             </span>
-                        </>
-                    ) : (
-                        <span
+                        )}
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <Button
+                            to={"#"}
                             style={{
-                                fontSize: "1.5em",
-                                fontWeight: 600,
+                                fontSize: "0.9em",
+                                color: "#757575",
+                                textTransform: "none",
                             }}
+                            onClick={handleOpenReport}
                         >
-                            {product.price}
-                        </span>
+                            Tố cáo{" "}
+                        </Button>
+                    </div>
+                    {openReport && (
+                        <ReportModal
+                            productId={product.id}
+                            openReport={openReport}
+                            setOpenReport={setOpenReport}
+                        />
                     )}
                 </div>
             </div>
@@ -518,10 +698,13 @@ const ProductOptions = ({ product }) => {
 
     const classes = useStyles();
     const [amount, setAmount] = useState(1);
-    const [setColor] = useState(product.colors[0]);
+    const [color, setColor] = useState(null);
+    const availableSaleQuantity =
+        product.sale && product.sale.quantity - product.sale.soldQuantity;
+    const availableQuantity = product.quantity - product.soldQuantity;
 
     const handleDecrease = () => {
-        if (amount - 1 >= 0) {
+        if (amount > 1) {
             setAmount(amount - 1);
         }
     };
@@ -533,32 +716,47 @@ const ProductOptions = ({ product }) => {
     };
 
     // product color options
-    const colorOption = product.colors.map((item, index) => {
-        return (
-            <div key={index} style={{ marginLeft: "1em", marginTop: "0.8em" }}>
-                {/* <Button variant="contained" color="primary">{item}</Button> */}
-                <ToggleButton
-                    size={"small"}
-                    style={{
-                        fontSize: "0.75em",
-                        padding: "0 0.5em",
-                        height: "3em",
-                    }}
-                    selected
-                    value={item}
-                    onClick={() => {
-                        setColor(item);
-                    }}
+    const colorOption =
+        product.colors &&
+        product.colors.map((item, index) => {
+            return (
+                <div
+                    key={index}
+                    style={{ marginTop: "0.8em", display: "flex" }}
                 >
-                    {item}
-                </ToggleButton>
-            </div>
-        );
-    });
+                    <ToggleButton
+                        size={"small"}
+                        style={{
+                            fontSize: "0.75em",
+                            padding: "0 0.5em",
+                            height: "3em",
+                            backgroundColor: "#FFFFFF",
+                        }}
+                        className={
+                            color === item
+                                ? classes.button__color__enabled
+                                : classes.button__color__disabled
+                        }
+                        selected
+                        value={item}
+                        onClick={() => {
+                            setColor(item);
+                        }}
+                        // disabled={item !== color}
+                    >
+                        {item}
+                    </ToggleButton>
+                </div>
+            );
+        });
 
     const handleAddToCart = () => {
+        if (color === null) {
+            message.error("Vui lòng chọn loại sản phẩm");
+            return;
+        }
         for (let i = 0; i < amount; i++) {
-            dispatch(cartActions.addToCart(product));
+            dispatch(cartActions.addToCart({ ...product, color: color }));
             dispatch(cartActions.updateFinalTotal());
         }
     };
@@ -566,8 +764,8 @@ const ProductOptions = ({ product }) => {
     return (
         <div className={classes.block}>
             <div className="color-options" style={{ width: "100%" }}>
-                <div style={{ fontWeight: 600 }}>Color options</div>
-                <Grid container spacing={2} style={{ width: "fit-content" }}>
+                <div style={{ fontWeight: 600 }}>Phân loại</div>
+                <Grid container style={{ display: "flex", gap: "0.5em" }}>
                     {colorOption}
                 </Grid>
             </div>
@@ -580,12 +778,11 @@ const ProductOptions = ({ product }) => {
                         fontWeight: 600,
                     }}
                 >
-                    Amount:
+                    Số lượng:
                 </p>
                 <Grid container xl spacing={2}>
                     <Grid item>
-                        <ButtonGroup
-                            size="small"
+                        <div
                             style={{
                                 height: "2em",
                                 marginTop: "0.4em",
@@ -593,69 +790,76 @@ const ProductOptions = ({ product }) => {
                             }}
                             color={"primary"}
                         >
-                            <Button onClick={handleDecrease}>-</Button>
+                            <Button
+                                onClick={handleDecrease}
+                                style={{
+                                    width: "2em",
+                                    borderRadius: 0,
+                                    border: "1px solid #ccc",
+                                }}
+                            >
+                                -
+                            </Button>
+
                             <TextField
-                                variant="outlined"
                                 style={{
                                     borderRadius: 0,
-                                    padding: 0,
-                                    margin: 0,
+                                    borderTop: "1px solid #ccc",
+                                    borderBottom: "1px solid #ccc",
+                                    width: "4em",
+                                    margin: "0.3",
+                                    textAlign: "center",
                                 }}
                                 value={amount}
                                 onChange={handleChange}
+                                disabled
                             />
-                            <Button onClick={handleIncrease}>+</Button>
-                        </ButtonGroup>
+                            <Button
+                                style={{
+                                    borderRadius: 0,
+                                    border: "1px solid #ccc",
+                                }}
+                                onClick={handleIncrease}
+                                disabled={
+                                    (product.sale &&
+                                        amount >= availableSaleQuantity) ||
+                                    amount >= availableQuantity
+                                }
+                            >
+                                +
+                            </Button>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <Typography style={{ color: "#757575" }}>
+                            {product.sale
+                                ? availableSaleQuantity
+                                : availableQuantity}{" "}
+                            sản phẩm sẵn có
+                        </Typography>
                     </Grid>
 
                     <Grid item style={{ width: "100%" }}>
                         <Button
                             onClick={handleAddToCart}
-                            variant="contained"
-                            color="secondary"
                             style={{
                                 fontSize: "1em",
                                 width: "100%",
+                                backgroundColor: "#FF424E",
+                                color: "white",
+                                textTransform: "none",
                             }}
                         >
-                            <img
-                                src={CartIcon}
-                                style={{
-                                    width: "15px",
-                                    height: "15px",
-                                    marginRight: "10px",
-                                    fontSize: "0.85em",
-                                }}
-                                alt={"a cart icon"}
-                            />
-                            Add to cart
+                            <ShoppingCartRounded />
+                            Thêm vào giỏ hàng
                         </Button>
                     </Grid>
                 </Grid>
             </div>
-            {/* <Grid item container className="product-add-to-cart">
-                {discount_price !== "NaN" && (
-                    <>
-                        {groupButton(discounted_price)}
-                        <IconButton
-                            aria-label="delete"
-                            size="small"
-                            style={{
-                                padding: 0,
-                                margin: 0,
-                                marginLeft: "0.5em",
-                                marginTop: "0.6em",
-                                height: "1.5em",
-                            }}
-                        >
-                            <FavoriteBorderIcon fontSize="inherit" />
-                        </IconButton>
-                    </>
-                )}
-            </Grid> */}
         </div>
     );
 };
+
 const InfoTable = (props) => {
     const classes = useStyles();
     const specsArray =
@@ -698,25 +902,40 @@ const ShippingInfo = () => {
                 background: "#FFFFFF",
             }}
         >
-            <Grid container>
+            <Grid container style={{ display: "flex", alignItems: "center" }}>
                 <Grid item xs={1} xl={1} md={1}>
-                    <img src={WarningIcon} alt={"a warning icon"} />
+                    <LocalShippingOutlined />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={11}>
                     {currentAddress ? (
                         <div
                             style={{
-                                fontSize: "1em",
-                                fontWeight: 600,
-                                marginBottom: "0.5em",
+                                display: "flex",
+                                alignItems: "center",
                             }}
                         >
-                            Giao đến{" "}
-                            {currentAddress.ward +
-                                ", " +
-                                currentAddress.district +
-                                ", " +
-                                currentAddress.city}
+                            <Typography
+                                style={{
+                                    fontSize: "1em",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {" "}
+                                Tới{" "}
+                                {currentAddress.ward +
+                                    ", " +
+                                    currentAddress.district +
+                                    ", " +
+                                    currentAddress.city}{" "}
+                            </Typography>
+                            <Link to="/dashboard/3">
+                                <ChangeCircleOutlined
+                                    style={{
+                                        color: "#0a68ff",
+                                        cursor: "pointer",
+                                    }}
+                                />
+                            </Link>
                         </div>
                     ) : (
                         <span>
@@ -731,7 +950,7 @@ const ShippingInfo = () => {
     );
 };
 
-const ServiceAndPromotion = ({ saleProduct }) => {
+const ServiceAndPromotion = ({ product }) => {
     const classes = useStyles();
     return (
         <div className={classes.block}>
@@ -739,7 +958,7 @@ const ServiceAndPromotion = ({ saleProduct }) => {
                 <Grid item className="price-block" xl={7} xs={12}>
                     {/* deal counter for hot products */}
                     <DealCounter
-                        product={saleProduct}
+                        product={product}
                         timeInMilliSec={
                             (Math.floor(Math.random() * 10) + 2) * 100000
                         }
@@ -747,36 +966,19 @@ const ServiceAndPromotion = ({ saleProduct }) => {
 
                     {/*Report products */}
                     <div
-                        className={classes.block}
-                        style={{ fontSize: "0.75em", marginTop: "1em" }}
-                    >
-                        <div>
-                            <img
-                                className={classes.responseIcon}
-                                src={ResIcon}
-                                alt={"a response icon"}
-                            />
-                            <span>
-                                <Link to="#">
-                                    Report the product incorrect information.
-                                </Link>
-                            </span>
-                        </div>
-                    </div>
-                    <div
                         className="promotion-section"
                         style={{ fontSize: "0.75em" }}
                     >
                         <div style={{ fontWeight: 600, fontSize: "1em" }}>
-                            RELATED SERVICES AND PROMOTIONS
+                            Dịch vụ và khuyến mãi
                         </div>
                         <ul>
                             <li>
                                 <p style={{ padding: 0, margin: 0 }}>
-                                    Refunds to TikiNow members (maximum:
-                                    100k/month),{" "}
+                                    Tiết kiệm hơn với Aumart Member (tối đa
+                                    1tr/tháng),{" "}
                                     <span style={{ color: "red" }}>0.25%</span>{" "}
-                                    (10.375$) - <Link to="#">Detail</Link>
+                                    <Link to="#">Chi tiết</Link>
                                 </p>
                             </li>
                             <li>
@@ -786,9 +988,11 @@ const ServiceAndPromotion = ({ saleProduct }) => {
                                         backgroundColor: "yellow",
                                     }}
                                 >
-                                    SHB card
+                                    SHB bank
                                 </span>{" "}
-                                - 10% off for orders from 500k
+                                Giảm thêm{" "}
+                                <span style={{ color: "red" }}>10%</span> tối đa{" "}
+                                <span style={{ color: "red" }}>100.000đ</span>{" "}
                             </li>
                         </ul>
                     </div>
@@ -808,7 +1012,7 @@ const RecommendProd = (props) => {
     );
 };
 
-const TikiTranding = () => {
+const AumartTranding = () => {
     const classes = useStyles();
     return (
         <div
@@ -823,27 +1027,29 @@ const TikiTranding = () => {
             }}
         >
             <div className="name">
-                <i className={classes.tikiStoreIcon} />
-                <div className={classes.text}>
-                    <span style={{ color: "#189EFF" }}>Tiki trading</span>
-                    <p>Genuine commitment</p>
-                </div>
-            </div>
-            <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
-                <div className={classes.text}>
-                    <span style={{ fontWeight: 600 }}>Tiki refunds 111%</span>
-                    <p>if fake products are detected</p>
-                </div>
-            </div>
-            <div className={classes.warrantyInfo}>
-                <i className={classes.tikiRefund2} />
-                <div className={classes.text}>
-                    <span style={{ fontWeight: 600 }}>
-                        Warranty information
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <span style={{ color: "#189EFF", fontSize: "16px" }}>
+                        An tâm mua sắm
                     </span>
-                    <p style={{ padding: 0, margin: 0 }}>36 months</p>
-                    <Link to="#">Detail</Link>
+                    <Button>
+                        <ArrowForwardIosRounded style={{ fontSize: "1em" }} />
+                    </Button>
+                </div>
+            </div>
+            <div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <ArchiveRounded className={classes.icon} />
+                    <Typography>Được mở hộp kiểm tra khi nhận hàng</Typography>
+                </div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <CurrencyExchangeRounded className={classes.icon} />
+                    <Typography>Được hoàn tiền 111% nếu là hàng giả</Typography>
+                </div>
+                <div style={{ display: "flex", padding: "0.5em 0" }}>
+                    <RefreshRounded className={classes.icon} />
+                    <Typography>
+                        Đổi trả miễn phí tại nhà trong 30 ngày nếu sản phẩm lỗi
+                    </Typography>
                 </div>
             </div>
         </div>
@@ -861,7 +1067,7 @@ const ShopInfo = (props) => {
     const classes = useStyles();
     const shop = props.shop;
     const shopAvatar =
-        props.shop.avatar !== "no-photo.jpg"
+        props.shop && props.shop.avatar !== "no-photo.jpg"
             ? props.shop.avatar
             : defaultAvatar;
     return (
@@ -876,7 +1082,7 @@ const ShopInfo = (props) => {
                         justifyContent: "center",
                     }}
                 >
-                    <Link to={`/tiki/shops/${shop.id}`}>
+                    <Link to={`/aumart/shops/${shop.id}`}>
                         <div className={classes.shopInfo__avatar}>
                             <img src={shopAvatar} alt="" />
                         </div>
@@ -898,7 +1104,7 @@ const ShopInfo = (props) => {
                         >
                             <QuestionAnswerRounded /> Chat
                         </Button>
-                        <Link to={`/tiki/shops/${shop.id}`}>
+                        <Link to={`/aumart/shops/${shop.id}`}>
                             <Button
                                 size="medium"
                                 style={{
@@ -950,6 +1156,7 @@ const ShopInfo = (props) => {
         </div>
     );
 };
+
 const ProductDetailInfo = ({ product }) => {
     const classes = useStyles();
     return (
@@ -963,7 +1170,7 @@ const ProductDetailInfo = ({ product }) => {
                         marginBottom: "0.3em",
                     }}
                 >
-                    PRODUCT DETAIL INFO
+                    Chi tiết
                 </div>
                 {InfoTable(product)}
             </div>
@@ -975,7 +1182,7 @@ const ProductDetailInfo = ({ product }) => {
                         marginBottom: "0.3em",
                     }}
                 >
-                    PRODUCT DESCRIPTION
+                    Mô tả
                 </div>
                 <div
                     className={classes.grid}
@@ -988,111 +1195,43 @@ const ProductDetailInfo = ({ product }) => {
     );
 };
 
-const ProductQA = () => {
-    const classes = useStyles();
-    return (
-        <div className={classes.block} style={{ margin: 0 }}>
-            <div
-                style={{
-                    fontSize: "1.1em",
-                    fontWeight: 400,
-                    marginBottom: "0.3em",
-                }}
-            >
-                QUESTION AND ANSWER
-            </div>
-            <div className={classes.grid} style={{ padding: "2em" }}>
-                <div
-                    style={{
-                        display: "inline-block",
-                        marginRight: "3em",
-                        marginLeft: "2em",
-                        textAlign: "center",
-                    }}
-                >
-                    <div style={{ fontSize: "1.2em" }}>
-                        <b>0</b>
-                    </div>
-                    <div>likes</div>
-                </div>
-                <div style={{ display: "inline-block" }}>
-                    <div className={classes.question}>
-                        Can I change the product when it is broken?
-                    </div>
-                    <div className={classes.answer}>No, you cant</div>
-                    <div className={classes.answer}>
-                        Tiki answered at:{" "}
-                        {Moment(Date.now()).format("MMMM DD,YYYY")}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const theme = createTheme({
-    overrides: {
-        MuiButton: {
-            contained: {
-                backgroundColor: "#FDD22F",
-            },
-        },
-    },
-});
-
 const ProductReview = ({ product, reviews }) => {
     const classes = useStyles();
-    const [filter1, setFilter1] = useState(10);
-    const [filter2, setFilter2] = useState(10);
-    const [filter3, setFilter3] = useState(10);
-    const [open, setOpen] = useState(false);
-    const user = useSelector((state) => state.auth.user);
-    const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+    const [stars, setStars] = useState([0, 0, 0, 0, 0]);
 
-    const calculateStarPercent = (star) => {
-        let ratings = [];
-        reviews !== null &&
-            reviews.length > 0 &&
+    useEffect(() => {
+        if (reviews !== null) {
+            let temp = [0, 0, 0, 0, 0];
             reviews.map((review) => {
-                ratings.push(Math.round(review.rating));
-                return null;
+                temp[review.rating - 1] += 1;
             });
-        let starList =
-            ratings.length > 0 && ratings.filter((rating) => rating === star);
-        return (starList.length / ratings.length) * 100;
-    };
+            setStars(temp);
+        }
+    }, [reviews]);
 
-    const userHasCommentBefore = () => {
-        return (
-            reviews !== null &&
-            reviews.length > 0 &&
-            reviews.find((review) => {
-                return review.user._id === user.id;
-            })
-        );
-    };
+    const NumberFormat = (value) => {
+        const numberValue = parseFloat(value);
 
-    const handleOpenModal = () => {
-        isLoggedIn
-            ? setOpen(true)
-            : message.error("You need to be logged in to comment");
+        if (isNaN(numberValue)) {
+            return 0;
+        }
+        // Format the number to one decimal place
+        return numberValue.toLocaleString(undefined, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+        });
     };
-    const handleCloseModal = () => {
-        setOpen(false);
-    };
-
-    const rateStar = [5, 4, 3, 2, 1];
 
     return (
         <div className={classes.block}>
             <div
                 style={{
                     fontSize: "1.1em",
-                    fontWeight: 400,
+                    fontWeight: 600,
                     marginBottom: "0.3em",
                 }}
             >
-                CUSTOMER REVIEW
+                Khách hàng đánh giá
             </div>
             <Grid container>
                 <Grid
@@ -1100,37 +1239,52 @@ const ProductReview = ({ product, reviews }) => {
                     container
                     xs={12}
                     style={{
-                        paddingBottom: "1em",
-                        marginBottom: "1em",
-                        borderBottom: "1px solid #f4f4f4",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "2em",
+                        borderRadius: "0.5em",
+                        border: "1px solid #f4f4f4",
+                        backgroundColor: "#f6f8fc",
                     }}
                 >
-                    <Grid item container xs={3}>
+                    <Grid item container xs={2}>
                         <Grid item xs={12}>
-                            <div style={{ fontSize: "1em" }}>
-                                Average rating
-                            </div>
                             <div
-                                style={{ display: "flex", padding: "0.8em 0" }}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                }}
                             >
-                                <span
-                                    className="average-number"
-                                    style={{
-                                        fontSize: "2em",
-                                        fontWeight: 600,
-                                        color: "red",
-                                    }}
-                                >
-                                    {product.averageRating !== undefined
-                                        ? product.averageRating
-                                        : 0}
-                                    /5
-                                </span>
+                                <div style={{ textAlign: "center" }}>
+                                    <span
+                                        style={{
+                                            fontSize: "1.8em",
+                                            fontWeight: 600,
+                                            color: "red",
+                                        }}
+                                    >
+                                        {product.averageRating
+                                            ? NumberFormat(
+                                                  product.averageRating
+                                              )
+                                            : 0}{" "}
+                                        {""}
+                                    </span>
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            fontWeight: 600,
+                                            fontSize: "1.1em",
+                                        }}
+                                    >
+                                        trên 5
+                                    </span>
+                                </div>
                                 <Box
                                     component="fieldset"
-                                    mb={3}
                                     borderColor="transparent"
-                                    style={{ margin: "0 0.5em" }}
+                                    style={{ marginTop: "0.5em" }}
                                 >
                                     <Rating
                                         name="read-only"
@@ -1140,158 +1294,39 @@ const ProductReview = ({ product, reviews }) => {
                                 </Box>
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
-                            {rateStar.map((star) => (
-                                <span
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    {star}
-                                    <StarIcon fontSize="small" />
-                                    <Progress
-                                        value={calculateStarPercent(star)}
-                                        color={"#23B445"}
-                                        style={{
-                                            width: "80%",
-                                            height: "0.5em",
-                                            marginLeft: "1em",
-                                        }}
-                                    />
-                                </span>
-                            ))}
-                        </Grid>
                     </Grid>
-                    <Grid item container xs={9}>
-                        <Grid
-                            item
-                            xs={12}
-                            style={{
-                                marginLeft: "3.5em",
-                                paddingLeft: "1em",
-                                borderLeft: "1px solid #f4f4f4",
-                            }}
-                        >
-                            {userHasCommentBefore() ? (
-                                <>
-                                    <span>
-                                        View you comment about the product
-                                    </span>{" "}
-                                    <br />
-                                    <ThemeProvider theme={theme}>
-                                        <Link to={"/dashboard/9"}>
-                                            <Button
-                                                size="small"
-                                                variant="contained"
-                                                style={{ marginTop: "0.5em" }}
-                                                onClick={handleOpenModal}
-                                            >
-                                                View your comments
-                                            </Button>
-                                        </Link>
-                                    </ThemeProvider>
-                                </>
-                            ) : (
-                                <>
-                                    <span>
-                                        Share your comment about the product
-                                    </span>{" "}
-                                    <br />
-                                    <ThemeProvider theme={theme}>
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            style={{ marginTop: "0.5em" }}
-                                            onClick={handleOpenModal}
-                                        >
-                                            Write your comment
-                                        </Button>
-                                    </ThemeProvider>
-                                    <TransitionsModal
-                                        open={open}
-                                        onClose={handleCloseModal}
-                                        piority={0}
-                                        productId={product.id}
-                                        type={"commentModal"}
-                                    />
-                                </>
-                            )}
-                        </Grid>
+                    <Grid item container xs={10}>
+                        <div>
+                            <Button className={classes.button__filter__enabled}>
+                                Tất cả
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                5 Sao ({stars[4]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                4 Sao ({stars[3]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                3 Sao ({stars[2]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                2 Sao ({stars[1]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                1 Sao ({stars[0]})
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                Có bình luận
+                            </Button>
+                            <Button className={classes.button__filter}>
+                                Có hình ảnh
+                            </Button>
+                        </div>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} style={{ paddingTop: "1em" }}>
-                    <div
-                        className="sort-options"
-                        style={{
-                            paddingBottom: "0.5em",
-                            borderBottom: "1px solid #f4f4f4",
-                        }}
-                    >
-                        <span style={{ lineHeight: "3em" }}>
-                            Filter the comments
-                        </span>
-                        <span>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter1}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter1(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>Useful</MenuItem>
-                                    <MenuItem value={20}>Newest</MenuItem>
-                                    <MenuItem value={30}>
-                                        Having images
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter2}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter2(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>
-                                        All customers
-                                    </MenuItem>
-                                    <MenuItem value={20}>
-                                        All customers made a purchase
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                {/* <InputLabel id="demo-simple-select-label">All stars</InputLabel> */}
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filter3}
-                                    style={{ paddingLeft: "0.3em" }}
-                                    onChange={(e) => setFilter3(e.target.value)}
-                                    variant="standard"
-                                >
-                                    <MenuItem value={10}>All stars</MenuItem>
-                                    <MenuItem value={20}>5</MenuItem>
-                                    <MenuItem value={30}>4</MenuItem>
-                                    <MenuItem value={30}>3</MenuItem>
-                                    <MenuItem value={30}>2</MenuItem>
-                                    <MenuItem value={30}>1</MenuItem>
-                                    <MenuItem value={30}>Satisfied</MenuItem>
-                                    <MenuItem value={30}>
-                                        Not satisfied
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                        </span>
-                    </div>
                     <div className="review">
-                        {reviews !== null &&
-                            reviews.length > 0 &&
+                        {reviews !== null && reviews.length > 0 ? (
                             reviews.map((review, index) => (
                                 <ReviewCard
                                     review={review}
@@ -1299,7 +1334,25 @@ const ProductReview = ({ product, reviews }) => {
                                     product={product}
                                     type={"product"}
                                 />
-                            ))}
+                            ))
+                        ) : (
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    padding: "2em",
+                                    backgroundColor: "#f6f8fc",
+                                }}
+                            >
+                                <Typography
+                                    style={{
+                                        fontSize: "1.2em",
+                                        color: "#0a68ff",
+                                    }}
+                                >
+                                    {"Không có đánh giá nào :(("}
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </Grid>
             </Grid>
@@ -1484,8 +1537,12 @@ const ProductDetailPage = (props) => {
                                             product={product}
                                         />
 
-                                        <ShopInfo shop={product.shop} />
-                                        <TikiTranding />
+                                        <ShopInfo
+                                            shop={
+                                                product.shop ? product.shop : {}
+                                            }
+                                        />
+                                        <AumartTranding />
                                         <ProductDetailInfo product={product} />
                                     </div>
                                 )}
@@ -1502,17 +1559,11 @@ const ProductDetailPage = (props) => {
                                 xs={12}
                                 style={{ padding: "0 0.5em 0.5em 0.5em" }}
                             >
-                                {ProductQA()}
-                            </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                style={{ padding: "0 0.5em 0.5em 0.5em" }}
-                            >
                                 <RecommendProd
                                     user={user}
                                     itemWidth={"170px"}
                                     type={"slider"}
+                                    rerender={true}
                                 />
                             </Grid>
                             <Grid
@@ -1523,6 +1574,7 @@ const ProductDetailPage = (props) => {
                                 <TopProducts
                                     itemWidth={"170px"}
                                     type={"slider"}
+                                    rerender={true}
                                 />
                             </Grid>
                             <Grid item xs={12} style={{ padding: "0.5em" }}>

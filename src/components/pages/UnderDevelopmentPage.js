@@ -44,7 +44,7 @@ const UnderDevelopmentPage = (props) => {
                         alt={"superImg"}
                         style={{
                             position: "absolute",
-                            top: "60%",
+                            top: "35%",
                             left: "15%",
                         }}
                     />
@@ -61,20 +61,31 @@ const UnderDevelopmentPage = (props) => {
                                         marginLeft: "3em",
                                     }}
                                 >
-                                    Sorry, the page you are looking for does not
-                                    exist!
+                                    Xin lỗi, trang bạn tìm kiếm không tồn tại!
                                 </div>
                             </>
                         )}
                         {props.status === "underDevelopment" && (
                             <>
+                                <div
+                                    style={{
+                                        fontWeight: "bold",
+                                        fontSize: "5em",
+                                        color: "white",
+                                        position: "absolute",
+                                        top: "40%",
+                                        left: "50%",
+                                    }}
+                                >
+                                    404
+                                </div>
                                 <img
                                     src={gear}
                                     alt={"gear"}
                                     style={{
                                         width: "10%",
                                         position: "absolute",
-                                        top: "80%",
+                                        top: "45%",
                                         left: "35%",
                                     }}
                                 />
@@ -84,23 +95,35 @@ const UnderDevelopmentPage = (props) => {
                                         fontSize: "2.2em",
                                         color: "white",
                                         position: "absolute",
-                                        top: "85%",
+                                        top: "50%",
                                         left: "50%",
                                     }}
                                 >
-                                    Sorry, this page is under development!
+                                    Xin lỗi, trang bạn tìm kiếm không tồn tại!
                                 </div>
                             </>
                         )}
                         {props.status === "notFound" && (
                             <>
+                                <div
+                                    style={{
+                                        fontWeight: "bold",
+                                        fontSize: "5em",
+                                        color: "white",
+                                        position: "absolute",
+                                        top: "40%",
+                                        left: "50%",
+                                    }}
+                                >
+                                    404
+                                </div>
                                 <img
                                     src={gear}
                                     alt={"gear"}
                                     style={{
                                         width: "10%",
                                         position: "absolute",
-                                        top: "80%",
+                                        top: "45%",
                                         left: "35%",
                                     }}
                                 />
@@ -110,12 +133,11 @@ const UnderDevelopmentPage = (props) => {
                                         fontSize: "2.2em",
                                         color: "white",
                                         position: "absolute",
-                                        top: "85%",
+                                        top: "50%",
                                         left: "50%",
                                     }}
                                 >
-                                    Sorry, the product you are looking for
-                                    doesn't exist!
+                                    Xin lỗi, trang bạn tìm kiếm không tồn tại!
                                 </div>
                             </>
                         )}

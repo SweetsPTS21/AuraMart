@@ -246,7 +246,7 @@ const ModalTabSection = (props) => {
                         <div className={classes.descriptionSection}>
                             <img
                                 src={loginImage}
-                                alt="tiki-graphic-map"
+                                alt="aumart-graphic-map"
                                 style={{ height: "200px", width: "200px" }}
                             />
 
@@ -319,7 +319,12 @@ const ModalComment = (props) => {
             md={12}
             sm={12}
             xs={12}
-            style={{ padding: "10%", minWidth: "520px", height: "100%", position: "relative" }}
+            style={{
+                padding: "10%",
+                minWidth: "520px",
+                height: "100%",
+                position: "relative",
+            }}
         >
             <Typography variant="h5" style={{ marginBottom: "1em" }}>
                 Đánh giá sản phẩm

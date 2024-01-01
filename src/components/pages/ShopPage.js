@@ -32,12 +32,15 @@ import { Typography } from "@material-ui/core";
 import {
     CommentRounded,
     GradeRounded,
+    Groups2Rounded,
+    KeyboardArrowDownRounded,
     QuestionAnswerRounded,
     StorefrontRounded,
 } from "@mui/icons-material";
 
 import defaultAvatar from "../../image/shopAvatar.jpg";
 import defaultBackground from "../../image/shopBack.jpg";
+import { KeyboardArrowUpRounded, WhatshotOutlined } from "@material-ui/icons";
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -118,6 +121,17 @@ const useStyle = makeStyles(() => ({
         display: "flex",
         justifyContent: "space-between",
         padding: "0.5em 0",
+    },
+
+    button__filter: {
+        borderRadius: "4px",
+        border: "1px solid #ccc",
+        backgroundColor: "#fff",
+    },
+
+    button__filter__enabled: {
+        border: "1px solid #FF424E",
+        backgroundColor: "#fff",
     },
 
     avatar: {
@@ -420,7 +434,7 @@ const ShopProducts = (props) => {
         <ItemContainer
             length={products.length}
             type={"container"}
-            title={"All products you might like"}
+            title={"Có thể bạn sẽ thích"}
             seeMore={() => {
                 seeMoreDiscountedProd((val) => val + 10);
                 setLoadingDisProd(true);
@@ -474,7 +488,7 @@ const DealProducts = (props) => {
         <ItemContainer
             length={products.length}
             type={"slider"}
-            title={"Hot deals"}
+            title={"Đang giảm giá"}
             seeMore={() => {
                 setSeeMoreProd((val) => val + 10);
                 setLoadingProd(true);
@@ -642,7 +656,107 @@ const ShopPage = (props) => {
                         >
                             <Grid container style={{ padding: 0, margin: 0 }}>
                                 <Grid item xs={2}>
-                                    <p>This is filter</p>
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            padding: "1em",
+                                        }}
+                                    >
+                                        <Typography
+                                            style={{
+                                                fontSize: "1.1em",
+                                                marginBottom: "0.5em",
+                                            }}
+                                        >
+                                            Sắp xếp theo
+                                        </Typography>
+                                        <div
+                                            style={{
+                                                position: "sticky",
+                                                top: "1em",
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                gap: "0.5em",
+                                            }}
+                                        >
+                                            <IconButton
+                                                size="medium"
+                                                className={
+                                                    classes.button__filter
+                                                }
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        marginRight: "0.5em",
+                                                    }}
+                                                >
+                                                    Phổ biến
+                                                </Typography>
+                                                <Groups2Rounded />
+                                            </IconButton>
+                                            <IconButton
+                                                size="medium"
+                                                className={
+                                                    classes.button__filter
+                                                }
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        marginRight: "0.5em",
+                                                    }}
+                                                >
+                                                    Mới nhất
+                                                </Typography>
+                                                <GradeRounded />
+                                            </IconButton>
+                                            <IconButton
+                                                size="medium"
+                                                className={
+                                                    classes.button__filter
+                                                }
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        marginRight: "0.5em",
+                                                    }}
+                                                >
+                                                    Bán chạy
+                                                </Typography>
+                                                <WhatshotOutlined />
+                                            </IconButton>
+                                            <IconButton
+                                                size="medium"
+                                                className={
+                                                    classes.button__filter
+                                                }
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        marginRight: "0.5em",
+                                                    }}
+                                                >
+                                                    Giá thấp
+                                                </Typography>
+                                                <KeyboardArrowUpRounded />
+                                            </IconButton>
+                                            <IconButton
+                                                size="medium"
+                                                className={
+                                                    classes.button__filter
+                                                }
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        marginRight: "0.5em",
+                                                    }}
+                                                >
+                                                    Giá cao
+                                                </Typography>
+                                                <KeyboardArrowDownRounded />
+                                            </IconButton>
+                                        </div>
+                                    </div>
                                 </Grid>
                                 <Grid item xs={10}>
                                     <ShopProducts

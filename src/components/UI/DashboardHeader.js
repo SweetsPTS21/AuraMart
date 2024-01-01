@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import tikiNow from "../../image/tiki-now2.png";
-import tikixu from "../../image/tikixu.svg";
+import aumartNow from "../../image/aumart-now2.png";
+import aumartxu from "../../image/aumartxu.svg";
 
 import navbarStyles from "../../styles/NavbarStyles";
 import { Typography } from "antd";
@@ -58,7 +58,7 @@ const DashboardHeader = (props) => {
                         style={{ display: "flex", alignItems: "Center" }}
                     >
                         <img
-                            src={tikiNow}
+                            src={aumartNow}
                             style={{ width: "32px", height: "32px" }}
                             alt={"oven"}
                         />
@@ -75,8 +75,8 @@ const DashboardHeader = (props) => {
                                 ? "Kênh quản lý"
                                 : "Kênh người bán"}
                         </Typography>
-                        {shop && (
-                            <Link to={`/tiki/shops/${shop.id}`}>
+                        {shop && shop.status === "active" && (
+                            <Link to={`/aumart/shops/${shop.id}`}>
                                 <Button
                                     style={{
                                         marginLeft: "1em",
@@ -120,7 +120,7 @@ const DashboardHeader = (props) => {
                             }}
                         >
                             <img
-                                src={tikixu}
+                                src={aumartxu}
                                 style={{ width: "32px", height: "32px" }}
                                 alt={"oven"}
                             />

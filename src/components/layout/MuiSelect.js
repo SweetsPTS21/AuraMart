@@ -26,6 +26,7 @@ const MuiSelect = (props) => {
                     value={value}
                     onChange={(_, newValue) => setValue(newValue)}
                     defaultValue={items[0]}
+                    {...props}
                 >
                     {items.map((item) => (
                         <Option key={item} value={item}>

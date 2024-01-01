@@ -6,10 +6,10 @@ import OrderStats from "../AdminDashboardComponents/Stats/OrderStats";
 import { getAllOrdersOfAShop } from "../../../store/actions/orderActions";
 import { getProductsByShopId } from "../../../store/actions/productActions";
 import ProductStats from "../AdminDashboardComponents/Stats/ProductStats";
-import Card from "../AdminDashboardComponents/Card/Card";
-import CardHeader from "../AdminDashboardComponents/Card/CardHeader";
-import CardIcon from "../AdminDashboardComponents/Card/CardIcon";
-import CardFooter from "../AdminDashboardComponents/Card/CardFooter";
+import Card from "../../layout/Card/Card";
+import CardHeader from "../../layout/Card/CardHeader";
+import CardIcon from "../../layout/Card/CardIcon";
+import CardFooter from "../../layout/Card/CardFooter";
 import Moment from "react-moment";
 import {
     Accessibility,
@@ -26,12 +26,15 @@ import {
 } from "@mui/icons-material";
 
 import ReviewStats from "../AdminDashboardComponents/Stats/ReviewStats";
+import { getShopStats } from "../../../store/actions/statsActions";
+import { getConfigsByShopId } from "../../../store/actions/configActions";
+import { getAllStocksOfAShop } from "../../../store/actions/stockActions";
+
 const useStyles = makeStyles(() => ({
     root: {
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        // marginTop: "20px",
     },
 
     container: {
@@ -76,10 +79,9 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const HomeConfig = (props) => {
+const HomeConfig = () => {
     const classes = useStyles();
     const [ordersLastUpdated] = useState(Date.now());
-    const products = props.products ? props.products : [];
     const statistic = useSelector((state) => state.stats.statistics);
 
     const formatVND = (price) => {
@@ -93,8 +95,8 @@ const HomeConfig = (props) => {
         <>
             <Grid item xs={3}>
                 <Card>
-                    <CardHeader color="tiki" stats icon>
-                        <CardIcon color="tiki">
+                    <CardHeader color="aumart" stats icon>
+                        <CardIcon color="aumart">
                             <Report />
                         </CardIcon>
                         <p className={classes.cardCategory}>Tổng đơn hàng</p>
@@ -124,7 +126,9 @@ const HomeConfig = (props) => {
                             <Store />
                         </CardIcon>
                         <p className={classes.cardCategory}>Sản phẩm</p>
-                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                        <h3 className={classes.cardTitle}>
+                            {statistic && statistic.products}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -190,8 +194,8 @@ const HomeConfig = (props) => {
             {/* Shop status */}
             <Grid item xs={3}>
                 <Card>
-                    <CardHeader color="tiki" stats icon>
-                        <CardIcon color="tiki">
+                    <CardHeader color="aumart" stats icon>
+                        <CardIcon color="aumart">
                             <GradeRounded />
                         </CardIcon>
                         <p className={classes.cardCategory}>Đánh giá</p>
@@ -217,7 +221,9 @@ const HomeConfig = (props) => {
                             <CommentRounded />
                         </CardIcon>
                         <p className={classes.cardCategory}>Phản hồi</p>
-                        <h3 className={classes.cardTitle}>{products.length}</h3>
+                        <h3 className={classes.cardTitle}>
+                            {statistic && statistic.reviews}
+                        </h3>
                     </CardHeader>
                     <CardFooter stats>
                         <div className={classes.stats}>
@@ -322,14 +328,17 @@ const SellerHome = () => {
     useEffect(() => {
         if (shop) {
             dispatch(getAllOrdersOfAShop(shop.id));
+            dispatch(getConfigsByShopId(shop.id));
+            dispatch(getAllStocksOfAShop(shop.id));
             dispatch(getProductsByShopId(shop.id));
+            dispatch(getShopStats(shop.id));
         }
     }, [shop, dispatch]);
 
     return (
         <div className={classes.root}>
             <Grid container className={classes.container} spacing={3}>
-                <HomeConfig products={products} />
+                <HomeConfig />
                 <ShopStatistic
                     products={products}
                     orders={orders}

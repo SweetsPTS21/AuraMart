@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import {
     Autocomplete,
     Button,
+    Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControlLabel,
+    FormGroup,
     Grid,
     IconButton,
     Pagination,
@@ -18,11 +21,12 @@ import {
     TableHead,
     TableRow,
     TextField,
+    Typography,
 } from "@mui/material";
 import { Delete, Edit, Settings, Visibility } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+
 import UpdateAProductForm from "../AdminDashboardComponents/Products/UpdateAProductForm";
 import { useDispatch, useSelector } from "react-redux";
 import AddANewProduct from "../AdminDashboardComponents/Products/AddANewProduct";
@@ -32,6 +36,7 @@ import MuiSelect from "../../layout/MuiSelect";
 
 import { setSaleProduct } from "../../../store/actions/productActions";
 import { message } from "antd";
+import { format } from "date-fns";
 
 const userStyles = makeStyles(() => ({
     root: {
@@ -155,20 +160,21 @@ const SaleConfig = (props) => {
     const classes = userStyles();
     const dispatch = useDispatch();
     const { shop, open, setOpen, saleProduct } = props;
-    const [sale, setSale] = useState(saleProduct.sale);
+    const [sale, setSale] = useState(saleProduct.sale || false);
     const [discount, setDiscount] = useState(saleProduct.discount);
     const [quantity, setQuantity] = useState(saleProduct.quantity);
     const [soldQuantity] = useState(saleProduct.soldQuantity);
-    const [beginAt, setBeginAt] = useState(saleProduct.beginAt);
+    const [beginAt, setBeginAt] = useState(format(Date.now(), "yyyy-MM-dd"));
     const [endIn, setEndIn] = useState(saleProduct.endIn);
 
     const handleClose = () => {
         setOpen(false);
     };
+
     const handleSave = async () => {
         const msg = message.loading("Updating product", 0);
         const saleProduct_ = {
-            sale: sale === "Sale" ? true : false,
+            sale,
             discount,
             quantity,
             beginAt,
@@ -180,7 +186,11 @@ const SaleConfig = (props) => {
         handleClose();
     };
 
-    const status = ["Sale", "Not On Sale"];
+    // const formatDate = (date) => {
+    //     const d = new Date(date);
+    //     return format(d, "dd/MM/yyyy");
+    // };
+
     const duration = ["30", "60", "90", "120"];
 
     return (
@@ -194,6 +204,38 @@ const SaleConfig = (props) => {
                 <Grid container className={classes.stock__dialog}>
                     <Grid
                         item
+                        xs={12}
+                        style={{
+                            display: "flex",
+                            marginBottom: "1em",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography
+                            style={{
+                                padding: "0 0.5em",
+                                backgroundColor: "#12B76A",
+                                borderRadius: "0.5em",
+                                color: "#fff",
+                                marginRight: "1em",
+                            }}
+                        >
+                            Sale
+                        </Typography>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={sale}
+                                        onChange={() => setSale(!sale)}
+                                    />
+                                }
+                                label="Bật giảm giá cho sản phẩm"
+                            />
+                        </FormGroup>
+                    </Grid>
+                    <Grid
+                        item
                         xs={6}
                         style={{ flexDirection: "column", marginBottom: "1em" }}
                     >
@@ -203,6 +245,7 @@ const SaleConfig = (props) => {
                             setValue={setDiscount}
                             required={true}
                             defaultValue={0}
+                            disabled={sale ? false : true}
                         />
                     </Grid>
                     <Grid
@@ -216,6 +259,7 @@ const SaleConfig = (props) => {
                             setValue={setQuantity}
                             required={true}
                             defaultValue={0}
+                            disabled={sale ? false : true}
                         />
                     </Grid>
                     <Grid
@@ -227,10 +271,10 @@ const SaleConfig = (props) => {
                         <MuiInput
                             aria-label="Begin"
                             type="date"
-                            defaultValue={Date.now()}
                             value={beginAt}
                             onChange={(e) => setBeginAt(e.target.value)}
                             required={true}
+                            disabled={sale ? false : true}
                         />
                     </Grid>
                     <Grid
@@ -245,23 +289,7 @@ const SaleConfig = (props) => {
                             setValue={setEndIn}
                             items={duration}
                             required={true}
-                        />
-                    </Grid>
-                    <Grid
-                        item
-                        xs={6}
-                        style={{ flexDirection: "column", marginBottom: "1em" }}
-                    >
-                        <Typography style={{ marginBottom: "0.5em" }}>
-                            Sale
-                        </Typography>
-                        <MuiSelect
-                            aria-label="Sale"
-                            value={sale}
-                            setValue={setSale}
-                            items={status}
-                            required={true}
-                            // onChange={(e) => setDate(e.target.value)}
+                            disabled={sale ? false : true}
                         />
                     </Grid>
                 </Grid>
@@ -279,6 +307,7 @@ const SaleConfig = (props) => {
         </Dialog>
     );
 };
+
 const ProductsManagement = () => {
     const theme = useTheme();
     const classes = userStyles();
@@ -293,9 +322,11 @@ const ProductsManagement = () => {
     const products = useSelector((state) => state.products.productsInShop);
     const shop = useSelector((state) => state.shops.userShop);
 
-    const filteredProducts =  products && products.filter((product) =>
-        product.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filteredProducts =
+        products &&
+        products.filter((product) =>
+            product.name.toLowerCase().includes(searchText.toLowerCase())
+        );
 
     const handleSearch = () => {
         // Implement your search logic here
@@ -332,7 +363,7 @@ const ProductsManagement = () => {
             >
                 {status > 0 ? status : "Out of stock"}
             </Typography>
-        )
+        );
     };
 
     return (
@@ -352,7 +383,9 @@ const ProductsManagement = () => {
                 <Typography variant="h5">Search</Typography>
                 <Autocomplete
                     id="search-product"
-                    options={products && products.map((product) => product.name)}
+                    options={
+                        products && products.map((product) => product.name)
+                    }
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -386,13 +419,13 @@ const ProductsManagement = () => {
                 <Table>
                     <ProductTableHead>
                         <TableRow>
-                            <ProductTableCell>ID Product</ProductTableCell>
-                            <ProductTableCell>Product Name</ProductTableCell>
-                            <ProductTableCell>Image</ProductTableCell>
-                            <ProductTableCell>Product Price</ProductTableCell>
-                            <ProductTableCell>Product Status</ProductTableCell>
-                            <ProductTableCell>Sale status</ProductTableCell>
-                            <ProductTableCell>Actions</ProductTableCell>
+                            <ProductTableCell>ID</ProductTableCell>
+                            <ProductTableCell>Tên</ProductTableCell>
+                            <ProductTableCell>Hình ảnh</ProductTableCell>
+                            <ProductTableCell>Giá</ProductTableCell>
+                            <ProductTableCell>Tình trạng</ProductTableCell>
+                            <ProductTableCell>Sale</ProductTableCell>
+                            <ProductTableCell>Thao tác</ProductTableCell>
                         </TableRow>
                     </ProductTableHead>
                     <TableBody>
@@ -427,7 +460,10 @@ const ProductsManagement = () => {
                                             {product.price}
                                         </ProductTableCell>
                                         <ProductTableCell>
-                                            {productStatus(product.quantity, product.soldQuantity)}
+                                            {productStatus(
+                                                product.quantity,
+                                                product.soldQuantity
+                                            )}
                                         </ProductTableCell>
                                         <ProductTableCell>
                                             <div
@@ -443,8 +479,8 @@ const ProductsManagement = () => {
                                                     style={{
                                                         backgroundColor:
                                                             product.sale
-                                                                ? "green"
-                                                                : "red",
+                                                                ? "#13C2C2"
+                                                                : "#FF3838",
                                                     }}
                                                 >
                                                     {product.sale
@@ -517,7 +553,7 @@ const ProductsManagement = () => {
                         {filteredProducts.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={6} align="center">
-                                    No products found!
+                                    Không có sản phẩm nào!
                                 </TableCell>
                             </TableRow>
                         )}

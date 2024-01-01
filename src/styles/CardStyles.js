@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
         border: "1px solid #e5e5e5",
         borderRadius: "0.5em",
         "&:hover": {
-            boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
+            boxShadow:
+                "0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1)",
             cursor: "pointer",
         },
         display: "inline-flex",
@@ -29,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
         marginBottom: "1.5em",
     },
-    tikiNowTitle: {
+    aumartNowTitle: {
         fontSize: "0.75em",
         color: "#858585",
         fontWeight: 600,
         marginBottom: "1.5em",
     },
-    tikiNowBorder: {
+    aumartNowBorder: {
         borderTop: "1px solid #d3d3d7",
     },
     discount: {
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         zIndex: 0,
     },
-    tikiArrow: {
+    aumartArrow: {
         maxHeight: "20px",
     },
     priceOrigin: {
@@ -107,6 +108,11 @@ const useStyles = makeStyles((theme) => ({
     removeLinkStyle: {
         textDecoration: "none !important",
         color: "inherit !important",
+    },
+    "@global .MuiInputBase-input.Mui-disabled": {
+        textAlign: "center",
+        color: "black",
+        fontSize: "1em",
     },
 }));
 

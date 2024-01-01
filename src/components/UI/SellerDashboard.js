@@ -27,11 +27,7 @@ import HelpCenter from "./SellerDashbroadComponents/HelpCenter";
 import DashboardHeader from "./DashboardHeader";
 
 import * as shopActions from "../../store/actions/shopActions";
-import { getAllOrdersOfAShop } from "../../store/actions/orderActions";
-import { getProductsByShopId } from "../../store/actions/productActions";
-import { getConfigsByShopId } from "../../store/actions/configActions";
-import { getAllStocksOfAShop } from "../../store/actions/stockActions";
-import { getShopStats } from "../../store/actions/statsActions";
+import { Typography } from "antd";
 
 const SellerDashbroad = () => {
     const index = 0;
@@ -44,17 +40,7 @@ const SellerDashbroad = () => {
     useEffect(() => {
         if (user && (user.role === "seller" || user.role === "admin"))
             dispatch(shopActions.getShopByUserId(user._id));
-    }, [user, dispatch]);
-
-    useEffect(() => {
-        if (shop) {
-            dispatch(getAllOrdersOfAShop(shop.id));
-            dispatch(getProductsByShopId(shop.id));
-            dispatch(getConfigsByShopId(shop.id));
-            dispatch(getAllStocksOfAShop(shop.id));
-            dispatch(getShopStats(shop.id));
-        }
-    }, [shop]);
+    }, []);
 
     const options = [
         "Trang chủ",
@@ -114,77 +100,132 @@ const SellerDashbroad = () => {
         >
             <DashboardHeader user={user} />
             <div style={{ height: "64px" }}></div>
-            <Grid
-                container
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    margin: 0,
-                    minWidth: "1200px",
-                }}
-                spacing={5}
-            >
+            {shop && shop.status === "active" && (
                 <Grid
-                    item
-                    xs={2}
-                    style={{ margin: 0, backgroundColor: "#fff" }}
+                    container
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        margin: 0,
+                        minWidth: "1200px",
+                    }}
+                    spacing={3}
                 >
-                    <section style={{ position: "fixed" }}>
-                        <List
-                            component="nav"
-                            aria-label="main mailbox folders"
-                            style={{ margin: 0 }}
+                    <Grid
+                        item
+                        xs={2}
+                        style={{ margin: 0, backgroundColor: "#fff" }}
+                    >
+                        <div
+                            style={{
+                                position: "relative",
+                                width: "100%",
+                                height: "100%",
+                            }}
                         >
-                            {options.map((option, index) => (
-                                <ListItem
-                                    style={{
-                                        marginTop: 0,
-                                        marginBottom: 0,
-                                        paddingTop: "1.51%",
-                                        paddingBottom: "1.51%",
-                                        alignItems: "center",
-                                    }}
-                                    key={option}
-                                    button
-                                    selected={index === selectedIndex}
-                                    onClick={
-                                        (event) =>
-                                            handleMenuItemClick(event, index)
-                                        // onMouseEnter={event => handleMenuItemClick(event, index)
-                                    }
+                            <section
+                                style={{ position: "sticky", top: "76px" }}
+                            >
+                                <List
+                                    component="nav"
+                                    aria-label="main mailbox folders"
+                                    style={{ margin: 0 }}
                                 >
-                                    <ListItemIcon
-                                        style={{
-                                            marginTop: 0,
-                                            marginBottom: 0,
-                                            paddingTop: 0,
-                                            paddingBottom: 0,
-                                        }}
-                                    >
-                                        {optionsIcon[index]}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={option}
-                                        primaryTypographyProps={{
-                                            variant: "inherit",
-                                        }}
-                                        style={{
-                                            marginTop: 0,
-                                            marginBottom: 0,
-                                            paddingTop: 0,
-                                            paddingBottom: 0,
-                                        }}
-                                        className={classes.item2}
-                                    />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </section>
+                                    {options.map((option, index) => (
+                                        <ListItem
+                                            style={{
+                                                marginTop: 0,
+                                                marginBottom: 0,
+                                                paddingTop: "1.51%",
+                                                paddingBottom: "1.51%",
+                                                alignItems: "center",
+                                            }}
+                                            key={option}
+                                            button
+                                            selected={index === selectedIndex}
+                                            onClick={
+                                                (event) =>
+                                                    handleMenuItemClick(
+                                                        event,
+                                                        index
+                                                    )
+                                                // onMouseEnter={event => handleMenuItemClick(event, index)
+                                            }
+                                        >
+                                            <ListItemIcon
+                                                style={{
+                                                    marginTop: 0,
+                                                    marginBottom: 0,
+                                                    paddingTop: 0,
+                                                    paddingBottom: 0,
+                                                }}
+                                            >
+                                                {optionsIcon[index]}
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={option}
+                                                primaryTypographyProps={{
+                                                    variant: "inherit",
+                                                }}
+                                                style={{
+                                                    marginTop: 0,
+                                                    marginBottom: 0,
+                                                    paddingTop: 0,
+                                                    paddingBottom: 0,
+                                                }}
+                                                className={classes.item2}
+                                            />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </section>
+                        </div>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Grid container>{renderMenuItemComponent()}</Grid>
+                    </Grid>
                 </Grid>
-                <Grid item xs={10}>
-                    <Grid container>{renderMenuItemComponent()}</Grid>
-                </Grid>
-            </Grid>
+            )}
+            {shop && shop.status === "pending" && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <h1 style={{ color: "#f44336" }}>
+                        Cửa hàng của bạn đang chờ duyệt
+                    </h1>
+                    <Typography>
+                        Vui lòng liên hệ trợ giúp nếu cửa hàng của bạn chưa được
+                        duyệt trong vòng 48h
+                    </Typography>
+                </div>
+            )}
+            {shop && shop.status === "inactive" && (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <h1 style={{ color: "#f44336" }}>
+                        Cửa hàng của bạn đang bị dừng hoạt động
+                    </h1>
+                    <Typography>
+                        Vui lòng liên hệ bộ phẩn chăm sóc khách hàng để biết
+                        thêm thông tin
+                    </Typography>
+                </div>
+            )}
         </div>
     );
 };

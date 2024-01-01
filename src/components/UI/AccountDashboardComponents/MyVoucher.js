@@ -268,7 +268,7 @@ const VoucherRender = (props) => {
                                     >
                                         <Tab label="All" {...a11yProps(0)} />
                                         <Tab label="Shop" {...a11yProps(1)} />
-                                        <Tab label="Tiki" {...a11yProps(2)} />
+                                        <Tab label="Aumart" {...a11yProps(2)} />
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={tab} index={0}>
