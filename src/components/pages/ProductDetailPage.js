@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#F4F4F4",
     },
     block: {
-        marginBottom: "1.5em",
+        marginBottom: "1em",
         borderRadius: "0.5em",
         backgroundColor: "#FFFFFF",
         padding: "16px",
@@ -577,7 +577,7 @@ const ProductPriceInfo = ({ product }) => {
                 style={{
                     padding: "1em",
                     borderRadius: "0.5em",
-                    marginBottom: "1.5em",
+                    marginBottom: "1em",
                     paddingBottom: "1em",
                     backgroundColor: "white",
                 }}
@@ -898,7 +898,7 @@ const ShippingInfo = () => {
             style={{
                 borderRadius: "0.5em",
                 padding: "16px",
-                marginBottom: "1.5em",
+                marginBottom: "1em",
                 background: "#FFFFFF",
             }}
         >
@@ -1002,16 +1002,6 @@ const ServiceAndPromotion = ({ product }) => {
     );
 };
 
-const RecommendProd = (props) => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.block}>
-            <RecommendProduct {...props} />
-        </div>
-    );
-};
-
 const AumartTranding = () => {
     const classes = useStyles();
     return (
@@ -1023,7 +1013,7 @@ const AumartTranding = () => {
                 width: "auto",
                 padding: "16px",
                 fontSize: "0.9em",
-                marginBottom: "1.5em",
+                marginBottom: "1em",
             }}
         >
             <div className="name">
@@ -1559,7 +1549,7 @@ const ProductDetailPage = (props) => {
                                 xs={12}
                                 style={{ padding: "0 0.5em 0.5em 0.5em" }}
                             >
-                                <RecommendProd
+                                <RecommendProduct
                                     user={user}
                                     itemWidth={"170px"}
                                     type={"slider"}

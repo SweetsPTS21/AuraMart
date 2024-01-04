@@ -18,6 +18,8 @@ const TopProducts = (props) => {
     }, []);
 
     const getProductDetails = (id) =>
+        allProducts &&
+        allProducts.length > 0 &&
         allProducts.find((prod) => prod._id === id);
 
     const renderTopProducts = () => {

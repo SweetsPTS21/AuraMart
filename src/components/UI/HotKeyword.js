@@ -6,13 +6,11 @@ import banner2 from "../../image/mini_banner2.jpg";
 import banner3 from "../../image/mini_banner3.jpg";
 
 const HotKeyword = () => {
-    const banner = [banner1, banner2, banner3];
-    
+    const home2 = [banner1, banner2, banner3];
+
     return (
-        <div
-            style={{  margin: "2em 0"}}
-        >
-            <DemoCarousel  banner={banner} style={{borderRadius: "0.5em"}}/>
+        <div style={{ margin: "2em 0" }}>
+            <DemoCarousel banner={home2} style={{ borderRadius: "0.5em" }} />
         </div>
     );
 };

@@ -65,7 +65,7 @@ const RecommendProduct = (props) => {
             </ItemContainer>
         </div>
     ) : (
-        <h6>Không có sản phẩm đề xuất nào</h6>
+        <div></div>
     );
 };
 

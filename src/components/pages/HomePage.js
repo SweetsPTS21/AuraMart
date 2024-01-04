@@ -89,32 +89,29 @@ const HomePage = (props) => {
     };
 
     const renderProd = () => {
-        return (
-            products !== null &&
-            products.map(
-                (prod, index) =>
-                    index < seeMoreProd && (
-                        <Card
-                            key={prod.id}
-                            id={prod.id}
-                            type={"review"}
-                            slug={prod.slug}
-                            price={prod.price}
-                            discount={
-                                prod.discount !== undefined ? prod.discount : 0
-                            }
-                            title={prod.name}
-                            image={
-                                prod.photo === "no-photo.jpg"
-                                    ? BottleWarmer
-                                    : prod.photo
-                            }
-                            rating={prod.averageRating}
-                            link={true}
-                            style={{ height: "330px", width: "170px" }}
-                        />
-                    )
-            )
+        return products?.map(
+            (prod, index) =>
+                index < seeMoreProd && (
+                    <Card
+                        key={prod.id}
+                        id={prod.id}
+                        type={"review"}
+                        slug={prod.slug}
+                        price={prod.price}
+                        discount={
+                            prod.discount !== undefined ? prod.discount : 0
+                        }
+                        title={prod.name}
+                        image={
+                            prod.photo === "no-photo.jpg"
+                                ? BottleWarmer
+                                : prod.photo
+                        }
+                        rating={prod.averageRating}
+                        link={true}
+                        style={{ height: "330px", width: "170px" }}
+                    />
+                )
         );
     };
 
@@ -184,7 +181,7 @@ const HomePage = (props) => {
                             )}
                             <InterestedProducts />
                             <HotKeyword />
-                            {products !== null && (
+                            {products && (
                                 <ItemContainer
                                     length={20}
                                     type={"slider"}
@@ -195,7 +192,7 @@ const HomePage = (props) => {
                                     {renderProd()}
                                 </ItemContainer>
                             )}
-                            <RecommendProduct user={user} itemWidth={"170px"}/>
+                            <RecommendProduct user={user} itemWidth={"170px"} />
                         </div>
                         <Footer />
                     </div>

@@ -46,8 +46,8 @@ const SellerDashbroad = () => {
         "Trang chủ",
         "Đơn hàng",
         "Sản phẩm",
-        "Cấu hình",
         "Kho hàng",
+        "Cấu hình",
         "Thông tin thanh toán",
         "Báo cáo",
         "Trung tâm trợ giúp",
@@ -75,9 +75,9 @@ const SellerDashbroad = () => {
             case 2:
                 return <ProductsManagement />;
             case 3:
-                return <ShopManagement />;
-            case 4:
                 return <Stocks />;
+            case 4:
+                return <ShopManagement />;
             case 5:
                 return <BillingInformation />;
             case 6:
@@ -182,7 +182,7 @@ const SellerDashbroad = () => {
                         </div>
                     </Grid>
                     <Grid item xs={10}>
-                        <Grid container>{renderMenuItemComponent()}</Grid>
+                        {renderMenuItemComponent()}
                     </Grid>
                 </Grid>
             )}

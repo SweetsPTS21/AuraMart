@@ -86,16 +86,15 @@ const VoucherPanel = (props) => {
 
     return (
         <Grid item xs={12} className={classes.voucher__panel}>
-            {vouchers &&
-                vouchers.map((voucher, index) => (
-                    <Voucher
-                        key={index}
-                        voucher={voucher}
-                        type={type}
-                        action={action}
-                        setOpen={props.setOpen}
-                    />
-                ))}
+            {vouchers?.map((voucher, index) => (
+                <Voucher
+                    key={index}
+                    voucher={voucher}
+                    type={type}
+                    action={action}
+                    setOpen={props.setOpen}
+                />
+            ))}
         </Grid>
     );
 };
@@ -175,7 +174,7 @@ const VoucherRender = (props) => {
                         xs={7}
                         className={classes.voucher__header__title}
                     >
-                        My Vouchers
+                        Mã giảm giá
                     </Grid>
                     <Grid
                         item
@@ -185,7 +184,7 @@ const VoucherRender = (props) => {
                         {type === "user" ? (
                             <Link to="/">
                                 <Typography variant="contained" color="primary">
-                                    Find Voucher
+                                    Tìm mã giảm giá
                                 </Typography>
                             </Link>
                         ) : (
@@ -194,19 +193,19 @@ const VoucherRender = (props) => {
                                 onClick={handleOpenAddDialog}
                             >
                                 <Typography variant="contained" color="primary">
-                                    Create Voucher
+                                    Tạo mã giảm giá
                                 </Typography>
                             </Button>
                         )}
                         <Link to="#">
                             <Typography variant="contained" color="primary">
-                                Voucher History
+                                Lịch sử tạo mã
                             </Typography>
                         </Link>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} className={classes.voucher__search}>
-                    <Typography>Search</Typography>
+                    <Typography>Tìm kiếm</Typography>
                     <TextField
                         id="outlined-basic"
                         size="small"
@@ -220,7 +219,7 @@ const VoucherRender = (props) => {
                         color="primary"
                         onClick={handleApplySearch}
                     >
-                        Apply
+                        Áp dụng
                     </Button>
                 </Grid>
                 <Grid item xs={12} className={classes.voucher__content}>
@@ -403,10 +402,10 @@ const AddNewShopVoucher = (props) => {
     return (
         <div>
             <Dialog open={props.open} onClose={handleClose}>
-                <DialogTitle>Add new voucher</DialogTitle>
+                <DialogTitle>Thêm mã giảm giá</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Add new voucher for your shop here
+                        Thêm mã giảm giá cho shop của bạn tại đây
                     </DialogContentText>
                     <Grid container className={classes.voucher__dialog}>
                         <Grid
@@ -414,7 +413,7 @@ const AddNewShopVoucher = (props) => {
                             xs={6}
                             className={classes.voucher__dialog__part}
                         >
-                            <Typography>Code</Typography>
+                            <Typography>Mã</Typography>
                             <MuiInput
                                 aria-label="Code input"
                                 placeholder="Eg: ABC123"
@@ -429,7 +428,7 @@ const AddNewShopVoucher = (props) => {
                             xs={6}
                             className={classes.voucher__dialog__part}
                         >
-                            <Typography>Discount</Typography>
+                            <Typography>{"Giảm giá(%)"}</Typography>
                             <MuiNumberInput
                                 value={discount}
                                 setValue={setDiscount}
@@ -440,7 +439,7 @@ const AddNewShopVoucher = (props) => {
                             xs={6}
                             className={classes.voucher__dialog__part}
                         >
-                            <Typography>Minimum Spend</Typography>
+                            <Typography>Đơn tối thiểu</Typography>
                             <MuiNumberInput
                                 value={minimumSpend}
                                 setValue={setMinimumSpend}
@@ -451,7 +450,7 @@ const AddNewShopVoucher = (props) => {
                             xs={6}
                             className={classes.voucher__dialog__part}
                         >
-                            <Typography>Maximum Discount</Typography>
+                            <Typography>Giảm tối đa</Typography>
                             <MuiNumberInput
                                 value={maximumDiscount}
                                 setValue={setMaximumDiscount}
@@ -462,7 +461,7 @@ const AddNewShopVoucher = (props) => {
                             xs={6}
                             className={classes.voucher__dialog__part}
                         >
-                            <Typography>Expiry Date</Typography>
+                            <Typography>Ngày hết hạn</Typography>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer
                                     components={["DatePicker", "DatePicker"]}
@@ -481,7 +480,7 @@ const AddNewShopVoucher = (props) => {
                             className={classes.voucher__dialog__part}
                         >
                             <Typography style={{ marginBottom: "0.5em" }}>
-                                Description
+                                Mô tả
                             </Typography>
                             <MuiInput
                                 aria-label="Description input"
@@ -493,8 +492,8 @@ const AddNewShopVoucher = (props) => {
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleClose}>Hủy</Button>
+                    <Button onClick={handleSubmit}>Tạo mới</Button>
                 </DialogActions>
             </Dialog>
         </div>

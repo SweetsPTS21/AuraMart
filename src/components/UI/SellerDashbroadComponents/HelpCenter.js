@@ -431,7 +431,7 @@ const RequestForm = (props) => {
                                             </CustomTableCell>
                                             <CustomTableCell>
                                                 {request.updatedAt}
-                                            </CustomTableCell>                                         
+                                            </CustomTableCell>
                                             <CustomTableCell
                                                 style={{ width: "152px" }}
                                             >
@@ -455,7 +455,7 @@ const RequestForm = (props) => {
                                                     <Delete />
                                                 </IconButton>
                                             </CustomTableCell>
-                                        </TableRow>                                       
+                                        </TableRow>
                                     </>
                                 ))}
                             {requests.length === 0 && (
@@ -640,8 +640,8 @@ const Question = () => {
                             fontWeight: "400",
                         }}
                     >
-                        Cách đăng ký tài khoản tại Aumart, chỉnh sửa thông tin cá
-                        nhân, theo dõi đơn hàng...
+                        Cách đăng ký tài khoản tại Aumart, chỉnh sửa thông tin
+                        cá nhân, theo dõi đơn hàng...
                     </Typography>
                     <Link to="#">
                         <Typography variant="body1" className={classes.link}>
@@ -947,7 +947,7 @@ const HelpCenter = () => {
     const classes = userStyles();
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "70%", margin: "0 auto" }}>
             <div className={classes.title}>Trung tâm hỗ trợ</div>
             <div className={classes.grid}>
                 <Grid container>

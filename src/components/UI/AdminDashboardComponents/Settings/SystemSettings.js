@@ -21,7 +21,7 @@ import {
 } from "../../../../store/actions/settingActions";
 import { AddRounded, CloseRounded } from "@material-ui/icons";
 import PropTypes from "prop-types";
-// import { styled } from "@mui/material/styles";
+import { setSystemBanners } from "../../../../store/actions/settingActions";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -378,13 +378,16 @@ const RecommendedSystem = (props) => {
 
 const Banners = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [value, setValue] = useState(0);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const [homeBanner1, setHomeBanner1] = useState([]);
     const [homeBanner2, setHomeBanner2] = useState([]);
     const [searchBanner, setSearchBanner] = useState([]);
+    const [otherBanner, setOtherBanner] = useState([]);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (newValue) => {
         setValue(newValue);
     };
 
@@ -406,9 +409,77 @@ const Banners = () => {
         setSearchBanner(newSearchBanner);
     };
 
+    const handleRemoveOther = (index) => {
+        const newOtherBanner = [...otherBanner];
+        newOtherBanner.splice(index, 1);
+        setOtherBanner(newOtherBanner);
+    };
+
+    const handleChangeHome1 = (index, value) => {
+        const newHomeBanner1 = [...homeBanner1];
+        newHomeBanner1[index] = value;
+        setHomeBanner1(newHomeBanner1);
+    };
+
+    const handleChangeHome2 = (index, value) => {
+        const newHomeBanner2 = [...homeBanner2];
+        newHomeBanner2[index] = value;
+        setHomeBanner2(newHomeBanner2);
+    };
+
+    const handleChangeSearch = (index, value) => {
+        const newSearchBanner = [...searchBanner];
+        newSearchBanner[index] = value;
+        setSearchBanner(newSearchBanner);
+    };
+
+    const handleChangeOther = (index, value) => {
+        const newOtherBanner = [...otherBanner];
+        newOtherBanner[index] = value;
+        setOtherBanner(newOtherBanner);
+    };
+
+    const mapBanners = (banners) => {
+        const newBanners = banners.map((banner) =>
+            !banner.contains("http") ? "../../" + banner : banner
+        );
+        return newBanners;
+    };
+
+    const handleUpdate = () => {
+        const home1 = mapBanners(homeBanner1);
+        const home2 = mapBanners(homeBanner2);
+        const search = mapBanners(searchBanner);
+        const other = mapBanners(otherBanner);
+
+        const banners = {
+            home1,
+            home2,
+            search,
+            other,
+        };
+        dispatch(setSystemBanners(banners));
+    };
+
     return (
         <div className={classes.block}>
-            <Typography className={classes.title}>Banner</Typography>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                }}
+            >
+                <Typography className={classes.title}>
+                    Banner hệ thống
+                </Typography>
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={() => setOpenDialog(true)}
+                >
+                    Cập nhật
+                </Button>
+            </div>
             <Grid container style={{ marginBottom: "1em" }}>
                 <Box sx={{ width: "100%" }}>
                     <Box
@@ -465,6 +536,12 @@ const Banners = () => {
                                             marginLeft: "2em",
                                             marginRight: "3em",
                                         }}
+                                        onChange={(e) =>
+                                            handleChangeHome1(
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </div>
                             ))}
@@ -474,7 +551,7 @@ const Banners = () => {
                         <Grid item xs={12}>
                             <div className={classes.row}>
                                 <Typography className={classes.text__title}>
-                                    Banner trang chủ 1
+                                    Banner trang chủ 2
                                 </Typography>
                                 <Button
                                     className={classes.button__round}
@@ -505,6 +582,12 @@ const Banners = () => {
                                             marginLeft: "2em",
                                             marginRight: "3em",
                                         }}
+                                        onChange={(e) =>
+                                            handleChangeHome2(
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </div>
                             ))}
@@ -547,6 +630,58 @@ const Banners = () => {
                                             marginLeft: "2em",
                                             marginRight: "3em",
                                         }}
+                                        onChange={(e) =>
+                                            handleChangeSearch(
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                            ))}
+                        </Grid>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={3}>
+                        <Grid item xs={12}>
+                            <div className={classes.row}>
+                                <Typography className={classes.text__title}>
+                                    Banner khác
+                                </Typography>
+                                <Button
+                                    className={classes.button__round}
+                                    onClick={() =>
+                                        setOtherBanner([...otherBanner, ""])
+                                    }
+                                >
+                                    <AddRounded />
+                                </Button>
+                            </div>
+                            {searchBanner.map((banner, index) => (
+                                <div
+                                    className={classes.row}
+                                    style={{ marginBottom: "1em" }}
+                                >
+                                    <Button
+                                        className={classes.button__round2}
+                                        onClick={() => handleRemoveOther(index)}
+                                    >
+                                        <CloseRounded />
+                                    </Button>
+                                    <TextField
+                                        variant="outlined"
+                                        size="small"
+                                        fullWidth
+                                        value={banner}
+                                        style={{
+                                            marginLeft: "2em",
+                                            marginRight: "3em",
+                                        }}
+                                        onChange={(e) =>
+                                            handleChangeOther(
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </div>
                             ))}
@@ -554,6 +689,14 @@ const Banners = () => {
                     </CustomTabPanel>
                 </Box>
             </Grid>
+            {openDialog && (
+                <MuiDialog
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    message="Banner hệ thống sẽ bị thay đổi, có thể sẽ mất vài phút?"
+                    handleConfirm={handleUpdate}
+                />
+            )}
         </div>
     );
 };

@@ -157,7 +157,7 @@ const ShopConfig = (props) => {
     };
 
     const handleSaveConfig = async () => {
-        const msg = message.loading("Updating configs!", 0);
+        const msg = message.loading("Đang cập nhật cấu hình!", 0);
         const data = {
             ...currentConfig,
             decoration: shopDecorations,
@@ -205,7 +205,7 @@ const ShopConfig = (props) => {
     };
 
     const handleUpdateInfo = async () => {
-        const msg = message.loading("Updating shop info!", 0);
+        const msg = message.loading("Đang cập nhật thông tin!", 0);
         const data = {
             name: name,
             description: description,
@@ -216,7 +216,7 @@ const ShopConfig = (props) => {
         };
         await dispatch(updateShopById(shop.id, data));
         setTimeout(msg, 1);
-    }
+    };
 
     return (
         <>
@@ -226,13 +226,13 @@ const ShopConfig = (props) => {
                         <FormGroup className={classes.grid}>
                             <FormControl>
                                 <div className={classes.config__title}>
-                                    Infomation
+                                    Thông tin
                                 </div>
                                 <TextValidator
                                     size="small"
-                                    label="Shop name"
+                                    label="Tên cửa hàng"
                                     style={{ width: "100%" }}
-                                    placeholder="Shop name"
+                                    placeholder="Tên cửa hàng"
                                     value={name}
                                     margin="normal"
                                     InputLabelProps={{
@@ -241,15 +241,17 @@ const ShopConfig = (props) => {
                                     onChange={(e) => setName(e.target.value)}
                                     variant="standard"
                                     validators={["required"]}
-                                    errorMessages={["Enter Shop name"]}
+                                    errorMessages={[
+                                        "Vui lòng nhập tên cửa hàng",
+                                    ]}
                                 />
                             </FormControl>
                             <FormControl>
                                 <TextValidator
                                     size="small"
-                                    label="Shop description"
+                                    label="Mô tả"
                                     style={{ width: "100%" }}
-                                    placeholder="Shop description"
+                                    placeholder="Mô tả"
                                     value={description}
                                     margin="normal"
                                     InputLabelProps={{
@@ -260,15 +262,15 @@ const ShopConfig = (props) => {
                                     }
                                     variant="standard"
                                     validators={["required"]}
-                                    errorMessages={["Enter Shop description"]}
+                                    errorMessages={["Vui lòng nhập mô tả"]}
                                 />
                             </FormControl>
                             <FormControl>
                                 <TextValidator
                                     size="small"
-                                    label="Shop address"
+                                    label="Địa chỉ"
                                     style={{ width: "100%" }}
-                                    placeholder="Shop address"
+                                    placeholder="Địa chỉ"
                                     value={address}
                                     margin="normal"
                                     InputLabelProps={{
@@ -277,15 +279,15 @@ const ShopConfig = (props) => {
                                     onChange={(e) => setAddress(e.target.value)}
                                     variant="standard"
                                     validators={["required"]}
-                                    errorMessages={["Enter Shop address"]}
+                                    errorMessages={["Vui lòng nhập địa chỉ"]}
                                 />
                             </FormControl>
                             <FormControl>
                                 <TextValidator
                                     size="small"
-                                    label="Shop phone"
+                                    label="Số điện thoại"
                                     style={{ width: "100%" }}
-                                    placeholder="Shop phone"
+                                    placeholder="Số điện thoại"
                                     value={phone}
                                     margin="normal"
                                     InputLabelProps={{
@@ -294,15 +296,17 @@ const ShopConfig = (props) => {
                                     onChange={(e) => setPhone(e.target.value)}
                                     variant="standard"
                                     validators={["required"]}
-                                    errorMessages={["Enter Shop phone"]}
+                                    errorMessages={[
+                                        "Vui lòng nhập số điện thoại",
+                                    ]}
                                 />
                             </FormControl>
                             <FormControl>
                                 <TextValidator
                                     size="small"
-                                    label="Shop avatar"
+                                    label="Ảnh đại diện"
                                     style={{ width: "100%" }}
-                                    placeholder="Shop avatar"
+                                    placeholder="Ảnh đại diện"
                                     value={avatar}
                                     margin="normal"
                                     InputLabelProps={{
@@ -311,7 +315,9 @@ const ShopConfig = (props) => {
                                     onChange={(e) => setAvatar(e.target.value)}
                                     variant="standard"
                                     validators={["required"]}
-                                    errorMessages={["Enter Shop avatar"]}
+                                    errorMessages={[
+                                        "Vui lòng nhập ảnh đại diện",
+                                    ]}
                                 />
                             </FormControl>
                             <Button
@@ -329,7 +335,7 @@ const ShopConfig = (props) => {
                                 }}
                                 onClick={handleUpdateInfo}
                             >
-                                Update
+                                Cập nhật
                             </Button>
                         </FormGroup>
                     </ValidatorForm>
@@ -344,7 +350,7 @@ const ShopConfig = (props) => {
                         className={classes.config__title}
                         style={{ display: "flex", alignItems: "center" }}
                     >
-                        <span>Config</span>
+                        <span>Cấu hình</span>
                         {configs &&
                             configs.map((item, index) => (
                                 <Button
@@ -359,7 +365,7 @@ const ShopConfig = (props) => {
                                             : classes.button
                                     }
                                 >
-                                    Config {index}
+                                    Cấu hình {index}
                                 </Button>
                             ))}
                         <Button
@@ -371,7 +377,7 @@ const ShopConfig = (props) => {
                         </Button>
                     </div>
                     <Grid item xs={12} className={classes.config__decor}>
-                        <Typography>Decoration(avatar & background)</Typography>
+                        <Typography>Ảnh nền</Typography>
                         {shopDecorations.map((decor, index) => (
                             <TextField
                                 key={index}
@@ -428,7 +434,7 @@ const ShopConfig = (props) => {
                             className={classes.button2}
                             style={{ width: "80px" }}
                         >
-                            <Add/>
+                            <Add />
                         </Button>
                         <Button
                             variant="contained"
@@ -436,7 +442,7 @@ const ShopConfig = (props) => {
                             className={classes.button2}
                             style={{ width: "80px" }}
                         >
-                            <Save/>
+                            <Save />
                         </Button>
                     </Grid>
                 </div>
@@ -449,7 +455,7 @@ const ShopTags = () => {
     const classes = useStyles();
     return (
         <Grid item xs={12} className={classes.block}>
-            <div className={classes.config__header}>Shop tags</div>
+            <div className={classes.config__header}>Danh mục</div>
         </Grid>
     );
 };
@@ -458,9 +464,6 @@ const ShopVouchers = () => {
     const classes = useStyles();
     return (
         <Grid item xs={12} className={classes.block}>
-            <Grid item xs={12} className={classes.config__header}>
-                Shop vouchers
-            </Grid>
             <Grid item xs={12} className={classes.config__content}>
                 <MyVoucher type={"shop"} />
             </Grid>
@@ -474,7 +477,10 @@ const ShopManagement = () => {
     const configsInShop = useSelector((state) => state.configs.configsInShop);
 
     return (
-        <div className={classes.root}>
+        <div
+            className={classes.root}
+            style={{ width: "70%", margin: "0 auto" }}
+        >
             <Grid container className={classes.container}>
                 {shop ? (
                     configsInShop && (
@@ -485,7 +491,10 @@ const ShopManagement = () => {
                         </>
                     )
                 ) : (
-                    <h2>User don't own any shop</h2>
+                    <h2>
+                        Shop của bạn chưa được duyệt hoặc bạn không có quyền
+                        chỉnh sửa thông tin shop
+                    </h2>
                 )}
             </Grid>
         </div>

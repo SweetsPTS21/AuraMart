@@ -10,12 +10,13 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 const userStyles = makeStyles(() => ({
     root: {
         margin: "0",
-        // padding: "0.5em",
+        marginBottom: "1em",
     },
     title: {
         fontSize: "1.2em",
         fontWeight: 400,
-        marginBottom: "0.5em",
+        paddingTop: "16px",
+        padding: "0 12px",
     },
     grid: {
         padding: "0.5em",
@@ -256,12 +257,10 @@ const ItemContainer = (props) => {
             );
         }
     };
-    
+
     return (
         <div className={classes.root} style={{ ...props.style }}>
-            {props.title !== undefined ? (
-                <div className={classes.title}>{props.title}</div>
-            ) : (
+            {props.title !== undefined ? null : (
                 <section
                     style={{
                         backgroundColor: "white",
@@ -297,9 +296,9 @@ const ItemContainer = (props) => {
                             </span>{" "}
                             <br />
                             <span style={{ fontSize: "1em" }}>
-                                Cập nhật liên tục hàng giờ. Nhanh tay thêm vào giỏ hàng để có được mức giá tốt nhất
+                                Cập nhật liên tục hàng giờ. Nhanh tay thêm vào
+                                giỏ hàng để có được mức giá tốt nhất
                             </span>
-
                         </p>
                     </div>
                 </section>
@@ -313,6 +312,7 @@ const ItemContainer = (props) => {
                     borderRadius: "0.5em",
                 }}
             >
+                <div className={classes.title}>{props.title}</div>
                 {props.todayOnly ? (
                     <Grid item xs={12} className={classes.todayOnly}>
                         <span

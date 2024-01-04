@@ -63,7 +63,7 @@ const BillingInformation = () => {
     const classes = userStyles();
 
     return (
-        <div style={{ width: "80%" }}>
+        <div style={{ width: "70%", margin: "0 auto" }}>
             <div className={classes.title}>Billing Information</div>
             <div className={classes.grid}>
                 <section

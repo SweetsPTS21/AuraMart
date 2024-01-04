@@ -55,6 +55,9 @@ const useStyles = makeStyles(() => ({
         borderRadius: "0.5em",
         boxShadow: "0 1px 4px 0 rgba(0,0,0,0.14)",
     },
+    stats: {
+        display: "flex",
+    },
     cardTitle: {
         color: "#3C4858",
         marginTop: "0px",
