@@ -54,7 +54,7 @@ export const getSystemBanners = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: "GET_SYSTEM_BANNERS",
+                type: GET_SYSTEM_BANNERS,
                 banners: res.data.data,
             });
         })

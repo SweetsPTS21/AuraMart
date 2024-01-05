@@ -5,6 +5,7 @@ import {
 
 const initialState = {
     logs: null,
+    banners: null,
 };
 
 export default function settingReducer(state = initialState, action) {

@@ -441,6 +441,8 @@ const Banners = () => {
 
     const mapBanners = (banners) => {
         const newBanners = banners.map((banner) =>
+            // If banner does not contain "http", then it is a local image
+            // import it then add image path
             !banner.contains("http") ? "../../" + banner : banner
         );
         return newBanners;

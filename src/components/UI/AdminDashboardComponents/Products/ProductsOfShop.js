@@ -3,8 +3,8 @@ import userStyles from "../styles/FindAUserStyles";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Button from "../CustomButtons/Button";
-import CustomInput from "../CustomInput/CustomInput";
+import Button from "../../../layout/CustomButtons/Button";
+import CustomInput from "../../../layout/CustomInput/CustomInput";
 
 import { Search } from "@material-ui/icons";
 import List from "@material-ui/core/List";
@@ -17,7 +17,7 @@ import NoPhoto from "../../../../image/nophoto.png";
 import ProductCard from "../../Card";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 
-const ProductsOfShop = (props) => {
+const ProductsOfShop = () => {
     const classes = userStyles();
     const [filterOptions, setFilterOptions] = useState("id");
     const [toggleList, setToggleList] = useState(false);
@@ -88,7 +88,7 @@ const ProductsOfShop = (props) => {
                                 handleFilter(filterOptions, option)
                             }
                             autoHighlight
-                            renderOption={(option, state) => (
+                            renderOption={(option) => (
                                 <p
                                     style={{
                                         padding: "0.5em",

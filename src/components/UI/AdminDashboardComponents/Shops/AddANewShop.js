@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "../Card/Card";
-import CardHeader from "../Card/CardHeader";
-import CardBody from "../Card/CardBody";
-import Button from "../CustomButtons/Button";
+import Card from "../../../layout/Card/Card";
+import CardHeader from "../../../layout/Card/CardHeader";
+import CardBody from "../../../layout/Card/CardBody";
+import Button from "../../../layout/CustomButtons/Button";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";

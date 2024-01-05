@@ -25,8 +25,7 @@ import {
 import { getCart } from "./store/actions/cartActions";
 import { getAllShops } from "./store/actions/shopActions";
 import { getAllReviews } from "./store/actions/reviewActions";
-// import { getAllAddress } from "./store/actions/addressActions";
-// import { getAllConfigs } from "./store/actions/configActions";
+import { getSystemBanners } from "./store/actions/settingActions";
 import AdminPage from "./components/pages/AdminPage";
 import { getAllOrders } from "./store/actions/orderActions";
 import UnderDevelopmentPage from "./components/pages/UnderDevelopmentPage";
@@ -40,8 +39,8 @@ const actionsOnPageLoad = () => {
     store.dispatch(getAllShops());
     store.dispatch(getAllOrders());
     store.dispatch(getAllReviews());
-    // store.dispatch(getAllAddress());
-    // store.dispatch(getAllConfigs());
+    store.dispatch(getSystemBanners());
+
     // Check for token
     if (localStorage.jwtToken) {
         // Set auth token header auth

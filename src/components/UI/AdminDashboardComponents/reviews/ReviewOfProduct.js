@@ -5,8 +5,8 @@ import classNames from "classnames";
 
 import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Button from "../CustomButtons/Button";
-import CustomInput from "../CustomInput/CustomInput";
+import Button from "../../../layout/CustomButtons/Button";
+import CustomInput from "../../../layout/CustomInput/CustomInput";
 
 import { Search } from "@material-ui/icons";
 import List from "@material-ui/core/List";
@@ -23,7 +23,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ReviewCard } from "./ReviewCard";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 
-const ReviewOfProduct = (props) => {
+const ReviewOfProduct = () => {
     const classes = userStyles();
     const [filterOptions, setFilterOptions] = useState("id");
     const [toggleList, setToggleList] = useState(false);
@@ -37,7 +37,6 @@ const ReviewOfProduct = (props) => {
     // const currentProductReviews = useSelector(state => state.orders.allShopOrders);
 
     const allReviews = useSelector((state) => state.reviews.allReviews);
-    const allShops = useSelector((state) => state.shops.shops);
     const allProduct = useSelector((state) => state.products.products);
     const allUsers = useSelector((state) => state.users.users);
 
@@ -128,7 +127,7 @@ const ReviewOfProduct = (props) => {
                                 handleFilter(filterOptions, option)
                             }
                             autoHighlight
-                            renderOption={(option, state) => (
+                            renderOption={(option) => (
                                 <p
                                     style={{
                                         padding: "0.5em",
