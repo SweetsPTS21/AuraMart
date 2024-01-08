@@ -1400,6 +1400,7 @@ const ProductDetailPage = (props) => {
             <div
                 className={classes.root}
                 style={{
+                    position: "relative",
                     display: "flex",
                     justifyContent: "center",
                 }}

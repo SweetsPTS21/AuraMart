@@ -64,7 +64,7 @@ const ProductsOfShop = () => {
         }
     };
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ position: "relative" ,width: "100%" }}>
             <Grid container spacing={3} className={classes.appBar}>
                 <Grid item xs={6} md={4} lg={3} style={{ margin: 0 }}>
                     <Button color="transparent" className={classes.title}>

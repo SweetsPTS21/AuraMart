@@ -31,7 +31,6 @@ const ProductCategoryDeal = () => {
         Banner5,
         Banner6,
         Banner7,
-        Banner8,
     ];
 
     return (

@@ -263,7 +263,7 @@ const OrderStats = (props) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ position: "relative" ,width: "100%" }}>
             <Grid container spacing={3}>
                 {orderChart === null && (
                     <LoadingSpinner

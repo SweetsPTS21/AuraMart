@@ -626,6 +626,7 @@ const ShopPage = (props) => {
     return (
         <div
             style={{
+                position: "relative",
                 width: "100%",
                 minWidth: "1200px",
                 height: "100%",

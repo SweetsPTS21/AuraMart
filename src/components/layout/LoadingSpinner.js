@@ -15,7 +15,22 @@ const useStyle = makeStyles({
 const LoadingSpinner = ({ props }) => {
     const classes = useStyle();
     return (
-        <div className="loading-spinner">
+        <div
+            className="loading-animation"
+            style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgb(0 0 0 / 32%)", // Transparent white background
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "0.5em",
+                zIndex: 50,
+            }}
+        >
             <ReactLoading
                 {...props}
                 height={80}
@@ -23,9 +38,10 @@ const LoadingSpinner = ({ props }) => {
                 type={"spinningBubbles"}
                 color={"#189EFF"}
                 className={classes.loadingSpinner}
-            />
+            />                     
         </div>
-    );
+    )
+
 };
 
 export default LoadingSpinner;

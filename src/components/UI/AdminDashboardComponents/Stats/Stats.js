@@ -25,7 +25,7 @@ const Stats = () => {
         allProducts.find((prod) => prod._id === id);
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", position: "relative" }}>
             <Grid container style={{ paddingLeft: "1em" }}>
                 {allProducts && (
                     <>

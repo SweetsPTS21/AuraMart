@@ -19,34 +19,18 @@ export const registerUser =
             .then((res) => {
                 if (res.data.success) {
                     dispatch(loginUser(userData, history, closeModal));
-                    message.success("Signed up successfully");
+                    message.success("Đăng ký thành công");
                 } else {
-                    let errors;
-                    if (res.data.error === "Duplicated field value in body") {
-                        // username already exists
-                        errors = { username: "Username/Email already exists!" };
-                    } else {
-                        let res_ = res.data.error;
-                        let res__ =
-                            res_.replace("User validation failed: ", '{"') +
-                            '"}';
-                        let errObj = res__
-                            .replace(new RegExp(": ", "g"), '" : "')
-                            .replace(new RegExp(", ", "g"), '", "');
-                        errors = JSON.parse(errObj);
-                    }
-                    dispatch({
-                        type: GET_ERRORS, //this call test dispatch. to dispsatch to our reducer
-                        payload: errors, //sets payload to errors coming from server
-                    });
+                    message.error(res.data.error)
                 }
             }) // redirect to login
             .catch((err) => {
                 dispatch({
                     type: GET_ERRORS, //this call test dispatch. to dispsatch to our reducer
                     // payload: {}//sets payload to errors coming from server
-                    payload: err.response.data, //sets payload to errors coming from server
+                    payload: err, //sets payload to errors coming from server
                 });
+                message.error("Error register user!")
             });
     };
 

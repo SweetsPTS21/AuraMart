@@ -52,7 +52,7 @@ const RecommendProduct = (props) => {
         );
     };
 
-    return recommendProds ? (
+    return recommendProds && recommendProds.length > 0 ? (
         <div style={{ marginTop: "1.5em", marginBottom: "0.6em" }}>
             <ItemContainer
                 length={recommendProds.length}

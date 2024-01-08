@@ -202,7 +202,7 @@ const AllOrders = () => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{ position: "relative" ,width: "100%" }}>
             <Grid
                 container
                 style={{ marginTop: "0.7em", marginLeft: "0.5em" }}

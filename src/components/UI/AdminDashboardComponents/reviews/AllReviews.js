@@ -197,7 +197,7 @@ const AllReviews = () => {
                     <ReviewStats reviews={allReviews} />
                 </Grid>
             </Grid>
-            <Grid container spacing={2} style={{ marginLeft: "0.5em" }}>
+            <Grid container spacing={2} style={{ position: "relative" ,marginLeft: "0.5em" }}>
                 {reviews !== null && reviews.length > 0 ? (
                     <ManagementPage data={reviews} dataType={"reviews"} />
                 ) : null}
