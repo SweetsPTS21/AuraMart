@@ -188,7 +188,7 @@ const ShopInfo = (props) => {
     const userData = useSelector((state) => state.auth.userData);
     const [chatID, setChatID] = useState(null);
     const chatEngineData = {
-        projectID: "0c8bb7fc-8146-4063-99f5-77c2f518da58",
+        projectID: "2b321fb1-91d3-453c-99c1-538ce9766605",
         userName: userData.email,
         userPassword: userData._id,
     };
