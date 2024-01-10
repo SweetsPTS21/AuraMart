@@ -95,19 +95,16 @@ const OrderResultPage = () => {
     };
 
     const checkResult = () => {
-        if (
-            (vnpayStatus && vnpayStatus.rspcode === "00") ||
-            (momoStatus && momoStatus.rspcode === "00")
-        ) {
+        if (vnpayStatus?.rspcode === "00" || momoStatus?.rspcode === "00") {
             setSuccess(true);
         }
     };
 
     useEffect(() => {
-        if (vnp_ResponseCode === "00" || resultCode === "0") sendResult();
+        if (vnp_ResponseCode || resultCode) sendResult();
 
         if (vnpayStatus || momoStatus) checkResult();
-    }, [vnpayStatus, momoStatus]);
+    }, []);
 
     const classes = useStyles();
     return (

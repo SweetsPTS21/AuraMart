@@ -1192,6 +1192,7 @@ const Checkout = () => {
             shippingMethod: "GHN",
         };
         // get unique shops in cart
+        debugger;
         const shops = {};
         let shopOrder = [];
         for (let i = 0; i < cartItems.length; i++) {
@@ -1214,7 +1215,7 @@ const Checkout = () => {
         for (let shop in shops) {
             let total = 0;
             for (let i = 0; i < shops[shop].length; i++) {
-                total += shops[shop][i].price * shops[shop][i].quantity;
+                total += shops[shop][i].total * shops[shop][i].quantity;
             }
             shops[shop].total = total;
         }
@@ -1231,7 +1232,15 @@ const Checkout = () => {
             };
             shopOrder.push(order_);
         }
-        dispatch(await orderActions.addNewOrder(shopOrder));
+
+        const totalOrder = shopOrder.reduce(
+            (total, order) => total + order.total,
+            0
+        );
+
+        dispatch(
+            await orderActions.addNewOrder(shopOrder, totalOrder, payment)
+        );
 
         dispatch(await cartActions.clearCart());
         setTimeout(msg, 1);

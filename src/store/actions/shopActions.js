@@ -1,6 +1,8 @@
 import axios from "axios";
 import { message } from "antd";
 
+import * as authActions from "../../store/actions/authActions";
+
 export const GET_ALL_SHOPS = "GET_ALL_SHOPS";
 export const GET_SHOP_BY_ID = "GET_SHOP_BY_ID";
 export const GET_SHOP_BY_USER_ID = "GET_SHOP_BY_USER_ID";
@@ -14,10 +16,9 @@ export const getAllShops = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_SHOPS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_SHOPS,
                 shops: res.data.data,
             });
-            // message.success("Got shops");
         })
         .catch(() => {
             message.error("Error getting shops");
@@ -31,7 +32,7 @@ export const getShopById = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_SHOP_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_SHOP_BY_ID,
                 shop: res.data.data,
             });
         })
@@ -47,10 +48,13 @@ export const getShopByUserId = (userId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             if (!res.data.success) {
-                return message.error("Error getting shop");
+                dispatch({
+                    type: GET_SHOP_BY_USER_ID,
+                    shops: null,
+                });
             } else {
                 dispatch({
-                    type: GET_SHOP_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
+                    type: GET_SHOP_BY_USER_ID,
                     shops: res.data.data,
                 });
             }
@@ -67,10 +71,11 @@ export const registerANewShop = (shop) => async (dispatch) => {
         .post(url, shop)
         .then((res) => {
             if (!res.data.success) {
-                return message.error("Error creating shop");
+                return message.error(res.data.error);
             }
-            dispatch(getAllShops());
-            message.success("shop created successfully");
+            dispatch(authActions.logoutUser());
+            dispatch(getShopByUserId(shop.userId));
+            message.success("Shop register successfully. Please login again");
         })
         .catch(() => {
             message.error("Error creating shop");
