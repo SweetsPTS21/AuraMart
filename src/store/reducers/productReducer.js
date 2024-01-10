@@ -1,5 +1,6 @@
 import {
     GET_ALL_PRODUCTS,
+    GET_COMMON_RECOMMEND_PRODUCTS,
     GET_PRODUCTS_BY_SHOP_ID,
     GET_PRODUCT_BY_ID,
     GET_RECOMMEND_PRODUCTS_BY_USER_ID,
@@ -39,6 +40,11 @@ export default function productReducer(state = initialState, action) {
                 productsInShop: action.products,
             };
         case GET_RECOMMEND_PRODUCTS_BY_USER_ID:
+            return {
+                ...state,
+                recommendProds: action.recommendProds,
+            };
+        case GET_COMMON_RECOMMEND_PRODUCTS:
             return {
                 ...state,
                 recommendProds: action.recommendProds,

@@ -3,7 +3,10 @@ import Card from "../UI/Card";
 import { useDispatch, useSelector } from "react-redux";
 import ItemContainer from "../UI/ItemContainer";
 import BottleWarmer from "../../image/bottoleWarmer.jpg";
-import { getRecommendedProducts } from "../../store/actions/productActions";
+import {
+    getCommonRecommendProducts,
+    getRecommendedProducts,
+} from "../../store/actions/productActions";
 
 const RecommendProduct = (props) => {
     const { user, itemWidth, type, rerender } = props;
@@ -17,6 +20,8 @@ const RecommendProduct = (props) => {
     useEffect(() => {
         if (user && user.id !== undefined) {
             dispatch(getRecommendedProducts(user.id));
+        } else {
+            dispatch(getCommonRecommendProducts());
         }
     }, [user]);
 

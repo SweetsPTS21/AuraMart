@@ -7,6 +7,7 @@ export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const GET_PRODUCTS_BY_SHOP_ID = "GET_PRODUCTS_BY_SHOP_ID";
 export const GET_RECOMMEND_PRODUCTS_BY_USER_ID =
     "GET_RECOMMEND_PRODUCTS_BY_USER_ID";
+export const GET_COMMON_RECOMMEND_PRODUCTS = "GET_COMMON_RECOMMEND_PRODUCTS";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
@@ -20,7 +21,7 @@ export const getAllProducts = (query) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_PRODUCTS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_PRODUCTS, 
                 products: res.data.data,
             });
             // message.success("Got products");
@@ -57,13 +58,13 @@ export const getProductById = (id) => async (dispatch) => {
             if (res.data.statusText === "Not Found") {
                 message.error("Error getting product");
                 dispatch({
-                    type: GET_PRODUCT_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                    type: GET_PRODUCT_BY_ID, 
                     product: null,
                 });
                 return;
             }
             dispatch({
-                type: GET_PRODUCT_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_PRODUCT_BY_ID, 
                 product: res.data.data,
             });
             // message.success("Got product");
@@ -81,7 +82,7 @@ export const getProductsByShopId = (shopId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_PRODUCTS_BY_SHOP_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_PRODUCTS_BY_SHOP_ID, 
                 products: res.data.data,
             });
 
@@ -99,7 +100,7 @@ export const getRecommendedProducts = (userId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_RECOMMEND_PRODUCTS_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_RECOMMEND_PRODUCTS_BY_USER_ID, 
                 recommendProds: res.data.data,
             });
         })
@@ -108,6 +109,22 @@ export const getRecommendedProducts = (userId) => async (dispatch) => {
             message.error("Error getting recommend products");
         });
 };
+
+export const getCommonRecommendProducts = () => async (dispatch) => {
+    const url = `${api_url}/api/v1/recommend/common`;
+    await axios
+        .get(url)
+        .then((res) => {
+            dispatch({
+                type: GET_COMMON_RECOMMEND_PRODUCTS,
+                recommendProds: res.data.data,
+            });
+        })
+        .catch((err) => {
+            console.log("Error" + err);
+            message.error("Error getting recommend products");
+        });
+}
 
 // 🔒
 export const createProduct = (product, shopId, photo) => async (dispatch) => {

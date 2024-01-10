@@ -84,23 +84,23 @@ export const getOrdersByUserId = (userId) => async (dispatch) => {
 };
 
 // 🔒
-export const addNewOrder = (order, payment) => async (dispatch) => {
+export const addNewOrder = (order, total, payment) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/checkout`;
 
-    await axios.post(url, order)
-        .then(res => {
-            if(!res.data.success) {
-                return  message.error("Error making order");
+    await axios
+        .post(url, order)
+        .then((res) => {
+            if (!res.data.success) {
+                return message.error("Error making order");
             }
             dispatch(getAllOrders());
             message.success("Order added!");
-            order.id = res.data.data._id;
+            order.id = res.data?.data?.orderIds[0];
         })
-        .catch(err => {
-                console.log('Error' + err);
-                message.error("Error making order");
-            }
-        );
+        .catch((err) => {
+            console.log("Error" + err);
+            return message.error("Error making order");
+        });
 
     // Redirect to payment gateway
     if (payment === "COD") {
@@ -109,7 +109,7 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
     if (payment === "MOMO") {
         const url = `${api_url}/api/v1/payment/momo/create`;
         const data = {
-            amount: order.total,
+            amount: total,
             order: order.id,
             orderInfo: `Thanh toan cho don hang ${order.id}`,
         };
@@ -130,20 +130,23 @@ export const addNewOrder = (order, payment) => async (dispatch) => {
 
     if (payment === "VNPAY") {
         const url = `${api_url}/api/v1/payment/vnpay/create`;
+
+        const randomId = Math.floor(Math.random() * 1000000);
+
         const data = {
-            amount: order.total,
+            amount: total,
             bankCode: "",
-            orderDescription: `Thanh toan cho don hang ${order.id}`,
+            orderDescription: `Thanh toan cho don hang ${order.id || randomId}`,
             orderType: "other",
             language: "vn",
-            orderId: order.id,
+            orderId: order.id || randomId,
         };
 
         try {
             const response = await axios.post(url, data);
             console.log(response);
-            if (response.data.code === "00") {
-                const redirectUrl = response.data.data;
+            if (response?.data?.code === "00") {
+                const redirectUrl = response?.data?.data;
                 window.location.href = redirectUrl;
             } else {
                 message.error("Error making order");

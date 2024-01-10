@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "../../layout/Card/Card";
@@ -9,9 +9,9 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import { useDispatch, useSelector } from "react-redux";
+
 import { message } from "antd";
 import * as shopActions from "../../../store/actions/shopActions";
-import * as authActions from "../../../store/actions/authActions";
 import {
     aumartCardHeader,
     aumartColor,
@@ -28,6 +28,10 @@ import { storage } from "../../../utils/firebaseConfig";
 import { Typography } from "@material-ui/core";
 
 const userStyles = makeStyles(() => ({
+    title: {
+        fontSize: "1.2em",
+        fontWeight: "600",
+    },
     cardCategoryWhite: {
         color: "rgba(255,255,255,.62)",
         margin: "0",
@@ -155,6 +159,152 @@ const VisuallyHiddenInput = styled("input")({
     width: 1,
 });
 
+const PendingShopInfo = (props) => {
+    const classes = userStyles();
+    const { userShop } = props;
+
+    const mapStatus = (status) => {
+        switch (status) {
+            case "pending":
+                return (
+                    <Typography
+                        style={{
+                            backgroundColor: "#12B76A",
+                            color: "#fff",
+                            padding: "0.5em 1em",
+                            borderRadius: "0.5em",
+                        }}
+                    >
+                        {" "}
+                        Đang chờ duyệt
+                    </Typography>
+                );
+            case "rejected":
+                return (
+                    <Typography
+                        style={{
+                            backgroundColor: "#ff424e",
+                            color: "#fff",
+                            padding: "0.5em 1em",
+                            borderRadius: "0.5em",
+                        }}
+                    >
+                        {" "}
+                        Bị từ chối
+                    </Typography>
+                );
+            default:
+                return (
+                    <Typography
+                        style={{
+                            backgroundColor: "#12B76A",
+                            color: "#fff",
+                            padding: "0.5em 1em",
+                            borderRadius: "0.5em",
+                        }}
+                    >
+                        {" "}
+                        Đang chờ duyệt
+                    </Typography>
+                );
+        }
+    };
+
+    return (
+        <div style={{ width: "50%", margin: "2em auto" }}>
+            <Card>
+                <CardHeader color="aumart">
+                    <h4 className={classes.cardTitleWhite}>
+                        Cửa hàng của bạn đang được xét duyệt
+                    </h4>
+                    <p className={classes.cardCategoryWhite}>
+                        Thông tin đăng ký cửa hàng của bạn
+                    </p>
+                </CardHeader>
+                <CardBody style={{ display: "flex" }}>
+                    <Grid container xs={12}>
+                        <Grid item xs={12} style={{ marginBottom: "2em" }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <img
+                                    src={
+                                        userShop.avatar !== "no-photo.jpg"
+                                            ? userShop.avatar
+                                            : DefaultAvatar
+                                    }
+                                    alt={"logo"}
+                                    style={{
+                                        width: "100px",
+                                        height: "100px",
+                                    }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "0.5em 0",
+                                }}
+                            >
+                                <Typography className={classes.title}>
+                                    Tên cửa hàng
+                                </Typography>
+                                <Typography>{userShop.name}</Typography>
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "0.5em 0",
+                                }}
+                            >
+                                <Typography className={classes.title}>
+                                    Địa chỉ
+                                </Typography>
+                                <Typography>{userShop.address}</Typography>
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "0.5em 0",
+                                }}
+                            >
+                                <Typography className={classes.title}>
+                                    Số điện thoại
+                                </Typography>
+                                <Typography>{userShop.phone}</Typography>
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "0.5em 0",
+                                }}
+                            >
+                                <Typography className={classes.title}>
+                                    Trạng thái
+                                </Typography>
+                                {mapStatus(userShop.status)}
+                            </div>
+                        </Grid>
+                    </Grid>
+                </CardBody>
+            </Card>
+        </div>
+    );
+};
+
 const SellerRegister = () => {
     const classes = userStyles();
     const dispatch = useDispatch();
@@ -166,10 +316,17 @@ const SellerRegister = () => {
     const [avatar, setAvatar] = useState("no-photo.jpg");
 
     const user = useSelector((state) => state.auth.userData);
-    const shops = useSelector((state) => state.shops.shops);
-    const userShop = shops.find((shop) => shop.user === user._id);
+    const userShop = useSelector((state) => state.shops.userShop);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            dispatch(shopActions.getShopByUserId(user._id));
+        } else {
+            window.location.href = "/";
+        }
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -186,9 +343,6 @@ const SellerRegister = () => {
         };
 
         dispatch(await shopActions.registerANewShop(shop));
-        dispatch(await authActions.logoutUser());
-        window.location.href = "/";
-        message.success("Shop created successfully. Please login again");
 
         setTimeout(msg, 1);
 
@@ -240,11 +394,8 @@ const SellerRegister = () => {
 
     return (
         <div style={{ width: "50%", margin: "2em auto" }}>
-            {userShop && userShop.status === "pending" && (
-                <Typography style={{ color: "#ccc" }}>
-                    {" "}
-                    Đang chờ duyệt
-                </Typography>
+            {userShop?.status === "pending" && (
+                <PendingShopInfo userShop={userShop} />
             )}
             {!userShop && (
                 <Grid container>
@@ -366,9 +517,10 @@ const SellerRegister = () => {
                                                         variant="standard"
                                                         validators={[
                                                             "required",
+                                                            "matchRegexp:^[0-9]{10}$",
                                                         ]}
                                                         errorMessages={[
-                                                            "Số điện thoại không được để trống",
+                                                            "Số điện thoại không hợp lệ",
                                                         ]}
                                                     />
                                                 </FormControl>
@@ -444,7 +596,7 @@ const SellerRegister = () => {
                 </Grid>
             )}
             {user.role !== "user" && (
-                <Typography style={{ color: "#ccc" }}>
+                <Typography style={{ color: "#ff424e" }}>
                     {" "}
                     Bạn đã là người bán hàng
                 </Typography>
