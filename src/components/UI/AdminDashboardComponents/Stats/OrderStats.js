@@ -12,7 +12,6 @@ import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
-import LoadingSpinner from "../../../layout/LoadingSpinner";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 
 const OrderStats = (props) => {
@@ -265,13 +264,6 @@ const OrderStats = (props) => {
     return (
         <div style={{ position: "relative" ,width: "100%" }}>
             <Grid container spacing={3}>
-                {orderChart === null && (
-                    <LoadingSpinner
-                        width={"5%"}
-                        height={"5%"}
-                        className={classes.loading2}
-                    />
-                )}
                 <Grid item xs={5} className={classes.card}>
                     {orderChart !== null && (
                         <Card chart onClick={convertDateToDay}>

@@ -23,7 +23,7 @@ import {
     getSaleProducts,
 } from "./store/actions/productActions";
 import { getCart } from "./store/actions/cartActions";
-// import { getAllShops } from "./store/actions/shopActions";
+import { getAllShops } from "./store/actions/shopActions";
 import { getAllReviews } from "./store/actions/reviewActions";
 import { getSystemBanners } from "./store/actions/settingActions";
 import AdminPage from "./components/pages/AdminPage";
@@ -36,7 +36,7 @@ const actionsOnPageLoad = () => {
     store.dispatch(getAllProducts("?limit=100"));
     store.dispatch(getSaleProducts());
     store.dispatch(getCart());
-    // store.dispatch(getAllShops());
+    store.dispatch(getAllShops());
     // store.dispatch(getAllOrders());
     store.dispatch(getAllReviews());
     store.dispatch(getSystemBanners());

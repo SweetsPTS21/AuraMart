@@ -86,6 +86,7 @@ export const getOrdersByUserId = (userId) => async (dispatch) => {
 // 🔒
 export const addNewOrder = (order, total, payment) => async (dispatch) => {
     const url = `${api_url}/api/v1/orders/checkout`;
+    const randomId = Math.floor(Math.random() * 1000000000);
 
     await axios
         .post(url, order)
@@ -108,10 +109,13 @@ export const addNewOrder = (order, total, payment) => async (dispatch) => {
     }
     if (payment === "MOMO") {
         const url = `${api_url}/api/v1/payment/momo/create`;
+
+        const orderId = order.id || randomId;
+
         const data = {
             amount: total,
-            order: order.id,
-            orderInfo: `Thanh toan cho don hang ${order.id}`,
+            order: orderId,
+            orderInfo: `Thanh toan cho don hang ${orderId}`,
         };
         try {
             const response = await axios.post(url, data);
@@ -130,16 +134,15 @@ export const addNewOrder = (order, total, payment) => async (dispatch) => {
 
     if (payment === "VNPAY") {
         const url = `${api_url}/api/v1/payment/vnpay/create`;
-
-        const randomId = Math.floor(Math.random() * 1000000);
+        const orderId = order.id || randomId;
 
         const data = {
             amount: total,
             bankCode: "",
-            orderDescription: `Thanh toan cho don hang ${order.id || randomId}`,
+            orderDescription: `Thanh toan cho don hang ${orderId}`,
             orderType: "other",
             language: "vn",
-            orderId: order.id || randomId,
+            orderId: orderId,
         };
 
         try {

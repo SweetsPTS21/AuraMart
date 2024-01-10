@@ -255,7 +255,6 @@ const AllShops = () => {
 
 
     if (firstLoad) {
-        // users wouldn't have been set so we use settimeout
         allShops !== null &&
             setTimeout(() => {
                 setShops(allShops.filter((shop) => shop.status !== "pending"));
@@ -393,8 +392,7 @@ const AllShops = () => {
                                     Need approve
                                 </p>
                                 <h3 className={classes.cardTitle}>
-                                    {shopsToApprove !== null &&
-                                        shopsToApprove.length}
+                                    {shopsToApprove?.length}
                                 </h3>
                             </CardHeader>
                             <CardFooter stats>
@@ -420,7 +418,7 @@ const AllShops = () => {
                                     Total Shops
                                 </p>
                                 <h3 className={classes.cardTitle}>
-                                    {allShops !== null && allShops.length}
+                                    {allShops?.length}
                                 </h3>
                             </CardHeader>
                             <CardFooter stats>
@@ -446,8 +444,7 @@ const AllShops = () => {
                                     Need approve
                                 </p>
                                 <h3 className={classes.cardTitle}>
-                                    {shopsToApprove !== null &&
-                                        shopsToApprove.length}
+                                    {shopsToApprove?.length}
                                 </h3>
                             </CardHeader>
                             <CardFooter stats>

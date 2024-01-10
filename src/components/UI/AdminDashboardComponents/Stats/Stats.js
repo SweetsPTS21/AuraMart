@@ -115,9 +115,9 @@ const Stats = () => {
                               );
                           })
                         : null}
-                </div> 
-                {topProducts === null && <LoadingSpinner />}              
+                </div>            
             </Grid>
+            {!topProducts && <LoadingSpinner />}   
         </div>
     );
 };

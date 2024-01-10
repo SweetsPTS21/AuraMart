@@ -1192,7 +1192,6 @@ const Checkout = () => {
             shippingMethod: "GHN",
         };
         // get unique shops in cart
-        debugger;
         const shops = {};
         let shopOrder = [];
         for (let i = 0; i < cartItems.length; i++) {

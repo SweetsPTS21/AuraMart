@@ -13,9 +13,8 @@ import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
-import LoadingSpinner from "../../../layout/LoadingSpinner";
 
-const ShopStats = (props) => {
+const ShopStats = () => {
     const classes = userStyles();
     const allReviews = useSelector((state) => state.reviews.allReviews); // all reviews
 
@@ -149,13 +148,6 @@ const ShopStats = (props) => {
     return (
         <div style={{ position: "relative", width: "100%" }}>
             <Grid container spacing={3} style={{padding: "0 0.5em"}}>
-                {shopChart === null && props.noLoading === undefined && (
-                    <LoadingSpinner
-                        width={"5%"}
-                        height={"5%"}
-                        className={classes.loading2}
-                    />
-                )}
                 <Grid item xs={12} className={classes.card}>
                     {shopChart !== null && (
                         <Card chart onClick={convertDateToDay}>

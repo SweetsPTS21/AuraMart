@@ -13,7 +13,6 @@ import "./material-dashboard-react.css";
 import Moment2 from "moment";
 import { AccessTime, ArrowUpward } from "@material-ui/icons";
 import Moment from "react-moment";
-import LoadingSpinner from "../../../layout/LoadingSpinner";
 
 const UserStats = (props) => {
     const classes = userStyles();
@@ -149,13 +148,6 @@ const UserStats = (props) => {
     return (
         <div style={{position: "relative" ,width: "100%" }}>
             <Grid container style={{padding: "0 0.5em"}} justifyContent={"space-around"}>
-                {userChart === null && props.noLoading === undefined && (
-                    <LoadingSpinner
-                        width={"5%"}
-                        height={"5%"}
-                        className={classes.loading4}
-                    />
-                )}
                 <Grid
                     item
                     xs={props.fullwidth !== undefined ? 12 : 10}

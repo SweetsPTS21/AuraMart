@@ -640,6 +640,7 @@ const OrderCard = ({ myOrder }) => {
                                 </>
                             )}
                             {myOrder.paymentState === "Pending" &&
+                            myOrder.currentState === "Ordered Successfully" &&
                             myOrder.paymentMethod !== "COD" ? (
                                 <>
                                     <Button

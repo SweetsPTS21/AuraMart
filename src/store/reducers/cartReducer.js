@@ -174,7 +174,12 @@ export default function cartReducer(state = initialState, action) {
                 ...state,
                 finalTotal: final,
                 totalShopDiscount: [
-                    ...state.totalShopDiscount,
+                    state.totalShopDiscount?.map((v) => {
+                        if (v.shop === shopId) {
+                            v.discount = discountPrice;
+                        }
+                        return v;
+                    }),
                     {
                         shop: shopId,
                         discount: discountPrice,

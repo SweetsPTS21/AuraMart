@@ -44,7 +44,7 @@ const renderResult = (code, message, success) => {
                     <DoneAllRounded color="action" fontSize="inherit" />{" "}
                 </h2>
                 <h4>Kiểm tra tình trạng đơn hàng của bạn</h4>
-                <Link to="/">
+                <Link to="/orders">
                     <Button variant="outlined" color="primary">
                         Quay về trang chủ
                     </Button>
@@ -58,8 +58,8 @@ const renderResult = (code, message, success) => {
                     Thất Bại{" "}
                     <ClearRounded color="secondary" fontSize="inherit" />
                 </h2>
-                <p>Mã lỗi: {code}</p>
-                <p>Lời nhắn: {message}</p>
+                <p>Mã lỗi: {code || 43}</p>
+                <p>Lời nhắn: {message || "Giao dịch bị hủy hoặc lỗi không xác định"}</p>
                 <Link to="/">
                     <Button
                         variant="outlined"
@@ -89,7 +89,7 @@ const OrderResultPage = () => {
         if (vnp_ResponseCode) {
             dispatch(paymentActions.checkVnpayPayment(query));
         }
-        if (resultCode === "0") {
+        if (resultCode) {
             dispatch(paymentActions.checkMomoPayment(query));
         }
     };
@@ -121,21 +121,19 @@ const OrderResultPage = () => {
                 <div className={classes.container}>
                     <Grid container className={classes.grid}>
                         <Grid item xs={12} className={classes.result}>
-                            {vnpayStatus &&
-                                vnp_ResponseCode &&
-                                vnpayStatus.rspcode !== "00" &&
+                            {
+                                vnp_ResponseCode &&                              
                                 renderResult(
-                                    vnpayStatus.rspcode,
-                                    vnpayStatus.message,
+                                    vnpayStatus?.rspcode,
+                                    vnpayStatus?.message,
                                     success
                                 )}
 
-                            {momoStatus &&
+                            {
                                 resultCode &&
-                                momoStatus.rspcode !== "00" &&
                                 renderResult(
-                                    momoStatus.rspcode,
-                                    momoStatus.message,
+                                    momoStatus?.rspcode,
+                                    momoStatus?.message,
                                     success
                                 )}
                             {!resultCode && !vnp_ResponseCode && (

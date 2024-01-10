@@ -18,7 +18,7 @@ const LoadingSpinner = ({ props }) => {
         <div
             className="loading-animation"
             style={{
-                position: "absolute",
+                position: "fixed",
                 top: 0,
                 left: 0,
                 right: 0,
@@ -28,7 +28,7 @@ const LoadingSpinner = ({ props }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: "0.5em",
-                zIndex: 50,
+                zIndex: 9999,
             }}
         >
             <ReactLoading
