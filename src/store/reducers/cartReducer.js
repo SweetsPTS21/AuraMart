@@ -160,12 +160,12 @@ export default function cartReducer(state = initialState, action) {
                 if (state.totalAmount_discounted < voucher.minimumSpend) {
                     discountPrice = 0;
                 }
-                const index = state.totalShopDiscount.findIndex(
+                const index = state.totalShopDiscount?.findIndex(
                     (v) => v.shop === voucher.shop
                 );
     
                 if (index !== -1 && state.totalShopDiscount) {
-                    state.totalShopDiscount.splice(index, 1);
+                    state.totalShopDiscount?.splice(index, 1);
                 }
             }
             const final = state.totalAmount_discounted - discountPrice;
