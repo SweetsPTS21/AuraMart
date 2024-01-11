@@ -384,7 +384,7 @@ const Reports = () => {
                                                     fontWeight: "600",
                                                 }}
                                             >
-                                                0đ
+                                                1.350.000đ
                                             </Typography>
                                         </Grid>
                                         <Grid
@@ -441,7 +441,7 @@ const Reports = () => {
                                                         width: "50%",
                                                     }}
                                                 >
-                                                    0đ
+                                                    856.000đ
                                                 </Typography>
                                                 <Typography
                                                     style={{
@@ -450,7 +450,7 @@ const Reports = () => {
                                                         width: "25%",
                                                     }}
                                                 >
-                                                    0đ
+                                                    6.350.000đ
                                                 </Typography>
                                                 <Typography
                                                     style={{
@@ -459,7 +459,7 @@ const Reports = () => {
                                                         width: "25%",
                                                     }}
                                                 >
-                                                    0đ
+                                                    12.400.000đ
                                                 </Typography>
                                             </div>
                                         </Grid>

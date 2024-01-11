@@ -146,7 +146,7 @@ function TabPanel(props) {
                             color="secondary"
                             className={classes.button}
                         >
-                            Continue shopping
+                            Tiếp tục mua sắm
                         </Button>
                     </section>
                 </Typography>

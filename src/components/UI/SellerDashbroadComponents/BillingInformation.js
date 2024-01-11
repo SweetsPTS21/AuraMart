@@ -64,7 +64,7 @@ const BillingInformation = () => {
 
     return (
         <div style={{ width: "70%", margin: "0 auto" }}>
-            <div className={classes.title}>Billing Information</div>
+            <div className={classes.title}>Thông tin thanh toán</div>
             <div className={classes.grid}>
                 <section
                     style={{
@@ -76,12 +76,9 @@ const BillingInformation = () => {
                 >
                     <img src={aumartNotFound} alt="" />
                     <br />
-                    <p>
-                        Saving payment information helps you order more quickly
-                        and easily
-                    </p>
+                    <p>Thêm thông tin thanh toán để tiếp tục mua sắm trên</p>
                     <Button variant="contained" className={classes.button}>
-                        Continue shopping
+                        Tiếp tục
                     </Button>
                 </section>
             </div>

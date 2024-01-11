@@ -259,10 +259,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Hot deal giảm đến 90%
                 </Link>
             </Typography>
@@ -272,10 +269,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Túi Đeo Chéo Nam
                 </Link>
             </Typography>
@@ -285,10 +279,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     IPhone 14 Pro Max
                 </Link>
             </Typography>
@@ -298,10 +289,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Bitis Hunter
                 </Link>
             </Typography>
@@ -311,10 +299,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Túi Xách Nam
                 </Link>
             </Typography>
@@ -324,10 +309,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Mì Ăn Liền
                 </Link>
             </Typography>
@@ -337,10 +319,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Loa Philips
                 </Link>
             </Typography>
@@ -350,10 +329,7 @@ const NavBar = (props) => {
                 noWrap
                 component={"p"}
             >
-                <Link
-                    to={"#"}
-                    className={classes.removeDefaultLink}
-                >
+                <Link to={"#"} className={classes.removeDefaultLink}>
                     Túi Đeo Chéo Xiaomi
                 </Link>
                 <IconButton
@@ -463,7 +439,7 @@ const NavBar = (props) => {
                                 <TextField
                                     fullWidth
                                     {...params}
-                                    placeholder="Search for a product"
+                                    placeholder="Tìm kiếm sản phẩm"
                                     value={search}
                                     style={{ color: "white" }}
                                     InputLabelProps={{

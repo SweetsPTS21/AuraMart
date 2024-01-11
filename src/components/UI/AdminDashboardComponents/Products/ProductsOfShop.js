@@ -64,7 +64,7 @@ const ProductsOfShop = () => {
         }
     };
     return (
-        <div style={{ position: "relative" ,width: "100%" }}>
+        <div style={{ position: "relative", width: "100%" }}>
             <Grid container spacing={3} className={classes.appBar}>
                 <Grid item xs={6} md={4} lg={3} style={{ margin: 0 }}>
                     <Button color="transparent" className={classes.title}>
@@ -251,7 +251,7 @@ const ProductsOfShop = () => {
                                     color: "rgba(149, 149, 149, 1)",
                                 }}
                             >
-                                Search for a shop by Id or name.
+                                Tìm kiếm cửa hàng
                             </p>
                         </section>
                     </Grid>

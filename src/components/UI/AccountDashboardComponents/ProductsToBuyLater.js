@@ -82,7 +82,7 @@ const ProductsToBuyLater = () => {
                         to buy another time
                     </p>
                     <Button variant="contained" className={classes.button}>
-                        Continue shopping
+                        Tiếp tục mua sắm
                     </Button>
                 </section>
             </div>

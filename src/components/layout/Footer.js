@@ -31,7 +31,7 @@ const About = () => {
             >
                 <Grid item xs={6} sm={12}>
                     <Typography className={classes.headers}>
-                        Customer Service
+                        Chăm sóc khách hàng
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12}>
@@ -44,11 +44,11 @@ const About = () => {
                         }}
                     >
                         <Link to={"#"} className={classes.removeLinkStyles}>
-                            Hotline Order: 1800-9999-9999
+                            Gọi đặt hàng: 1800-9999-9999
                         </Link>
                     </Typography>
                     <Typography className={classes.fontSmall}>
-                        (Free,8-21h include Sat,Sun)
+                        (Miễn phí,8-21h cả T7, CN)
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12}>
@@ -61,11 +61,11 @@ const About = () => {
                         }}
                     >
                         <Link to={"#"} className={classes.removeLinkStyles}>
-                            Customer Service: 1900-6034
+                            Hotline: 1900-6034
                         </Link>
                     </Typography>
                     <Typography className={classes.fontSmall}>
-                        (10$/min, 8-21 include Sat,Sun)
+                        (200đ/p, 8-21 cả T7, CN)
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -75,7 +75,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Question&Answer
+                        Thắc mắc đơn hàng
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -85,7 +85,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Ask for Support
+                        Đề nghị hỗ trợ khác
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -97,7 +97,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Ordering Instruction
+                        Hướng dẫn đặt hàng
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -109,7 +109,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Transport Method
+                        Phương thức vận chuyển
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -119,7 +119,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Refund Policy
+                        Chính sách đổi trả
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -129,7 +129,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Customer Support:support@Aumart.vn
+                        Địa chỉ email :support@Aumart.vn
                     </a>
                 </Grid>
             </Grid>
@@ -142,7 +142,7 @@ const About = () => {
             >
                 <Grid item xs={6} sm={12}>
                     <Typography className={classes.headers}>
-                        About Aumart
+                        Về Aumart
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -152,7 +152,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Aumart Introduction
+                        Giới thiệu về Aumart
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -162,7 +162,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Recruitment
+                        Tuyển dụng
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -172,7 +172,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Payment Security
+                        Bảo mật thanh toán
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -182,17 +182,19 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Information Security
+                        Bảo mật thông tin cá nhân
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <a
-                        href={"https://hotro.Aumart.vn/hc/vi/articles/201971214"}
+                        href={
+                            "https://hotro.Aumart.vn/hc/vi/articles/201971214"
+                        }
                         target="_blank"
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Term&Agreement
+                        Chính sách giải quyết khiếu nại
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
@@ -202,7 +204,7 @@ const About = () => {
                         className={classes.removeLinkStyles}
                         rel="noreferrer"
                     >
-                        Aumart Advice
+                        Hướng dẫn mua hàng
                     </a>
                 </Grid>
                 <Grid item xs={6} sm={12}></Grid>
@@ -220,17 +222,17 @@ const About = () => {
             >
                 <Grid item xs={6} sm={12}>
                     <Typography className={classes.headers}>
-                        Associate and Connect
+                        Hợp tác và liên kết
                     </Typography>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <Link to={"#"} className={classes.removeLinkStyles}>
-                        Work Regulation
+                        Quy chế hoạt động Sàn GDTMĐT Aumart
                     </Link>
                 </Grid>
                 <Grid item xs={6} sm={12} className={classes.fontSmall}>
                     <Link to={"#"} className={classes.removeLinkStyles}>
-                        Sell with Aumart
+                        Bán hàng cùng Aumart
                     </Link>
                 </Grid>
                 <Grid item xs={6} sm={12} />
@@ -251,7 +253,7 @@ const About = () => {
                 style={{ paddingLeft: "1em" }}
             >
                 <Typography className={classes.headers} component={"span"}>
-                    Payment Method
+                    Hình thức thanh toán
                     <Grid style={{ paddingTop: "1.3em", lineHeight: 1 }}>
                         <Icon className={classes.iconRoot}>
                             <Link to={"#"} className={classes.removeLinkStyles}>
@@ -314,9 +316,9 @@ const About = () => {
             </Grid>
             <Grid container item xs={2} spacing={0}>
                 <Typography className={classes.headers} component={"span"}>
-                    Connect with Us
+                    Kết nối với chúng tôi
                     <Grid style={{ paddingTop: "1.2em", lineHeight: 1 }}>
-                        <Link to="https://www.facebook.com/praise.oketola">
+                        <Link to="https://www.google.com/">
                             <Icon className={classes.iconRoot}>
                                 <img
                                     alt="fb"
@@ -349,7 +351,7 @@ const About = () => {
                         <Typography component={"span"}>
                             <p className={classes.headers}>
                                 {" "}
-                                Install App On Your Mobile
+                                Tải ứng dụng trên điện thoại
                             </p>
 
                             <Grid>
@@ -403,9 +405,9 @@ const Lisence = () => {
                 phường 12, quận 10, Thành phố Hồ Chí Minh
             </Typography>
             <Typography className={classes.lisence}>
-                Aumart nhận đặt hàng trực tuyến và giao hàng tận nơi, chưa hỗ trợ
-                mua và nhận hàng trực tiếp tại văn phòng hoặc trung tâm xử lý
-                đơn hàng
+                Aumart nhận đặt hàng trực tuyến và giao hàng tận nơi, chưa hỗ
+                trợ mua và nhận hàng trực tiếp tại văn phòng hoặc trung tâm xử
+                lý đơn hàng
             </Typography>
             <Typography className={classes.lisence}>
                 Giấy chứng nhận Đăng ký Kinh doanh số 0309532909 do Sở Kế hoạch
@@ -442,8 +444,8 @@ const About2 = () => {
             <Typography className={classes.lisence}>
                 Với hàng triệu sản phẩm từ các thương hiệu, cửa hàng uy tín,
                 hàng nghìn loại mặt hàng từ Điện thoại smartphone tới Rau củ quả
-                tươi, kèm theo dịch vụ giao hàng siêu tốc AumartNOW, Aumart mang đến
-                cho bạn một trải nghiệm mua sắm online bắt đầu bằng chữ tín.
+                tươi, kèm theo dịch vụ giao hàng siêu tốc AumartNOW, Aumart mang
+                đến cho bạn một trải nghiệm mua sắm online bắt đầu bằng chữ tín.
                 Thêm vào đó, ở Aumart bạn có thể dễ dàng sử dụng vô vàn các tiện
                 ích khác như mua thẻ cào, thanh toán hoá đơn điện nước, các dịch
                 vụ bảo hiểm.
@@ -454,14 +456,14 @@ const About2 = () => {
             <Typography className={classes.lisence}>
                 Bạn muốn săn giá sốc, Aumart có giá sốc mỗi ngày cho bạn! Bạn là
                 tín đồ của các thương hiệu, các cửa hàng Official chính hãng
-                đang chờ đón bạn. Không cần săn mã freeship, vì Aumart đã có hàng
-                triệu sản phẩm trong chương trình Freeship+, không giới hạn lượt
-                đặt, tiết kiệm thời gian vàng bạc của bạn. Mua thêm gói AumartNOW
-                tiết kiệm để nhận 100% free ship 2h & trong ngày, hoặc mua gói
-                AumartNOW cao cấp để nhận được 100% freeship, áp dụng cho 100% sản
-                phẩm, 100% tỉnh thành Việt Nam. Bạn muốn tiết kiệm hơn nữa? Đã
-                có AumartCARD, thẻ tín dụng Aumart hoàn tiền 15% trên mọi giao dịch
-                (tối đa hoàn 600k/tháng)
+                đang chờ đón bạn. Không cần săn mã freeship, vì Aumart đã có
+                hàng triệu sản phẩm trong chương trình Freeship+, không giới hạn
+                lượt đặt, tiết kiệm thời gian vàng bạc của bạn. Mua thêm gói
+                AumartNOW tiết kiệm để nhận 100% free ship 2h & trong ngày, hoặc
+                mua gói AumartNOW cao cấp để nhận được 100% freeship, áp dụng
+                cho 100% sản phẩm, 100% tỉnh thành Việt Nam. Bạn muốn tiết kiệm
+                hơn nữa? Đã có AumartCARD, thẻ tín dụng Aumart hoàn tiền 15%
+                trên mọi giao dịch (tối đa hoàn 600k/tháng)
             </Typography>
         </div>
     );

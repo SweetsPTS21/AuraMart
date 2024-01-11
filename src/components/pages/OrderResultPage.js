@@ -107,7 +107,7 @@ const OrderResultPage = () => {
         if (vnp_ResponseCode || resultCode) sendResult();
 
         if (vnpayStatus || momoStatus) checkResult();
-    }, []);
+    }, [vnpayStatus, momoStatus]);
 
     const classes = useStyles();
     return (

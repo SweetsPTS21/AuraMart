@@ -323,10 +323,10 @@ const OrderCard = ({ myOrder }) => {
     const [isCancel, setIsCancel] = useState(false);
     const user = useSelector((state) => state.auth.user);
 
-    const [product] = useState(myOrder.orderDetails[0].product);
+    const [product] = useState(myOrder?.orderDetails[0]?.product);
     const userReivews = useSelector((state) => state.reviews.userReviews);
     const isReviewed = userReivews?.some(
-        (review) => review.product._id === product._id
+        (review) => review.product._id === product?._id
     );
 
     const { shop, total, quantity } = myOrder;
@@ -413,7 +413,7 @@ const OrderCard = ({ myOrder }) => {
                         )}
                     </Grid>
                 </Grid>
-                {myOrder.orderDetails.map((orderDetail) => (
+                {myOrder?.orderDetails?.map((orderDetail) => (
                     <Grid
                         item
                         container
@@ -428,7 +428,7 @@ const OrderCard = ({ myOrder }) => {
                         >
                             <Grid item xs={2}>
                                 <img
-                                    src={orderDetail.product.photo}
+                                    src={orderDetail?.product?.photo}
                                     alt=""
                                     style={{ width: "82px", height: "82px" }}
                                 />
@@ -441,7 +441,7 @@ const OrderCard = ({ myOrder }) => {
                                         color: "rgba(0,0,0,0.8)",
                                     }}
                                 >
-                                    {orderDetail.product.name}
+                                    {orderDetail?.product?.name}
                                 </Typography>
                                 <Typography
                                     style={{
@@ -450,7 +450,7 @@ const OrderCard = ({ myOrder }) => {
                                         color: "#AAA",
                                     }}
                                 >
-                                    Phân loại hàng: {orderDetail.color}
+                                    Phân loại hàng: {orderDetail?.color}
                                 </Typography>
                                 <Typography
                                     style={{
@@ -459,7 +459,7 @@ const OrderCard = ({ myOrder }) => {
                                         color: "rgba(0,0,0,0.8)",
                                     }}
                                 >
-                                    Số lượng: {orderDetail.quantity}
+                                    Số lượng: {orderDetail?.quantity}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -479,7 +479,7 @@ const OrderCard = ({ myOrder }) => {
                                     padding: "3px 6px",
                                 }}
                             >
-                                -{orderDetail.product.discount}%{" "}
+                                -{orderDetail?.product?.discount}%{" "}
                             </Typography>
 
                             <Typography
@@ -488,7 +488,7 @@ const OrderCard = ({ myOrder }) => {
                                     color: "#FF2800",
                                 }}
                             >
-                                {formatVND(orderDetail.product.price)}
+                                {formatVND(orderDetail?.product?.price)}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -511,7 +511,7 @@ const OrderCard = ({ myOrder }) => {
                             }}
                         >
                             Thành tiền:{" "}
-                            {myOrder.total ? formatVND(myOrder.total) : 0}
+                            {myOrder.total ? formatVND(myOrder?.total) : 0}
                         </Typography>
                     </Grid>
 
@@ -540,7 +540,7 @@ const OrderCard = ({ myOrder }) => {
                         >
                             {status
                                 .slice(0, 4)
-                                .includes(myOrder.currentState) && (
+                                .includes(myOrder?.currentState) && (
                                 <>
                                     <Button
                                         style={{
@@ -553,7 +553,7 @@ const OrderCard = ({ myOrder }) => {
                                             marginBottom: "1em",
                                         }}
                                         onClick={() => {
-                                            setCurrentOrderId(myOrder._id);
+                                            setCurrentOrderId(myOrder?._id);
                                             setOpenDialog(true);
                                             setIsCancel(true);
                                         }}
@@ -621,7 +621,7 @@ const OrderCard = ({ myOrder }) => {
                                             open={openReviewModel}
                                             onClose={handleCloseReviewModel}
                                             piority={0}
-                                            productId={product.id}
+                                            productId={product?.id}
                                             type={"commentModal"}
                                         />
                                     </>
@@ -646,7 +646,8 @@ const OrderCard = ({ myOrder }) => {
                                 </>
                             )}
                             {myOrder.paymentState === "Pending" &&
-                            myOrder.paymentMethod !== "COD" ? (
+                            myOrder.paymentMethod !== "COD" &&
+                            myOrder.currentState !== "Cancelled" ? (
                                 <>
                                     <Button
                                         className={classes.button}
@@ -817,7 +818,7 @@ const OrderManagement = () => {
                                 className={classes.button}
                                 style={{ height: "3em", fontSize: "1.2em" }}
                             >
-                                Continue shopping
+                                Quay lại
                             </Button>
                         </section>
                     </div>

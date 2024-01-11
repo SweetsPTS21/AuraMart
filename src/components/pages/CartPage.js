@@ -276,17 +276,17 @@ const CartPage = (props) => {
                                 <span>Shop voucher: </span>
                                 <span className={classes.shopVoucher}>
                                     {totalShopDiscount &&
-                                        totalShopDiscount.map((item) => {
-                                            if (item.shop === key) {
+                                        totalShopDiscount.map((item, index) => {
+                                            if (item?.shop === key) {
                                                 return (
-                                                    <>
+                                                    <div key={index}>
                                                         <span>
                                                             -{" "}
                                                             {formatVND(
-                                                                item.discount
+                                                                item?.discount
                                                             )}
                                                         </span>
-                                                    </>
+                                                    </div>
                                                 );
                                             }
                                         })}
