@@ -151,7 +151,7 @@ export default function cartReducer(state = initialState, action) {
             const voucher = action.voucher;
             const shopId = action.shopId;
             let discountPrice = 0;
-            
+
             if (voucher) {
                 discountPrice = shopTotal * (voucher.discount / 100);
                 if (discountPrice > voucher.maximumDiscount) {
@@ -163,7 +163,7 @@ export default function cartReducer(state = initialState, action) {
                 const index = state.totalShopDiscount?.findIndex(
                     (v) => v.shop === voucher.shop
                 );
-    
+
                 if (index !== -1 && state.totalShopDiscount) {
                     state.totalShopDiscount?.splice(index, 1);
                 }
@@ -174,7 +174,9 @@ export default function cartReducer(state = initialState, action) {
                 ...state,
                 finalTotal: final,
                 totalShopDiscount: [
-                    ...state.totalShopDiscount,
+                    state.totalShopDiscount?.map((v) => {
+                        return v;
+                    }),
                     {
                         shop: shopId,
                         discount: discountPrice,

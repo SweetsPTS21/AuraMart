@@ -116,12 +116,12 @@ const Voucher = (props) => {
         // dispatch(voucherActions.getVouchersByUserId(user.id));
         if (user && userVouchers) {
             const index = userVouchers.find((v) => v.voucher === voucher.id);
-            if (index === undefined) {
-                setSaved(false);
-            } else {
+            if (index) {
                 setSaved(true);
+            } else {
+                setSaved(false);
             }
-            if (index && index.used) {
+            if (index?.used) {
                 setUsed(true);
             }
         }

@@ -58,8 +58,11 @@ const renderResult = (code, message, success) => {
                     Thất Bại{" "}
                     <ClearRounded color="secondary" fontSize="inherit" />
                 </h2>
-                <p>Mã lỗi: {code}</p>
-                <p>Lời nhắn: {message}</p>
+                <p>Mã lỗi: {code || 78}</p>
+                <p>
+                    Lời nhắn:{" "}
+                    {message || "Giao dịch bị hủy hoặc lỗi không xác định"}
+                </p>
                 <Link to="/">
                     <Button
                         variant="outlined"

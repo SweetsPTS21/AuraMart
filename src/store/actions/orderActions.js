@@ -95,7 +95,7 @@ export const addNewOrder = (order, total, payment) => async (dispatch) => {
             }
             dispatch(getAllOrders());
             message.success("Order added!");
-            order.id = res.data?.data?.orderIds[0];
+            order.id = res.data?.data?.orders[0].id;
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -128,34 +128,32 @@ export const addNewOrder = (order, total, payment) => async (dispatch) => {
         }
     }
 
-    if (payment === "VNPAY") {
-        const url = `${api_url}/api/v1/payment/vnpay/create`;
+    // if (payment === "VNPAY") {
+    //     const url = `${api_url}/api/v1/payment/vnpay/create`;
 
-        const randomId = Math.floor(Math.random() * 1000000);
+    //     const data = {
+    //         amount: total,
+    //         bankCode: "",
+    //         orderDescription: `Thanh toan cho don hang ${order.id}`,
+    //         orderType: "other",
+    //         language: "vn",
+    //         orderId: order.id,
+    //     };
 
-        const data = {
-            amount: total,
-            bankCode: "",
-            orderDescription: `Thanh toan cho don hang ${order.id || randomId}`,
-            orderType: "other",
-            language: "vn",
-            orderId: order.id || randomId,
-        };
-
-        try {
-            const response = await axios.post(url, data);
-            console.log(response);
-            if (response?.data?.code === "00") {
-                const redirectUrl = response?.data?.data;
-                window.location.href = redirectUrl;
-            } else {
-                message.error("Error making order");
-            }
-        } catch (err) {
-            console.log("Error", err);
-            message.error("Error making order");
-        }
-    }
+    //     try {
+    //         const response = await axios.post(url, data);
+    //         console.log(response);
+    //         if (response?.data?.code === "00") {
+    //             const redirectUrl = response?.data?.data;
+    //             window.location.href = redirectUrl;
+    //         } else {
+    //             message.error("Error making order");
+    //         }
+    //     } catch (err) {
+    //         console.log("Error", err);
+    //         message.error("Error making order");
+    //     }
+    // }
 };
 
 export const cancelOrder = (orderId, userId) => async (dispatch) => {

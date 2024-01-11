@@ -317,12 +317,17 @@ const OrderCard = ({ myOrder }) => {
     const classes = userStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const product = myOrder.product ? myOrder.product : {};
     const [openDialog, setOpenDialog] = useState(false);
     const [openReviewModel, setOpenReviewModel] = useState(false);
     const [currentOrderId, setCurrentOrderId] = useState(null);
     const [isCancel, setIsCancel] = useState(false);
     const user = useSelector((state) => state.auth.user);
+
+    const [product] = useState(myOrder.orderDetails[0].product);
+    const userReivews = useSelector((state) => state.reviews.userReviews);
+    const isReviewed = userReivews?.some(
+        (review) => review.product._id === product._id
+    );
 
     const { shop, total, quantity } = myOrder;
 
@@ -603,23 +608,24 @@ const OrderCard = ({ myOrder }) => {
                                     />
                                 </>
                             )}
-                            {myOrder.currentState === "Received" && (
-                                <>
-                                    <Button
-                                        className={classes.button}
-                                        onClick={handleOpenReviewModel}
-                                    >
-                                        Đánh giá
-                                    </Button>
-                                    <TransitionsModal
-                                        open={openReviewModel}
-                                        onClose={handleCloseReviewModel}
-                                        piority={0}
-                                        productId={product.id}
-                                        type={"commentModal"}
-                                    />
-                                </>
-                            )}
+                            {myOrder.currentState === "Received" &&
+                                !isReviewed && (
+                                    <>
+                                        <Button
+                                            className={classes.button}
+                                            onClick={handleOpenReviewModel}
+                                        >
+                                            Đánh giá
+                                        </Button>
+                                        <TransitionsModal
+                                            open={openReviewModel}
+                                            onClose={handleCloseReviewModel}
+                                            piority={0}
+                                            productId={product.id}
+                                            type={"commentModal"}
+                                        />
+                                    </>
+                                )}
                             {myOrder.currentState === "Cancelled" && (
                                 <>
                                     <Button
@@ -787,7 +793,7 @@ const OrderManagement = () => {
 
     return (
         <div style={{ width: "100%" }}>
-            <div className={classes.title}>My Order</div>
+            <div className={classes.title}>Đơn hàng</div>
 
             {myOrders && myOrders.length > 0 ? (
                 <OrderPanel myOrders={myOrders} />
@@ -804,7 +810,7 @@ const OrderManagement = () => {
                         >
                             <img src={aumartNotFound} alt="" />
                             <br />
-                            <p>You have no orders</p>
+                            <p>Bạn không có đơn hàng nào.</p>
                             <Button
                                 variant="contained"
                                 color="secondary"
