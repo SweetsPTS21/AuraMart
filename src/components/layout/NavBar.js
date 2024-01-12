@@ -32,7 +32,7 @@ import Fab from "@material-ui/core/Fab";
 import { ChatBubbleOutline } from "@material-ui/icons";
 import { ChatEngine } from "react-chat-engine";
 
-const chatPublicKey = "0c8bb7fc-8146-4063-99f5-77c2f518da58";
+const chatPublicKey = "2b321fb1-91d3-453c-99c1-538ce9766605";
 
 const NavBar = (props) => {
     const classes = userStyles();
