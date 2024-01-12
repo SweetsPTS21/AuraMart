@@ -128,6 +128,7 @@ const UpdateOrder = (props) => {
     const [date, setDate] = useState(order.createdAt);
     const [total, setTotal] = useState(order.total);
     const [currentState, setCurrentState] = useState(order.currentState);
+    const isDisabled = currentState === "Received" ? true : false;
 
     const states = [
         "Ordered Successfully",
@@ -141,6 +142,13 @@ const UpdateOrder = (props) => {
     const formatDate = (date) => {
         const d = new Date(date);
         return format(d, "yyyy-MM-dd");
+    };
+
+    const formatVND = (price) => {
+        return price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+        });
     };
 
     const handleClose = () => {
@@ -221,24 +229,37 @@ const UpdateOrder = (props) => {
                         <Typography style={{ marginBottom: "0.5em" }}>
                             Trạng thái
                         </Typography>
-                        <MuiSelect
-                            aria-label="Status"
-                            value={currentState}
-                            setValue={setCurrentState}
-                            items={states}
-                            // onChange={(e) => setDate(e.target.value)}
-                        />
+                        {isDisabled ? (
+                            <Typography style={{ marginBottom: "0.5em" }}>
+                                "Đã nhận đơn hàng"
+                            </Typography>
+                        ) : (
+                            <MuiSelect
+                                aria-label="Status"
+                                value={currentState}
+                                setValue={setCurrentState}
+                                items={states}
+                                // onChange={(e) => setDate(e.target.value)}
+                            />
+                        )}    
+                        
                     </Grid>
                     <Grid item xs={6} className={classes.order__dialog__part}>
                         <Typography style={{ marginBottom: "0.5em" }}>
                             Tổng tiền
                         </Typography>
-                        <MuiInput
-                            aria-label="Total"
-                            placeholder="VD: 100000"
-                            value={total}
-                            onChange={(e) => setTotal(e.target.value)}
-                        />
+                        {isDisabled ? (
+                            <Typography style={{ marginBottom: "0.5em" }}>
+                                {formatVND(total)}
+                            </Typography>
+                        ) : (
+                            <MuiInput
+                                aria-label="Total"
+                                placeholder="VD: 100000"
+                                value={total}
+                                onChange={(e) => setTotal(e.target.value)}
+                            />
+                        )}
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -389,6 +410,13 @@ const OrdersManagement = () => {
         return format(d, "dd/MM/yyyy HH:mm:ss");
     };
 
+    const formatVND = (price) => {
+        return price.toLocaleString("it-IT", {
+            style: "currency",
+            currency: "VND",
+        });
+    };
+
     const handlePageChange = (event, value) => {
         setPage(value);
     };
@@ -492,7 +520,7 @@ const OrdersManagement = () => {
                                             {order.currentState}
                                         </OrderTableCell>
                                         <OrderTableCell>
-                                            {order.total}
+                                            {formatVND(order.total)}
                                         </OrderTableCell>
                                         <OrderTableCell
                                             style={{ width: "152px" }}
