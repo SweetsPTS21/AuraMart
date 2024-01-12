@@ -177,6 +177,7 @@ const Card = (props) => {
     );
     const stock = props.stock ? props.stock : 0;
     const soldQuantity = props.soldQuantity ? props.soldQuantity : 0;
+    const available = stock - soldQuantity > 0 ? stock - soldQuantity : 512;
     const [color, setColor] = useState(props.color ? props.color : null);
 
     const discounted_price = () => {
@@ -590,8 +591,7 @@ const Card = (props) => {
                                         marginTop: "1em",
                                     }}
                                 >
-                                    Còn <strong>{stock - soldQuantity}</strong>{" "}
-                                    sản phẩm
+                                    Còn <strong>{available}</strong> sản phẩm
                                 </Typography>
                             )}
                         </Grid>
@@ -630,7 +630,7 @@ const Card = (props) => {
                             }}
                             style={{ fontSize: "2em", marginLeft: "0.3em" }}
                             color="primary"
-                            disabled={amount >= stock - soldQuantity}
+                            disabled={amount >= available}
                         >
                             +
                         </Button>
