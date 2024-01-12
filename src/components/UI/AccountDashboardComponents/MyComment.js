@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -6,6 +6,7 @@ import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as reviewActions from "../../../store/actions/reviewActions";
 import ReviewCard from "../../layout/ReviewCard";
+import { Pagination } from "@mui/material";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -98,19 +99,38 @@ const NoReviews = () => {
 
 const Reviews = ({ reviews }) => {
     const classes = userStyles();
+    const itemsPerPage = 5;
+    const [page, setPage] = useState(1);
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
     return (
         <>
             <div className={classes.title}>My comments</div>
             <div className={classes.grid}>
                 {reviews !== null &&
                     reviews.length > 0 &&
-                    reviews.map((review, index) => (
-                        <ReviewCard
-                            review={review}
-                            key={index}
-                            type={"order"}
-                        />
-                    ))}
+                    reviews
+                        .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                        .map((review, index) => (
+                            <ReviewCard
+                                review={review}
+                                key={index}
+                                type={"order"}
+                            />
+                        ))}
+                <Pagination
+                    count={Math.ceil(reviews.length / itemsPerPage)}
+                    page={page}
+                    onChange={handlePageChange}
+                    color="primary"
+                    style={{
+                        marginTop: "1em",
+                        paddingBottom: "1em",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                />
             </div>
         </>
     );

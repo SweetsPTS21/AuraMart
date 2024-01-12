@@ -115,7 +115,7 @@ const ReviewCard = (props) => {
 
     return (
         <ValidatorForm onSubmit={handleUpdateReview}>
-            <FormGroup style={{flexWrap: "nowrap"}}>
+            <FormGroup style={{ flexWrap: "nowrap" }}>
                 <div style={{ borderBottom: "1px solid #ccc" }}>
                     <Grid container style={{ padding: "1em" }}>
                         <Grid

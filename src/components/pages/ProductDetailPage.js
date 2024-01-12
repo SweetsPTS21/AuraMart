@@ -70,6 +70,7 @@ import defaultAvatar from "../../image/shopAvatar.jpg";
 import Sample1 from "../../image/sample1.png";
 import Sample2 from "../../image/sample2.png";
 import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
+import { Pagination } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -1188,6 +1189,8 @@ const ProductDetailInfo = ({ product }) => {
 const ProductReview = ({ product, reviews }) => {
     const classes = useStyles();
     const [stars, setStars] = useState([0, 0, 0, 0, 0]);
+    const itemsPerPage = 5;
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         if (reviews !== null) {
@@ -1198,6 +1201,10 @@ const ProductReview = ({ product, reviews }) => {
             setStars(temp);
         }
     }, [reviews]);
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
 
     const NumberFormat = (value) => {
         const numberValue = parseFloat(value);
@@ -1258,7 +1265,7 @@ const ProductReview = ({ product, reviews }) => {
                                             ? NumberFormat(
                                                   product.averageRating
                                               )
-                                            : 0}{" "}
+                                            : "4.2"}{" "}
                                         {""}
                                     </span>
                                     <span
@@ -1317,14 +1324,19 @@ const ProductReview = ({ product, reviews }) => {
                 <Grid item xs={12} style={{ paddingTop: "1em" }}>
                     <div className="review">
                         {reviews !== null && reviews.length > 0 ? (
-                            reviews.map((review, index) => (
-                                <ReviewCard
-                                    review={review}
-                                    key={index}
-                                    product={product}
-                                    type={"product"}
-                                />
-                            ))
+                            reviews
+                                .slice(
+                                    (page - 1) * itemsPerPage,
+                                    page * itemsPerPage
+                                )
+                                .map((review, index) => (
+                                    <ReviewCard
+                                        review={review}
+                                        key={index}
+                                        product={product}
+                                        type={"product"}
+                                    />
+                                ))
                         ) : (
                             <div
                                 style={{
@@ -1344,6 +1356,17 @@ const ProductReview = ({ product, reviews }) => {
                             </div>
                         )}
                     </div>
+                    <Pagination
+                        count={Math.ceil(reviews.length / itemsPerPage)}
+                        page={page}
+                        onChange={handlePageChange}
+                        color="primary"
+                        style={{
+                            marginTop: "1em",
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                    />
                 </Grid>
             </Grid>
         </div>
