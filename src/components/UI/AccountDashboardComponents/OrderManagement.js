@@ -276,24 +276,22 @@ const OrderStep = ({ myOrder }) => {
         completed: PropTypes.bool,
     };
     const getCurrentState = () => {
-        if (myOrder.currentState === "Received") return 6;
-        if (myOrder.currentState === "Delivered") return 5;
-        if (myOrder.currentState === "Shipping") return 4;
-        if (myOrder.currentState === "Packing") return 3;
-        if (myOrder.currentState === "Getting Product") return 2;
-        if (myOrder.currentState === "Tiki Received") return 1;
+        if (myOrder.currentState === "Received") return 5;
+        if (myOrder.currentState === "Delivered") return 4;
+        if (myOrder.currentState === "Shipping") return 3;
+        if (myOrder.currentState === "Packing") return 2;
+        if (myOrder.currentState === "Getting Product") return 1;
         if (myOrder.currentState === "Ordered Successfully") return 0;
     };
     const [activeStep] = useState(getCurrentState());
 
     const steps = [
-        "Ordered Successfully",
-        "Tiki Received",
-        "Getting Product",
-        "Packing",
-        "Shipping",
-        "Delivered",
-        "Received",
+        "Đặt hàng thành công",
+        "Đang lấy hàng",
+        "Đóng gói",
+        "Đang giao hàng",
+        "Đã giao hàng",
+        "Đã nhận hàng",
     ];
 
     return (
