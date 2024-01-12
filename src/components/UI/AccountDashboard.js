@@ -16,9 +16,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CommentIcon from "@material-ui/icons/Comment";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import aumartNow from "../../image/aumart-now2.png";
-import aumartxu from "../../image/aumartxu.svg";
-import bookcare from "../../image/bookcare.svg";
 import DefaultAvatar from "../../image/avatar.png";
 
 import MenuBookIcon from "@material-ui/icons/MenuBook";
@@ -34,9 +31,6 @@ import FavoriteProducts from "./AccountDashboardComponents/FavoriteProducts";
 import ProductsToBuyLater from "./AccountDashboardComponents/ProductsToBuyLater";
 import MyComment from "./AccountDashboardComponents/MyComment";
 import HelpCenter from "./AccountDashboardComponents/HelpCenter";
-import InformationTikiNow from "./AccountDashboardComponents/InformationTikiNow";
-import MyTikiXuManager from "./AccountDashboardComponents/MyTikiXuManager";
-import MyBookCare from "./AccountDashboardComponents/MyBookCare";
 import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 import { getUserAddress } from "../../store/actions/addressActions";
@@ -76,9 +70,6 @@ const AccountDashBoard = (props) => {
         "Sản phẩm mua sau",
         "Đánh giá của tôi",
         "Trung tâm hỗ trợ",
-        "TikiNOW",
-        "Tiki Xu của tôi",
-        "My BookCare",
     ];
     const optionsIcon = [
         <PersonIcon className={classes.item} />,
@@ -93,9 +84,6 @@ const AccountDashBoard = (props) => {
         <ShoppingCartIcon className={classes.item} />,
         <CommentIcon className={classes.item} />,
         <QuestionAnswerIcon className={classes.item} />,
-        <img src={aumartNow} style={{ width: "1.5em" }} alt={"oven"} />,
-        <img src={aumartxu} style={{ width: "1.5em" }} alt={"aumart xu"} />,
-        <img src={bookcare} style={{ width: "1.5em" }} alt={"bookcare"} />,
     ];
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -127,12 +115,6 @@ const AccountDashBoard = (props) => {
                 return <MyComment />;
             case 11:
                 return <HelpCenter />;
-            case 12:
-                return <InformationTikiNow />;
-            case 13:
-                return <MyTikiXuManager />;
-            case 14:
-                return <MyBookCare />;
             default:
                 return <p>default</p>;
         }
