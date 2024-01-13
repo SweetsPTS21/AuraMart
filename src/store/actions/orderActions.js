@@ -95,7 +95,7 @@ export const addNewOrder = (order, total, payment) => async (dispatch) => {
             }
             dispatch(getAllOrders());
             order.id = res.data?.data[0]?.id;
-            message.info(order.id);
+            // message.info(order.id);
         })
         .catch((err) => {
             console.log("Error" + err);
