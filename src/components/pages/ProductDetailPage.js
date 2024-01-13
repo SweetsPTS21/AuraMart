@@ -71,6 +71,7 @@ import Sample1 from "../../image/sample1.png";
 import Sample2 from "../../image/sample2.png";
 import { ReactComponent as FlashSale } from "../../image/flashsale.svg";
 import { Pagination } from "@mui/material";
+import { getShopByUserId } from "../../store/actions/shopActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -703,6 +704,14 @@ const ProductOptions = ({ product }) => {
     const availableSaleQuantity =
         product.sale && product.sale.quantity - product.sale.soldQuantity;
     const availableQuantity = product.quantity - product.soldQuantity;
+    const user = useSelector((state) => state.auth.user);
+    const userShop = useSelector((state) => state.shops.userShop);
+
+    useEffect(() => {
+        if (user) {
+            dispatch(getShopByUserId(user.id));
+        }
+    }, [dispatch, user]);
 
     const handleDecrease = () => {
         if (amount > 1) {
@@ -756,6 +765,12 @@ const ProductOptions = ({ product }) => {
             message.error("Vui lòng chọn loại sản phẩm");
             return;
         }
+        // check if user is shop's owner
+        if (userShop !== null && userShop !== undefined) {
+            message.error("Bạn không thể mua sản phẩm của chính cửa hàng mình");
+            return;
+        }
+
         for (let i = 0; i < amount; i++) {
             dispatch(cartActions.addToCart({ ...product, color: color }));
             dispatch(cartActions.updateFinalTotal());
