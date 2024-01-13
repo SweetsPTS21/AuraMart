@@ -273,6 +273,8 @@ const CartPage = (props) => {
                                 style={{
                                     paddingTop: "1em",
                                     borderTop: "1px solid #ddd",
+                                    display: "flex",
+                                    alignItems: "center",
                                 }}
                             >
                                 <span>Shop voucher: </span>
