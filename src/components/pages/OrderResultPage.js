@@ -135,7 +135,6 @@ const OrderResultPage = () => {
 
                             {momoStatus &&
                                 resultCode &&
-                                momoStatus.rspcode !== "00" &&
                                 renderResult(
                                     momoStatus.rspcode,
                                     momoStatus.message,
@@ -150,6 +149,34 @@ const OrderResultPage = () => {
                                             fontSize="inherit"
                                         />
                                     </h2>
+                                    <Link to="/">
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            style={{ padding: "0.5em" }}
+                                        >
+                                            <ArrowBackRounded />
+                                            Quay về trang chủ
+                                        </Button>
+                                    </Link>
+                                </>
+                            )}
+                            {!vnpayStatus && !momoStatus && (
+                                <>
+                                    <h2 style={{ marginBottom: "1em" }}>
+                                        Thất Bại{" "}
+                                        <ClearRounded
+                                            color="secondary"
+                                            fontSize="inherit"
+                                        />
+                                    </h2>
+                                    <p>Mã lỗi: {78}</p>
+                                    <p>
+                                        Lời nhắn:{" "}
+                                        {
+                                            "Giao dịch bị hủy hoặc lỗi không xác định"
+                                        }
+                                    </p>
                                     <Link to="/">
                                         <Button
                                             variant="outlined"

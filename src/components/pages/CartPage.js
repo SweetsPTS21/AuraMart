@@ -24,8 +24,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MyVoucher from "../UI/AccountDashboardComponents/MyVoucher";
+import { message } from "antd";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -125,6 +126,7 @@ const ApplyVoucher = (props) => {
 const CartPage = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -317,6 +319,35 @@ const CartPage = (props) => {
             );
         });
 
+    const handleCheckoutClick = () => {
+        if (user) {
+            // check if product is cart is still available
+            if (cartItems.length > 0) {
+                let redirect = true;
+                cartItems.forEach((item) => {
+                    const available = item.product.quantity - item.quantity;
+                    if (available < 0 && item.product.quantity > 0) {
+                        message.error(
+                            `Sản phẩm ${item.product.name} chỉ còn ${item.product.quantity} sản phẩm!`
+                        );
+                        redirect = false;
+                    } else if (available < 0 && item.product.quantity <= 0) {
+                        message.error(
+                            `Sản phẩm ${item.product.name} đã hết hàng!`
+                        );
+                        redirect = false;
+                    }
+                });
+                if (redirect) {
+                    navigate("/checkout");
+                }
+            }
+        } else {
+            message.warning("Bạn cần đăng nhập để tiếp tục!");
+            navigate("/login");
+        }
+    };
+
     const total = () => {
         return (
             <div style={{ paddingBottom: "1em" }}>
@@ -363,6 +394,7 @@ const CartPage = (props) => {
             </div>
         );
     };
+
     const CartSection = () => {
         if (!cartItems.length) {
             return (
@@ -453,16 +485,16 @@ const CartPage = (props) => {
                             {total()}
                         </div>
                     </Paper>
-                    <Link to={"/checkout"} className={classes.removeLink}>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginTop: 10 }}
-                        >
-                            Đặt hàng
-                        </Button>
-                    </Link>
+
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                        style={{ marginTop: 10 }}
+                        onClick={() => handleCheckoutClick()}
+                    >
+                        Đặt hàng
+                    </Button>
                 </Grid>
             </Grid>
         );
