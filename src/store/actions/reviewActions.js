@@ -16,13 +16,9 @@ export const getProductReviews = (productId) => async (dispatch) => {
     await axios.get(url)
         .then(res => {
             dispatch({
-                type: GET_PRODUCT_REVIEWS,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_PRODUCT_REVIEWS,
                 reviews: res.data.data
             });
-
-            // message.success("Got reviews");
-
-
         })
         .catch(() => {
                 message.error("Error getting reviews");
@@ -37,10 +33,10 @@ export const getAllReviews = () => async (dispatch) => {
     await axios.get(url)
         .then(res => {
             dispatch({
-                type: GET_ALL_REVIEWS,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_REVIEWS,
                 reviews: res.data.data
             });
-            // message.success("Got reviews");
+
         })
         .catch(err => {
                 console.log('Error' + err);
@@ -54,10 +50,10 @@ export const getAllUserReviews = (userId) => async (dispatch) => {
     await axios.get(url)
         .then(res => {
             dispatch({
-                type: GET_ALL_USER_REVIEWS,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_USER_REVIEWS,
                 reviews: res.data.data
             });
-            // message.success("Got reviews");
+
         })
         .catch(err => {
                 console.log('Error' + err);
@@ -73,13 +69,9 @@ export const getReviewById = (reviewId) => async (dispatch) => {
     await axios.get(url)
         .then(res => {
             dispatch({
-                type: GET_SINGLE_REVIEW_BY_ID,  //this call test dispatch. to dispsatch to our reducer
+                type: GET_SINGLE_REVIEW_BY_ID,
                 review: res.data.data
             });
-
-            // message.success("Got review");
-
-
         })
         .catch(err => {
                 console.log('Error' + err);
@@ -96,12 +88,10 @@ export const addNewReview = (review, productId) => async (dispatch) => {
 
     await axios.post(url, review)
         .then(res => {
-
             if(!res.data.success) {
                 return message.error(res.data.error);
             }
             dispatch(getProductReviews(productId));
-            // message.success("Got review");
         })
         .catch(err => {
                 console.log('Error' + err);
@@ -118,11 +108,10 @@ export const updateReviewById = (review, reviewId, productId, userId) => async (
 
     await axios.put(url, review)
         .then(res => {
-            // axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
             if(!res.data.success) {
                 return message.error("Error updating review");
             }
-            if(productId !== undefined && userId !== undefined){
+            if(productId && userId){
                 dispatch(getProductReviews(productId));
                 dispatch(getAllUserReviews(userId));
             }
@@ -130,7 +119,6 @@ export const updateReviewById = (review, reviewId, productId, userId) => async (
             message.success("Updated review");
         })
         .catch(err => {
-                // axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
                 console.log('Error' + err);
                 message.error("Error updating review");
             }

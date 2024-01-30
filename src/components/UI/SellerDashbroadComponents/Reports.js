@@ -190,9 +190,8 @@ const ReportForm = (props) => {
                             </TableRow>
                         </CustomTableHead>
                         <TableBody>
-                            {requests &&
-                                requests.length > 0 &&
-                                requests.map((request) => (
+                            {requests?.length > 0 &&
+                                requests?.map((request) => (
                                     <>
                                         <TableRow key={request.id}>
                                             <CustomTableCell>
@@ -571,6 +570,10 @@ const Reports = () => {
             </div>
         </div>
     );
+};
+
+ReportForm.propTypes = {
+    requests: PropTypes.array,
 };
 
 export default Reports;

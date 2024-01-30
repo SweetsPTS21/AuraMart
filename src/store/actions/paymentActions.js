@@ -12,11 +12,9 @@ export const checkVnpayPayment = (query) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: CHECK_VNPAY_PAYMENT, //this call test dispatch. to dispsatch to our reducer
+                type: CHECK_VNPAY_PAYMENT, 
                 status: res.data,
             });
-
-            // message.success("Got order");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -30,11 +28,9 @@ export const checkMomoPayment = (query) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: CHECK_MOMO_PAYMENT, //this call test dispatch. to dispsatch to our reducer
+                type: CHECK_MOMO_PAYMENT, 
                 status: res.data,
             });
-
-            // message.success("Got order");
         })
         .catch((err) => {
             console.log("Error" + err);

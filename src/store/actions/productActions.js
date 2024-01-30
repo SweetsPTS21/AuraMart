@@ -15,7 +15,7 @@ const api_url = process.env.REACT_APP_API;
 
 // 🔓
 export const getAllProducts = (query) => async (dispatch) => {
-    const url = `${api_url}/api/v1/products${query ? query : ""}`;
+    const url = `${api_url}/api/v1/products${query || ""}`;
     console.log(url);
     await axios
         .get(url)
@@ -24,7 +24,6 @@ export const getAllProducts = (query) => async (dispatch) => {
                 type: GET_ALL_PRODUCTS, 
                 products: res.data.data,
             });
-            // message.success("Got products");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -33,7 +32,7 @@ export const getAllProducts = (query) => async (dispatch) => {
 };
 
 export const getSaleProducts = (query) => async (dispatch) => {
-    const url = `${api_url}/api/v1/products/sale${query ? query : ""}`;
+    const url = `${api_url}/api/v1/products/sale${query || ""}`;
     await axios
         .get(url)
         .then((res) => {
@@ -67,7 +66,7 @@ export const getProductById = (id) => async (dispatch) => {
                 type: GET_PRODUCT_BY_ID, 
                 product: res.data.data,
             });
-            // message.success("Got product");
+
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -85,8 +84,6 @@ export const getProductsByShopId = (shopId) => async (dispatch) => {
                 type: GET_PRODUCTS_BY_SHOP_ID, 
                 products: res.data.data,
             });
-
-            // message.success("Got products");
         })
         .catch((err) => {
             console.log("Error" + err);

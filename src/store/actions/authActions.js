@@ -37,7 +37,6 @@ export const registerUser =
 // 🔓  Login - Get user token
 export const loginUser =
     (userData, history, closeModal) => async (dispatch) => {
-        // axios.defaults.withCredentials = true;
         const url = `${api_url}/api/v1/auth/login`;
         console.log(url);
         await axios
@@ -56,7 +55,6 @@ export const loginUser =
                     const decoded = jwt_decode(token);
                     // Set current user
                     dispatch(setCurrentUser(decoded));
-                    // dispatch(setCurrentUserInfo());
                     message.success("Login Successful");
                     closeModal();
                     history.push("/");
@@ -82,8 +80,8 @@ export const loginUser =
                             res_.replace("User validation failed: ", '{"') +
                             '"}';
                         let errObj = res__
-                            .replace(new RegExp(": ", "g"), '" : "')
-                            .replace(new RegExp(", ", "g"), '", "');
+                            .replace(/: /g, '" : "')
+                            .replace(/, /g, '", "');
                         errors = JSON.parse(errObj);
                     }
                     dispatch({

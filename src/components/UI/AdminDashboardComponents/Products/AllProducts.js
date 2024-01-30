@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useMemo} from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 
-import { Accessibility, Update } from "@material-ui/icons";
+import {Accessibility, Update} from "@material-ui/icons";
 import CardFooter from "../../../layout/Card/CardFooter";
 import Button from "../../../layout/CustomButtons/Button";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -32,7 +32,7 @@ const AllProducts = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
 
-    const [productsLastUpdated] = useState(Date.now());
+    const productsLastUpdated = React.useMemo(() => Date.now(), []);
     const [toggleList, setToggleList] = useState(false);
     const [filterOptions, setFilterOptions] = useState("createdAt");
 
@@ -195,11 +195,10 @@ const AllProducts = () => {
                         }}
                     >
                         <div
-                            tabIndex={0}
                             onBlur={(event) => {
-                                !event.currentTarget.contains(
-                                    event.relatedTarget
-                                ) && setToggleList(false);
+                                if (!event.currentTarget.contains(event.relatedTarget)) {
+                                    setToggleList(false);
+                                }
                             }}
                             style={{
                                 display: "flex",

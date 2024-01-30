@@ -6,6 +6,7 @@ import error404 from "../../image/404.png";
 import gear from "../../image/gear.png";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
+import PropTypes from "prop-types";
 
 const userStyles = makeStyles(() => ({
     title: {
@@ -147,6 +148,10 @@ const UnderDevelopmentPage = (props) => {
             <Footer />
         </div>
     );
+};
+
+UnderDevelopmentPage.propTypes = {
+    status: PropTypes.string,
 };
 
 export default UnderDevelopmentPage;

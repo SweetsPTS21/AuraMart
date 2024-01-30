@@ -20,6 +20,7 @@ import * as authActions from "../../store/actions/authActions";
 import { useDispatch } from "react-redux";
 import Moment from "moment";
 import { message } from "antd";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
     // radio style
@@ -135,19 +136,19 @@ const SignUp = (props) => {
         );
 
         const text = { name, email, password, gender, dob: formatedDate };
-        await dispatch(
+        dispatch(
             authActions.registerUser(text, props.history, props.closeModal)
-        );
+        ).then(r => r);
         setTimeout(msg, 1);
         setLoading(false);
-
-        // const text = {name, phone, address, email, password, gender, selectedDate}
     };
     return (
         <div>
             <FormGroup
                 onKeyPress={(e) => {
-                    e.charCode === 13 && handleSubmit(e); // if enter key is pressed redirect to product category and search
+                    if(e.charCode === 13) {
+                        handleSubmit();
+                    }
                 }}
             >
                 <FormControl>
@@ -261,6 +262,11 @@ const SignUp = (props) => {
             </Button>
         </div>
     );
+};
+
+SignUp.propTypes = {
+    closeModal: PropTypes.func,
+    history: PropTypes.object,
 };
 
 export default SignUp;

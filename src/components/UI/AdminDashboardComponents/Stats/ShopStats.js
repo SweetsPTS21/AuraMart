@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useMemo} from "react";
 import userStyles from "../styles/FindAUserStyles";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
@@ -11,7 +11,7 @@ import CardBody from "../../../layout/Card/CardBody";
 import CardFooter from "../../../layout/Card/CardFooter";
 import "./material-dashboard-react.css";
 import Moment2 from "moment";
-import { AccessTime, ArrowUpward } from "@material-ui/icons";
+import {AccessTime, ArrowUpward} from "@material-ui/icons";
 import Moment from "react-moment";
 
 const ShopStats = () => {
@@ -20,7 +20,7 @@ const ShopStats = () => {
 
     const [shopChart, setShopChart] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [shopLastUpdated] = useState(Date.now());
+    const shopLastUpdated = React.useMemo(() => Date.now(), []);
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -33,8 +33,7 @@ const ShopStats = () => {
 
         let Last7daysReviewCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
-        allReviews !== null &&
-            allReviews.forEach((review) => {
+            allReviews?.forEach((review) => {
                 if (
                     Moment2(review.createdAt) // if reviews is from the last 7 days
                         .isAfter(dateFrom, "day")

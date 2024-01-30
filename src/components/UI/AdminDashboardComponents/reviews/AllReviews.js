@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useMemo} from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 
-import { Update } from "@material-ui/icons";
+import {Update} from "@material-ui/icons";
 import CardFooter from "../../../layout/Card/CardFooter";
 import Button from "../../../layout/CustomButtons/Button";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -31,7 +31,7 @@ const AllReviews = () => {
     const [reviews, setReviews] = useState(null); // to update users that are rendered
     const [firstLoad, setFirstLoad] = useState(true);
 
-    const [reviewLastUpdated] = useState(Date.now());
+    const reviewLastUpdated = React.useMemo(() => Date.now(), []);
     const [toggleList, setToggleList] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
     const [filterOptions, setFilterOptions] = useState("createdAt");
@@ -45,10 +45,6 @@ const AllReviews = () => {
                 setFirstLoad(false);
             }, 1000);
     }
-
-    // const getReviewOwner = (userId) => {
-    //     return allUsers.find((user) => user._id === userId);
-    // };
 
     const handleFilter = (sortDescending) => {
         setIsLoading(true);

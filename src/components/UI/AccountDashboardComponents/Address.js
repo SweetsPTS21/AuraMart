@@ -137,16 +137,16 @@ const Address = () => {
         };
         switch (formType) {
             case "add":
-                await dispatch(addressActions.addNewAddress(address_, user.id));
+                dispatch(addressActions.addNewAddress(address_, user.id)).then(r => r);
                 break;
             case "edit":
-                await dispatch(
+                dispatch(
                     addressActions.updateAddressById(
                         address_,
                         addressId,
                         user.id
                     )
-                );
+                ).then(r => r);
                 break;
             default:
                 break;
@@ -159,11 +159,18 @@ const Address = () => {
     const handleDelete = async (e) => {
         e.preventDefault();
         const msg = message.loading("Deleting address!", 0);
-        await dispatch(addressActions.deleteAddressById(addressId, user.id));
+        dispatch(addressActions.deleteAddressById(addressId, user.id)).then(r => r);
         setTimeout(msg, 1);
         setIsEditing(false);
         setForm(false);
     };
+
+    const handleAddNewAddress = () => {
+        setForm(true);
+        setFormType("add");
+        setIsEditing(true);
+        removeValue();
+    }
 
     const removeValue = () => {
         setName("");
@@ -271,7 +278,6 @@ const Address = () => {
                         value={ward}
                         style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setWard(e.target.value)}
-                        // helperText="Please select your city/province"
                         variant="standard"
                     >
                         {ward_.map((option, index) => (
@@ -288,7 +294,6 @@ const Address = () => {
                         value={address}
                         style={{ margin: 8, width: "420px" }}
                         onChange={(e) => setAddress(e.target.value)}
-                        // helperText="Please select your city/province"
                         variant="standard"
                         validators={["required"]}
                         errorMessages={["Enter your address"]}
@@ -358,18 +363,13 @@ const Address = () => {
                 {!form && (
                     <>
                         <div className={classes.title}>Address</div>
-                        <div
+                        <Button
                             className={classes.addAddress}
-                            onClick={() => (
-                                setForm(true),
-                                setFormType("add"),
-                                setIsEditing(true),
-                                removeValue()
-                            )}
+                            onClick={handleAddNewAddress}
                         >
                             <AddIcon style={{ color: "rgb(153, 153, 153)" }} />{" "}
                             Add a new Address
-                        </div>
+                        </Button>
                     </>
                 )}
                 {form && (
@@ -384,10 +384,10 @@ const Address = () => {
             {!isEditing && (
                 <>
                     <div className={classes.title}>My addresses</div>
-                    {listAddress !== null &&
-                        listAddress.length > 0 &&
-                        listAddress.map((address) => (
+                    {listAddress?.length > 0 &&
+                        listAddress?.map((address) => (
                             <div
+                                key={address.id}
                                 style={{
                                     backgroundColor: "white",
                                     borderRadius: "0.5em",
@@ -397,7 +397,6 @@ const Address = () => {
                                 <div
                                     style={{
                                         width: "100%",
-                                        // height: "108px",
                                         display: "flex",
                                         justifyContent: "space-between",
                                         padding: "1em",

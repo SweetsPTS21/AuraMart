@@ -4,6 +4,7 @@ import SellerDashbroad from "../UI/SellerDashboard";
 import NavBar from "../layout/NavBar";
 import Footer from "../layout/Footer";
 import SellerRegister from "../UI/SellerDashbroadComponents/SellerRegister";
+import PropTypes from "prop-types";
 
 const SellerPage = (props) => {
     const index = props.type ? props.type : 0;
@@ -22,6 +23,10 @@ const SellerPage = (props) => {
             )}
         </div>
     );
+};
+
+SellerPage.propTypes = {
+    type: PropTypes.number,
 };
 
 export default SellerPage;

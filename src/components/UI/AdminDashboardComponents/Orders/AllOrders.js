@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-// import 'rsuite/dist/styles/rsuite-default.css';
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 
-import { Accessibility, Update } from "@material-ui/icons";
+import {Accessibility, Update} from "@material-ui/icons";
 
 import Fab from "@material-ui/core/Fab";
 import CardFooter from "../../../layout/Card/CardFooter";
@@ -31,7 +30,7 @@ const AllOrders = () => {
     const [orders, setOrders] = useState(null); // to update users that are rendered
     const [firstLoad, setFirstLoad] = useState(true);
 
-    const [ordersLastUpdated] = useState(Date.now());
+    const ordersLastUpdated = React.useMemo(() => Date.now(), []);
     const [toggleList, setToggleList] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -47,158 +46,52 @@ const AllOrders = () => {
             }, 1000);
     }
 
+    const sortOrderState = (orders, reverse, value) => {
+        const mapper = [
+            {
+                key: 6,
+                state: "Ordered Successfully",
+            },
+            {
+                key: 5,
+                state: "Tiki Received",
+            },
+            {
+                key: 4,
+                state: "Getting Product",
+            },
+            {
+                key: 3,
+                state: "Packing",
+            },
+            {
+                key: 2,
+                state: "Shipping",
+            },
+            {
+                key: 1,
+                state: "Delivered",
+            },
+        ]
+
+        const orders_ = orders.map((order) => {
+            const state = mapper.find((item) => item.state === order.state);
+            return { ...order, key: state.key };
+        })
+        if (reverse) {
+            orders_.sort((a, b) => (a.value > b.value ? -1 : 1));
+            return orders_;
+        }
+        orders_.sort((a, b) => (a.value > b.value ? 1 : -1));
+        return orders_;
+    }
+
     const handleFilter = (sortDescending, filterOptions) => {
         setIsLoading(true);
-        let orders_ = orders;
-        if (sortDescending) {
-            switch (filterOptions) {
-                case "createdAt":
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.createdAt > b.createdAt ? -1 : 1
-                        );
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "currentState":
-                    // first convert current state in order to number so we can sort by current state
-                    orders_ !== null &&
-                        orders_.forEach((order, index) => {
-                            if (order.currentState === "Ordered Successfully")
-                                return (orders_[index].currentState = 6);
-                            if (order.currentState === "Tiki Received")
-                                return (orders_[index].currentState = 5);
-                            if (order.currentState === "Getting Product")
-                                return (orders_[index].currentState = 4);
-                            if (order.currentState === "Packing")
-                                return (orders_[index].currentState = 3);
-                            if (order.currentState === "Shipping")
-                                return (orders_[index].currentState = 2);
-                            if (order.currentState === "Delivered")
-                                return (orders_[index].currentState = 1);
-                        });
-                    // second sort orders array where currentState is represented with numbers
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.currentState > b.currentState ? -1 : 1
-                        );
+        let orders_ = sortOrderState(orders, sortDescending, filterOptions);
 
-                    orders_ !== null &&
-                        orders_.forEach((order, index) => {
-                            if (order.currentState === 6)
-                                return (orders_[index].currentState =
-                                    "Ordered Successfully");
-                            if (order.currentState === 5)
-                                return (orders_[index].currentState =
-                                    "Tiki Received");
-                            if (order.currentState === 4)
-                                return (orders_[index].currentState =
-                                    "Getting Product");
-                            if (order.currentState === 3)
-                                return (orders_[index].currentState =
-                                    "Packing");
-                            if (order.currentState === 2)
-                                return (orders_[index].currentState =
-                                    "Shipping");
-                            if (order.currentState === 1)
-                                return (orders_[index].currentState =
-                                    "Delivered");
-                        });
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "price":
-                    orders_ !== null &&
-                        orders_.sort((a, b) => (a.total > b.total ? -1 : 1));
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "quantity":
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.quantity > b.quantity ? -1 : 1
-                        );
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                default:
-                    return orders;
-            }
-        } else {
-            switch (filterOptions) {
-                case "createdAt":
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.createdAt > b.createdAt ? 1 : -1
-                        );
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "currentState":
-                    // first convert current state in order to number so we can sort by current state
-                    orders_ !== null &&
-                        orders_.forEach((order, index) => {
-                            if (order.currentState === "Ordered Successfully")
-                                return (orders_[index].currentState = 6);
-                            if (order.currentState === "Tiki Received")
-                                return (orders_[index].currentState = 5);
-                            if (order.currentState === "Getting Product")
-                                return (orders_[index].currentState = 4);
-                            if (order.currentState === "Packing")
-                                return (orders_[index].currentState = 3);
-                            if (order.currentState === "Shipping")
-                                return (orders_[index].currentState = 2);
-                            if (order.currentState === "Delivered")
-                                return (orders_[index].currentState = 1);
-                        });
-                    // second sort orders array where currentState is represented with numbers
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.currentState > b.currentState ? 1 : -1
-                        );
-
-                    orders_ !== null &&
-                        orders_.forEach((order, index) => {
-                            if (order.currentState === 6)
-                                return (orders_[index].currentState =
-                                    "Ordered Successfully");
-                            if (order.currentState === 5)
-                                return (orders_[index].currentState =
-                                    "Tiki Received");
-                            if (order.currentState === 4)
-                                return (orders_[index].currentState =
-                                    "Getting Product");
-                            if (order.currentState === 3)
-                                return (orders_[index].currentState =
-                                    "Packing");
-                            if (order.currentState === 2)
-                                return (orders_[index].currentState =
-                                    "Shipping");
-                            if (order.currentState === 1)
-                                return (orders_[index].currentState =
-                                    "Delivered");
-                        });
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "price":
-                    orders_ !== null &&
-                        orders_.sort((a, b) => (a.total > b.total ? 1 : -1));
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                case "quantity":
-                    orders_ !== null &&
-                        orders_.sort((a, b) =>
-                            a.quantity > b.quantity ? 1 : -1
-                        );
-                    setOrders(orders_);
-                    setIsLoading(false);
-                    return;
-                default:
-                    return orders;
-            }
-        }
+        setOrders(orders_);
+        setIsLoading(false);
     };
 
     return (
@@ -216,7 +109,7 @@ const AllOrders = () => {
                             </CardIcon>
                             <p className={classes.cardCategory}>Total Orders</p>
                             <h3 className={classes.cardTitle}>
-                                {allOrders !== null && allOrders.length}
+                                {allOrders?.length}
                             </h3>
                         </CardHeader>
                         <CardFooter stats>
@@ -233,11 +126,10 @@ const AllOrders = () => {
                     </Card>
                     <section style={{ display: "flex", alignItems: "center" }}>
                         <div
-                            tabIndex={0}
                             onBlur={(event) => {
-                                !event.currentTarget.contains(
-                                    event.relatedTarget
-                                ) && setToggleList(false);
+                                if (!event.currentTarget.contains(event.relatedTarget)) {
+                                    setToggleList(false);
+                                }
                             }}
                         >
                             <Button

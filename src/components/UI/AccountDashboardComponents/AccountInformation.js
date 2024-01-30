@@ -10,8 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -132,7 +131,6 @@ const AccountInformation = () => {
     const [retypePassword, setRetypePassword] = useState("");
     const [selectedDate, setSelectedDate] = useState(user.dob);
     const [avatar, setAvatar] = useState(user.avatar);
-    // const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
 
     const [radio, setRadio] = useState(user.gender);
     const [checked, setChecked] = useState(false);
@@ -149,7 +147,6 @@ const AccountInformation = () => {
         // upload image to firebase
         // update user info
         const msg = message.loading("Updating info!", 0);
-        // await uploadImage();
         const user_ = {
             id: user._id,
             name,

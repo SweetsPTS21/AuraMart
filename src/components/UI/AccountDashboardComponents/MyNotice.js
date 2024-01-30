@@ -18,6 +18,7 @@ import Box from "@material-ui/core/Box";
 
 import aumartNotFound from "../../../image/aumart-not-found-pgae.png";
 import Tooltip from "@material-ui/core/Tooltip";
+import PropTypes from "prop-types";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -292,6 +293,13 @@ const MyNotice = () => {
             </div>
         </div>
     );
+};
+
+MyNotice.propTypes = {
+    children: PropTypes.node,
+    value: PropTypes.string,
+    index: PropTypes.string,
+    empty: PropTypes.bool,
 };
 
 export default MyNotice;

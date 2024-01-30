@@ -14,10 +14,9 @@ export const getAllConfigs = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_CONFIGS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_CONFIGS,
                 configs: res.data.data,
             });
-            // message.success("Got configs");
         })
         .catch(() => {
             message.error("Error getting configs");
@@ -31,11 +30,9 @@ export const getConfigById = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_CONFIG_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_CONFIG_BY_ID,
                 config: res.data.data,
             });
-
-            // message.success("Got config");
         })
         .catch(() => {
             message.error("Error getting config");
@@ -49,11 +46,9 @@ export const getConfigsByShopId = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_CONFIGS_BY_SHOP_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_CONFIGS_BY_SHOP_ID,
                 configs: res.data.data,
             });
-
-            // message.success("Got configs");
         })
         .catch(() => {
             message.error("Error getting configs");
