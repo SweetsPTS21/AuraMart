@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -16,9 +16,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CommentIcon from "@material-ui/icons/Comment";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import aumartNow from "../../image/aumart-now2.png";
-import aumartxu from "../../image/aumartxu.svg";
-import bookcare from "../../image/bookcare.svg";
 import DefaultAvatar from "../../image/avatar.png";
 
 import MenuBookIcon from "@material-ui/icons/MenuBook";
@@ -34,13 +31,10 @@ import FavoriteProducts from "./AccountDashboardComponents/FavoriteProducts";
 import ProductsToBuyLater from "./AccountDashboardComponents/ProductsToBuyLater";
 import MyComment from "./AccountDashboardComponents/MyComment";
 import HelpCenter from "./AccountDashboardComponents/HelpCenter";
-import InformationTikiNow from "./AccountDashboardComponents/InformationTikiNow";
-import MyTikiXuManager from "./AccountDashboardComponents/MyTikiXuManager";
-import MyBookCare from "./AccountDashboardComponents/MyBookCare";
-import { useSelector } from "react-redux";
 import MyVoucher from "./AccountDashboardComponents/MyVoucher";
 import { getUserAddress } from "../../store/actions/addressActions";
 import { getOrdersByUserId } from "../../store/actions/orderActions";
+import PropTypes from "prop-types";
 
 const AccountDashBoard = (props) => {
     const classes = userStyles();
@@ -57,8 +51,8 @@ const AccountDashBoard = (props) => {
     }, [props.index]);
 
     useEffect(() => {
-        dispatch(getUserAddress(user.id));
-        dispatch(getOrdersByUserId(user.id));
+        dispatch(getUserAddress(user.id)).then(r => r);
+        dispatch(getOrdersByUserId(user.id)).then(r => r);
     }, [dispatch, user.id]);
 
     const options = [
@@ -79,25 +73,21 @@ const AccountDashBoard = (props) => {
         "My BookCare",
     ];
     const optionsIcon = [
-        <PersonIcon className={classes.item} />,
-        <NotificationsIcon className={classes.item} />,
-        <MenuBookIcon className={classes.item} />,
-        <RoomIcon className={classes.item} />,
-        <CreditCardIcon className={classes.item} />,
-        <CreditCardIcon className={classes.item} />,
-        <EventNoteIcon className={classes.item} />,
-        <VisibilityIcon className={classes.item} />,
-        <FavoriteIcon className={classes.item} />,
-        <ShoppingCartIcon className={classes.item} />,
-        <CommentIcon className={classes.item} />,
-        <QuestionAnswerIcon className={classes.item} />,
-        <img src={aumartNow} style={{ width: "1.5em" }} alt={"oven"} />,
-        <img src={aumartxu} style={{ width: "1.5em" }} alt={"aumart xu"} />,
-        <img src={bookcare} style={{ width: "1.5em" }} alt={"bookcare"} />,
+        <PersonIcon key={1} className={classes.item} />,
+        <NotificationsIcon key={2} className={classes.item} />,
+        <MenuBookIcon key={3} className={classes.item} />,
+        <RoomIcon key={4} className={classes.item} />,
+        <CreditCardIcon key={5} className={classes.item} />,
+        <CreditCardIcon key={6} className={classes.item} />,
+        <EventNoteIcon key={7} className={classes.item} />,
+        <VisibilityIcon key={8} className={classes.item} />,
+        <FavoriteIcon key={9} className={classes.item} />,
+        <ShoppingCartIcon key={10} className={classes.item} />,
+        <CommentIcon key={11} className={classes.item} />,
+        <QuestionAnswerIcon key={12} className={classes.item} />,
     ];
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
-        // setToggleDrawer(true)
     };
     const renderMenuItemComponent = () => {
         switch (selectedIndex) {
@@ -109,7 +99,7 @@ const AccountDashBoard = (props) => {
                 return <OrderManagement />;
             case 3:
                 return <Address />;
-            case 4: //voucher
+            case 4:
                 return <MyVoucher type={"user"} />;
             case 5:
                 return <BillingInformation />;
@@ -125,12 +115,6 @@ const AccountDashBoard = (props) => {
                 return <MyComment />;
             case 11:
                 return <HelpCenter />;
-            case 12:
-                return <InformationTikiNow />;
-            case 13:
-                return <MyTikiXuManager />;
-            case 14:
-                return <MyBookCare />;
             default:
                 return <p>default</p>;
         }
@@ -191,7 +175,7 @@ const AccountDashBoard = (props) => {
                         aria-label="main mailbox folders"
                         style={{ margin: 0 }}
                     >
-                        {options.map((option, index) => (
+                        {options?.map((option, index) => (
                             <ListItem
                                 style={{
                                     marginTop: 0,
@@ -205,7 +189,6 @@ const AccountDashBoard = (props) => {
                                 selected={index === selectedIndex}
                                 onClick={
                                     (event) => handleMenuItemClick(event, index)
-                                    // onMouseEnter={event => handleMenuItemClick(event, index)
                                 }
                             >
                                 <ListItemIcon
@@ -243,4 +226,7 @@ const AccountDashBoard = (props) => {
     );
 };
 
+AccountDashBoard.propTypes = {
+    index: PropTypes.number,
+};
 export default AccountDashBoard;

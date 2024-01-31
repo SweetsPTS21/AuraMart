@@ -6,6 +6,7 @@ import ItemContainer from "../UI/ItemContainer";
 import NoPhoto from "../../image/nophoto.png";
 
 import * as statsActions from "../../store/actions/statsActions";
+import PropTypes from "prop-types";
 
 const TopProducts = (props) => {
     const { itemWidth, type, rerender } = props;
@@ -64,6 +65,12 @@ const TopProducts = (props) => {
     ) : (
         <p>No items</p>
     );
+};
+
+TopProducts.propTypes = {
+    itemWidth: PropTypes.string,
+    type: PropTypes.string,
+    rerender: PropTypes.func,
 };
 
 export default TopProducts;

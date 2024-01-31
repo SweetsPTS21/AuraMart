@@ -27,7 +27,6 @@ import { getAllShops } from "./store/actions/shopActions";
 import { getAllReviews } from "./store/actions/reviewActions";
 import { getSystemBanners } from "./store/actions/settingActions";
 import AdminPage from "./components/pages/AdminPage";
-// import { getAllOrders } from "./store/actions/orderActions";
 import UnderDevelopmentPage from "./components/pages/UnderDevelopmentPage";
 import SellerDashbroad from "./components/UI/SellerDashboard";
 import SellerPage from "./components/pages/SellerPage";
@@ -37,7 +36,6 @@ const actionsOnPageLoad = () => {
     store.dispatch(getSaleProducts());
     store.dispatch(getCart());
     store.dispatch(getAllShops());
-    // store.dispatch(getAllOrders());
     store.dispatch(getAllReviews());
     store.dispatch(getSystemBanners());
 

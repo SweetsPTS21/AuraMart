@@ -14,10 +14,9 @@ export const getAllAddress = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_ADDRESS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_ADDRESS,
                 address: res.data.data,
             });
-            // message.success("Got reviews");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -31,11 +30,9 @@ export const getUserAddress = (userId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_USER_ADDRESS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_USER_ADDRESS,
                 address: res.data.data,
             });
-
-            // message.success("Got reviews");
         })
         .catch(() => {
             message.error("Error getting user address");
@@ -49,11 +46,9 @@ export const getAddressById = (addressId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_SINGLE_ADDRESS_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_SINGLE_ADDRESS_BY_ID,
                 address: res.data.data,
             });
-
-            // message.success("Got review");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -72,7 +67,6 @@ export const addNewAddress = (address, userId) => async (dispatch) => {
                 return message.error("Error adding address");
             }
             dispatch(getUserAddress(userId));
-            // message.success("Got review");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -88,7 +82,6 @@ export const updateAddressById =
         await axios
             .put(url, address)
             .then((res) => {
-                // axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
                 if (!res.data.success) {
                     return message.error("Error updating address");
                 }
@@ -98,7 +91,6 @@ export const updateAddressById =
                 message.success("Updated address");
             })
             .catch((err) => {
-                // axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
                 console.log("Error" + err);
                 message.error("Error updating review");
             });

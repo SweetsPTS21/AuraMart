@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 
-import { Accessibility, Update } from "@material-ui/icons";
+import {Accessibility, Update} from "@material-ui/icons";
 import CardFooter from "../../../layout/Card/CardFooter";
 import Button from "../../../layout/CustomButtons/Button";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -32,7 +32,7 @@ const AllProducts = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [toggleSortOrder, setToggleSortOrder] = useState(false);
 
-    const [productsLastUpdated] = useState(Date.now());
+    const productsLastUpdated = React.useMemo(() => Date.now(), []);
     const [toggleList, setToggleList] = useState(false);
     const [filterOptions, setFilterOptions] = useState("createdAt");
 
@@ -63,16 +63,14 @@ const AllProducts = () => {
         if (sortDescending) {
             switch (filterOptions) {
                 case "createdAt":
-                    products_ !== null &&
-                        products_.sort((a, b) =>
+                    products_?.sort((a, b) =>
                             a.createdAt > b.createdAt ? -1 : 1
                         );
                     setProducts(products_);
                     setIsLoading(false);
                     return;
                 case "rating":
-                    products_ !== null &&
-                        products_.sort((a, b) => {
+                    products_?.sort((a, b) => {
                             let a_ =
                                 a.averageRating === undefined
                                     ? 0
@@ -87,14 +85,12 @@ const AllProducts = () => {
                     setIsLoading(false);
                     return;
                 case "price":
-                    products_ !== null &&
-                        products_.sort((a, b) => (a.price > b.price ? -1 : 1));
+                    products_?.sort((a, b) => (a.price > b.price ? -1 : 1));
                     setProducts(products_);
                     setIsLoading(false);
                     return;
                 case "review":
-                    products_ !== null &&
-                        products_.sort((a, b) => {
+                    products_?.sort((a, b) => {
                             return getProductReviewLength(a.id) >
                                 getProductReviewLength(b.id)
                                 ? -1
@@ -109,16 +105,14 @@ const AllProducts = () => {
         } else {
             switch (filterOptions) {
                 case "createdAt":
-                    products_ !== null &&
-                        products_.sort((a, b) =>
+                    products_?.sort((a, b) =>
                             a.createdAt > b.createdAt ? 1 : -1
                         );
                     setProducts(products_);
                     setIsLoading(false);
                     return;
                 case "rating":
-                    products_ !== null &&
-                        products_.sort((a, b) => {
+                    products_?.sort((a, b) => {
                             let a_ =
                                 a.averageRating === undefined
                                     ? 0
@@ -133,14 +127,12 @@ const AllProducts = () => {
                     setIsLoading(false);
                     return;
                 case "price":
-                    products_ !== null &&
-                        products_.sort((a, b) => (a.price > b.price ? 1 : -1));
+                    products_?.sort((a, b) => (a.price > b.price ? 1 : -1));
                     setProducts(products_);
                     setIsLoading(false);
                     return;
                 case "review":
-                    products_ !== null &&
-                        products_.sort((a, b) => {
+                    products_?.sort((a, b) => {
                             return getProductReviewLength(a.id) >
                                 getProductReviewLength(b.id)
                                 ? 1
@@ -171,7 +163,7 @@ const AllProducts = () => {
                                 Total Products
                             </p>
                             <h3 className={classes.cardTitle}>
-                                {allProducts !== null && allProducts.length}
+                                {allProducts?.length}
                             </h3>
                         </CardHeader>
                         <CardFooter stats>
@@ -195,11 +187,10 @@ const AllProducts = () => {
                         }}
                     >
                         <div
-                            tabIndex={0}
                             onBlur={(event) => {
-                                !event.currentTarget.contains(
-                                    event.relatedTarget
-                                ) && setToggleList(false);
+                                if (!event.currentTarget.contains(event.relatedTarget)) {
+                                    setToggleList(false);
+                                }
                             }}
                             style={{
                                 display: "flex",

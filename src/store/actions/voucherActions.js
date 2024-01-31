@@ -17,10 +17,9 @@ export const getAllVouchers = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_VOUCHERS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_VOUCHERS,
                 vouchers: res.data.data,
             });
-            // message.success("Got vouchers");
         })
         .catch(() => {
             message.error("Error getting vouchers");
@@ -35,11 +34,9 @@ export const getVoucherById = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_VOUCHER_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_VOUCHER_BY_ID,
                 voucher: res.data.data,
             });
-
-            // message.success("Got voucher");
         })
         .catch(() => {
             message.error("Error getting voucher");
@@ -54,7 +51,7 @@ export const getVoucherByCode = (code, userId) => async (dispatch) => {
         .then((res) => {
             if (res.data.success) {
                 dispatch({
-                    type: GET_VOUCHER_BY_CODE, //this call test dispatch. to dispsatch to our reducer
+                    type: GET_VOUCHER_BY_CODE,
                     voucher: res.data.data,
                 });
                 // If success save voucher to user
@@ -78,7 +75,7 @@ export const checkVoucherStatus = (userId, id) => async () => {
         .get(url)
         .then((res) => {
             if (res.data.success) {
-                return res.data.count > 0 ? true : false;
+                return res.data.count > 0;
             }
             return false;
         })
@@ -95,11 +92,9 @@ export const getVouchersByShopId = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_VOUCHERS_BY_SHOP_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_VOUCHERS_BY_SHOP_ID,
                 vouchers: res.data.data,
             });
-
-            // message.success("Got vouchers");
         })
         .catch(() => {
             message.error("Error getting vouchers");
@@ -112,11 +107,9 @@ export const getVouchersByUserId = (id) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_VOUCHERS_BY_USER_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_VOUCHERS_BY_USER_ID,
                 vouchers: res.data.data,
             });
-
-            // message.success("Got vouchers");
         })
         .catch(() => {
             message.error("Error getting vouchers");

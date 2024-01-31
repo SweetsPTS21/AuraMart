@@ -14,11 +14,10 @@ export const getAllStocks = () => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_STOCKS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_STOCKS, 
                 stocks: res.data.data,
             });
 
-            // message.success("Got all stocks");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -33,10 +32,9 @@ export const getAllStocksOfAShop = (shopId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_ALL_STOCKS_OF_A_SHOP, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_STOCKS_OF_A_SHOP, 
                 stocks: res.data.data,
             });
-            // message.success("Got stocks");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -51,11 +49,10 @@ export const getStockById = (stockId) => async (dispatch) => {
         .get(url)
         .then((res) => {
             dispatch({
-                type: GET_SINGLE_STOCK_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_SINGLE_STOCK_BY_ID, 
                 stock: res.data.data,
             });
 
-            // message.success("Got stock");
         })
         .catch((err) => {
             console.log("Error" + err);
@@ -73,11 +70,9 @@ export const getStocksByUserId = (userId) => async (dispatch) => {
                 (stock) => stock.user === userId
             );
             dispatch({
-                type: GET_MY_STOCKS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_MY_STOCKS, 
                 stocks: myStocks,
             });
-
-            // message.success("Got stocks");
         })
         .catch((err) => {
             console.log("Error" + err);

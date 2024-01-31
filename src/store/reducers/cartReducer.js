@@ -19,12 +19,12 @@ const initialState = {
 
 export default function cartReducer(state = initialState, action) {
     switch (action.type) {
-        case ADD_TO_CART:
+        case ADD_TO_CART: {
             const addedProduct = action.product;
             const prodPrice = addedProduct.price;
             const prod = action.product;
             const prodId = prod.id;
-            // const disPrice = prodPrice;
+
             let disPrice =
                 parseFloat(prodPrice) -
                 parseFloat(prodPrice) * (parseFloat(prod.discount) / 100);
@@ -59,15 +59,15 @@ export default function cartReducer(state = initialState, action) {
             }
             let st = {
                 ...state,
-                items: { ...state.items, [prodId]: updatedOrNewCartItem },
+                items: {...state.items, [prodId]: updatedOrNewCartItem},
                 totalAmount_discounted: state.totalAmount_discounted + disPrice,
                 totalAmount: state.totalAmount + prodPrice,
             };
             localStorage.setItem("cart", JSON.stringify(st));
 
             return st;
-
-        case REMOVE_FROM_CART:
+        }
+        case REMOVE_FROM_CART: {
             const selectedCartItem = state.items[action.pid];
             const currentQty = selectedCartItem.quantity;
 
@@ -81,7 +81,7 @@ export default function cartReducer(state = initialState, action) {
                     selectedCartItem.product,
                     selectedCartItem.productId,
                     selectedCartItem.sum_discounted -
-                        selectedCartItem.discountedPrice,
+                    selectedCartItem.discountedPrice,
                     selectedCartItem.sum - selectedCartItem.productPrice
                 );
                 // selectedCartItem.productId, selectedCartItem.sum - selectedCartItem.productPrice);
@@ -91,7 +91,7 @@ export default function cartReducer(state = initialState, action) {
                 };
             } else {
                 // erase it
-                updatedCartItems = { ...state.items };
+                updatedCartItems = {...state.items};
                 delete updatedCartItems[action.pid]; // delete product from object
             }
             let st_ = {
@@ -105,12 +105,13 @@ export default function cartReducer(state = initialState, action) {
             };
             localStorage.setItem("cart", JSON.stringify(st_));
             return st_;
-        case DELETE_FROM_CART:
+        }
+        case DELETE_FROM_CART: {
             const selectedCartItem_ = state.items[action.pid];
             let updatedCartItems_;
 
             // erase it
-            updatedCartItems_ = { ...state.items };
+            updatedCartItems_ = {...state.items};
             delete updatedCartItems_[action.pid]; // delete product from object
             let st__ = {
                 ...state,
@@ -122,8 +123,8 @@ export default function cartReducer(state = initialState, action) {
             };
             localStorage.setItem("cart", JSON.stringify(st__));
             return st__;
-
-        case GET_CART:
+        }
+        case GET_CART: {
             if (action.cart != null) {
                 return {
                     ...state,
@@ -137,7 +138,8 @@ export default function cartReducer(state = initialState, action) {
                     ...state,
                 };
             }
-        case CLEAR_CART:
+        }
+        case CLEAR_CART: {
             if (action.cart === null) {
                 return {
                     items: {},
@@ -146,12 +148,13 @@ export default function cartReducer(state = initialState, action) {
                 };
             }
             break;
-        case UPDATE_FINAL_TOTAL:
-            const shopTotal = action.shopTotal;
-            const voucher = action.voucher;
-            const shopId = action.shopId;
+        }
+        case UPDATE_FINAL_TOTAL: {
+            let shopTotal = action.shopTotal;
+            let voucher = action.voucher;
+            let shopId = action.shopId;
             let discountPrice = 0;
-            
+
             if (voucher) {
                 discountPrice = shopTotal * (voucher.discount / 100);
                 if (discountPrice > voucher.maximumDiscount) {
@@ -163,12 +166,12 @@ export default function cartReducer(state = initialState, action) {
                 const index = state.totalShopDiscount?.findIndex(
                     (v) => v.shop === voucher.shop
                 );
-    
+
                 if (index !== -1 && state.totalShopDiscount) {
                     state.totalShopDiscount?.splice(index, 1);
                 }
             }
-            const final = state.totalAmount_discounted - discountPrice;
+            let final = state.totalAmount_discounted - discountPrice;
 
             return {
                 ...state,
@@ -186,6 +189,7 @@ export default function cartReducer(state = initialState, action) {
                     },
                 ],
             };
+        }
         default:
             return {
                 ...state,

@@ -50,8 +50,6 @@ export default function CustomInput(props) {
             <TextField
                 classes={{
                     root: marginTop,
-                    // disabled: classes.disabled,
-                    // underline: underlineClasses
                 }}
                 id={id}
                 {...inputProps}
@@ -60,13 +58,13 @@ export default function CustomInput(props) {
                 <Clear
                     className={classes.feedback + " " + classes.labelRootError}
                 />
-            ) : success ? (
+            ) : (success && (
                 <Check
                     className={
                         classes.feedback + " " + classes.labelRootSuccess
                     }
                 />
-            ) : null}
+            ))}
         </FormControl>
     );
 }

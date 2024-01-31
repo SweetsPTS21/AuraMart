@@ -154,7 +154,6 @@ const AddNewOrder = () => {
 
     const [currentShop, setCurrentShop] = useState(null);
     const [currentProduct, setCurrentProduct] = useState(null);
-    // const productCost = total/quantity;
 
     const [isLoading, setIsLoading] = useState(false);
     const [quantityDisabled, setQuantityDisabled] = useState(true);
@@ -191,13 +190,13 @@ const AddNewOrder = () => {
             currentState,
             shop: currentShop,
             product: currentProduct,
-            quantity: parseInt(quantity),
+            quantity: parseInt(quantity.toString()),
             phone,
             address,
             total,
         };
 
-        dispatch(await orderActions.addNewOrder(order_));
+        dispatch(orderActions.addNewOrder(order_)).then(r => r);
 
         setTimeout(msg, 1);
         setIsLoading(false);

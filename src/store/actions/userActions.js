@@ -8,7 +8,7 @@ const api_url = process.env.REACT_APP_API;
 
 // 🔒 admin
 export const getAllUsers = (query) => async (dispatch) => {
-    const url = `${api_url}/api/v1/users${query ? query : ""}`;
+    const url = `${api_url}/api/v1/users${query || ""}`;
 
     await axios
         .get(url)
@@ -17,11 +17,9 @@ export const getAllUsers = (query) => async (dispatch) => {
                 return message.error("Error getting all users");
             }
             dispatch({
-                type: GET_ALL_USERS, //this call test dispatch. to dispsatch to our reducer
+                type: GET_ALL_USERS,
                 users: res.data.data,
             });
-
-            // message.success("Got all users");
         })
         .catch(() => {
             message.error("Error getting all users");
@@ -38,14 +36,11 @@ export const getUserById = (id) => async (dispatch) => {
                 return message.error("Error getting user");
             }
             dispatch({
-                type: GET_USER_BY_ID, //this call test dispatch. to dispsatch to our reducer
+                type: GET_USER_BY_ID,
                 user: res.data.data,
             });
-
-            // return message.success("Got user");
         })
         .catch(() => {
-            // axios.defaults.headers.common['Authorization'] = axios.defaults.headers.common['Authorization'].slice(7);
             return message.error("Error getting user");
         });
 };

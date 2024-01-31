@@ -89,7 +89,7 @@ const AddANewReview = () => {
             text,
         };
 
-        dispatch(await reviewActions.addNewReview(review, currentProduct));
+        dispatch(reviewActions.addNewReview(review, currentProduct)).then(r => r);
 
         setTimeout(msg, 1);
 

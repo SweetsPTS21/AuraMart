@@ -24,6 +24,7 @@ import SystemSettings from "./AdminDashboardComponents/Settings/SystemSettings";
 import DashboardHeader from "./DashboardHeader";
 import { useSelector } from "react-redux";
 import { SettingsRounded } from "@material-ui/icons";
+import PropTypes from "prop-types";
 
 const AdminDashBoard = (props) => {
     const classes = userStyles();
@@ -45,13 +46,13 @@ const AdminDashBoard = (props) => {
         "Cấu hình chung",
     ];
     const optionsIcon = [
-        <EqualizerIcon className={classes.item} />,
-        <PersonIcon className={classes.item} />,
-        <HeadsetIcon className={classes.item} />,
-        <StorefrontIcon className={classes.item} />,
-        <LocalShippingIcon className={classes.item} />,
-        <ChatIcon className={classes.item} />,
-        <SettingsRounded className={classes.item} />,
+        <EqualizerIcon key={1} className={classes.item} />,
+        <PersonIcon key={2} className={classes.item} />,
+        <HeadsetIcon key={3} className={classes.item} />,
+        <StorefrontIcon key={4} className={classes.item} />,
+        <LocalShippingIcon key={5} className={classes.item} />,
+        <ChatIcon key={6} className={classes.item} />,
+        <SettingsRounded key={7} className={classes.item} />,
     ];
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -144,4 +145,7 @@ const AdminDashBoard = (props) => {
     );
 };
 
+AdminDashBoard.propTypes = {
+    index: PropTypes.number,
+};
 export default AdminDashBoard;
