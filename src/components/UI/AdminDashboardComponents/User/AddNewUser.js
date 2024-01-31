@@ -113,7 +113,7 @@ const AddNewUser = () => {
             gender,
             dob: selectedDate,
         };
-        await dispatch(userActions.createNewUser(user));
+        dispatch(userActions.createNewUser(user)).then(r => r);
         setTimeout(msg, 1);
         setIsLoading(false);
         setName("");

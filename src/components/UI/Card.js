@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Progress } from "reactstrap";
+import React, {useEffect, useState} from "react";
+import {Progress} from "reactstrap";
 import Rating from "@material-ui/lab/Rating";
 import Ripples from "react-ripples";
 
@@ -18,15 +18,15 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import AumartArrow from "../../image/aumartArrow.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import classNames from "classnames";
-import { useSelector } from "react-redux";
-import { message } from "antd";
-import { FormControl, MenuItem, Select } from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {message} from "antd";
+import {FormControl, MenuItem, Select} from "@material-ui/core";
+import PropTypes from "prop-types";
 
 const RecommendProduct = (props) => {
     const classes = userStyles();
-    const { reviews, discounted_price } = props;
 
     const formatVND = (x) => {
         let formatter = new Intl.NumberFormat("vi-VN", {
@@ -40,8 +40,14 @@ const RecommendProduct = (props) => {
     return (
         <div
             className={classes.container}
-            onClick={props.onClick !== undefined ? props.onClick : undefined}
-            style={{ ...props.style }}
+            onClick={() => {
+                if (props.onClick) {
+                    props.onClick();
+                }
+            }}
+            style={{...props.style}}
+            tabIndex="0"
+            role={"button"}
         >
             <div>
                 <img
@@ -54,10 +60,10 @@ const RecommendProduct = (props) => {
                         minHeight: "160px",
                     }}
                 />{" "}
-                <br />
+                <br/>
             </div>
             <div>
-                {props.count !== undefined && (
+                {props.count && (
                     <p
                         style={{
                             marginBottom: 0,
@@ -70,16 +76,15 @@ const RecommendProduct = (props) => {
                         Đã bán {props.count} sản phẩm
                     </p>
                 )}
-                <Grid container style={{ marginBottom: "0.5em" }}>
+                <Grid container style={{marginBottom: "0.5em"}}>
                     <Grid item className={classes.title__container}>
                         <span className={classes.title}>{props.title}</span>
                     </Grid>
                 </Grid>
 
                 {props.discount !== undefined && props.discount > 0 ? (
-                    <>
-                        <p style={{ marginBottom: 0 }}>
-                            <span style={{ fontWeight: 500 }}>
+                        <p style={{marginBottom: 0}}>
+                            <span style={{fontWeight: 500}}>
                                 {discounted_price()}
                             </span>
                             <span className={classes.discount}>
@@ -87,18 +92,15 @@ const RecommendProduct = (props) => {
                                 -{props.discount}%
                             </span>
                         </p>
-                    </>
                 ) : (
-                    <>
-                        <p style={{ marginBottom: 0 }}>
-                            <span style={{ fontWeight: 500 }}>
+                        <p style={{marginBottom: 0}}>
+                            <span style={{fontWeight: 500}}>
                                 {formatVND(props.price)}
                             </span>
                         </p>
-                    </>
                 )}
 
-                <p style={{ margin: 0 }}>
+                <p style={{margin: 0}}>
                     <IconButton
                         aria-label=""
                         color="inherit"
@@ -139,7 +141,7 @@ const RecommendProduct = (props) => {
                     <Rating
                         name="half-rating-read"
                         defaultValue={
-                            props.rating !== undefined ? props.rating : 3
+                            props.rating || 3
                         }
                         precision={0.5}
                         readOnly
@@ -172,12 +174,10 @@ const Card = (props) => {
     const classes = userStyles();
     const navigate = useNavigate();
     const reviews = useSelector((state) => state.reviews.allReviews);
-    const [amount, setAmount] = useState(
-        props.quantity !== undefined ? props.quantity : null
-    );
-    const stock = props.stock ? props.stock : 0;
-    const soldQuantity = props.soldQuantity ? props.soldQuantity : 0;
-    const [color, setColor] = useState(props.color ? props.color : null);
+    const [amount, setAmount] = useState(props?.quantity || 0);
+    const stock = props.stock || 0;
+    const soldQuantity = props.soldQuantity || 0;
+    const [color, setColor] = useState(props.color || "");
 
     const discounted_price = () => {
         let discounted_price =
@@ -186,31 +186,30 @@ const Card = (props) => {
         return formatVND(discounted_price);
     };
 
-    const formatVND = (x) => {
-        let formatter = new Intl.NumberFormat("vi-VN", {
+    function formatVND(x) {
+        const formatter = new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
         });
 
         return formatter.format(x);
-    };
+    }
 
     const getProductReviewLength = () => {
         let reviewsLength = 0;
         reviews !== null &&
-            reviews.length > 0 &&
-            reviews.filter((review) => {
-                if (review.product.id === props.id) {
-                    reviewsLength++;
-                }
-                return null;
-            });
+        reviews.length > 0 &&
+        reviews.filter((review) => {
+            if (review.product.id === props.id) {
+                reviewsLength++;
+            }
+            return null;
+        });
         return reviewsLength;
     };
 
     const navigateToProduct = () => {
-        // navigate(`/${props.slug}/${props.id}`, { replace: true });
-        navigate(`/${props.slug}/${props.id}`, { replace: true });
+        navigate(`/${props.slug}/${props.id}`, {replace: true});
         window.location.reload();
     };
 
@@ -223,18 +222,20 @@ const Card = (props) => {
         <Ripples>
             <Link
                 to={
-                    props.link !== undefined && props.link !== false
-                        ? `/${props.slug}/${props.id}`
-                        : "#"
+                    props.link  ? `/${props.slug}/${props.id}` : "#"
                 }
                 className={classes.removeLinkStyle}
             >
                 <div
                     className={classes.container}
-                    style={{ ...props.style }}
-                    onClick={
-                        props.onClick !== undefined ? props.onClick : undefined
-                    }
+                    style={{...props.style}}
+                    onClick={() => {
+                        if (props.onClick) {
+                            props.onClick();
+                        }
+                    }}
+                    tabIndex="0"
+                    role={"button"}
                 >
                     <div>
                         <img
@@ -247,38 +248,31 @@ const Card = (props) => {
                                 minHeight: "160px",
                             }}
                         />{" "}
-                        <br />
+                        <br/>
                     </div>
                     <div>
-                        <Grid container style={{ marginBottom: "0.5em" }}>
+                        <Grid container style={{marginBottom: "0.5em"}}>
                             <Grid item className={classes.title__container}>
                                 <span className={classes.title}>
                                     {props.title}
                                 </span>
                             </Grid>
                         </Grid>
-                        {props.discount !== undefined && props.discount > 0 ? (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
+                        {props?.discount > 0 ? (
+                            <p style={{marginBottom: 0}}>
+                                    <span style={{fontWeight: 500}}>
                                         {discounted_price()}
                                     </span>
-                                    <span className={classes.discount}>
+                                <span className={classes.discount}>
                                         -{props.discount}%
                                     </span>
-                                </p>
-                                {/* <p className={classes.price}>
-                                    <s>{numberWithCommas(props.price)} </s>VND
-                                </p> */}
-                            </>
+                            </p>
                         ) : (
-                            <>
-                                <p style={{ marginBottom: 0 }}>
-                                    <span style={{ fontWeight: 500 }}>
+                            <p style={{marginBottom: 0}}>
+                                    <span style={{fontWeight: 500}}>
                                         {formatVND(props.price)}
                                     </span>
-                                </p>
-                            </>
+                            </p>
                         )}
                     </div>
                 </div>
@@ -291,18 +285,20 @@ const Card = (props) => {
         <Ripples>
             <Link
                 to={
-                    props.link !== undefined && props.link !== false
-                        ? `/${props.slug}/${props.id}`
-                        : "#"
+                    props.link ? `/${props.slug}/${props.id}` : "#"
                 }
                 className={classes.removeLinkStyle}
             >
                 <div
                     className={classes.container}
-                    style={{ ...props.style }}
-                    onClick={
-                        props.onClick !== undefined ? props.onClick : undefined
-                    }
+                    style={{...props.style}}
+                    onClick={() => {
+                        if (props.onClick) {
+                            props.onClick();
+                        }
+                    }}
+                    tabIndex="0"
+                    role={"button"}
                 >
                     <div>
                         {props.discount !== undefined && props.discount > 0 ? (
@@ -311,7 +307,7 @@ const Card = (props) => {
                                     src={DealTag}
                                     alt="deal tag"
                                     width={"38vw"}
-                                    style={{ position: "absolute" }}
+                                    style={{position: "absolute"}}
                                 />
                                 <span
                                     style={{
@@ -337,10 +333,10 @@ const Card = (props) => {
                                 minHeight: "160px",
                             }}
                         />{" "}
-                        <br />
+                        <br/>
                     </div>
                     <div>
-                        <Grid container style={{ marginBottom: "0.5em" }}>
+                        <Grid container style={{marginBottom: "0.5em"}}>
                             <Grid item className={classes.title__container}>
                                 <span className={classes.title}>
                                     {props.title}
@@ -348,8 +344,8 @@ const Card = (props) => {
                             </Grid>
                         </Grid>
                         {props.discount !== undefined && props.discount > 0 ? (
-                            <p style={{ marginBottom: "0.5em" }}>
-                                <span style={{ fontWeight: 500 }}>
+                            <p style={{marginBottom: "0.5em"}}>
+                                <span style={{fontWeight: 500}}>
                                     {discounted_price()}
                                 </span>
                                 <span className={classes.discount}>
@@ -357,8 +353,8 @@ const Card = (props) => {
                                 </span>
                             </p>
                         ) : (
-                            <p style={{ marginBottom: "0.5em" }}>
-                                <span style={{ fontWeight: 500 }}>
+                            <p style={{marginBottom: "0.5em"}}>
+                                <span style={{fontWeight: 500}}>
                                     {formatVND(props.price)}
                                 </span>
                             </p>
@@ -369,7 +365,7 @@ const Card = (props) => {
                             className={classes.progress}
                         >
                             {!isNaN(props.sold) && (
-                                <span style={{ zIndex: 9999 }}>
+                                <span style={{zIndex: 9999}}>
                                     {" "}
                                     {!!props.hot && (
                                         <WhatshotIcon
@@ -380,7 +376,7 @@ const Card = (props) => {
                                             }}
                                         />
                                     )}
-                                    <span style={{ fontSize: "0.8em" }}>
+                                    <span style={{fontSize: "0.8em"}}>
                                         Đã bán {props.sold}
                                     </span>
                                 </span>
@@ -392,7 +388,7 @@ const Card = (props) => {
                                 xs={2}
                                 md={3}
                                 lg={3}
-                                style={{ margin: 0, marginTop: "0.1em" }}
+                                style={{margin: 0, marginTop: "0.1em"}}
                             >
                                 <div>
                                     <img
@@ -407,7 +403,7 @@ const Card = (props) => {
                                 xs={10}
                                 md={9}
                                 lg={9}
-                                style={{ margin: 0 }}
+                                style={{margin: 0}}
                             >
                                 <span className={classes.aumartNowTitle}>
                                     {"Giao siêu tốc 2h"}
@@ -424,7 +420,9 @@ const Card = (props) => {
     const type3 = (
         <Ripples>
             {props.rerender ? (
-                <div onClick={navigateToProduct}>
+                <div onClick={navigateToProduct}
+                     tabIndex="0"
+                     role={"button"}>
                     <RecommendProduct
                         {...props}
                         reviews={getProductReviewLength()}
@@ -454,8 +452,14 @@ const Card = (props) => {
     const type4 = (
         <div
             className={classNames(classes.grid, classes.removeLinkStyle)}
-            style={{ ...props.style }}
-            onClick={props.onClick !== undefined ? props.onClick : undefined}
+            style={{...props.style}}
+            onClick={() => {
+                if (props.onClick) {
+                    props.onClick();
+                }
+            }}
+            tabIndex="0"
+            role={"button"}
         >
             <Paper className={classes.paper} elevation={0}>
                 <Grid container spacing={2}>
@@ -510,7 +514,7 @@ const Card = (props) => {
                                 </Typography>
                                 {props.colors && (
                                     <FormControl
-                                        sx={{ m: 1, minWidth: 120 }}
+                                        sx={{m: 1, minWidth: 120}}
                                         size="small"
                                     >
                                         <Select
@@ -522,7 +526,7 @@ const Card = (props) => {
                                             }
                                             autoWidth
                                         >
-                                            {props.colors.map((color) => (
+                                            {props.colors?.map((color) => (
                                                 <MenuItem
                                                     key={color}
                                                     value={color}
@@ -538,10 +542,12 @@ const Card = (props) => {
                                 <Button
                                     size="small"
                                     color="secondary"
-                                    onClick={
-                                        props.deleteItem !== undefined &&
-                                        props.deleteItem
-                                    }
+                                    onClick={() => {
+                                        if (props.removeItem) {
+                                            props.removeItem();
+                                        }
+                                        setAmount(0);
+                                    }}
                                 >
                                     Xóa
                                 </Button>
@@ -560,18 +566,16 @@ const Card = (props) => {
                             }}
                         >
                             {discounted_price() !== "NaN" ? (
-                                <>
-                                    <Typography
-                                        variant="subtitle1"
-                                        style={{ textAlign: "center" }}
-                                    >
-                                        <strong>{discounted_price()}</strong>
-                                        <span className={classes.priceOrigin}>
+                                <Typography
+                                    variant="subtitle1"
+                                    style={{textAlign: "center"}}
+                                >
+                                    <strong>{discounted_price()}</strong>
+                                    <span className={classes.priceOrigin}>
                                             {" "}
-                                            {formatVND(props.price)}
+                                        {formatVND(props.price)}
                                         </span>
-                                    </Typography>
-                                </>
+                                </Typography>
                             ) : (
                                 <Typography
                                     variant="subtitle1"
@@ -598,15 +602,16 @@ const Card = (props) => {
                     </Grid>
                     <Grid
                         item
-                        style={{ display: "flex", alignItems: "center" }}
+                        style={{display: "flex", alignItems: "center"}}
                     >
                         <Button
                             onClick={() => {
-                                props.removeItem !== undefined &&
+                                if (props.removeItem) {
                                     props.removeItem();
+                                }
                                 setAmount((amt) => amt - 1);
                             }}
-                            style={{ fontSize: "2em", marginRight: "0.3em" }}
+                            style={{fontSize: "2em", marginRight: "0.3em"}}
                             color="secondary"
                         >
                             -
@@ -625,10 +630,12 @@ const Card = (props) => {
                         />
                         <Button
                             onClick={() => {
-                                props.addItem !== undefined && props.addItem();
+                                if (props.addItem) {
+                                    props.addItem();
+                                }
                                 setAmount((amt) => amt + 1);
                             }}
-                            style={{ fontSize: "2em", marginLeft: "0.3em" }}
+                            style={{fontSize: "2em", marginLeft: "0.3em"}}
                             color="primary"
                             disabled={amount >= stock - soldQuantity}
                         >
@@ -655,6 +662,42 @@ const Card = (props) => {
         }
     };
     return <>{handleCardType(props.type)}</>;
+};
+
+Card.propTypes = {
+    image: PropTypes.string,
+    title: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    discount: PropTypes.number,
+    sold: PropTypes.number,
+    hot: PropTypes.bool,
+    onClick: PropTypes.func,
+    slug: PropTypes.string,
+    id: PropTypes.number,
+    link: PropTypes.bool,
+    type: PropTypes.string,
+    style: PropTypes.object,
+    colors: PropTypes.array,
+    color: PropTypes.string,
+    quantity: PropTypes.number,
+    stock: PropTypes.number,
+    soldQuantity: PropTypes.number,
+    rerender: PropTypes.bool,
+
+    removeItem: PropTypes.func,
+    addItem: PropTypes.func,
+};
+
+RecommendProduct.propTypes = {
+    image: PropTypes.string,
+    title: PropTypes.string,
+    price: PropTypes.number,
+    discount: PropTypes.number,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
+    count: PropTypes.number,
+    rating: PropTypes.number,
 };
 
 export default Card;

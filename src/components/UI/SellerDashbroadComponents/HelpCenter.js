@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Box,
     Button,
@@ -31,10 +31,10 @@ import {
     SearchRounded,
     ShoppingCartOutlined,
 } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
-import { LocalPoliceOutlined } from "@mui/icons-material";
+import {makeStyles} from "@material-ui/core/styles";
+import {LocalPoliceOutlined} from "@mui/icons-material";
 import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 
 const userStyles = makeStyles(() => ({
     button: {
@@ -157,7 +157,7 @@ const userStyles = makeStyles(() => ({
 }));
 
 function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -168,7 +168,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -189,16 +189,16 @@ function a11yProps(index) {
     };
 }
 
-const CustomTableContainer = styled(TableContainer)(({ theme }) => ({
+const CustomTableContainer = styled(TableContainer)(({theme}) => ({
     marginBottom: theme.spacing(4),
     borderRadius: "0.5em",
 }));
 
-const CustomTableCell = styled(TableCell)(({ theme }) => ({
+const CustomTableCell = styled(TableCell)(({theme}) => ({
     padding: theme.spacing(2),
 }));
 
-const CustomTableHead = styled(TableHead)(({ theme }) => ({
+const CustomTableHead = styled(TableHead)(({theme}) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
     "& th": {
@@ -216,7 +216,7 @@ const SellerForm = () => {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{display: "flex", flexDirection: "column"}}>
             <Typography variant="body1" className={classes.title}>
                 Công cụ hỗ trợ người bán
             </Typography>
@@ -235,7 +235,7 @@ const SellerForm = () => {
                 Aumart nhé. Chúng tôi sẽ hỗ trợ bạn trong thời gian sớm nhất có
                 thể.
             </Typography>
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{width: "100%"}}>
                 <Box
                     sx={{
                         borderBottom: 1,
@@ -247,7 +247,7 @@ const SellerForm = () => {
                         value={value}
                         onChange={handleChange}
                         aria-label="basic tabs example"
-                        style={{ padding: "0" }}
+                        style={{padding: "0"}}
                     >
                         <Tab label="Vận chuyển" {...a11yProps(0)} />
                         <Tab label="Tài khoản và gian lận" {...a11yProps(1)} />
@@ -347,8 +347,8 @@ const SellerForm = () => {
 const RequestForm = (props) => {
     const requests = props.requests || [];
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ width: "100%", padding: "0.5em" }}>
+        <div style={{display: "flex", flexDirection: "column"}}>
+            <div style={{width: "100%", padding: "0.5em"}}>
                 <div
                     style={{
                         display: "flex",
@@ -394,7 +394,7 @@ const RequestForm = (props) => {
                             borderRadius: "0 4px 4px 0",
                         }}
                     >
-                        <SearchRounded style={{ fontSize: "26px" }} />
+                        <SearchRounded style={{fontSize: "26px"}}/>
                     </div>
                 </div>
 
@@ -413,50 +413,39 @@ const RequestForm = (props) => {
                             </TableRow>
                         </CustomTableHead>
                         <TableBody>
-                            {requests &&
-                                requests.length > 0 &&
-                                requests.map((request) => (
-                                    <>
-                                        <TableRow key={request.id}>
-                                            <CustomTableCell>
-                                                {request.id}
-                                            </CustomTableCell>
-                                            <CustomTableCell
-                                                style={{ maxWidth: "548px" }}
+                            {
+                                requests?.length > 0 &&
+                                requests?.map((request) => (
+                                    <TableRow key={request.id}>
+                                        <CustomTableCell>
+                                            {request.id}
+                                        </CustomTableCell>
+                                        <CustomTableCell
+                                            style={{maxWidth: "548px"}}
+                                        >
+                                            {request.name}
+                                        </CustomTableCell>
+                                        <CustomTableCell>
+                                            {request.status}
+                                        </CustomTableCell>
+                                        <CustomTableCell>
+                                            {request.updatedAt}
+                                        </CustomTableCell>
+                                        <CustomTableCell
+                                            style={{width: "152px"}}
+                                        >
+                                            <IconButton
+                                                color="primary"
                                             >
-                                                {request.name}
-                                            </CustomTableCell>
-                                            <CustomTableCell>
-                                                {request.status}
-                                            </CustomTableCell>
-                                            <CustomTableCell>
-                                                {request.updatedAt}
-                                            </CustomTableCell>
-                                            <CustomTableCell
-                                                style={{ width: "152px" }}
+                                                <Edit/>
+                                            </IconButton>
+                                            <IconButton
+                                                color="error"
                                             >
-                                                <IconButton
-                                                    // onClick={() =>
-                                                    //     handleOpenDialog(
-                                                    //         1,
-                                                    //         order
-                                                    //     )
-                                                    // }
-                                                    color="primary"
-                                                >
-                                                    <Edit />
-                                                </IconButton>
-                                                <IconButton
-                                                    // onClick={() =>
-                                                    //     setOpenDialog(true)
-                                                    // }
-                                                    color="error"
-                                                >
-                                                    <Delete />
-                                                </IconButton>
-                                            </CustomTableCell>
-                                        </TableRow>
-                                    </>
+                                                <Delete/>
+                                            </IconButton>
+                                        </CustomTableCell>
+                                    </TableRow>
                                 ))}
                             {requests.length === 0 && (
                                 <TableRow>
@@ -507,7 +496,7 @@ const SellerRequest = () => {
                 lịch sử trò chuyện của bạn với Nhân Viên Chăm Sóc Khách Hàng của
                 Aumart.
             </Typography>
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{width: "100%"}}>
                 <Box
                     sx={{
                         borderBottom: 1,
@@ -519,7 +508,7 @@ const SellerRequest = () => {
                         value={value}
                         onChange={handleChange}
                         aria-label="basic tabs example"
-                        style={{ padding: "0" }}
+                        style={{padding: "0"}}
                     >
                         <Tab label="Đang xử lý" {...a11yProps(0)} />
                         <Tab label="Đóng" {...a11yProps(1)} />
@@ -527,13 +516,13 @@ const SellerRequest = () => {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <RequestForm />
+                    <RequestForm/>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    <RequestForm />
+                    <RequestForm/>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
-                    <RequestForm />
+                    <RequestForm/>
                 </CustomTabPanel>
             </Box>
         </>
@@ -575,7 +564,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <ShoppingCartOutlined style={{ fontSize: "2em" }} />
+                    <ShoppingCartOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -619,7 +608,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <AccountCircleOutlined style={{ fontSize: "2em" }} />
+                    <AccountCircleOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -663,7 +652,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <LocalShippingOutlined style={{ fontSize: "2em" }} />
+                    <LocalShippingOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -707,7 +696,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <LocalPoliceOutlined style={{ fontSize: "2em" }} />
+                    <LocalPoliceOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -751,7 +740,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <CardGiftcardOutlined style={{ fontSize: "2em" }} />
+                    <CardGiftcardOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -795,7 +784,7 @@ const Question = () => {
                         rowGap: "8px",
                     }}
                 >
-                    <InfoOutlined style={{ fontSize: "2em" }} />
+                    <InfoOutlined style={{fontSize: "2em"}}/>
                     <Typography
                         variant="body1"
                         style={{
@@ -843,7 +832,7 @@ const Contact = () => {
         <>
             <div className={classes.title}>Câu hỏi thường gặp</div>
             <Grid container item xs={12} sm={12} md={12} lg={12}>
-                <Grid item xs={4} style={{ padding: "0.5em" }}>
+                <Grid item xs={4} style={{padding: "0.5em"}}>
                     <div className={classes.block}>
                         <CallRounded
                             style={{
@@ -882,7 +871,7 @@ const Contact = () => {
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={4} style={{ padding: "0.5em" }}>
+                <Grid item xs={4} style={{padding: "0.5em"}}>
                     <div className={classes.block}>
                         <PersonRounded
                             style={{
@@ -910,7 +899,7 @@ const Contact = () => {
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={4} style={{ padding: "0.5em" }}>
+                <Grid item xs={4} style={{padding: "0.5em"}}>
                     <div className={classes.block}>
                         <MailRounded
                             style={{
@@ -947,22 +936,22 @@ const HelpCenter = () => {
     const classes = userStyles();
 
     return (
-        <div style={{ width: "70%", margin: "0 auto" }}>
+        <div style={{width: "70%", margin: "0 auto"}}>
             <div className={classes.title}>Trung tâm hỗ trợ</div>
             <div className={classes.grid}>
                 <Grid container>
-                    <SellerForm />
+                    <SellerForm/>
                 </Grid>
             </div>
             <div className={classes.grid}>
                 <Grid container>
-                    <SellerRequest />
+                    <SellerRequest/>
                 </Grid>
             </div>
             <div className={classes.grid}>
                 <Grid container>
-                    <Contact />
-                    <Question />
+                    <Contact/>
+                    <Question/>
                 </Grid>
             </div>
         </div>

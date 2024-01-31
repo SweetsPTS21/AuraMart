@@ -30,18 +30,20 @@ const Banner = (props) => {
     return (
         <div className={classes.banner}>
             <Grid container spacing={0} className={classes.container}>
-                {listImage ? listImage.map((image, index) => (
+                {listImage?.map((image, index) => (
                     <Grid key={index} item xs={12} className={classes.banner__image}>
                         <img
                             src={image}
                             alt="banner"
-                            //style={{ width: "500px", height: "350px" }}
                         />
                     </Grid>
-                )): (<p>Không có ảnh</p>)}
+                ))}
             </Grid>
         </div>
     );
 };
 
+Banner.propTypes = {
+    listImage: [],
+};
 export default Banner;

@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Button, Typography } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
-import { format } from "date-fns";
+import {Button, Typography} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
+import {format} from "date-fns";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { deleteVoucher } from "../../store/actions/voucherActions";
-import { message } from "antd";
+import {deleteVoucher} from "../../store/actions/voucherActions";
+import {message} from "antd";
 import * as voucherActions from "../../store/actions/voucherActions";
-import { useEffect } from "react";
 import { updateFinalTotal } from "../../store/actions/cartActions";
 import * as shopActions from "../../store/actions/shopActions";
+import PropTypes from "prop-types";
 
 const userStyles = makeStyles(() => ({
     container: {
@@ -113,15 +113,14 @@ const Voucher = (props) => {
     const [used, setUsed] = useState(false);
 
     useEffect(() => {
-        // dispatch(voucherActions.getVouchersByUserId(user.id));
         if (user && userVouchers) {
             const index = userVouchers.find((v) => v.voucher === voucher.id);
-            if (index === undefined) {
+            if (index) {
                 setSaved(false);
             } else {
                 setSaved(true);
             }
-            if (index && index.used) {
+            if (index?.used) {
                 setUsed(true);
             }
         }
@@ -191,7 +190,7 @@ const Voucher = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={3} className={classes.voucher__button}>
-                    {shop && user._id === shop.user && action !== "apply" ? (
+                    {shop && user._id === shop.user && action !== "apply" && (
                         <Grid item xs={12} className={classes.voucher__modify}>
                             <Button
                                 size="medium"
@@ -202,7 +201,8 @@ const Voucher = (props) => {
                                 <Delete />
                             </Button>
                         </Grid>
-                    ) : action === "apply" ? (
+                    )}
+                    {action === "apply" ? (
                         <Button
                             size="medium"
                             color="primary"
@@ -233,5 +233,25 @@ const Voucher = (props) => {
         </div>
     );
 };
+
+Voucher.defaultProps = {
+    type: "user",
+    action: "save",
+};
+
+Voucher.propTypes = {
+    type: PropTypes.string,
+    action: PropTypes.string,
+    shopId: PropTypes.string,
+    voucher: PropTypes.object,
+    total: PropTypes.number,
+    setOpen: PropTypes.func,
+};
+
+DialogDelete.propTypes = {
+    open: PropTypes.bool,
+    setOpen: PropTypes.func,
+    handleDeleteVoucher: PropTypes.func,
+}
 
 export default Voucher;

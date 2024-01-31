@@ -1,11 +1,11 @@
 import {
+    defaultFont,
     grayColor,
     hexToRgb,
     successColor,
     whiteColor,
 } from "../../../layout/Card/styles/material-dashboard-react";
-import { makeStyles } from "@material-ui/core/styles";
-import { defaultFont } from "../../../layout/Card/styles/material-dashboard-react";
+import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
     successText: {

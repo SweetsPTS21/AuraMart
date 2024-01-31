@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 
-import { Accessibility, Update } from "@material-ui/icons";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { axisClasses } from "@mui/x-charts";
+import {Accessibility, Update} from "@material-ui/icons";
+import {BarChart} from "@mui/x-charts/BarChart";
+import {axisClasses} from "@mui/x-charts";
 
 import CardFooter from "../../../layout/Card/CardFooter";
 import {
@@ -26,30 +26,31 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import Fab from "@material-ui/core/Fab";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { ShopCard } from "./ShopCard2";
+import {ShopCard} from "./ShopCard2";
 import LoadingSpinner from "../../../layout/LoadingSpinner";
 import ShopStats from "../Stats/ShopStats";
 import ManagementPage from "../ManagementPage";
-import { message } from "antd";
+import {message} from "antd";
 
-import { approveShop } from "../../../../store/actions/shopActions";
+import {approveShop} from "../../../../store/actions/shopActions";
+import PropTypes from "prop-types";
 
-const OrderTableContainer = styled(TableContainer)(({ theme }) => ({
+const OrderTableContainer = styled(TableContainer)(({theme}) => ({
     marginBottom: theme.spacing(4),
     borderRadius: "0.5em",
 }));
 
-const OrderTableCell = styled(TableCell)(({ theme }) => ({
+const OrderTableCell = styled(TableCell)(({theme}) => ({
     padding: theme.spacing(2),
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
 }));
 
-const OrderTableHead = styled(TableHead)(({ theme }) => ({
+const OrderTableHead = styled(TableHead)(({theme}) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
     "& th": {
@@ -59,7 +60,7 @@ const OrderTableHead = styled(TableHead)(({ theme }) => ({
 }));
 
 const ShopToApprove = (props) => {
-    const { shopsToApprove } = props;
+    const {shopsToApprove} = props;
     const theme = useTheme();
     const classes = userStyles();
     const dispatch = useDispatch();
@@ -73,8 +74,8 @@ const ShopToApprove = (props) => {
 
     const filteredShops = shopsToApprove
         ? shopsToApprove.filter((shop) =>
-              shop.id.toLowerCase().includes(searchText.toLowerCase())
-          )
+            shop.id.toLowerCase().includes(searchText.toLowerCase())
+        )
         : [];
 
     const handleSearch = () => {
@@ -87,7 +88,7 @@ const ShopToApprove = (props) => {
         // Update the 'filteredShops' based on the search result
         const msg = message.loading("Approving shop...", 0);
 
-        await dispatch(approveShop(shopId));
+        dispatch(approveShop(shopId)).then(r => r);
 
         setTimeout(msg, 1);
     };
@@ -124,7 +125,7 @@ const ShopToApprove = (props) => {
                             onChange={(e) => setSearchText(e.target.value)}
                         />
                     )}
-                    style={{ margin: "0 1em", width: "500px" }}
+                    style={{margin: "0 1em", width: "500px"}}
                     size="small"
                 />
                 <Button
@@ -156,61 +157,59 @@ const ShopToApprove = (props) => {
                                 page * itemsPerPage
                             )
                             .map((shop) => (
-                                <>
-                                    <TableRow key={shop.id}>
-                                        <OrderTableCell
-                                            style={{ maxWidth: "150px" }}
-                                        >
-                                            {shop.id}
-                                        </OrderTableCell>
-                                        <OrderTableCell
-                                            style={{ maxWidth: "250px" }}
-                                        >
-                                            {shop.name}
-                                        </OrderTableCell>
-                                        <OrderTableCell>
-                                            {shop.phone}
-                                        </OrderTableCell>
-                                        <OrderTableCell
-                                            style={{ maxWidth: "220px" }}
-                                        >
-                                            {shop.address}
-                                        </OrderTableCell>
-                                        <OrderTableCell>
-                                            {shop.user}
-                                        </OrderTableCell>
-                                        <OrderTableCell
-                                            className={classes.orderSuccess}
-                                        >
-                                            {shop.createdAt}
-                                        </OrderTableCell>
-                                        <OrderTableCell
-                                            style={{ width: "190px" }}
-                                        >
-                                            {shop.status === "pending" ? (
-                                                <Button
-                                                    variant="contained"
-                                                    onClick={() =>
-                                                        handleChangeStatus(
-                                                            shop.id
-                                                        )
-                                                    }
-                                                >
-                                                    {" "}
-                                                    Duyệt{" "}
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="contained"
-                                                    disabled
-                                                >
-                                                    {" "}
-                                                    Duyệt{" "}
-                                                </Button>
-                                            )}
-                                        </OrderTableCell>
-                                    </TableRow>
-                                </>
+                                <TableRow key={shop.id}>
+                                    <OrderTableCell
+                                        style={{maxWidth: "150px"}}
+                                    >
+                                        {shop.id}
+                                    </OrderTableCell>
+                                    <OrderTableCell
+                                        style={{maxWidth: "250px"}}
+                                    >
+                                        {shop.name}
+                                    </OrderTableCell>
+                                    <OrderTableCell>
+                                        {shop.phone}
+                                    </OrderTableCell>
+                                    <OrderTableCell
+                                        style={{maxWidth: "220px"}}
+                                    >
+                                        {shop.address}
+                                    </OrderTableCell>
+                                    <OrderTableCell>
+                                        {shop.user}
+                                    </OrderTableCell>
+                                    <OrderTableCell
+                                        className={classes.orderSuccess}
+                                    >
+                                        {shop.createdAt}
+                                    </OrderTableCell>
+                                    <OrderTableCell
+                                        style={{width: "190px"}}
+                                    >
+                                        {shop.status === "pending" ? (
+                                            <Button
+                                                variant="contained"
+                                                onClick={() =>
+                                                    handleChangeStatus(
+                                                        shop.id
+                                                    )
+                                                }
+                                            >
+                                                {" "}
+                                                Duyệt{" "}
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="contained"
+                                                disabled
+                                            >
+                                                {" "}
+                                                Duyệt{" "}
+                                            </Button>
+                                        )}
+                                    </OrderTableCell>
+                                </TableRow>
                             ))}
                         {filteredShops.length === 0 && (
                             <TableRow>
@@ -250,19 +249,18 @@ const AllShops = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [shopsLastUpdated] = useState(Date.now());
-
+    const shopsLastUpdated = React.useMemo(() => Date.now(), []);
 
 
     if (firstLoad) {
         allShops !== null &&
-            setTimeout(() => {
-                setShops(allShops.filter((shop) => shop.status !== "pending"));
-                setShopsToApprove(
-                    allShops.filter((shop) => shop.status === "pending")
-                );
-                setFirstLoad(false);
-            }, 1000);
+        setTimeout(() => {
+            setShops(allShops.filter((shop) => shop.status !== "pending"));
+            setShopsToApprove(
+                allShops.filter((shop) => shop.status === "pending")
+            );
+            setFirstLoad(false);
+        }, 1000);
     }
 
     const chartSetting = {
@@ -281,15 +279,11 @@ const AllShops = () => {
     };
 
     const topShops =
-        allShops &&
-        allShops
-            .sort((a, b) => (a.products.length > b.products.length ? -1 : 1))
-            .slice(0, 5);
-    
+        allShops?.sort((a, b) => (a.products.length > b.products.length ? -1 : 1)).slice(0, 5);
+
 
     const dataset =
-        topShops &&
-        topShops.map((shop) => ({
+        topShops?.map((shop) => ({
             name: shop.name,
             products: shop.products.length,
             sold: shop.products.reduce(
@@ -301,52 +295,30 @@ const AllShops = () => {
         }));
 
     const handleFilter = (sortDescending, filterOptions) => {
+        const order = sortDescending ? [-1, 1] : [1, -1];
         setIsLoading(true);
-        if (sortDescending) {
-            switch (filterOptions) {
-                case "createdAt":
-                    shops !== null &&
-                        shops.sort((a, b) =>
-                            a.createdAt > b.createdAt ? -1 : 1
-                        );
-                    setIsLoading(false);
-                    return shops;
-                case "noOfProducts":
-                    shops !== null &&
-                        shops.sort((a, b) =>
-                            a.products.length > b.products.length ? -1 : 1
-                        );
-                    setIsLoading(false);
-                    return shops;
-                default:
-                    return shops;
-            }
-        } else {
-            switch (filterOptions) {
-                case "createdAt":
-                    shops !== null &&
-                        shops.sort((a, b) =>
-                            a.createdAt > b.createdAt ? 1 : -1
-                        );
-                    setIsLoading(false);
-                    return shops;
-                case "noOfProducts":
-                    shops !== null &&
-                        shops.sort((a, b) =>
-                            a.products.length > b.products.length ? 1 : -1
-                        );
-                    setIsLoading(false);
-                    return shops;
-                default:
-                    return allShops;
-            }
+        switch (filterOptions) {
+            case "createdAt":
+                shops?.sort((a, b) =>
+                    a.createdAt > b.createdAt ? order[0] : order[1]
+                );
+                setIsLoading(false);
+                return shops;
+            case "noOfProducts":
+                shops?.sort((a, b) =>
+                    a.products.length > b.products.length ? order[0] : order[1]
+                );
+                setIsLoading(false);
+                return shops;
+            default:
+                return shops;
         }
     };
     return (
-        <div style={{ position: "relative" ,width: "100%" }}>
+        <div style={{position: "relative", width: "100%"}}>
             <Grid
                 container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
+                style={{marginTop: "0.7em", marginLeft: "0.5em"}}
                 spacing={3}
             >
                 <Grid
@@ -360,21 +332,21 @@ const AllShops = () => {
                         <Card onClick={() => handleFilter(false, "totalShops")}>
                             <CardHeader color="success" stats icon>
                                 <CardIcon color="success">
-                                    <Accessibility />
+                                    <Accessibility/>
                                 </CardIcon>
                                 <p className={classes.cardCategory}>
                                     Total Shops
                                 </p>
                                 <h3 className={classes.cardTitle}>
-                                    {allShops !== null && allShops.length}
+                                    {allShops?.length}
                                 </h3>
                             </CardHeader>
                             <CardFooter stats>
                                 <div className={classes.stats}>
-                                    <Update />
+                                    <Update/>
                                     <Moment
                                         fromNow
-                                        style={{ textTransform: "capitalize" }}
+                                        style={{textTransform: "capitalize"}}
                                     >
                                         {shopsLastUpdated}
                                     </Moment>
@@ -386,7 +358,7 @@ const AllShops = () => {
                         <Card onClick={() => handleFilter(false, "totalShops")}>
                             <CardHeader color="warning" stats icon>
                                 <CardIcon color="warning">
-                                    <Accessibility />
+                                    <Accessibility/>
                                 </CardIcon>
                                 <p className={classes.cardCategory}>
                                     Need approve
@@ -397,10 +369,10 @@ const AllShops = () => {
                             </CardHeader>
                             <CardFooter stats>
                                 <div className={classes.stats}>
-                                    <Update />
+                                    <Update/>
                                     <Moment
                                         fromNow
-                                        style={{ textTransform: "capitalize" }}
+                                        style={{textTransform: "capitalize"}}
                                     >
                                         {shopsLastUpdated}
                                     </Moment>
@@ -412,7 +384,7 @@ const AllShops = () => {
                         <Card onClick={() => handleFilter(false, "totalShops")}>
                             <CardHeader color="success" stats icon>
                                 <CardIcon color="success">
-                                    <Accessibility />
+                                    <Accessibility/>
                                 </CardIcon>
                                 <p className={classes.cardCategory}>
                                     Total Shops
@@ -423,10 +395,10 @@ const AllShops = () => {
                             </CardHeader>
                             <CardFooter stats>
                                 <div className={classes.stats}>
-                                    <Update />
+                                    <Update/>
                                     <Moment
                                         fromNow
-                                        style={{ textTransform: "capitalize" }}
+                                        style={{textTransform: "capitalize"}}
                                     >
                                         {shopsLastUpdated}
                                     </Moment>
@@ -438,7 +410,7 @@ const AllShops = () => {
                         <Card onClick={() => handleFilter(false, "totalShops")}>
                             <CardHeader color="warning" stats icon>
                                 <CardIcon color="warning">
-                                    <Accessibility />
+                                    <Accessibility/>
                                 </CardIcon>
                                 <p className={classes.cardCategory}>
                                     Need approve
@@ -449,10 +421,10 @@ const AllShops = () => {
                             </CardHeader>
                             <CardFooter stats>
                                 <div className={classes.stats}>
-                                    <Update />
+                                    <Update/>
                                     <Moment
                                         fromNow
-                                        style={{ textTransform: "capitalize" }}
+                                        style={{textTransform: "capitalize"}}
                                     >
                                         {shopsLastUpdated}
                                     </Moment>
@@ -461,12 +433,12 @@ const AllShops = () => {
                         </Card>
                     </Grid>
                     <Grid item xs={6} className={classes.card}>
-                        <ShopStats />
+                        <ShopStats/>
                     </Grid>
                     <Grid item xs={6} className={classes.card}>
                         <BarChart
                             dataset={dataset}
-                            xAxis={[{ scaleType: "band", dataKey: "name" }]}
+                            xAxis={[{scaleType: "band", dataKey: "name"}]}
                             series={[
                                 {
                                     dataKey: "products",
@@ -498,36 +470,36 @@ const AllShops = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <ShopToApprove shopsToApprove={shopsToApprove} />
+                    <ShopToApprove shopsToApprove={shopsToApprove}/>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={3} style={{ marginLeft: "1em" }}>
+            <Grid container spacing={3} style={{marginLeft: "1em"}}>
                 {shops !== null && shops.length > 0 && !toggleShop
-                    ? shops.map((shop, index) => (
-                          <Grid
-                              item
-                              xs={6}
-                              md={5}
-                              lg={4}
-                              style={{ margin: 0 }}
-                              key={index}
-                          >
-                              <ShopCard
-                                  shop={shop}
-                                  setCurrentShop={setCurrentShop}
-                                  toggleShop={setToggleShop}
-                              />
-                          </Grid>
-                      ))
+                    ? shops.map((shop) => (
+                        <Grid
+                            item
+                            xs={6}
+                            md={5}
+                            lg={4}
+                            style={{margin: 0}}
+                            key={shop?.id}
+                        >
+                            <ShopCard
+                                shop={shop}
+                                setCurrentShop={setCurrentShop}
+                                toggleShop={setToggleShop}
+                            />
+                        </Grid>
+                    ))
                     : null}
                 {toggleShop && (
                     <Fab
                         aria-label="add"
-                        style={{ marginTop: "3em", marginLeft: "3em" }}
+                        style={{marginTop: "3em", marginLeft: "3em"}}
                         onClick={() => setToggleShop((val) => !val)}
                     >
-                        <ArrowBackIcon />
+                        <ArrowBackIcon/>
                     </Fab>
                 )}
                 {currentShop !== null && toggleShop ? (
@@ -536,10 +508,14 @@ const AllShops = () => {
                         dataType={"products"}
                     />
                 ) : null}
-                {(shops === null || isLoading) && <LoadingSpinner />}
+                {(shops === null || isLoading) && <LoadingSpinner/>}
             </Grid>
         </div>
     );
+};
+
+ShopToApprove.propTypes = {
+    shopsToApprove: PropTypes.array,
 };
 
 export default AllShops;

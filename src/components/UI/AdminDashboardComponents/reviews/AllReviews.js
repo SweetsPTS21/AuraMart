@@ -1,4 +1,4 @@
-import React, { useState, useMemo} from "react";
+import React, {useState} from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
 import {useSelector} from "react-redux";
@@ -40,90 +40,69 @@ const AllReviews = () => {
     if (firstLoad) {
         // users wouldn't have been set so we use settimeout
         allReviews !== null &&
-            setTimeout(() => {
-                setReviews(allReviews);
-                setFirstLoad(false);
-            }, 1000);
+        setTimeout(() => {
+            setReviews(allReviews);
+            setFirstLoad(false);
+        }, 1000);
     }
 
     const handleFilter = (sortDescending) => {
+        const order = sortDescending ? [-1, 1] : [1, -1];
         setIsLoading(true);
-        if (sortDescending) {
-            switch (filterOptions) {
-                case "createdAt":
-                    setReviews(
-                        reviews.sort((a, b) =>
-                            a.createdAt > b.createdAt ? -1 : 1
-                        )
-                    );
-                    setIsLoading(false);
-                    return;
+        switch (filterOptions) {
+            case "createdAt":
+                setReviews(
+                    reviews.sort((a, b) =>
+                        a.createdAt > b.createdAt ? order[0] : order[1]
+                    )
+                );
+                setIsLoading(false);
+                return;
 
-                case "rating":
-                    setReviews(
-                        reviews.sort((a, b) => (a.rating > b.rating ? -1 : 1))
-                    );
-                    setIsLoading(false);
-                    return;
-                default:
-                    return reviews;
-            }
-        } else {
-            switch (filterOptions) {
-                case "createdAt":
-                    setReviews(
-                        reviews.sort((a, b) =>
-                            a.createdAt > b.createdAt ? 1 : -1
-                        )
-                    );
-                    setIsLoading(false);
-                    return;
-
-                case "rating":
-                    setReviews(
-                        reviews.sort((a, b) => (a.rating > b.rating ? 1 : -1))
-                    );
-                    setIsLoading(false);
-                    return;
-                default:
-                    return reviews;
-            }
+            case "rating":
+                setReviews(
+                    reviews.sort((a, b) => (a.rating > b.rating ? order[0] : order[1]))
+                );
+                setIsLoading(false);
+                return;
+            default:
+                return reviews;
         }
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <div style={{width: "100%"}}>
             <Grid
                 container
-                style={{ marginTop: "0.7em", marginLeft: "0.5em" }}
+                style={{marginTop: "0.7em", marginLeft: "0.5em"}}
                 spacing={3}
             >
                 <Grid item xs={3} md={3} lg={3} className={classes.card}>
                     <Card onClick={() => handleFilter(false)}>
                         <CardHeader color="warning" stats icon>
                             <CardIcon color="warning">
-                                <ChatIcon />
+                                <ChatIcon/>
                             </CardIcon>
                             <p className={classes.cardCategory}>
                                 Total Reviews
                             </p>
                             <h3 className={classes.cardTitle}>
-                                {allReviews !== null && allReviews.length}
+                                {allReviews?.length}
                             </h3>
                         </CardHeader>
                         <CardFooter stats>
                             <div className={classes.stats}>
-                                <Update />
+                                <Update/>
                                 <Moment
                                     fromNow
-                                    style={{ textTransform: "capitalize" }}
+                                    style={{textTransform: "capitalize"}}
                                 >
                                     {reviewLastUpdated}
                                 </Moment>
                             </div>
                         </CardFooter>
                     </Card>
-                    <section style={{ display: "flex", alignItems: "center" }}>
+                    <section style={{display: "flex", alignItems: "center"}}>
                         <Button
                             color="white"
                             className={classes.title}
@@ -135,9 +114,9 @@ const AllReviews = () => {
                         >
                             Sort by {filterOptions}{" "}
                             {toggleList ? (
-                                <ExpandLess style={{ marginLeft: "0.5em" }} />
+                                <ExpandLess style={{marginLeft: "0.5em"}}/>
                             ) : (
-                                <ExpandMore style={{ marginLeft: "0.5em" }} />
+                                <ExpandMore style={{marginLeft: "0.5em"}}/>
                             )}
                         </Button>
 
@@ -147,7 +126,7 @@ const AllReviews = () => {
                             className={classNames(classes.listStyle, {
                                 [classes.showList]: toggleList,
                             })}
-                            style={{ marginTop: "6.5em" }}
+                            style={{marginTop: "6.5em"}}
                         >
                             <ListItem
                                 button
@@ -157,7 +136,7 @@ const AllReviews = () => {
                                 }}
                                 selected={"createdAt" === filterOptions}
                             >
-                                <ListItemText primary="Time created" />
+                                <ListItemText primary="Time created"/>
                             </ListItem>
                             <ListItem
                                 button
@@ -167,14 +146,14 @@ const AllReviews = () => {
                                 }}
                                 selected={"rating" === filterOptions}
                             >
-                                <ListItemText primary="Rating" />
+                                <ListItemText primary="Rating"/>
                             </ListItem>
                         </List>
                     </section>
                     <Fab
                         aria-label="add"
                         color={"primary"}
-                        style={{ marginTop: "1.5em", marginLeft: "5.5em" }}
+                        style={{marginTop: "1.5em", marginLeft: "5.5em"}}
                         onClick={() => {
                             setToggleSortOrder((val) => {
                                 handleFilter(val);
@@ -183,21 +162,21 @@ const AllReviews = () => {
                         }}
                     >
                         {toggleSortOrder ? (
-                            <ArrowDownwardIcon />
+                            <ArrowDownwardIcon/>
                         ) : (
-                            <ArrowUpwardIcon />
+                            <ArrowUpwardIcon/>
                         )}
                     </Fab>
                 </Grid>
                 <Grid item xs={9} md={9} lg={9} className={classes.card}>
-                    <ReviewStats reviews={allReviews} />
+                    <ReviewStats reviews={allReviews}/>
                 </Grid>
             </Grid>
-            <Grid container spacing={2} style={{ position: "relative" ,marginLeft: "0.5em" }}>
+            <Grid container spacing={2} style={{position: "relative", marginLeft: "0.5em"}}>
                 {reviews !== null && reviews.length > 0 ? (
-                    <ManagementPage data={reviews} dataType={"reviews"} />
+                    <ManagementPage data={reviews} dataType={"reviews"}/>
                 ) : null}
-                {(reviews === null || isLoading) && <LoadingSpinner />}
+                {(reviews === null || isLoading) && <LoadingSpinner/>}
             </Grid>
         </div>
     );

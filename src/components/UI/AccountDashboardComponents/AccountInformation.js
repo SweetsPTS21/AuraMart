@@ -158,7 +158,7 @@ const AccountInformation = () => {
             gender: radio,
         };
 
-        await dispatch(updateUserInfo(user_));
+        dispatch(updateUserInfo(user_)).then(r => r);
         setTimeout(msg, 1);
     };
 

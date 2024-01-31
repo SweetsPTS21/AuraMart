@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useMemo} from "react";
 import userStyles from "../styles/AllUsersStyles";
 import Moment from "react-moment";
 import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "../../../layout/Card/Card";
 import CardHeader from "../../../layout/Card/CardHeader";
 import CardIcon from "../../../layout/Card/CardIcon";
 import CardFooter from "../../../layout/Card/CardFooter";
-import { AccessTime, Accessibility, Update } from "@material-ui/icons";
+import {AccessTime, Accessibility, Update} from "@material-ui/icons";
 import UserStats from "../Stats/UserStats";
 import ManagementPage from "../ManagementPage";
 
@@ -31,9 +31,8 @@ const AllUsers = () => {
         allUsers !== null
             ? allUsers.filter((user) => user.role === "user")
             : []; // all user with user role
-    const [setIsLoading] = useState(false);
 
-    const [showUserCard] = useState(false);
+    const showUserCard = useMemo(() => false, []);
 
     const [usersLastUpdated, setUsersLastUpdated] = useState(Date.now());
     const [sellersLastUpdated, setSellersLastUpdated] = useState(Date.now());
@@ -51,30 +50,25 @@ const AllUsers = () => {
             }, 750);
     }
     const handleFilter = (filter) => {
-        setIsLoading(true);
         switch (filter) {
             case "totalUsers":
                 setUsers_(allUsers.length > 0 ? allUsers : []);
                 setUsersLastUpdated(Date.now());
-                setIsLoading(false);
-                return null;
+                break;
             case "users":
                 setUsers_(usersOnly.length > 0 ? usersOnly : []);
                 setUsersOnlyLastUpdated(Date.now());
-                setIsLoading(false);
-                return null;
+                break;
             case "sellers":
                 setUsers_(sellers.length > 0 ? sellers : []);
                 setSellersLastUpdated(Date.now());
-                setIsLoading(false);
-                return null;
+                break;
             case "admins":
                 setUsers_(admins.length > 0 ? admins : []);
                 setAdminsLastUpdated(Date.now());
-                setIsLoading(false);
-                return null;
+                break;
             default:
-                return null;
+                break;
         }
     };
 
@@ -103,7 +97,7 @@ const AllUsers = () => {
                             </CardIcon>
                             <p className={classes.cardCategory}>Total Users</p>
                             <h3 className={classes.cardTitle}>
-                                {allUsers !== null && allUsers.length}
+                                {allUsers?.length}
                             </h3>
                         </CardHeader>
                         <CardFooter stats>

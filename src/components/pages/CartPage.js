@@ -1,10 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     MuiThemeProvider,
     createTheme,
     makeStyles,
 } from "@material-ui/core/styles";
-import { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import NavBar from "../layout/NavBar";
@@ -23,9 +22,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import MyVoucher from "../UI/AccountDashboardComponents/MyVoucher";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -89,42 +89,10 @@ const paperStyle = createTheme({
     },
 });
 
-const ApplyVoucher = (props) => {
-    const [shopTotal, setShopTotal] = useState(props.shopTotalAmount);
-
-    const handleClose = () => {
-        props.setOpen(false);
-    };
-    const handleSubmit = () => {};
-
-    return (
-        <div>
-            <Dialog open={props.open} onClose={handleClose}>
-                <DialogTitle>Apply your voucher</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Current shop total: {formatVND(shopTotal)}
-                    </DialogContentText>
-                    <MyVoucher
-                        type={"user"}
-                        action={"apply"}
-                        total={shopTotal}
-                        setTotal={setShopTotal}
-                        {...props}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    );
-};
-
-const CartPage = (props) => {
+const CartSection = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
     const [openDialog, setOpenDialog] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -138,16 +106,12 @@ const CartPage = (props) => {
         (state) => state.cart.totalShopDiscount
     );
 
-    const user = useSelector((state) => state.auth.user);
-
     const handleAddShopVoucherClick = (index) => {
         setCurrentIndex(index);
         setOpenDialog(true);
     };
 
-    // const [totalShopAmount, setTotalShopAmount] = useState(null);
     const cartItems = useSelector((state) => {
-        // transform the object of object to array of object
         const transformedCartItems = [];
         for (let key in state.cart.items) {
             transformedCartItems.push({
@@ -193,11 +157,43 @@ const CartPage = (props) => {
         return groupByShop;
     });
 
+    const total = () => {
+        return (
+            <div style={{paddingBottom: "1em"}}>
+                <span>Tổng tiền:</span>
+                <div
+                    className="amount"
+                    style={{
+                        float: "right",
+                        display: "flex",
+                        flexDirection: "column",
+                        textAlign: "right",
+                    }}
+                >
+                    {!isNaN(cartTotalAmountDiscounted) &&
+                        cartTotalAmountDiscounted > 0 && (
+                            <>
+                                <strong
+                                    style={{
+                                        fontSize: "22px",
+                                        color: "red",
+                                        float: "right",
+                                    }}
+                                >
+                                    {formatVND(finalTotal)}
+                                </strong>
+                                <small>(Đã bao gồm VAT)</small>
+                            </>
+                        )}
+                </div>
+            </div>
+        );
+    };
+
     const itemList =
         groupByShop &&
         Object.keys(groupByShop).map((key, index) => {
             const items = groupByShop[key];
-            // totalShopAmount.push({shop: key, total: items.reduce((sum, item) => sum + item.sum_discounted, 0)})
             return (
                 <>
                     <MuiThemeProvider theme={paperStyle}>
@@ -212,8 +208,8 @@ const CartPage = (props) => {
                             {items.map((item, index) => {
                                 return (
                                     <Card
-                                        key={index}
-                                        style={{ marginTop: 0 }}
+                                        key={item?.id}
+                                        style={{marginTop: 0}}
                                         type={"cart"}
                                         link={true}
                                         name={item.product.name}
@@ -275,25 +271,22 @@ const CartPage = (props) => {
                             >
                                 <span>Shop voucher: </span>
                                 <span className={classes.shopVoucher}>
-                                    {totalShopDiscount &&
-                                        totalShopDiscount.map((item) => {
-                                            if (item.shop === key) {
-                                                return (
-                                                    <>
-                                                        <span>
+                                    {totalShopDiscount?.map((item) => {
+                                        if (item?.shop === key) {
+                                            return (
+                                                <span key={item?.id}>
                                                             -{" "}
-                                                            {formatVND(
-                                                                item.discount
-                                                            )}
+                                                    {formatVND(
+                                                        item?.discount
+                                                    )}
                                                         </span>
-                                                    </>
-                                                );
-                                            }
-                                        })}
+                                            );
+                                        }
+                                    })}
                                 </span>
                                 <Button
                                     variant="text"
-                                    style={{ color: "red" }}
+                                    style={{color: "red"}}
                                     onClick={() =>
                                         handleAddShopVoucherClick(index)
                                     }
@@ -317,156 +310,143 @@ const CartPage = (props) => {
             );
         });
 
-    const total = () => {
+    if (!cartItems.length) {
         return (
-            <div style={{ paddingBottom: "1em" }}>
-                <span>Tổng tiền:</span>
-                <div
-                    className="amount"
-                    style={{
-                        float: "right",
-                        display: "flex",
-                        flexDirection: "column",
-                        textAlign: "right",
-                    }}
-                >
-                    {cartTotalAmountDiscounted !== null &&
-                    !isNaN(cartTotalAmountDiscounted) &&
-                    cartTotalAmountDiscounted > 0 ? (
-                        <>
-                            <strong
-                                style={{
-                                    fontSize: "22px",
-                                    color: "red",
-                                    float: "right",
-                                }}
-                            >
-                                {formatVND(finalTotal)}
-                            </strong>
-                            <small>(Đã bao gồm VAT)</small>
-                        </>
-                    ) : (
-                        <>
-                            <strong
-                                style={{
-                                    fontSize: "22px",
-                                    color: "red",
-                                    float: "right",
-                                }}
-                            >
-                                {formatVND(finalTotal)}
-                            </strong>
-                            <small>(Đã bao gồm VAT)</small>
-                        </>
-                    )}
-                </div>
-            </div>
-        );
-    };
-    const CartSection = () => {
-        if (!cartItems.length) {
-            return (
-                <Grid container className={classes.root} alignItems="center">
-                    <Grid item xs={12}>
-                        <h5 style={{ margin: "1em 0" }}>
-                            Your cart ({props.amount ? props.amount : 0}{" "}
-                            products)
-                        </h5>
-                        <Paper
-                            className={classes.paper}
-                            elevation={0}
-                            square
-                            style={{ textAlign: "center", padding: "1em" }}
-                        >
-                            <img
-                                src={noProductsLogo}
-                                alt={"not product logo"}
-                            />
-                            <h5>Giỏ hàng trống!</h5>
-                            <p>
-                                Bạn tham khảo thêm các sản phẩm được Aumart gợi
-                                ý bên dưới nhé!
-                            </p>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <RecommendProduct
-                            user={user}
-                            itemWidth={"170px"}
-                            type={"slider"}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TopProducts itemWidth={"170px"} type={"slider"} />
-                    </Grid>
-                </Grid>
-            );
-        }
-        return (
-            <Grid container className={classes.root} spacing={2}>
-                <Grid item xs={9}>
-                    <h5 style={{ marginBottom: "1em" }}>Giỏ hàng</h5>
-                    {itemList}
-                </Grid>
-                <Grid item xs={3}>
+            <Grid container className={classes.root} alignItems="center">
+                <Grid item xs={12}>
+                    <h5 style={{margin: "1em 0"}}>
+                        Your cart ({props.amount ? props.amount : 0}{" "}
+                        products)
+                    </h5>
                     <Paper
+                        className={classes.paper}
                         elevation={0}
-                        variant="standard"
                         square
-                        className={classes.feePaper}
+                        style={{textAlign: "center", padding: "1em"}}
                     >
-                        <div className={classes.boxFee}>
-                            <p
-                                className={classes.listInfoPrice}
-                                style={{ margin: 0 }}
-                            >
-                                {cartTotalAmountDiscounted !== null &&
-                                !isNaN(cartTotalAmountDiscounted) &&
-                                cartTotalAmountDiscounted > 0 ? (
-                                    <>
-                                        <span>Giá gốc: </span>
-                                        <strong style={{ float: "right" }}>
-                                            {formatVND(cartTotalAmount)}
-                                        </strong>
-                                        <br />
-                                        <span>Tạm tính: </span>
-                                        <strong style={{ float: "right" }}>
-                                            {formatVND(
-                                                cartTotalAmountDiscounted
-                                            )}
-                                        </strong>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span>Tạm tính: </span>
-                                        <strong style={{ float: "right" }}>
-                                            {formatVND(cartTotalAmount)}
-                                        </strong>
-                                    </>
-                                )}
-                            </p>
-                        </div>
-                        <div
-                            className={classes.boxFee}
-                            style={{ marginBottom: "5%" }}
-                        >
-                            {total()}
-                        </div>
+                        <img
+                            src={noProductsLogo}
+                            alt={"not product logo"}
+                        />
+                        <h5>Giỏ hàng trống!</h5>
+                        <p>
+                            Bạn tham khảo thêm các sản phẩm được Aumart gợi
+                            ý bên dưới nhé!
+                        </p>
                     </Paper>
-                    <Link to={"/checkout"} className={classes.removeLink}>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginTop: 10 }}
-                        >
-                            Đặt hàng
-                        </Button>
-                    </Link>
+                </Grid>
+                <Grid item xs={12}>
+                    <RecommendProduct
+                        user={user}
+                        itemWidth={"170px"}
+                        type={"slider"}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TopProducts itemWidth={"170px"} type={"slider"}/>
                 </Grid>
             </Grid>
         );
+    }
+    return (
+        <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={9}>
+                <h5 style={{marginBottom: "1em"}}>Giỏ hàng</h5>
+                {itemList}
+            </Grid>
+            <Grid item xs={3}>
+                <Paper
+                    elevation={0}
+                    variant="standard"
+                    square
+                    className={classes.feePaper}
+                >
+                    <div className={classes.boxFee}>
+                        <p
+                            className={classes.listInfoPrice}
+                            style={{margin: 0}}
+                        >
+                            {cartTotalAmountDiscounted !== null &&
+                            !isNaN(cartTotalAmountDiscounted) &&
+                            cartTotalAmountDiscounted > 0 ? (
+                                <>
+                                    <span>Giá gốc: </span>
+                                    <strong style={{float: "right"}}>
+                                        {formatVND(cartTotalAmount)}
+                                    </strong>
+                                    <br/>
+                                    <span>Tạm tính: </span>
+                                    <strong style={{float: "right"}}>
+                                        {formatVND(
+                                            cartTotalAmountDiscounted
+                                        )}
+                                    </strong>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Tạm tính: </span>
+                                    <strong style={{float: "right"}}>
+                                        {formatVND(cartTotalAmount)}
+                                    </strong>
+                                </>
+                            )}
+                        </p>
+                    </div>
+                    <div
+                        className={classes.boxFee}
+                        style={{marginBottom: "5%"}}
+                    >
+                        {total()}
+                    </div>
+                </Paper>
+                <Link to={"/checkout"} className={classes.removeLink}>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                        style={{marginTop: 10}}
+                    >
+                        Đặt hàng
+                    </Button>
+                </Link>
+            </Grid>
+        </Grid>
+    );
+};
+
+const ApplyVoucher = (props) => {
+    const [shopTotal, setShopTotal] = useState(props.shopTotalAmount);
+
+    const handleClose = () => {
+        props.setOpen(false);
     };
+
+    return (
+        <div>
+            <Dialog open={props.open} onClose={handleClose}>
+                <DialogTitle>Apply your voucher</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Current shop total: {formatVND(shopTotal)}
+                    </DialogContentText>
+                    <MyVoucher
+                        type={"user"}
+                        action={"apply"}
+                        total={shopTotal}
+                        setTotal={setShopTotal}
+                        {...props}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button>Submit</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+};
+
+const CartPage = (props) => {
 
     return (
         <div>
@@ -480,11 +460,24 @@ const CartPage = (props) => {
                     justifyContent: "center",
                 }}
             >
-                {CartSection()}
+                <CartSection amount={props?.amount}/>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };
 
+CartPage.propTypes = {
+    amount: PropTypes.number,
+};
+
+ApplyVoucher.propTypes = {
+    shopTotalAmount: PropTypes.number,
+    open: PropTypes.bool,
+    setOpen: PropTypes.func,
+};
+
+CartSection.propTypes = {
+    amount: PropTypes.number,
+};
 export default CartPage;

@@ -4,6 +4,7 @@ import {
     defaultBoxShadow,
     defaultFont,
     grayColor,
+    hexToRgb,
     infoColor,
     primaryColor,
     successColor,
@@ -11,7 +12,6 @@ import {
     whiteColor,
 } from "../../../layout/Card/styles/material-dashboard-react";
 import { makeStyles } from "@material-ui/core/styles";
-import { hexToRgb } from "../../../layout/Card/styles/material-dashboard-react";
 
 const userStyles = makeStyles(() => ({
     appBar: {

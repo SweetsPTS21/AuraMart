@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useState, useMemo} from "react";
 import userStyles from "../styles/FindAUserStyles";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import ChartistGraph from "react-chartist";
 import Chartist from "chartist";
 
@@ -11,7 +11,7 @@ import CardBody from "../../../layout/Card/CardBody";
 import CardFooter from "../../../layout/Card/CardFooter";
 import "./material-dashboard-react.css";
 import Moment2 from "moment";
-import { AccessTime, ArrowUpward } from "@material-ui/icons";
+import {AccessTime, ArrowUpward} from "@material-ui/icons";
 import Moment from "react-moment";
 
 const UserStats = (props) => {
@@ -20,7 +20,7 @@ const UserStats = (props) => {
 
     const [userChart, setUserChart] = useState(null);
     const [firstLoad, setFirstLoad] = useState(true);
-    const [userLastUpdated] = useState(Date.now());
+    const userLastUpdated = useMemo(() => Date.now(), []);
 
     const convertDateToDay = () => {
         // Get last 6 days + today and put it in an array
@@ -33,54 +33,53 @@ const UserStats = (props) => {
 
         let Last7daysReviewCount = [0, 0, 0, 0, 0, 0, 0];
         const dateFrom = Moment2().subtract(8, "d").format("YYYY-MM-DD"); // get time 7 days ago
-        allUsers !== null &&
-            allUsers.forEach((review) => {
-                if (
-                    Moment2(review.createdAt) // if reviews is from the last 7 days
-                        .isAfter(dateFrom, "day")
-                ) {
-                    const day = Moment2(review.createdAt).format("ddd"); // the day the review was created
-                    switch (day) {
-                        case "Mon":
-                            // if day is "mon" then increase the count of reviews on mon, but we don't know wha index mon is going to be since
-                            // we got the last seven days and push it to an array, so we find the index
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Mon")
+        allUsers?.forEach((review) => {
+            if (
+                Moment2(review.createdAt) // if reviews is from the last 7 days
+                    .isAfter(dateFrom, "day")
+            ) {
+                const day = Moment2(review.createdAt).format("ddd"); // the day the review was created
+                switch (day) {
+                    case "Mon":
+                        // if day is "mon" then increase the count of reviews on mon, but we don't know wha index mon is going to be since
+                        // we got the last seven days and push it to an array, so we find the index
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Mon")
                             ]++;
-                            return;
-                        case "Tue":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Tue")
+                        return;
+                    case "Tue":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Tue")
                             ]++;
-                            return;
-                        case "Wed":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Wed")
+                        return;
+                    case "Wed":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Wed")
                             ]++;
-                            return;
-                        case "Thu":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Thu")
+                        return;
+                    case "Thu":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Thu")
                             ]++;
-                            return;
-                        case "Fri":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Fri")
+                        return;
+                    case "Fri":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Fri")
                             ]++;
-                            return;
-                        case "Sat":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Sat")
+                        return;
+                    case "Sat":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Sat")
                             ]++;
-                            return;
-                        case "Sun":
-                            Last7daysReviewCount[
-                                Last7days.findIndex((val) => val === "Sun")
+                        return;
+                    case "Sun":
+                        Last7daysReviewCount[
+                            Last7days.findIndex((val) => val === "Sun")
                             ]++;
-                            return;
-                    }
+                        return;
                 }
-            });
+            }
+        });
 
         const delays = 80,
             durations = 500;
@@ -139,14 +138,14 @@ const UserStats = (props) => {
 
     if (firstLoad) {
         allUsers !== null &&
-            setTimeout(() => {
-                convertDateToDay();
-                setFirstLoad(false);
-            }, 2000);
+        setTimeout(() => {
+            convertDateToDay();
+            setFirstLoad(false);
+        }, 2000);
     }
 
     return (
-        <div style={{position: "relative" ,width: "100%" }}>
+        <div style={{position: "relative", width: "100%"}}>
             <Grid container style={{padding: "0 0.5em"}} justifyContent={"space-around"}>
                 <Grid
                     item
@@ -182,10 +181,10 @@ const UserStats = (props) => {
                             </CardBody>
                             <CardFooter chart>
                                 <div className={classes.stats}>
-                                    <AccessTime />
+                                    <AccessTime/>
                                     <Moment
                                         fromNow
-                                        style={{ textTransform: "capitalize" }}
+                                        style={{textTransform: "capitalize"}}
                                     >
                                         {userLastUpdated}
                                     </Moment>
@@ -197,6 +196,10 @@ const UserStats = (props) => {
             </Grid>
         </div>
     );
+};
+
+UserStats.propTypes = {
+    fullwidth: PropTypes.bool,
 };
 
 export default UserStats;
